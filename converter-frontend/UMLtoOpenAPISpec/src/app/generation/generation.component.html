@@ -1,5 +1,11 @@
 <mat-horizontal-stepper #stepper="matStepper">
   <mat-step>
+    <ng-template matStepLabel>Start</ng-template>
+    <p>Here goes the introductory text.</p>
+    <button mat-button (click)="stepper.next()">Start the process</button>
+  </mat-step>
+
+  <mat-step>
     <ng-template matStepLabel>Upload UML Diagram</ng-template>
     <input type="file" (change)="onFileSelected($event)">
     <button mat-button (click)="stepper.next()">Next</button>
@@ -32,6 +38,6 @@
   <mat-step>
     <ng-template matStepLabel>Manage Mock Server</ng-template>
     <button mat-button (click)="toggleMockServer()">{{ serverButtonText }}</button>
-    <button mat-button (click)="stepper.reset()">Restart Stepper</button>
+    <button mat-button (click)="restartApplication()">Restart Stepper</button>
   </mat-step>
 </mat-horizontal-stepper>

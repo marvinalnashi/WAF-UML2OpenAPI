@@ -78,6 +78,10 @@ export class GenerationComponent {
     });
   }
 
+  restartApplication(): void {
+    window.location.reload();
+  }
+
   readFile(file: File): void {
     const reader = new FileReader();
     reader.onload = () => {
