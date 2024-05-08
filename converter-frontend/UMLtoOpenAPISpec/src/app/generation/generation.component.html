@@ -8,7 +8,8 @@
   <mat-step>
     <ng-template matStepLabel>Upload UML Diagram</ng-template>
     <input type="file" (change)="onFileSelected($event)">
-    <button mat-button (click)="stepper.next()">Next</button>
+    <p *ngIf="fileError" style="color: red;">{{ fileError }}</p>
+    <button mat-button (click)="fileError ? null : stepper.next()">Next</button>
   </mat-step>
 
   <mat-step>
@@ -25,7 +26,8 @@
         <li>Relationships: {{ elementCount.relationships }}</li>
       </ul>
     </div>
-    <button mat-button (click)="generate()">Generate</button>
+    <button mat-button (click)="generate(stepper)">Generate</button>
+    <p *ngIf="generationError" style="color: red;">{{ generationError }}</p>
     <button mat-button *ngIf="isGeneratedSuccessfully" (click)="continue(stepper)">Continue</button>
   </mat-step>
 

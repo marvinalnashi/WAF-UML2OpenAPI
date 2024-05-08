@@ -31,6 +31,8 @@ export class GenerationComponent {
   diagramType: string = 'Class Diagram';
   serverButtonText = 'Start mock server';
   elementCount: any = {};
+  fileError = '';
+  generationError = '';
 
   constructor(
     private generationService: GenerationService,
@@ -40,26 +42,43 @@ export class GenerationComponent {
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (!input.files?.length) return;
-    this.uploadedFile = input.files[0];
-    this.fileFormat = this.uploadedFile.name.split('.').pop()!;
-    this.readFile(this.uploadedFile);
-  }
-
-  generate(): void {
-    if (this.uploadedFile) {
-      this.generationService.generateSpec(this.uploadedFile).subscribe({
-        next: (response) => {
-          console.log('Generation successful', response);
-          this.isGeneratedSuccessfully = true;
-        },
-        error: (error) => console.error('Generation failed', error)
-      });
+    if (!input.files?.length) {
+      this.fileError = 'Please upload a file.';
+      return;
+    }
+    const file = input.files[0];
+    const extension = (file.name.split('.').pop() ?? '').toLowerCase();
+    const validFormats = ['uxf', 'xml', 'mdj', 'puml'];
+    if (!validFormats.includes(extension)) {
+      this.fileError = 'Invalid file format. Please upload a UXF, XML, MDJ, or PUML file.';
+      this.uploadedFile = null;
     } else {
-      console.error('No file selected');
+      this.fileError = '';
+      this.uploadedFile = file;
     }
   }
 
+  generate(stepper: MatStepper): void {
+    if (!this.uploadedFile) {
+      this.generationError = 'No file selected or invalid file format.';
+      return;
+    }
+    this.generationService.generateSpec(this.uploadedFile).subscribe({
+      next: (response) => {
+        console.log('Generation successful', response);
+        this.isGeneratedSuccessfully = true;
+        this.generationError = '';
+        stepper.next();
+      },
+      error: (error) => {
+        console.error('Generation failed', error);
+        this.generationError = 'Failed to generate OpenAPI spec.';
+        this.isGeneratedSuccessfully = false;
+      }
+    });
+  }
+
+  // Get rid of the Continue button and its function
   continue(stepper: MatStepper): void {
     if (this.isGeneratedSuccessfully) {
       stepper.next();
