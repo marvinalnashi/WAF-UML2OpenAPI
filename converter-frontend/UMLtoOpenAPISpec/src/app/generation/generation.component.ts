@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import { GenerationService } from '../generation.service';
 import { MockServerService } from '../mock-server.service';
 import { HttpClient } from '@angular/common/http';
@@ -24,7 +24,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: './generation.component.html',
   providers: [GenerationService, MockServerService]
 })
-export class GenerationComponent {
+export class GenerationComponent implements AfterViewInit {
+  @ViewChild('stepper', { static: true }) stepper!: MatStepper;
+
   uploadedFile: File | null = null;
   isGeneratedSuccessfully = false;
   fileFormat: string = '';
@@ -39,6 +41,14 @@ export class GenerationComponent {
     private mockServerService: MockServerService,
     private http: HttpClient
   ) { }
+
+  ngAfterViewInit() {
+    // Make stepper headers not clickable
+    this.stepper._stepHeader.forEach((header) => {
+      const index = header._elementRef.nativeElement.getAttribute('aria-posinset');
+      header._elementRef.nativeElement.style.pointerEvents = 'none';
+    });
+  }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
