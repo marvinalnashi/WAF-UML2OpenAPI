@@ -32,6 +32,7 @@ export class GenerationComponent implements AfterViewInit {
   fileFormat: string = '';
   diagramType: string = 'Class Diagram';
   serverButtonText = 'Start mock server';
+  showNextButton = false;
   elementCount: any = {};
   fileError = '';
   generationError = '';
@@ -43,9 +44,7 @@ export class GenerationComponent implements AfterViewInit {
   ) { }
 
   ngAfterViewInit() {
-    // Make stepper headers not clickable
-    this.stepper._stepHeader.forEach((header) => {
-      const index = header._elementRef.nativeElement.getAttribute('aria-posinset');
+    this.stepper._stepHeader.forEach(header => {
       header._elementRef.nativeElement.style.pointerEvents = 'none';
     });
   }
@@ -55,6 +54,7 @@ export class GenerationComponent implements AfterViewInit {
     if (!input.files?.length) {
       this.fileError = 'Please select a file to upload.';
       this.uploadedFile = null;
+      this.showNextButton = false;
       return;
     }
     this.uploadedFile = input.files[0];
@@ -63,8 +63,10 @@ export class GenerationComponent implements AfterViewInit {
     if (!validFormats.includes(this.fileFormat)) {
       this.fileError = 'Invalid file format. Please upload a UXF, XML, MDJ, or PUML file.';
       this.uploadedFile = null;
+      this.showNextButton = false;
     } else {
       this.fileError = '';
+      this.showNextButton = true;
       this.readFile(this.uploadedFile);
     }
   }

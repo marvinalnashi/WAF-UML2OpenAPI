@@ -9,7 +9,7 @@
     <ng-template matStepLabel>Upload</ng-template>
     <input type="file" (change)="onFileSelected($event)">
     <p *ngIf="fileError" style="color: red;">{{ fileError }}</p>
-    <button mat-button (click)="fileError ? null : stepper.next()">Next</button>
+    <button mat-button *ngIf="showNextButton" (click)="stepper.next()">Next</button>
   </mat-step>
 
   <mat-step>
@@ -28,7 +28,6 @@
     </div>
     <button mat-button (click)="generate(stepper)">Generate</button>
     <p *ngIf="generationError" style="color: red;">{{ generationError }}</p>
-    <button mat-button *ngIf="isGeneratedSuccessfully" (click)="continue(stepper)">Continue</button>
   </mat-step>
 
   <mat-step>
