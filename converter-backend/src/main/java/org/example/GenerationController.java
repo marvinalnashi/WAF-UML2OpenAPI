@@ -1,0 +1,97 @@
+package org.example;
+
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+public class GenerationController {
+
+    private final String outputPath = "/data/export.yml";
+
+    @GetMapping("/export.yml")
+    public ResponseEntity<Resource> getOpenAPISpec() {
+        Resource fileResource = new FileSystemResource(outputPath);
+        if (!fileResource.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"export.yml\"")
+                .contentType(MediaType.parseMediaType("application/x-yaml"))
+                .body(fileResource);
+    }
+
+    @PostMapping("/generate")
+    public ResponseEntity<String> generateOpenAPISpec(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File is empty");
+        }
+
+        try {
+            String fileName = file.getOriginalFilename();
+            DiagramParser parser = getParserForFileType(fileName);
+            if (parser == null) {
+                return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("Unsupported file type");
+            }
+
+            Map<String, List<String>> classes = parseStream(parser, file.getBytes(), "classes");
+            Map<String, List<String>> attributes = parseStream(parser, file.getBytes(), "attributes");
+            Map<String, List<String>> methods = parseStream(parser, file.getBytes(), "methods");
+
+            String openAPISpec = OpenAPISpecGenerator.generateSpec(classes, attributes, methods, outputPath);
+            return ResponseEntity.ok(openAPISpec);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during generation: " + e.getMessage());
+        }
+    }
+
+    private Map<String, List<String>> parseStream(DiagramParser parser, byte[] fileContent, String type) throws Exception {
+        try (InputStream inputStream = new ByteArrayInputStream(fileContent)) {
+            switch (type) {
+                case "classes":
+                    return parser.parse(inputStream);
+                case "attributes":
+                    return parser.parseAttributes(inputStream);
+                case "methods":
+                    return parser.parseMethods(inputStream);
+                default:
+                    return new HashMap<>();
+            }
+        }
+    }
+
+    private DiagramParser getParserForFileType(String fileName) {
+        if (fileName == null) {
+            return null;
+        }
+        String extension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+        switch (extension) {
+            case "xml":
+                return new XMLParser();
+            case "uxf":
+                return new UXFParser();
+            case "mdj":
+                return new MDJParser();
+            case "puml":
+                return new PlantUMLParser();
+            default:
+                return null;
+        }
+    }
+}

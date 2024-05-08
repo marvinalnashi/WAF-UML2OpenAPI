@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  converter-backend:
+    build:
+      context: .
+      dockerfile: converter-backend/Dockerfile
+    volumes:
+      - ./data:/data
+    ports:
+      - "8080:8080"
+      - "4010:4010"
+  converter-frontend:
+    build:
+      context: ./converter-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"

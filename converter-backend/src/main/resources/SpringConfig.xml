@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Bean definition for XMLParser -->
+    <bean id="xmlParser" class="org.example.XMLParser"/>
+
+    <!-- Bean definition for UXFParser -->
+    <bean id="uxfParser" class="org.example.UXFParser"/>
+
+    <!-- Bean definition for MDJParser -->
+    <bean id="mdjParser" class="org.example.MDJParser"/>
+
+    <!-- Bean definition for PlantUMLParser -->
+    <bean id="plantUMLParser" class="org.example.PlantUMLParser"/>
+
+</beans>
