@@ -43,18 +43,19 @@ export class GenerationComponent {
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) {
-      this.fileError = 'Please upload a file.';
+      this.fileError = 'Please select a file to upload.';
+      this.uploadedFile = null;
       return;
     }
-    const file = input.files[0];
-    const extension = (file.name.split('.').pop() ?? '').toLowerCase();
+    this.uploadedFile = input.files[0];
+    this.fileFormat = this.uploadedFile.name.split('.').pop()?.toLowerCase() ?? '';
     const validFormats = ['uxf', 'xml', 'mdj', 'puml'];
-    if (!validFormats.includes(extension)) {
+    if (!validFormats.includes(this.fileFormat)) {
       this.fileError = 'Invalid file format. Please upload a UXF, XML, MDJ, or PUML file.';
       this.uploadedFile = null;
     } else {
       this.fileError = '';
-      this.uploadedFile = file;
+      this.readFile(this.uploadedFile);
     }
   }
 
@@ -78,7 +79,6 @@ export class GenerationComponent {
     });
   }
 
-  // Get rid of the Continue button and its function
   continue(stepper: MatStepper): void {
     if (this.isGeneratedSuccessfully) {
       stepper.next();
@@ -105,26 +105,26 @@ export class GenerationComponent {
     const reader = new FileReader();
     reader.onload = () => {
       const content = reader.result as string;
-      switch (this.fileFormat) {
-        case 'xml':
-          this.elementCount = this.parseDrawioXML(content);
-          break;
-        case 'uxf':
-          this.elementCount = this.parseUMLetUXF(content);
-          break;
-        case 'mdj':
-          this.elementCount = this.parseMDJ(content);
-          break;
-        case 'puml':
-          this.elementCount = this.parsePUML(content);
-          break;
-        default:
-          this.elementCount = {};
-      }
+      this.elementCount = this.parseByFormat(content, this.fileFormat);
     };
     reader.readAsText(file);
   }
 
+  // For counting the individual elements of the uploaded UML diagram
+  parseByFormat(content: string, format: string) {
+    switch (format) {
+      case 'xml':
+        return this.parseDrawioXML(content);
+      case 'uxf':
+        return this.parseUMLetUXF(content);
+      case 'mdj':
+        return this.parseMDJ(content);
+      case 'puml':
+        return this.parsePUML(content);
+      default:
+        return {};
+    }
+  }
 
   parseDrawioXML(content: string): any {
     const parser = new DOMParser();
