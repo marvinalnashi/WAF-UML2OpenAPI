@@ -6,14 +6,14 @@
   </mat-step>
 
   <mat-step>
-    <ng-template matStepLabel>Upload UML Diagram</ng-template>
+    <ng-template matStepLabel>Upload</ng-template>
     <input type="file" (change)="onFileSelected($event)">
     <p *ngIf="fileError" style="color: red;">{{ fileError }}</p>
     <button mat-button (click)="fileError ? null : stepper.next()">Next</button>
   </mat-step>
 
   <mat-step>
-    <ng-template matStepLabel>Generate OpenAPI Spec</ng-template>
+    <ng-template matStepLabel>Generate</ng-template>
     <div *ngIf="uploadedFile">
       <h3>Uploaded Diagram Information:</h3>
       <p>File Format: {{ fileFormat }}</p>
@@ -32,13 +32,13 @@
   </mat-step>
 
   <mat-step>
-    <ng-template matStepLabel>Review and Continue</ng-template>
+    <ng-template matStepLabel>Mapping</ng-template>
     <p>Here will be mapping features.</p>
     <button mat-button (click)="stepper.next()">Apply mapping and continue</button>
   </mat-step>
 
   <mat-step>
-    <ng-template matStepLabel>Manage Mock Server</ng-template>
+    <ng-template matStepLabel>Manage</ng-template>
     <button mat-button (click)="toggleMockServer()">{{ serverButtonText }}</button>
     <button mat-button (click)="restartApplication()">Restart Stepper</button>
   </mat-step>
