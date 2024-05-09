@@ -36,6 +36,7 @@ export class GenerationComponent implements AfterViewInit {
   elementCount: any = {};
   fileError = '';
   generationError = '';
+  elementNames: any = {};
 
   constructor(
     private generationService: GenerationService,
@@ -68,8 +69,18 @@ export class GenerationComponent implements AfterViewInit {
       this.fileError = '';
       this.showNextButton = true;
       this.readFile(this.uploadedFile);
+      this.generationService.parseDiagramElements(this.uploadedFile).subscribe({
+        next: (response) => {
+          this.elementNames = response.elements;
+          this.stepper.next();
+        },
+        error: (error) => {
+          console.error('Error parsing elements', error);
+        }
+      });
     }
   }
+
 
   generate(stepper: MatStepper): void {
     if (!this.uploadedFile) {
@@ -77,13 +88,13 @@ export class GenerationComponent implements AfterViewInit {
       return;
     }
     this.generationService.generateSpec(this.uploadedFile).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         console.log('Generation successful', response);
         this.isGeneratedSuccessfully = true;
         this.generationError = '';
         stepper.next();
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Generation failed', error);
         this.generationError = 'Failed to generate OpenAPI spec.';
         this.isGeneratedSuccessfully = false;

@@ -2,18 +2,24 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class GenerationService {
   private baseUrl = 'http://localhost:8080';
-  private generateUrl = `${this.baseUrl}/generate`;
 
   constructor(private http: HttpClient) { }
 
-  generateSpec(file: File): Observable<string> {
-    const formData: FormData = new FormData();
-    formData.append('file', file, file.name);
+  parseDiagramElements(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(`${this.baseUrl}/parse-elements`, formData);
+  }
 
-    return this.http.post(this.generateUrl, formData, {
+  generateSpec(file: File): Observable<string> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(`${this.baseUrl}/generate`, formData, {
       responseType: 'text'
     });
   }

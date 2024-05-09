@@ -6,10 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
@@ -19,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200") // Allowing CORS for Angular app
 public class GenerationController {
 
     private final String outputPath = "/data/export.yml";
@@ -35,6 +33,27 @@ public class GenerationController {
                 .body(fileResource);
     }
 
+    @PostMapping("/parse-elements")
+    public ResponseEntity<Map<String, Object>> parseDiagramElements(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "File is empty"));
+        }
+        try {
+            String fileName = file.getOriginalFilename();
+            DiagramParser parser = getParserForFileType(fileName);
+            if (parser == null) {
+                return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(Map.of("error", "Unsupported file type"));
+            }
+            InputStream inputStream = file.getInputStream();
+            Map<String, List<String>> elements = parser.parse(inputStream);
+            return ResponseEntity.ok().body(Map.of("elements", elements.keySet()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error parsing diagram: " + e.getMessage()));
+        }
+    }
+
+
     @PostMapping("/generate")
     public ResponseEntity<String> generateOpenAPISpec(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
@@ -48,31 +67,22 @@ public class GenerationController {
                 return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("Unsupported file type");
             }
 
-            Map<String, List<String>> classes = parseStream(parser, file.getBytes(), "classes");
-            Map<String, List<String>> attributes = parseStream(parser, file.getBytes(), "attributes");
-            Map<String, List<String>> methods = parseStream(parser, file.getBytes(), "methods");
+            // Create new InputStream for each parse operation to avoid closed stream issue
+            InputStream classStream = new ByteArrayInputStream(file.getBytes());
+            Map<String, List<String>> classes = parser.parse(classStream);
+
+            InputStream attrStream = new ByteArrayInputStream(file.getBytes());
+            Map<String, List<String>> attributes = parser.parseAttributes(attrStream);
+
+            InputStream methodStream = new ByteArrayInputStream(file.getBytes());
+            Map<String, List<String>> methods = parser.parseMethods(methodStream);
 
             String openAPISpec = OpenAPISpecGenerator.generateSpec(classes, attributes, methods, outputPath);
-            return ResponseEntity.ok(openAPISpec);
+            return ResponseEntity.ok().body(openAPISpec);
 
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during generation: " + e.getMessage());
-        }
-    }
-
-    private Map<String, List<String>> parseStream(DiagramParser parser, byte[] fileContent, String type) throws Exception {
-        try (InputStream inputStream = new ByteArrayInputStream(fileContent)) {
-            switch (type) {
-                case "classes":
-                    return parser.parse(inputStream);
-                case "attributes":
-                    return parser.parseAttributes(inputStream);
-                case "methods":
-                    return parser.parseMethods(inputStream);
-                default:
-                    return new HashMap<>();
-            }
         }
     }
 
