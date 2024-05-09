@@ -73,14 +73,14 @@ public class OpenAPISpecGenerator {
     }
 
     public static String applyMappings(Map<String, Object> mappings) throws Exception {
-        Map<String, Object> paths = (Map<String, Object>) lastGeneratedSpec.get("paths");
-        for (String key : mappings.keySet()) {
-            Map<String, Object> newDetails = (Map<String, Object>) mappings.get(key);
-            paths.put(key, newDetails);
-        }
+        Map<String, Object> paths = (Map<String, Object>) lastGeneratedSpec.getOrDefault("paths", new HashMap<>());
+        mappings.forEach((key, value) -> {
+            Map<String, Object> pathDetails = (Map<String, Object>) value;
+            paths.put((String) pathDetails.get("url"), buildPathItem(pathDetails));
+        });
         lastGeneratedSpec.put("paths", paths);
         saveSpecToFile(lastGeneratedSpec, "output.yml");
-        return "OpenAPI specification updated successfully.";
+        return "Mappings applied and specification updated.";
     }
 
     private static Map<String, Object> buildInitialSpec(Map<String, List<String>> entities,
@@ -120,7 +120,7 @@ public class OpenAPISpecGenerator {
             Map<String, Object> schema = new HashMap<>();
             Map<String, Object> properties = new HashMap<>();
             attributes.getOrDefault(entityName, new ArrayList<>()).forEach(attr -> {
-                properties.put(attr, Map.of("type", "string"));
+                properties.put(attr, Map.of("type", "string")); // Simplified type handling
             });
             schema.put("type", "object");
             schema.put("properties", properties);
@@ -138,7 +138,7 @@ public class OpenAPISpecGenerator {
 
     private static void saveSpecToFile(Map<String, Object> spec, String outputPath) throws Exception {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        mapper.writeValue(new File(outputPath), spec);
+        mapper.writeValue(new File(outputPath), spec); // Save spec to file
     }
 
     private static Map<String, Object> buildPathItem(Map<String, Object> pathDetails) {

@@ -37,11 +37,7 @@ public class GenerationController {
 
     @GetMapping("/api-elements")
     public ResponseEntity<Map<String, Object>> getApiElements() {
-        Map<String, Object> elements = OpenAPISpecGenerator.getLastGeneratedSpec();
-        if (elements == null || elements.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(elements);
+        return ResponseEntity.ok(OpenAPISpecGenerator.getLastGeneratedSpec());
     }
 
     @PostMapping("/apply-mappings")
