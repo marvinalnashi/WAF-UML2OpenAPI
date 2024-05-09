@@ -1,24 +1,39 @@
-<div class="mapping-container">
-  <h3>Drag UML Classes to Define Endpoints</h3>
-  <div class="drag-areas">
-    <div cdkDropList class="ex-list" [cdkDropListData]="availableClasses" (cdkDropListDropped)="drop($event)">
-      <div class="class-box" *ngFor="let umlClass of availableClasses" cdkDrag>{{ umlClass.name }}</div>
-    </div>
+<!--<div class="mapping-container">-->
+<!--  <h3>Drag UML Classes to Define Endpoints</h3>-->
+<!--  <div class="drag-areas">-->
+<!--    <div cdkDropList class="mapped-list" [cdkDropListData]="endpoints" (cdkDropListDropped)="drop($event)">-->
+<!--      <div class="endpoint-box" *ngFor="let endpoint of endpoints" cdkDrag>-->
+<!--        {{ endpoint.name }}-->
+<!--        <input type="text" [(ngModel)]="endpoint.url" placeholder="Custom URL">-->
+<!--        <select [(ngModel)]="endpoint.method">-->
+<!--          <option value="GET">GET</option>-->
+<!--          <option value="POST">POST</option>-->
+<!--          <option value="PUT">PUT</option>-->
+<!--          <option value="DELETE">DELETE</option>-->
+<!--        </select>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <input type="file" (change)="onFileSelected($event)">-->
+<!--  <div *ngFor="let element of apiElements" cdkDrag>{{ element.name }}</div>-->
+<!--  <button (click)="applyMappings()">Apply Mapping and Continue</button>-->
+<!--</div>-->
 
-    <div cdkDropList class="mapped-list" [cdkDropListData]="endpoints" (cdkDropListDropped)="drop($event)">
-      <div class="endpoint-box" *ngFor="let endpoint of endpoints" cdkDrag>
-        {{ endpoint.name }}
-        <input type="text" [(ngModel)]="endpoint.url" placeholder="Custom URL">
-        <select [(ngModel)]="endpoint.method">
-          <option value="GET">GET</option>
-          <option value="POST">POST</option>
-          <option value="PUT">PUT</option>
-          <option value="DELETE">DELETE</option>
-        </select>
-      </div>
+<div class="mapping-container">
+  <h3>Drag elements to define endpoints:</h3>
+  <div cdkDropList class="drop-list" [cdkDropListData]="apiElements" (cdkDropListDropped)="drop($event)">
+    <div *ngFor="let element of apiElements" cdkDrag>
+      {{ element.name }}
+      <input type="text" [(ngModel)]="element.url" placeholder="Endpoint URL">
+      <select [(ngModel)]="element.method">
+        <option value="GET">GET</option>
+        <option value="POST">POST</option>
+        <option value="PUT">PUT</option>
+        <option value="DELETE">DELETE</option>
+      </select>
     </div>
   </div>
-  <input type="file" (change)="onFileSelected($event)">
-  <div *ngFor="let item of availableClasses">{{ item.name }}</div>
-  <button (click)="applyMappings()">Apply Mapping and Generate</button>
+  <button mat-button (click)="applyMappingsAndContinue()">Apply Mapping and Continue</button>
 </div>
+
+

@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
+import {MappingComponent} from "../mapping/mapping.component";
 
 @Component({
   selector: 'app-generation',
@@ -22,7 +23,8 @@ import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem} f
     MatStep,
     MatStepLabel,
     CdkDrag,
-    CdkDropList
+    CdkDropList,
+    MappingComponent
   ],
   templateUrl: './generation.component.html',
   providers: [GenerationService, MockServerService]
@@ -31,11 +33,6 @@ export class GenerationComponent implements AfterViewInit {
   @ViewChild('stepper', { static: true }) stepper!: MatStepper;
 
   // Temporary hardcoded placeholder classes for testing
-  availableClasses = [
-    { name: 'User', id: 'User' },
-    { name: 'Product', id: 'Product' },
-    { name: 'Order', id: 'Order' }
-  ];
   uploadedFile: File | null = null;
   isGeneratedSuccessfully = false;
   fileFormat: string = '';

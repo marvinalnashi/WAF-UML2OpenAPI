@@ -33,11 +33,9 @@
 
     <mat-step>
       <ng-template matStepLabel>Mapping</ng-template>
-      <div cdkDropList class="drop-list" (cdkDropListDropped)="drop($event)">
-        <div *ngFor="let item of availableClasses" cdkDrag>{{ item.name }}</div>
-      </div>
-      <button mat-button (click)="applyMappingsAndContinue()">Apply Mapping and Continue</button>
+      <app-mapping></app-mapping>
     </mat-step>
+
 
     <mat-step>
       <ng-template matStepLabel>Manage</ng-template>

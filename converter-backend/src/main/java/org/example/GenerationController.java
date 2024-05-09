@@ -35,6 +35,21 @@ public class GenerationController {
                 .body(fileResource);
     }
 
+    @GetMapping("/api-elements")
+    public ResponseEntity<Map<String, Object>> getApiElements() {
+        return ResponseEntity.ok(OpenAPISpecGenerator.getLastGeneratedSpec());
+    }
+
+    @PostMapping("/apply-mappings")
+    public ResponseEntity<String> applyMappings(@RequestBody Map<String, Object> mappings) {
+        try {
+            String result = OpenAPISpecGenerator.applyMappings(mappings);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to apply mappings: " + e.getMessage());
+        }
+    }
+
     @PostMapping("/generate")
     public ResponseEntity<String> generateOpenAPISpec(MultipartHttpServletRequest request) {
         Iterator<String> itr = request.getFileNames();

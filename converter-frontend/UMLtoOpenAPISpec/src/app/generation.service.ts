@@ -18,11 +18,20 @@ export class GenerationService {
     });
   }
 
-  generateSpecWithMappings(file: File, mappings: any): Observable<any> {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('mappings', new Blob([JSON.stringify(mappings)], { type: 'application/json' }));
+  // generateSpecWithMappings(file: File, mappings: any): Observable<any> {
+  //   const formData = new FormData();
+  //   formData.append('file', file);
+  //   formData.append('mappings', new Blob([JSON.stringify(mappings)], { type: 'application/json' }));
+  //
+  //   return this.http.post(`${this.baseUrl}/generate`, formData);
+  // }
 
-    return this.http.post(`${this.baseUrl}/generate`, formData);
+  generateSpecWithMappings(mappings: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/apply-mappings`, mappings);
+  }
+
+
+  fetchApiElements(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/api-elements`);
   }
 }
