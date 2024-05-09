@@ -1,44 +1,46 @@
-<mat-horizontal-stepper #stepper linear>
-  <mat-step>
-    <ng-template matStepLabel>Start</ng-template>
-    <p>Here goes the introductory text.</p>
-    <button mat-button (click)="stepper.next()">Start the process</button>
-  </mat-step>
+<div class="stepper-container">
+  <mat-horizontal-stepper #stepper linear>
+    <mat-step>
+      <ng-template matStepLabel>Start</ng-template>
+      <p>Here goes the introductory text.</p>
+      <button mat-button (click)="stepper.next()">Start the process</button>
+    </mat-step>
 
-  <mat-step>
-    <ng-template matStepLabel>Upload</ng-template>
-    <input type="file" (change)="onFileSelected($event)">
-    <p *ngIf="fileError" style="color: red;">{{ fileError }}</p>
-    <button mat-button *ngIf="showNextButton" (click)="stepper.next()">Next</button>
-  </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Upload</ng-template>
+      <input type="file" (change)="onFileSelected($event)">
+      <p *ngIf="fileError" style="color: red;">{{ fileError }}</p>
+      <button mat-button *ngIf="showNextButton" (click)="stepper.next()">Next</button>
+    </mat-step>
 
-  <mat-step>
-    <ng-template matStepLabel>Generate</ng-template>
-    <div *ngIf="uploadedFile">
-      <h3>Uploaded Diagram Information:</h3>
-      <p>File Format: {{ fileFormat }}</p>
-      <p>Diagram Type: {{ diagramType }}</p>
-      <p>Element Count:</p>
-      <ul>
-        <li>Classes: {{ elementCount.classes }}</li>
-        <li>Attributes: {{ elementCount.attributes }}</li>
-        <li>Methods: {{ elementCount.methods }}</li>
-        <li>Relationships: {{ elementCount.relationships }}</li>
-      </ul>
-    </div>
-    <button mat-button (click)="generate(stepper)">Generate</button>
-    <p *ngIf="generationError" style="color: red;">{{ generationError }}</p>
-  </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Generate</ng-template>
+      <div *ngIf="uploadedFile">
+        <h3>Uploaded Diagram Information:</h3>
+        <p>File Format: {{ fileFormat }}</p>
+        <p>Diagram Type: {{ diagramType }}</p>
+        <p>Element Count:</p>
+        <ul>
+          <li>Classes: {{ elementCount.classes }}</li>
+          <li>Attributes: {{ elementCount.attributes }}</li>
+          <li>Methods: {{ elementCount.methods }}</li>
+          <li>Relationships: {{ elementCount.relationships }}</li>
+        </ul>
+      </div>
+      <button mat-button (click)="generate(stepper)">Generate</button>
+      <p *ngIf="generationError" style="color: red;">{{ generationError }}</p>
+    </mat-step>
 
-  <mat-step>
-    <ng-template matStepLabel>Mapping</ng-template>
-    <p>Here will be mapping features.</p>
-    <button mat-button (click)="stepper.next()">Apply mapping and continue</button>
-  </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Mapping</ng-template>
+      <p>Here will be mapping features.</p>
+      <button mat-button (click)="stepper.next()">Apply mapping and continue</button>
+    </mat-step>
 
-  <mat-step>
-    <ng-template matStepLabel>Manage</ng-template>
-    <button mat-button (click)="toggleMockServer()">{{ serverButtonText }}</button>
-    <button mat-button (click)="restartApplication()">Restart Stepper</button>
-  </mat-step>
-</mat-horizontal-stepper>
+    <mat-step>
+      <ng-template matStepLabel>Manage</ng-template>
+      <button mat-button (click)="toggleMockServer()">{{ serverButtonText }}</button>
+      <button mat-button (click)="restartApplication()">Restart Stepper</button>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>
