@@ -17,12 +17,4 @@ export class GenerationService {
       responseType: 'text'
     });
   }
-
-  generateSpecWithMappings(file: File, mappings: any): Observable<any> {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('mappings', new Blob([JSON.stringify(mappings)], { type: 'application/json' }));
-
-    return this.http.post(`${this.baseUrl}/generate`, formData);
-  }
 }

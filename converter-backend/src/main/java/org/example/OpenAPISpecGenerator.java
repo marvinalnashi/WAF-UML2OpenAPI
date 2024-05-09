@@ -4,19 +4,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class OpenAPISpecGenerator {
 
     public static String generateSpec(Map<String, List<String>> entities,
                                       Map<String, List<String>> attributes,
                                       Map<String, List<String>> methods,
-                                      Map<String, Object> mappings,
                                       String outputPath) throws Exception {
-        Map<String, Object> openAPISpec = new HashMap<>();
+        Map<String, Object> openAPISpec = new LinkedHashMap<>();
         openAPISpec.put("openapi", "3.0.0");
 
-        Map<String, Object> info = new HashMap<>();
+        Map<String, Object> info = new LinkedHashMap<>();
         info.put("title", "Generated API");
         info.put("version", "1.0.0");
         info.put("description", "API dynamically generated from UML.");
@@ -28,17 +30,19 @@ public class OpenAPISpecGenerator {
         servers.add(server);
         openAPISpec.put("servers", servers);
 
-        Map<String, Object> paths = new HashMap<>();
+        Map<String, Object> paths = new LinkedHashMap<>();
         entities.forEach((className, classList) -> {
-            String basePath = mappings.containsKey(className) ? (String) mappings.get(className) : className.toLowerCase();
-            paths.put("/" + basePath, createPathItem("Get all instances of " + className, classList, mappings));
+            paths.put("/" + className.toLowerCase(),
+                    createPathItem("Get all instances of " + className, classList));
 
             if (attributes.containsKey(className)) {
-                paths.put("/" + basePath + "/attributes", createPathItem("Get attributes of " + className, attributes.get(className), mappings));
+                paths.put("/" + className.toLowerCase() + "/attributes",
+                        createPathItem("Get attributes of " + className, attributes.get(className)));
             }
 
             if (methods.containsKey(className)) {
-                paths.put("/" + basePath + "/methods", createPathItem("Get methods of " + className, methods.get(className), mappings));
+                paths.put("/" + className.toLowerCase() + "/methods",
+                        createPathItem("Get methods of " + className, methods.get(className)));
             }
         });
 
@@ -50,22 +54,24 @@ public class OpenAPISpecGenerator {
         return "OpenAPI specification generated successfully at " + outputPath;
     }
 
-    // Helper method to create a path item with dynamic descriptions that are based on mappings
-    private static Map<String, Object> createPathItem(String description, List<String> details, Map<String, Object> mappings) {
-        Map<String, Object> pathItem = new HashMap<>();
-        Map<String, Object> getOperation = new HashMap<>();
+    private static Map<String, Object> createPathItem(String description, List<String> details) {
+        Map<String, Object> pathItem = new LinkedHashMap<>();
+        Map<String, Object> getOperation = new LinkedHashMap<>();
         getOperation.put("summary", description);
         getOperation.put("description", description);
 
-        Map<String, Object> responses = new HashMap<>();
-        Map<String, Object> response200 = new HashMap<>();
+        Map<String, Object> responses = new LinkedHashMap<>();
+        Map<String, Object> response200 = new LinkedHashMap<>();
         response200.put("description", "Successful response");
-        response200.put("content", Map.of("application/json", Map.of("example", details)));
+        response200.put("content", Map.of(
+                "application/json", Map.of(
+                        "example", details
+                )
+        ));
         responses.put("200", response200);
 
         getOperation.put("responses", responses);
         pathItem.put("get", getOperation);
-
         return pathItem;
     }
 }
