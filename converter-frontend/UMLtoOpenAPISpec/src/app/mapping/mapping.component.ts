@@ -26,12 +26,12 @@ export class MappingComponent implements OnInit {
 
   ngOnInit() {
     this.generationService.fetchApiElements().subscribe({
-      next: (elements) => this.apiElements = elements,
+      next: (elements) => this.apiElements = elements.paths || [],
       error: (err) => console.error('Failed to fetch API elements', err)
     });
   }
 
-  drop(event: CdkDragDrop<any[]>) {
+  drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -41,18 +41,16 @@ export class MappingComponent implements OnInit {
   }
 
   applyMappingsAndContinue() {
-    const mappings = this.apiElements.map(element => ({
-      id: element.id,
-      url: element.url,
-      method: element.method
-    }));
+    const mappings = this.apiElements.reduce((acc, el) => {
+      acc[el.url] = { ...el };
+      return acc;
+    }, {});
 
-    this.generationService.generateSpecWithMappings(mappings).subscribe({
-      next: (response) => {
-        console.log('Mappings applied successfully', response);
-        this.stepper.next();
-      },
-      error: (error) => console.error('Error applying mappings', error)
+    this.generationService.applyMappings(mappings).subscribe({
+      next: () => this.stepper.next(),
+      error: err => console.error('Failed to apply mappings', err)
     });
+
+    this.stepper.next();
   }
 }

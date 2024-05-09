@@ -26,12 +26,11 @@ export class GenerationService {
   //   return this.http.post(`${this.baseUrl}/generate`, formData);
   // }
 
-  generateSpecWithMappings(mappings: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/apply-mappings`, mappings);
-  }
-
-
   fetchApiElements(): Observable<any> {
     return this.http.get(`${this.baseUrl}/api-elements`);
+  }
+
+  applyMappings(mappings: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/apply-mappings`, mappings);
   }
 }
