@@ -1,20 +1,20 @@
 package org.example;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -36,9 +36,23 @@ public class GenerationController {
     }
 
     @PostMapping("/generate")
-    public ResponseEntity<String> generateOpenAPISpec(@RequestParam("file") MultipartFile file) {
-        if (file.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File is empty");
+    public ResponseEntity<String> generateOpenAPISpec(MultipartHttpServletRequest request) {
+        Iterator<String> itr = request.getFileNames();
+        MultipartFile file = request.getFile(itr.next());
+        if (file == null || file.isEmpty()) {
+            return ResponseEntity.badRequest().body("File is empty");
+        }
+
+        String mappingsJson = request.getParameter("mappings");
+        Map<String, Object> mappings = new HashMap<>();
+        if (mappingsJson != null && !mappingsJson.isEmpty()) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                mappings = objectMapper.readValue(mappingsJson, Map.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.badRequest().body("Error parsing mappings");
+            }
         }
 
         try {
@@ -52,7 +66,7 @@ public class GenerationController {
             Map<String, List<String>> attributes = parseStream(parser, file.getBytes(), "attributes");
             Map<String, List<String>> methods = parseStream(parser, file.getBytes(), "methods");
 
-            String openAPISpec = OpenAPISpecGenerator.generateSpec(classes, attributes, methods, outputPath);
+            String openAPISpec = OpenAPISpecGenerator.generateSpec(classes, attributes, methods, mappings, outputPath);
             return ResponseEntity.ok(openAPISpec);
 
         } catch (Exception e) {

@@ -33,8 +33,10 @@
 
     <mat-step>
       <ng-template matStepLabel>Mapping</ng-template>
-      <p>Here will be mapping features.</p>
-      <button mat-button (click)="stepper.next()">Apply mapping and continue</button>
+      <div cdkDropList class="drop-list" (cdkDropListDropped)="drop($event)">
+        <div *ngFor="let item of availableClasses" cdkDrag>{{ item.name }}</div>
+      </div>
+      <button mat-button (click)="applyMappingsAndContinue()">Apply Mapping and Continue</button>
     </mat-step>
 
     <mat-step>

@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: 'app-generation',
@@ -19,7 +20,9 @@ import { CommonModule } from '@angular/common';
     MatInputModule,
     MatButtonModule,
     MatStep,
-    MatStepLabel
+    MatStepLabel,
+    CdkDrag,
+    CdkDropList
   ],
   templateUrl: './generation.component.html',
   providers: [GenerationService, MockServerService]
@@ -27,6 +30,12 @@ import { CommonModule } from '@angular/common';
 export class GenerationComponent implements AfterViewInit {
   @ViewChild('stepper', { static: true }) stepper!: MatStepper;
 
+  // Temporary hardcoded placeholder classes for testing
+  availableClasses = [
+    { name: 'User', id: 'User' },
+    { name: 'Product', id: 'Product' },
+    { name: 'Order', id: 'Order' }
+  ];
   uploadedFile: File | null = null;
   isGeneratedSuccessfully = false;
   fileFormat: string = '';
@@ -221,5 +230,18 @@ export class GenerationComponent implements AfterViewInit {
     let methods = lines.filter(line => line.match(/^\s+[+-]\w+\s*\([^)]*\)\s*(?::\s*\w+)?/)).length;
     let relationships = lines.filter(line => line.trim().includes('--')).length;
     return { classes, attributes, methods, relationships };
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data, event.container.data,
+        event.previousIndex, event.currentIndex);
+    }
+  }
+
+  applyMappingsAndContinue() {
+    this.stepper.next();
   }
 }
