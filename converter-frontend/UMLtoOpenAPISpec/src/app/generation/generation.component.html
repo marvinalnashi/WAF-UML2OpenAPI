@@ -14,6 +14,12 @@
     </mat-step>
 
     <mat-step>
+      <ng-template matStepLabel>Mapping</ng-template>
+      <p>Here will be mapping features.</p>
+      <button mat-button (click)="stepper.next()">Apply mapping and continue</button>
+    </mat-step>
+
+    <mat-step>
       <ng-template matStepLabel>Generate</ng-template>
       <div *ngIf="uploadedFile">
         <h3>Uploaded Diagram Information:</h3>
@@ -29,12 +35,6 @@
       </div>
       <button mat-button (click)="generate(stepper)">Generate</button>
       <p *ngIf="generationError" style="color: red;">{{ generationError }}</p>
-    </mat-step>
-
-    <mat-step>
-      <ng-template matStepLabel>Mapping</ng-template>
-      <p>Here will be mapping features.</p>
-      <button mat-button (click)="stepper.next()">Apply mapping and continue</button>
     </mat-step>
 
     <mat-step>
