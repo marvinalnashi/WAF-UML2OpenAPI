@@ -8,14 +8,12 @@ import java.util.*;
 
 public class OpenAPISpecGenerator {
 
-    private static Map<String, Object> lastGeneratedSpec = new HashMap<>();
-
     public static String generateSpec(Map<String, List<String>> entities,
                                       Map<String, List<String>> attributes,
                                       Map<String, List<String>> methods,
                                       Map<String, Object> mappings,
                                       String outputPath) throws Exception {
-        Map<String, Object> openAPISpec = buildInitialSpec(entities, attributes, methods);
+        Map<String, Object> openAPISpec = new HashMap<>();
         openAPISpec.put("openapi", "3.0.0");
 
         Map<String, Object> info = new HashMap<>();
@@ -45,8 +43,7 @@ public class OpenAPISpecGenerator {
         });
 
         openAPISpec.put("paths", paths);
-        lastGeneratedSpec = openAPISpec;
-        saveSpecToFile(openAPISpec, outputPath);
+
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         mapper.writeValue(new File(outputPath), openAPISpec);
 
@@ -70,96 +67,5 @@ public class OpenAPISpecGenerator {
         pathItem.put("get", getOperation);
 
         return pathItem;
-    }
-
-    public static String applyMappings(Map<String, Object> mappings) throws Exception {
-        Map<String, Object> paths = (Map<String, Object>) lastGeneratedSpec.getOrDefault("paths", new HashMap<>());
-        mappings.forEach((key, value) -> {
-            Map<String, Object> pathDetails = (Map<String, Object>) value;
-            paths.put((String) pathDetails.get("url"), buildPathItem(pathDetails));
-        });
-        lastGeneratedSpec.put("paths", paths);
-        saveSpecToFile(lastGeneratedSpec, "output.yml");
-        return "Mappings applied and specification updated.";
-    }
-
-    private static Map<String, Object> buildInitialSpec(Map<String, List<String>> entities,
-                                                        Map<String, List<String>> attributes,
-                                                        Map<String, List<String>> methods) {
-        Map<String, Object> openAPISpec = new HashMap<>();
-        Map<String, Object> paths = new HashMap<>();
-        Map<String, Object> components = new HashMap<>();
-        Map<String, Object> schemas = new HashMap<>();
-
-        entities.forEach((entityName, entityDetails) -> {
-            Map<String, Object> pathItem = new HashMap<>();
-            Map<String, Object> getOperation = new HashMap<>();
-            List<Map<String, Object>> parameters = new ArrayList<>();
-
-            Map<String, Object> idParam = new HashMap<>();
-            idParam.put("name", "id");
-            idParam.put("in", "path");
-            idParam.put("required", true);
-            idParam.put("schema", Map.of("type", "string"));
-            parameters.add(idParam);
-
-            getOperation.put("summary", "Get a single " + entityName + " by ID");
-            getOperation.put("operationId", "get" + entityName);
-            getOperation.put("tags", List.of(entityName));
-            getOperation.put("parameters", parameters);
-            getOperation.put("responses", Map.of(
-                    "200", Map.of("description", "successful operation",
-                            "content", Map.of("application/json",
-                                    Map.of("schema", Map.of("$ref", "#/components/schemas/" + entityName)))),
-                    "404", Map.of("description", "Entity not found")
-            ));
-
-            pathItem.put("get", getOperation);
-            paths.put("/" + entityName.toLowerCase() + "/{id}", pathItem);
-
-            Map<String, Object> schema = new HashMap<>();
-            Map<String, Object> properties = new HashMap<>();
-            attributes.getOrDefault(entityName, new ArrayList<>()).forEach(attr -> {
-                properties.put(attr, Map.of("type", "string")); // Simplified type handling
-            });
-            schema.put("type", "object");
-            schema.put("properties", properties);
-            schemas.put(entityName, schema);
-        });
-
-        components.put("schemas", schemas);
-        openAPISpec.put("paths", paths);
-        openAPISpec.put("components", components);
-        openAPISpec.put("openapi", "3.0.0");
-        openAPISpec.put("info", Map.of("title", "Generated API", "version", "1.0.0"));
-
-        return openAPISpec;
-    }
-
-    private static void saveSpecToFile(Map<String, Object> spec, String outputPath) throws Exception {
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        mapper.writeValue(new File(outputPath), spec); // Save spec to file
-    }
-
-    private static Map<String, Object> buildPathItem(Map<String, Object> pathDetails) {
-        Map<String, Object> item = new HashMap<>();
-        Map<String, Object> operation = new HashMap<>();
-        operation.put("summary", pathDetails.get("summary"));
-        operation.put("description", pathDetails.get("description"));
-        operation.put("operationId", "customOperation" + pathDetails.hashCode());
-        operation.put("tags", List.of("Custom"));
-        operation.put("responses", Map.of(
-                "200", Map.of("description", "successful operation",
-                        "content", Map.of("application/json",
-                                Map.of("schema", Map.of("type", "object", "properties", Map.of("data", "Dynamic data")))))
-        ));
-
-        item.put(pathDetails.get("method").toString().toLowerCase(), operation);
-        return item;
-    }
-
-
-    public static Map<String, Object> getLastGeneratedSpec() {
-        return lastGeneratedSpec;
     }
 }

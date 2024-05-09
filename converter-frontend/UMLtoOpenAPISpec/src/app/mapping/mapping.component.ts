@@ -1,10 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import { Component } from '@angular/core';
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { GenerationService } from '../generation.service';
 import {FormsModule} from "@angular/forms";
 import {NgForOf} from "@angular/common";
-import {MatButton} from "@angular/material/button";
-import {MatStepper} from "@angular/material/stepper";
+
+interface ClassItem {
+  name: string;
+  id: string;
+  url?: string;
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+}
 
 @Component({
   selector: 'app-mapping',
@@ -13,46 +18,58 @@ import {MatStepper} from "@angular/material/stepper";
     FormsModule,
     NgForOf,
     CdkDropList,
-    CdkDrag,
-    MatButton
+    CdkDrag
   ],
   templateUrl: './mapping.component.html',
   styleUrl: './mapping.component.scss'
 })
-export class MappingComponent implements OnInit {
-  apiElements: any[] = [];
+export class MappingComponent {
+  availableClasses: ClassItem[] = [
+    { name: 'User', id: 'User' },
+    { name: 'Order', id: 'Order' },
+    { name: 'Product', id: 'Product' }
+  ];
 
-  constructor(private generationService: GenerationService, private stepper: MatStepper) {}
+  endpoints: ClassItem[] = [];
+  uploadedFile: File | null = null;
 
-  ngOnInit() {
-    this.generationService.fetchApiElements().subscribe({
-      next: (elements) => this.apiElements = elements,
-      error: (err) => console.error('Failed to fetch API elements', err)
-    });
-  }
+  constructor(private generationService: GenerationService) {}
 
-  drop(event: CdkDragDrop<any[]>) {
+  drop(event: CdkDragDrop<ClassItem[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      transferArrayItem(event.previousContainer.data, event.container.data,
-        event.previousIndex, event.currentIndex);
+      transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
     }
   }
 
-  applyMappingsAndContinue() {
-    const mappings = this.apiElements.map(element => ({
-      id: element.id,
-      url: element.url,
-      method: element.method
-    }));
+  onFileSelected(event: Event) {
+    const element = event.currentTarget as HTMLInputElement;
+    let fileList: FileList | null = element.files;
+    if (fileList) {
+      this.uploadedFile = fileList[0];
+    } else {
+      this.uploadedFile = null;
+    }
+  }
 
-    this.generationService.generateSpecWithMappings(mappings).subscribe({
-      next: (response) => {
-        console.log('Mappings applied successfully', response);
-        this.stepper.next();
-      },
-      error: (error) => console.error('Error applying mappings', error)
+  applyMappings() {
+    if (!this.uploadedFile) {
+      alert('Please upload a file first.');
+      return;
+    }
+
+    const mappings = this.endpoints.reduce((acc: {[key: string]: any}, endpoint: ClassItem) => {
+      acc[endpoint.id] = {
+        url: endpoint.url || endpoint.id.toLowerCase(),
+        method: endpoint.method || 'GET'
+      };
+      return acc;
+    }, {});
+
+    this.generationService.generateSpecWithMappings(this.uploadedFile, mappings).subscribe({
+      next: (response) => alert('OpenAPI Specification generated successfully!'),
+      error: (error) => console.error('Error generating OpenAPI spec', error)
     });
   }
 }
