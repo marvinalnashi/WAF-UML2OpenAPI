@@ -44,7 +44,7 @@ export class MappingComponent {
   }
 
   applyMappings(): void {
-    this.generationService.applyMappings(this.mappingsForm.value).subscribe(
+    this.generationService.applyMappings(this.mappingsForm.value.mappings).subscribe(
       response => {
         console.log('Mappings applied successfully', response);
         this.mappingCompleted.emit(true);

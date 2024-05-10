@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class GenerationService {
   private baseUrl = 'http://localhost:8080';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   parseDiagramElements(file: File): Observable<any> {
     const formData = new FormData();
@@ -24,9 +24,8 @@ export class GenerationService {
     });
   }
 
-  applyMappings(mappings: any): Observable<any> {
+  applyMappings(mappings: any[]): Observable<any> {
     const payload = { mappings: mappings };
     return this.http.post(`${this.baseUrl}/apply-mappings`, payload);
   }
-
 }

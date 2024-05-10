@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 public class MappingDetails {
-    private Map<String, Object> mappings;
+    private List<Map<String, Object>> mappings;
 
-    public Map<String, Object> getMappings() {
+    public List<Map<String, Object>> getMappings() {
         return mappings;
     }
 
-    public void setMappings(Map<String, Object> mappings) {
+    public void setMappings(List<Map<String, Object>> mappings) {
         this.mappings = mappings;
     }
 }

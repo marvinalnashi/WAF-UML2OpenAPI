@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,10 +89,12 @@ public class GenerationController {
             InputStream fileContentStream = new ByteArrayInputStream(file.getBytes());
             Map<String, List<String>> classes = parser.parse(fileContentStream);
 
-            Map<String, Object> mappings = new HashMap<>();
-            mappings.put("classes", classes);
+            List<Map<String, Object>> mappingsList = new ArrayList<>();
+            Map<String, Object> singleMapping = new HashMap<>();
+            singleMapping.put("classes", classes);
+            mappingsList.add(singleMapping);
 
-            String openAPISpec = OpenAPISpecGenerator.generateSpecWithMappings(mappings, outputPath);
+            String openAPISpec = OpenAPISpecGenerator.generateSpecWithMappings(mappingsList, outputPath);
             return ResponseEntity.ok(openAPISpec);
         } catch (Exception e) {
             e.printStackTrace();
