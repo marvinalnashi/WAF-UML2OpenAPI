@@ -152,6 +152,12 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     reader.readAsText(file);
   }
 
+  moveToNextStep(): void {
+    const currentStep = this.stepper.selected;
+    currentStep!.completed = true;
+    this.stepper.next();
+  }
+
   // For counting the individual elements of the uploaded UML diagram
   parseByFormat(content: string, format: string) {
     switch (format) {
