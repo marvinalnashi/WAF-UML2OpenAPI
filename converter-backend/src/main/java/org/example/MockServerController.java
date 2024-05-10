@@ -26,7 +26,7 @@ public class MockServerController {
         try {
             processBuilder.command("bash", "-c", "prism mock -p 4010 --cors --host 0.0.0.0 /data/export.yml");
             prismProcess = processBuilder.start();
-            logOutput(prismProcess); // Log output for debugging
+            logOutput(prismProcess);
             return ResponseEntity.ok().body(Map.of("message", "Prism Mock Server is starting..."));
         } catch (Exception e) {
             e.printStackTrace();

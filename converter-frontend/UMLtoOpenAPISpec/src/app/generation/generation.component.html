@@ -13,25 +13,30 @@
       <button mat-button *ngIf="showNextButton" (click)="stepper.next()">Next</button>
     </mat-step>
 
+<!--    <mat-step [stepControl]="mappingFormGroup">-->
+<!--      <ng-template matStepLabel>Mapping</ng-template>-->
+<!--      <form [formGroup]="mappingFormGroup">-->
+<!--        <div *ngIf="elementNames.classes.length > 0; else noData">-->
+<!--          <div *ngFor="let className of elementNames.classes">-->
+<!--            <h3>{{ className }}</h3>-->
+<!--            <p>Attributes:</p>-->
+<!--            <ul *ngIf="elementNames.attributes[className]?.length">-->
+<!--              <li *ngFor="let attr of elementNames.attributes[className]">{{ attr }}</li>-->
+<!--            </ul>-->
+<!--            <p>Methods:</p>-->
+<!--            <ul *ngIf="elementNames.methods[className]?.length">-->
+<!--              <li *ngFor="let meth of elementNames.methods[className]">{{ meth }}</li>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <button mat-button type="button" (click)="moveToNextStep()">Apply Mappings and Continue</button>-->
+<!--        <ng-template #noData><p>No data available for this diagram.</p></ng-template>-->
+<!--      </form>-->
+<!--    </mat-step>-->
+
     <mat-step [stepControl]="mappingFormGroup">
       <ng-template matStepLabel>Mapping</ng-template>
-      <form [formGroup]="mappingFormGroup">
-        <div *ngIf="elementNames.classes.length > 0; else noData">
-          <div *ngFor="let className of elementNames.classes">
-            <h3>{{ className }}</h3>
-            <p>Attributes:</p>
-            <ul *ngIf="elementNames.attributes[className]?.length">
-              <li *ngFor="let attr of elementNames.attributes[className]">{{ attr }}</li>
-            </ul>
-            <p>Methods:</p>
-            <ul *ngIf="elementNames.methods[className]?.length">
-              <li *ngFor="let meth of elementNames.methods[className]">{{ meth }}</li>
-            </ul>
-          </div>
-        </div>
-        <button mat-button type="button" (click)="moveToNextStep()">Apply Mappings and Continue</button>
-        <ng-template #noData><p>No data available for this diagram.</p></ng-template>
-      </form>
+      <app-mapping></app-mapping>
     </mat-step>
 
 

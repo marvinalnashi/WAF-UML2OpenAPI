@@ -23,4 +23,8 @@ export class GenerationService {
       responseType: 'text'
     });
   }
+
+  applyMappings(mappings: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/apply-mappings`, mappings);
+  }
 }

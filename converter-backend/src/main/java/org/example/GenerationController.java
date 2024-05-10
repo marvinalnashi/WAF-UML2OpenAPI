@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200") // Allowing CORS for Angular app
+@CrossOrigin(origins = "http://localhost:4200")
 public class GenerationController {
 
     private final String outputPath = "/data/export.yml";
@@ -68,8 +68,6 @@ public class GenerationController {
         }
     }
 
-
-
     @PostMapping("/generate")
     public ResponseEntity<String> generateOpenAPISpec(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
@@ -83,22 +81,28 @@ public class GenerationController {
                 return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("Unsupported file type");
             }
 
-            // Create new InputStream for each parse operation to avoid closed stream issue
-            InputStream classStream = new ByteArrayInputStream(file.getBytes());
-            Map<String, List<String>> classes = parser.parse(classStream);
+            InputStream fileContentStream = new ByteArrayInputStream(file.getBytes());
+            Map<String, List<String>> classes = parser.parse(fileContentStream);
 
-            InputStream attrStream = new ByteArrayInputStream(file.getBytes());
-            Map<String, List<String>> attributes = parser.parseAttributes(attrStream);
+            Map<String, Object> mappings = new HashMap<>();
+            mappings.put("classes", classes);
 
-            InputStream methodStream = new ByteArrayInputStream(file.getBytes());
-            Map<String, List<String>> methods = parser.parseMethods(methodStream);
-
-            String openAPISpec = OpenAPISpecGenerator.generateSpec(classes, attributes, methods, outputPath);
-            return ResponseEntity.ok().body(openAPISpec);
-
+            String openAPISpec = OpenAPISpecGenerator.generateSpecWithMappings(mappings, outputPath);
+            return ResponseEntity.ok(openAPISpec);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during generation: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/apply-mappings")
+    public ResponseEntity<String> applyMappings(@RequestBody MappingDetails mappingDetails) {
+        try {
+            Map<String, Object> mappings = mappingDetails.getMappings();
+            String openAPISpec = OpenAPISpecGenerator.generateSpecWithMappings(mappings, outputPath);
+            return ResponseEntity.ok(openAPISpec);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to apply mappings: " + e.getMessage());
         }
     }
 

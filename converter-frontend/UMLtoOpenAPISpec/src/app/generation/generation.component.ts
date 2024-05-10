@@ -7,6 +7,7 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import {MappingComponent} from "../mapping/mapping.component";
 
 interface ElementDetails {
   classes: string[];
@@ -25,7 +26,8 @@ interface ElementDetails {
     MatInputModule,
     MatButtonModule,
     MatStep,
-    MatStepLabel
+    MatStepLabel,
+    MappingComponent
   ],
   templateUrl: './generation.component.html',
   providers: [GenerationService, MockServerService]
@@ -158,7 +160,6 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     this.stepper.next();
   }
 
-  // For counting the individual elements of the uploaded UML diagram
   parseByFormat(content: string, format: string) {
     switch (format) {
       case 'xml':
