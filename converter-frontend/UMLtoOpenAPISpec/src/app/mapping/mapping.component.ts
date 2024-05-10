@@ -44,17 +44,18 @@ export class MappingComponent {
   }
 
   applyMappings(): void {
-    this.generationService.applyMappings(this.mappingsForm.value.mappings).subscribe(
-      response => {
+    this.generationService.applyMappings(this.mappingsForm.value.mappings).subscribe({
+      next: (response) => {
         console.log('Mappings applied successfully', response);
         this.mappingCompleted.emit(true);
       },
-      error => {
+      error: (error) => {
         console.error('Failed to apply mappings', error);
         this.mappingCompleted.emit(false);
       }
-    );
+    });
   }
+
 
   drop(event: CdkDragDrop<string[]>): void {
     if (event.previousIndex !== event.currentIndex) {

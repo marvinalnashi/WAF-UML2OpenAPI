@@ -18,18 +18,16 @@ public class OpenAPISpecGenerator {
 
         Map<String, Object> openAPISpec = new LinkedHashMap<>();
         openAPISpec.put("openapi", "3.0.0");
-
-        Map<String, Object> info = new LinkedHashMap<>();
-        info.put("title", "Dynamically Generated API");
-        info.put("version", "1.0.0");
-        info.put("description", "API dynamically generated from UML diagram mappings.");
-        openAPISpec.put("info", info);
-
         Map<String, Object> paths = new LinkedHashMap<>();
+
         for (Map<String, Object> mapping : mappings) {
             String className = (String) mapping.get("className");
             String method = (String) mapping.get("method");
             String url = (String) mapping.get("url");
+
+            if (method == null) {
+                continue;
+            }
 
             Map<String, Object> methodDetails = new LinkedHashMap<>();
             methodDetails.put("summary", "Operation for " + className);
