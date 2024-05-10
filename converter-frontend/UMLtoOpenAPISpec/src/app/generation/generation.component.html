@@ -1,5 +1,5 @@
 <div class="stepper-container">
-  <mat-horizontal-stepper #stepper linear>
+  <mat-horizontal-stepper #stepper [linear]="false">
     <mat-step>
       <ng-template matStepLabel>Start</ng-template>
       <p>Here goes the introductory text.</p>
@@ -13,11 +13,27 @@
       <button mat-button *ngIf="showNextButton" (click)="stepper.next()">Next</button>
     </mat-step>
 
-    <mat-step>
+    <mat-step [stepControl]="mappingFormGroup">
       <ng-template matStepLabel>Mapping</ng-template>
-      <p>Here will be mapping features.</p>
-      <button mat-button (click)="stepper.next()">Apply mapping and continue</button>
+      <form [formGroup]="mappingFormGroup">
+        <div *ngIf="elementNames.classes.length > 0; else noData">
+          <div *ngFor="let className of elementNames.classes">
+            <h3>{{ className }}</h3>
+            <p>Attributes:</p>
+            <ul *ngIf="elementNames.attributes[className]?.length">
+              <li *ngFor="let attr of elementNames.attributes[className]">{{ attr }}</li>
+            </ul>
+            <p>Methods:</p>
+            <ul *ngIf="elementNames.methods[className]?.length">
+              <li *ngFor="let meth of elementNames.methods[className]">{{ meth }}</li>
+            </ul>
+          </div>
+        </div>
+        <ng-template #noData><p>No data available for this diagram.</p></ng-template>
+        <button mat-button type="button" (click)="stepper.next()">Apply Mappings and Continue</button>
+      </form>
     </mat-step>
+
 
     <mat-step>
       <ng-template matStepLabel>Generate</ng-template>

@@ -1,12 +1,18 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import { GenerationService } from '../generation.service';
 import { MockServerService } from '../mock-server.service';
 import { HttpClient } from '@angular/common/http';
 import {MatStep, MatStepLabel, MatStepper} from '@angular/material/stepper';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+
+interface ElementDetails {
+  classes: string[];
+  attributes: { [key: string]: string[] };
+  methods: { [key: string]: string[] };
+}
 
 @Component({
   selector: 'app-generation',
@@ -24,7 +30,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './generation.component.html',
   providers: [GenerationService, MockServerService]
 })
-export class GenerationComponent implements AfterViewInit {
+export class GenerationComponent implements AfterViewInit, OnInit {
   @ViewChild('stepper', { static: true }) stepper!: MatStepper;
 
   uploadedFile: File | null = null;
@@ -36,18 +42,28 @@ export class GenerationComponent implements AfterViewInit {
   elementCount: any = {};
   fileError = '';
   generationError = '';
-  elementNames: any = {};
+  elementNames: ElementDetails = { classes: [], attributes: {}, methods: {} };
+  mappingFormGroup: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
     private generationService: GenerationService,
     private mockServerService: MockServerService,
     private http: HttpClient
-  ) { }
+  ) {
+    this.mappingFormGroup = this.fb.group({
+      userConfirmation: ['', Validators.required]
+    });
+  }
 
   ngAfterViewInit() {
     this.stepper._stepHeader.forEach(header => {
       header._elementRef.nativeElement.style.pointerEvents = 'none';
     });
+  }
+
+  ngOnInit(): void {
+
   }
 
   onFileSelected(event: Event): void {
@@ -71,11 +87,14 @@ export class GenerationComponent implements AfterViewInit {
       this.readFile(this.uploadedFile);
       this.generationService.parseDiagramElements(this.uploadedFile).subscribe({
         next: (response) => {
-          this.elementNames = response.elements;
+          this.elementNames.classes = response.classes || [];
+          this.elementNames.attributes = response.attributes || {};
+          this.elementNames.methods = response.methods || {};
           this.stepper.next();
         },
         error: (error) => {
           console.error('Error parsing elements', error);
+          this.fileError = 'Failed to parse diagram elements.';
         }
       });
     }

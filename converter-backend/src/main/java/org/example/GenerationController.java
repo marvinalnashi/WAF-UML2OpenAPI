@@ -44,14 +44,30 @@ public class GenerationController {
             if (parser == null) {
                 return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(Map.of("error", "Unsupported file type"));
             }
-            InputStream inputStream = file.getInputStream();
-            Map<String, List<String>> elements = parser.parse(inputStream);
-            return ResponseEntity.ok().body(Map.of("elements", elements.keySet()));
+
+            byte[] fileContent = file.getBytes();
+
+            InputStream classStream = new ByteArrayInputStream(fileContent);
+            Map<String, List<String>> classes = parser.parse(classStream);
+
+            InputStream attrStream = new ByteArrayInputStream(fileContent);
+            Map<String, List<String>> attributes = parser.parseAttributes(attrStream);
+
+            InputStream methodStream = new ByteArrayInputStream(fileContent);
+            Map<String, List<String>> methods = parser.parseMethods(methodStream);
+
+            Map<String, Object> elements = new HashMap<>();
+            elements.put("classes", classes.keySet());
+            elements.put("attributes", attributes);
+            elements.put("methods", methods);
+
+            return ResponseEntity.ok().body(elements);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error parsing diagram: " + e.getMessage()));
         }
     }
+
 
 
     @PostMapping("/generate")
