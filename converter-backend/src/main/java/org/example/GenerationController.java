@@ -20,6 +20,10 @@ import java.util.Map;
 public class GenerationController {
 
     private final String outputPath = "/data/export.yml";
+    private final OpenAPISpecGenerator openAPISpecGenerator;
+    public GenerationController(OpenAPISpecGenerator openAPISpecGenerator) {
+        this.openAPISpecGenerator = openAPISpecGenerator;
+    }
 
     @GetMapping("/export.yml")
     public ResponseEntity<Resource> getOpenAPISpec() {
@@ -96,17 +100,21 @@ public class GenerationController {
     }
 
     @PostMapping("/apply-mappings")
-    public ResponseEntity<String> applyMappings(@RequestBody MappingDetails mappingDetails) {
-        if (mappingDetails == null || mappingDetails.getMappings() == null) {
-            System.out.println("No mappings received or mappings are null");
-            return ResponseEntity.badRequest().body("No mappings data received");
+    public ResponseEntity<?> applyMappings(@RequestBody MappingDetails mappingDetails) {
+        if (mappingDetails == null || mappingDetails.getMappings() == null || mappingDetails.getMappings().isEmpty()) {
+            return ResponseEntity.badRequest().body("No mappings data received or mappings are empty");
         }
 
-        System.out.println("Received mappings: " + mappingDetails.getMappings());
         try {
-            Map<String, Object> mappings = mappingDetails.getMappings();
-            String openAPISpec = OpenAPISpecGenerator.generateSpecWithMappings(mappings, outputPath);
-            return ResponseEntity.ok(openAPISpec);
+            System.out.println("Received mappings: " + mappingDetails.getMappings());
+            String specResult = OpenAPISpecGenerator.generateSpecWithMappings(mappingDetails.getMappings(), outputPath);
+
+            Map<String, Object> responseBody = Map.of(
+                    "message", "Mappings applied successfully",
+                    "generatedSpec", specResult
+            );
+
+            return ResponseEntity.ok(responseBody);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to apply mappings: " + e.getMessage());

@@ -16,4 +16,7 @@
     <!-- Bean definition for PlantUMLParser -->
     <bean id="plantUMLParser" class="org.example.PlantUMLParser"/>
 
+    <!-- Bean definition for OpenAPISpecGenerator -->
+    <bean id="openAPISpecGenerator" class="org.example.OpenAPISpecGenerator"/>
+
 </beans>

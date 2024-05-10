@@ -1,6 +1,6 @@
 <div class="mapping-container" cdkDropList (cdkDropListDropped)="drop($event)">
   <form [formGroup]="mappingsForm">
-    <div formArrayName="endpoints" *ngFor="let endpoint of endpoints.controls; let i = index" cdkDrag>
+    <div formArrayName="mappings" *ngFor="let mapping of mappings.controls; let i = index" cdkDrag>
       <div [formGroupName]="i">
         <input formControlName="className" placeholder="Class Name">
         <input formControlName="url" placeholder="URL">
