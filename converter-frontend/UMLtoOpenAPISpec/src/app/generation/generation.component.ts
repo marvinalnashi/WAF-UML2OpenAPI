@@ -160,6 +160,10 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     this.stepper.next();
   }
 
+  nextStep() {
+    this.stepper.next();
+  }
+
   parseByFormat(content: string, format: string) {
     switch (format) {
       case 'xml':
@@ -259,4 +263,11 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     let relationships = lines.filter(line => line.trim().includes('--')).length;
     return { classes, attributes, methods, relationships };
   }
+
+  onMappingCompleted(success: boolean): void {
+    if (success) {
+      this.stepper.next();
+    }
+  }
+
 }

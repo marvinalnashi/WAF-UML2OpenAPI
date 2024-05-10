@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
@@ -6,6 +6,7 @@ import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from
 import {GenerationService} from "../generation.service";
 import {MatButton} from "@angular/material/button";
 import {NgForOf} from "@angular/common";
+import {MatStepper} from "@angular/material/stepper";
 
 @Component({
   selector: 'app-mapping',
@@ -21,6 +22,7 @@ import {NgForOf} from "@angular/common";
   styleUrl: './mapping.component.scss'
 })
 export class MappingComponent {
+  @Output() mappingCompleted = new EventEmitter<boolean>();
   mappingsForm: FormGroup;
 
   constructor(private fb: FormBuilder, private generationService: GenerationService) {
@@ -47,10 +49,15 @@ export class MappingComponent {
   }
 
   applyMappings(): void {
-    this.generationService.applyMappings(this.mappingsForm.value).subscribe((response: any) => {
-      console.log('Mappings applied successfully', response);
-    }, (error: any) => {
-      console.error('Failed to apply mappings', error);
-    });
+    this.generationService.applyMappings(this.mappingsForm.value).subscribe(
+      response => {
+        console.log('Mappings applied successfully', response);
+        this.mappingCompleted.emit(true); // Emit success to move to the next step
+      },
+      error => {
+        console.error('Failed to apply mappings', error);
+        this.mappingCompleted.emit(false); // Emit failure and handle accordingly
+      }
+    );
   }
 }

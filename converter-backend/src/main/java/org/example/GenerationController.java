@@ -97,11 +97,18 @@ public class GenerationController {
 
     @PostMapping("/apply-mappings")
     public ResponseEntity<String> applyMappings(@RequestBody MappingDetails mappingDetails) {
+        if (mappingDetails == null || mappingDetails.getMappings() == null) {
+            System.out.println("No mappings received or mappings are null");
+            return ResponseEntity.badRequest().body("No mappings data received");
+        }
+
+        System.out.println("Received mappings: " + mappingDetails.getMappings());
         try {
             Map<String, Object> mappings = mappingDetails.getMappings();
             String openAPISpec = OpenAPISpecGenerator.generateSpecWithMappings(mappings, outputPath);
             return ResponseEntity.ok(openAPISpec);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to apply mappings: " + e.getMessage());
         }
     }

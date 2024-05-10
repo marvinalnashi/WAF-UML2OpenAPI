@@ -12,6 +12,10 @@ import java.util.Map;
 public class OpenAPISpecGenerator {
 
     public static String generateSpecWithMappings(Map<String, Object> mappings, String outputPath) throws Exception {
+        if (mappings == null) {
+            throw new IllegalArgumentException("Mappings cannot be null");
+        }
+
         Map<String, Object> openAPISpec = new LinkedHashMap<>();
         openAPISpec.put("openapi", "3.0.0");
 
