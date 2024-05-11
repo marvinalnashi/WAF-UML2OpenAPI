@@ -9,36 +9,13 @@
     <mat-step>
       <ng-template matStepLabel>Upload</ng-template>
       <input type="file" (change)="onFileSelected($event)">
-      <p *ngIf="fileError" style="color: red;">{{ fileError }}</p>
-      <button mat-button *ngIf="showNextButton" (click)="stepper.next()">Next</button>
+      <button mat-button (click)="stepper.next()">Next</button>
     </mat-step>
-
-<!--    <mat-step [stepControl]="mappingFormGroup">-->
-<!--      <ng-template matStepLabel>Mapping</ng-template>-->
-<!--      <form [formGroup]="mappingFormGroup">-->
-<!--        <div *ngIf="elementNames.classes.length > 0; else noData">-->
-<!--          <div *ngFor="let className of elementNames.classes">-->
-<!--            <h3>{{ className }}</h3>-->
-<!--            <p>Attributes:</p>-->
-<!--            <ul *ngIf="elementNames.attributes[className]?.length">-->
-<!--              <li *ngFor="let attr of elementNames.attributes[className]">{{ attr }}</li>-->
-<!--            </ul>-->
-<!--            <p>Methods:</p>-->
-<!--            <ul *ngIf="elementNames.methods[className]?.length">-->
-<!--              <li *ngFor="let meth of elementNames.methods[className]">{{ meth }}</li>-->
-<!--            </ul>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <button mat-button type="button" (click)="moveToNextStep()">Apply Mappings and Continue</button>-->
-<!--        <ng-template #noData><p>No data available for this diagram.</p></ng-template>-->
-<!--      </form>-->
-<!--    </mat-step>-->
 
     <mat-step [stepControl]="mappingFormGroup">
       <ng-template matStepLabel>Mapping</ng-template>
       <app-mapping (mappingCompleted)="onMappingCompleted($event)"></app-mapping>
     </mat-step>
-
 
     <mat-step>
       <ng-template matStepLabel>Generate</ng-template>
@@ -54,8 +31,8 @@
           <li>Relationships: {{ elementCount.relationships }}</li>
         </ul>
       </div>
-      <button mat-button (click)="generate(stepper)">Generate</button>
-      <p *ngIf="generationError" style="color: red;">{{ generationError }}</p>
+      <button mat-button (click)="generate()">Generate</button>
+      <button mat-button *ngIf="isGeneratedSuccessfully" (click)="stepper.next()">Continue</button>
     </mat-step>
 
     <mat-step>

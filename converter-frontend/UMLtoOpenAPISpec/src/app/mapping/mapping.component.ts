@@ -35,7 +35,7 @@ export class MappingComponent {
     return this.mappingsForm.get('mappings') as FormArray;
   }
 
-  addEndpointMapping(): void {
+  addMapping() {
     this.mappings.push(this.fb.group({
       className: ['', Validators.required],
       url: ['', Validators.required],
@@ -43,25 +43,24 @@ export class MappingComponent {
     }));
   }
 
-  applyMappings(): void {
-    this.generationService.applyMappings(this.mappingsForm.value.mappings).subscribe({
-      next: (response) => {
-        console.log('Mappings applied successfully', response);
-        this.mappingCompleted.emit(true);
-      },
-      error: (error) => {
-        console.error('Failed to apply mappings', error);
-        this.mappingCompleted.emit(false);
-      }
-    });
+  applyMappings() {
+    if (this.mappingsForm.valid) {
+      this.generationService.applyMappings(this.mappingsForm.value.mappings).subscribe({
+        next: () => {
+          alert('Mappings applied successfully');
+          this.mappingCompleted.emit(true);
+        },
+        error: () => {
+          alert('Failed to apply mappings');
+          this.mappingCompleted.emit(false);
+        }
+      });
+    } else {
+      alert('Please fill in all required fields');
+    }
   }
 
-
-  drop(event: CdkDragDrop<string[]>): void {
-    if (event.previousIndex !== event.currentIndex) {
-      moveItemInArray(this.mappings.controls, event.previousIndex, event.currentIndex);
-      this.mappingsForm.get('mappings')!.setValue(this.mappings.value);
-      console.log('Mappings reordered:', this.mappings.value);
-    }
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.mappings.controls, event.previousIndex, event.currentIndex);
   }
 }

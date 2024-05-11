@@ -22,6 +22,8 @@ public class GenerationController {
 
     private final String outputPath = "/data/export.yml";
     private final OpenAPISpecGenerator openAPISpecGenerator;
+    private List<Map<String, Object>> savedMappings = new ArrayList<>();
+
     public GenerationController(OpenAPISpecGenerator openAPISpecGenerator) {
         this.openAPISpecGenerator = openAPISpecGenerator;
     }
@@ -78,7 +80,6 @@ public class GenerationController {
         if (file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File is empty");
         }
-
         try {
             String fileName = file.getOriginalFilename();
             DiagramParser parser = getParserForFileType(fileName);
@@ -87,14 +88,9 @@ public class GenerationController {
             }
 
             InputStream fileContentStream = new ByteArrayInputStream(file.getBytes());
-            Map<String, List<String>> classes = parser.parse(fileContentStream);
+            Map<String, List<String>> elements = parser.parse(fileContentStream);
 
-            List<Map<String, Object>> mappingsList = new ArrayList<>();
-            Map<String, Object> singleMapping = new HashMap<>();
-            singleMapping.put("classes", classes);
-            mappingsList.add(singleMapping);
-
-            String openAPISpec = OpenAPISpecGenerator.generateSpecWithMappings(mappingsList, outputPath);
+            String openAPISpec = openAPISpecGenerator.generateSpecWithElementsAndMappings(elements, savedMappings, outputPath);
             return ResponseEntity.ok(openAPISpec);
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,25 +99,12 @@ public class GenerationController {
     }
 
     @PostMapping("/apply-mappings")
-    public ResponseEntity<?> applyMappings(@RequestBody MappingDetails mappingDetails) {
-        if (mappingDetails == null || mappingDetails.getMappings() == null || mappingDetails.getMappings().isEmpty()) {
+    public ResponseEntity<?> applyMappings(@RequestBody List<Map<String, Object>> mappings) {
+        if (mappings == null || mappings.isEmpty()) {
             return ResponseEntity.badRequest().body("No mappings data received or mappings are empty");
         }
-
-        try {
-            System.out.println("Received mappings: " + mappingDetails.getMappings());
-            String specResult = OpenAPISpecGenerator.generateSpecWithMappings(mappingDetails.getMappings(), outputPath);
-
-            Map<String, Object> responseBody = Map.of(
-                    "message", "Mappings applied successfully",
-                    "generatedSpec", specResult
-            );
-
-            return ResponseEntity.ok(responseBody);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to apply mappings: " + e.getMessage());
-        }
+        savedMappings = mappings;
+        return ResponseEntity.ok().body("Mappings saved successfully");
     }
 
     private DiagramParser getParserForFileType(String fileName) {

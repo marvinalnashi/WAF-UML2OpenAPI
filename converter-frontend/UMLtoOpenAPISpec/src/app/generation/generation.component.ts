@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import {MappingComponent} from "../mapping/mapping.component";
+import {FileService} from "../file.service";
 
 interface ElementDetails {
   classes: string[];
@@ -33,22 +34,29 @@ interface ElementDetails {
   providers: [GenerationService, MockServerService]
 })
 export class GenerationComponent implements AfterViewInit, OnInit {
-  @ViewChild('stepper', { static: true }) stepper!: MatStepper;
+  @ViewChild('stepper') private stepper!: MatStepper;
 
+  fileToUpload: File | null = null;
   uploadedFile: File | null = null;
   isGeneratedSuccessfully = false;
   fileFormat: string = '';
   diagramType: string = 'Class Diagram';
   serverButtonText = 'Start mock server';
   showNextButton = false;
-  elementCount: any = {};
-  fileError = '';
-  generationError = '';
+  fileError: string | null = null;
+  generationError: string | null = null;
   elementNames: ElementDetails = { classes: [], attributes: {}, methods: {} };
   mappingFormGroup: FormGroup;
+  elementCount = {
+    classes: 0,
+    attributes: 0,
+    methods: 0,
+    relationships: 0
+  };
 
   constructor(
     private fb: FormBuilder,
+    private fileService: FileService,
     private generationService: GenerationService,
     private mockServerService: MockServerService,
     private http: HttpClient
@@ -68,66 +76,123 @@ export class GenerationComponent implements AfterViewInit, OnInit {
 
   }
 
+  // onFileSelected(event: Event): void {
+  //   const input = event.target as HTMLInputElement;
+  //   if (!input.files?.length) {
+  //     this.fileError = 'Please select a file to upload.';
+  //     this.uploadedFile = null;
+  //     this.showNextButton = false;
+  //     return;
+  //   }
+  //   this.uploadedFile = input.files[0];
+  //   this.fileFormat = this.uploadedFile.name.split('.').pop()?.toLowerCase() ?? '';
+  //   const validFormats = ['uxf', 'xml', 'mdj', 'puml'];
+  //   if (!validFormats.includes(this.fileFormat)) {
+  //     this.fileError = 'Invalid file format. Please upload a UXF, XML, MDJ, or PUML file.';
+  //     this.uploadedFile = null;
+  //     this.showNextButton = false;
+  //   } else {
+  //     this.fileError = '';
+  //     this.showNextButton = true;
+  //     this.readFile(this.uploadedFile);
+  //     this.generationService.parseDiagramElements(this.uploadedFile).subscribe({
+  //       next: (response) => {
+  //         this.elementNames.classes = response.classes || [];
+  //         this.elementNames.attributes = response.attributes || {};
+  //         this.elementNames.methods = response.methods || {};
+  //         this.stepper.next();
+  //       },
+  //       error: (error) => {
+  //         console.error('Error parsing elements', error);
+  //         this.fileError = 'Failed to parse diagram elements.';
+  //       }
+  //     });
+  //   }
+  // }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) {
-      this.fileError = 'Please select a file to upload.';
-      this.uploadedFile = null;
-      this.showNextButton = false;
       return;
     }
     this.uploadedFile = input.files[0];
-    this.fileFormat = this.uploadedFile.name.split('.').pop()?.toLowerCase() ?? '';
-    const validFormats = ['uxf', 'xml', 'mdj', 'puml'];
-    if (!validFormats.includes(this.fileFormat)) {
-      this.fileError = 'Invalid file format. Please upload a UXF, XML, MDJ, or PUML file.';
-      this.uploadedFile = null;
-      this.showNextButton = false;
-    } else {
-      this.fileError = '';
-      this.showNextButton = true;
-      this.readFile(this.uploadedFile);
-      this.generationService.parseDiagramElements(this.uploadedFile).subscribe({
+    this.fileFormat = this.uploadedFile.name.split('.').pop()!;
+    this.readFile(this.uploadedFile);
+    this.stepper.next();
+  }
+
+  // handleFileInput(event: Event) {
+  //   const element = event.target as HTMLInputElement;
+  //   let files = element.files;
+  //   if (files && files.length > 0) {
+  //     const file = files[0];
+  //     this.fileService.setFile(file);
+  //     this.fileError = null;
+  //     this.showNextButton = true;
+  //     this.stepper.next();
+  //   } else {
+  //     this.fileError = 'Please select a file to upload.';
+  //     this.showNextButton = false;
+  //   }
+  // }
+
+  // generateSpec() {
+  //   const file = this.fileService.getFile();
+  //   if (file) {
+  //     this.generationService.generateSpec(file).subscribe({
+  //       next: () => {
+  //         alert('Specification generated successfully');
+  //         this.stepper.next(); // Move to the next step after generation
+  //       },
+  //       error: () => {
+  //         alert('Error generating specification');
+  //         this.fileError = 'Error during specification generation.';
+  //       }
+  //     });
+  //   } else {
+  //     this.fileError = 'Please upload a file';
+  //   }
+  // }
+
+  // generate(stepper: MatStepper): void {
+  //   if (!this.uploadedFile) {
+  //     this.generationError = 'No file selected or invalid file format.';
+  //     return;
+  //   }
+  //   this.generationService.generateSpec(this.uploadedFile).subscribe({
+  //     next: (response: any) => {
+  //       console.log('Generation successful', response);
+  //       this.isGeneratedSuccessfully = true;
+  //       this.generationError = '';
+  //       stepper.next();
+  //     },
+  //     error: (error: any) => {
+  //       console.error('Generation failed', error);
+  //       this.generationError = 'Failed to generate OpenAPI spec.';
+  //       this.isGeneratedSuccessfully = false;
+  //     }
+  //   });
+  // }
+
+  generate(): void {
+    if (this.uploadedFile) {
+      this.generationService.generateSpec(this.uploadedFile).subscribe({
         next: (response) => {
-          this.elementNames.classes = response.classes || [];
-          this.elementNames.attributes = response.attributes || {};
-          this.elementNames.methods = response.methods || {};
-          this.stepper.next();
+          console.log('Generation successful', response);
+          this.isGeneratedSuccessfully = true;
         },
-        error: (error) => {
-          console.error('Error parsing elements', error);
-          this.fileError = 'Failed to parse diagram elements.';
-        }
+        error: (error) => console.error('Generation failed', error)
       });
+    } else {
+      console.error('No file selected');
     }
   }
 
-
-  generate(stepper: MatStepper): void {
-    if (!this.uploadedFile) {
-      this.generationError = 'No file selected or invalid file format.';
-      return;
-    }
-    this.generationService.generateSpec(this.uploadedFile).subscribe({
-      next: (response: any) => {
-        console.log('Generation successful', response);
-        this.isGeneratedSuccessfully = true;
-        this.generationError = '';
-        stepper.next();
-      },
-      error: (error: any) => {
-        console.error('Generation failed', error);
-        this.generationError = 'Failed to generate OpenAPI spec.';
-        this.isGeneratedSuccessfully = false;
-      }
-    });
-  }
-
-  continue(stepper: MatStepper): void {
-    if (this.isGeneratedSuccessfully) {
-      stepper.next();
-    }
-  }
+  // continue(stepper: MatStepper): void {
+  //   if (this.isGeneratedSuccessfully) {
+  //     stepper.next();
+  //   }
+  // }
 
   toggleMockServer(): void {
     this.mockServerService.toggleMockServer().subscribe({
@@ -149,33 +214,43 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     const reader = new FileReader();
     reader.onload = () => {
       const content = reader.result as string;
-      this.elementCount = this.parseByFormat(content, this.fileFormat);
+      this.elementCount = this.parseContentByFormat(content, this.fileFormat);
     };
     reader.readAsText(file);
   }
 
-  moveToNextStep(): void {
-    const currentStep = this.stepper.selected;
-    currentStep!.completed = true;
-    this.stepper.next();
-  }
+  // moveToNextStep(): void {
+  //   const currentStep = this.stepper.selected;
+  //   currentStep!.completed = true;
+  //   this.stepper.next();
+  // }
+  //
+  // nextStep() {
+  //   this.stepper.next();
+  // }
 
-  nextStep() {
-    this.stepper.next();
-  }
+  // parseByFormat(content: string, format: string) {
+  //   switch (format) {
+  //     case 'xml':
+  //       return this.parseDrawioXML(content);
+  //     case 'uxf':
+  //       return this.parseUMLetUXF(content);
+  //     case 'mdj':
+  //       return this.parseMDJ(content);
+  //     case 'puml':
+  //       return this.parsePUML(content);
+  //     default:
+  //       return {};
+  //   }
+  // }
 
-  parseByFormat(content: string, format: string) {
+  parseContentByFormat(content: string, format: string): any {
     switch (format) {
-      case 'xml':
-        return this.parseDrawioXML(content);
-      case 'uxf':
-        return this.parseUMLetUXF(content);
-      case 'mdj':
-        return this.parseMDJ(content);
-      case 'puml':
-        return this.parsePUML(content);
-      default:
-        return {};
+      case 'xml': return this.parseDrawioXML(content);
+      case 'uxf': return this.parseUMLetUXF(content);
+      case 'mdj': return this.parseMDJ(content);
+      case 'puml': return this.parsePUML(content);
+      default: return { classes: 0, attributes: 0, methods: 0, relationships: 0 };
     }
   }
 
@@ -264,10 +339,11 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     return { classes, attributes, methods, relationships };
   }
 
-  onMappingCompleted(success: boolean): void {
+  onMappingCompleted(success: boolean) {
     if (success) {
       this.stepper.next();
+    } else {
+      console.error("Failed to apply mappings");
     }
   }
-
 }

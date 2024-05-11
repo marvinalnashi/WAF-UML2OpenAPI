@@ -12,10 +12,42 @@ import java.util.Map;
 public class OpenAPISpecGenerator {
 
     public static String generateSpecWithMappings(List<Map<String, Object>> mappings, String outputPath) throws Exception {
-        if (mappings == null) {
-            throw new IllegalArgumentException("Mappings cannot be null");
-        }
+        Map<String, Object> openAPISpec = createOpenAPISpec(mappings);
 
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        mapper.writeValue(new File(outputPath), openAPISpec);
+
+        return "OpenAPI specification generated successfully at " + outputPath;
+    }
+
+    public static String generateSpecWithElementsAndMappings(Map<String, List<String>> elements, List<Map<String, Object>> mappings, String outputPath) throws Exception {
+        Map<String, Object> openAPISpec = createOpenAPISpec(mappings);
+        Map<String, Object> paths = (Map<String, Object>) openAPISpec.get("paths");
+        if (paths == null) paths = new LinkedHashMap<>();
+
+        Map<String, Object> finalPaths = paths;
+        elements.forEach((className, details) -> {
+            details.forEach(method -> {
+                Map<String, Object> methodDetails = new LinkedHashMap<>();
+                methodDetails.put("summary", "Operation for " + className);
+                methodDetails.put("description", "Automatically generated operation for " + className);
+
+                Map<String, Object> responses = new LinkedHashMap<>();
+                responses.put("200", Map.of("description", "Successful Operation"));
+
+                finalPaths.put("/" + className.toLowerCase(), Map.of("get", methodDetails));
+            });
+        });
+
+        openAPISpec.put("paths", paths);
+
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        mapper.writeValue(new File(outputPath), openAPISpec);
+
+        return "OpenAPI specification generated successfully at " + outputPath;
+    }
+
+    private static Map<String, Object> createOpenAPISpec(List<Map<String, Object>> mappings) {
         Map<String, Object> openAPISpec = new LinkedHashMap<>();
         openAPISpec.put("openapi", "3.0.0");
         Map<String, Object> paths = new LinkedHashMap<>();
@@ -42,22 +74,6 @@ public class OpenAPISpecGenerator {
         }
 
         openAPISpec.put("paths", paths);
-
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        mapper.writeValue(new File(outputPath), openAPISpec);
-
-        return "OpenAPI specification generated successfully at " + outputPath;
-    }
-
-    private static Map<String, Object> generatePathsFromMappings(List<Map<String, Object>> mappings) {
-        Map<String, Object> paths = new LinkedHashMap<>();
-        for (Map<String, Object> mapping : mappings) {
-            String className = (String) mapping.get("className");
-            Map<String, Object> pathDetails = new LinkedHashMap<>();
-            pathDetails.put("method", mapping.get("method"));
-            pathDetails.put("url", mapping.get("url"));
-            paths.put("/" + className.toLowerCase(), pathDetails);
-        }
-        return paths;
+        return openAPISpec;
     }
 }
