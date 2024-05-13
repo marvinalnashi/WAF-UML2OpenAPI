@@ -80,6 +80,7 @@ public class GenerationController {
         if (file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File is empty");
         }
+
         try {
             String fileName = file.getOriginalFilename();
             DiagramParser parser = getParserForFileType(fileName);
@@ -87,14 +88,31 @@ public class GenerationController {
                 return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("Unsupported file type");
             }
 
-            InputStream fileContentStream = new ByteArrayInputStream(file.getBytes());
-            Map<String, List<String>> elements = parser.parse(fileContentStream);
+            Map<String, List<String>> classes = parseStream(parser, file.getBytes(), "classes");
+            Map<String, List<String>> attributes = parseStream(parser, file.getBytes(), "attributes");
+            Map<String, List<String>> methods = parseStream(parser, file.getBytes(), "methods");
 
-            String openAPISpec = openAPISpecGenerator.generateSpecWithElementsAndMappings(elements, savedMappings, outputPath);
+            String openAPISpec = OpenAPISpecGenerator.generateSpec(classes, attributes, methods, savedMappings, outputPath);
             return ResponseEntity.ok(openAPISpec);
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during generation: " + e.getMessage());
+        }
+    }
+
+    private Map<String, List<String>> parseStream(DiagramParser parser, byte[] fileContent, String type) throws Exception {
+        try (InputStream inputStream = new ByteArrayInputStream(fileContent)) {
+            switch (type) {
+                case "classes":
+                    return parser.parse(inputStream);
+                case "attributes":
+                    return parser.parseAttributes(inputStream);
+                case "methods":
+                    return parser.parseMethods(inputStream);
+                default:
+                    return new HashMap<>();
+            }
         }
     }
 
