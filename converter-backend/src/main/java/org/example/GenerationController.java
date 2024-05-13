@@ -1,5 +1,6 @@
 package org.example;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -15,14 +16,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class GenerationController {
-
     private final String outputPath = "/data/export.yml";
     private final OpenAPISpecGenerator openAPISpecGenerator;
     private List<Map<String, Object>> savedMappings = new ArrayList<>();
+    private Map<String, Object> umlDataStore = new HashMap<>();
 
     public GenerationController(OpenAPISpecGenerator openAPISpecGenerator) {
         this.openAPISpecGenerator = openAPISpecGenerator;
@@ -53,25 +55,91 @@ public class GenerationController {
             }
 
             byte[] fileContent = file.getBytes();
-
-            InputStream classStream = new ByteArrayInputStream(fileContent);
-            Map<String, List<String>> classes = parser.parse(classStream);
-
-            InputStream attrStream = new ByteArrayInputStream(fileContent);
-            Map<String, List<String>> attributes = parser.parseAttributes(attrStream);
-
-            InputStream methodStream = new ByteArrayInputStream(fileContent);
-            Map<String, List<String>> methods = parser.parseMethods(methodStream);
-
-            Map<String, Object> elements = new HashMap<>();
-            elements.put("classes", classes.keySet());
-            elements.put("attributes", attributes);
-            elements.put("methods", methods);
-
+            Map<String, Object> elements = parseUmlData(fileContent, parser);
+            umlDataStore = elements;
             return ResponseEntity.ok().body(elements);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error parsing diagram: " + e.getMessage()));
+        }
+    }
+
+    private Map<String, Object> parseUmlData(byte[] fileContent, DiagramParser parser) throws Exception {
+        InputStream classStream = new ByteArrayInputStream(fileContent);
+        Map<String, List<String>> classes = parser.parse(classStream);
+
+        InputStream attrStream = new ByteArrayInputStream(fileContent);
+        Map<String, List<String>> attributes = parser.parseAttributes(attrStream);
+
+        InputStream methodStream = new ByteArrayInputStream(fileContent);
+        Map<String, List<String>> methods = parser.parseMethods(methodStream);
+
+        Map<String, Object> elements = new HashMap<>();
+        elements.put("classes", classes.keySet());
+        elements.put("attributes", attributes);
+        elements.put("methods", methods);
+        return elements;
+    }
+
+    @PostMapping("/rename-element")
+    public ResponseEntity<?> renameElement(@RequestBody Map<String, String> renameInfo) {
+        String type = renameInfo.get("type");
+        String oldName = renameInfo.get("oldName");
+        String newName = renameInfo.get("newName");
+
+        try {
+            switch (type) {
+                case "class":
+                    Map<String, List<String>> classes = (Map<String, List<String>>) umlDataStore.get("classes");
+                    if (classes.containsKey(oldName)) {
+                        classes.put(newName, classes.remove(oldName));
+                        Map<String, List<String>> attributes = (Map<String, List<String>>) umlDataStore.get("attributes");
+                        attributes.put(newName, attributes.remove(oldName));
+                        Map<String, List<String>> methods = (Map<String, List<String>>) umlDataStore.get("methods");
+                        methods.put(newName, methods.remove(oldName));
+                    }
+                    break;
+                case "attribute":
+                    Map<String, List<String>> attributes = (Map<String, List<String>>) umlDataStore.get("attributes");
+                    attributes.entrySet().forEach(entry -> {
+                        entry.setValue(entry.getValue().stream().map(attr -> attr.equals(oldName) ? newName : attr).collect(Collectors.toList()));
+                    });
+                    break;
+                case "method":
+                    Map<String, List<String>> methods = (Map<String, List<String>>) umlDataStore.get("methods");
+                    methods.entrySet().forEach(entry -> {
+                        entry.setValue(entry.getValue().stream().map(meth -> meth.equals(oldName) ? newName : meth).collect(Collectors.toList()));
+                    });
+                    break;
+            }
+            return ResponseEntity.ok("Element renamed successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to rename element: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/delete-element")
+    public ResponseEntity<?> deleteElement(@RequestBody Map<String, String> deleteInfo) {
+        String type = deleteInfo.get("type");
+        String name = deleteInfo.get("name");
+
+        try {
+            switch (type) {
+                case "class":
+                    ((Map<String, List<String>>) umlDataStore.get("classes")).remove(name);
+                    ((Map<String, List<String>>) umlDataStore.get("attributes")).remove(name);
+                    ((Map<String, List<String>>) umlDataStore.get("methods")).remove(name);
+                    break;
+                case "attribute":
+                    ((Map<String, List<String>>) umlDataStore.get("attributes")).values().forEach(attrs -> attrs.removeIf(attr -> attr.equals(name)));
+                    break;
+                case "method":
+                    ((Map<String, List<String>>) umlDataStore.get("methods")).values().forEach(methods -> methods.removeIf(method -> method.equals(name)));
+                    break;
+            }
+            return ResponseEntity.ok("Element deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete element: " + e.getMessage());
         }
     }
 

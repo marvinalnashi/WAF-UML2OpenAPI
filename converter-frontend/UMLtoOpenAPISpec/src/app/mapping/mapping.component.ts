@@ -7,6 +7,8 @@ import {GenerationService} from "../generation.service";
 import {MatButton} from "@angular/material/button";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatStepper} from "@angular/material/stepper";
+import {MatDialog} from "@angular/material/dialog";
+import {RenameDialogComponent} from "../rename-dialog/rename-dialog.component";
 
 @Component({
   selector: 'app-mapping',
@@ -23,19 +25,34 @@ import {MatStepper} from "@angular/material/stepper";
   styleUrl: './mapping.component.scss'
 })
 export class MappingComponent implements OnInit {
+  @Input() file: File | undefined;
   @Input() umlData: any;
   @Output() mappingCompleted = new EventEmitter<boolean>();
   mappingsForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private generationService: GenerationService) {
+  constructor(
+    private fb: FormBuilder,
+    private dialog: MatDialog,
+    private generationService: GenerationService
+  ) {
     this.mappingsForm = this.fb.group({
       mappings: this.fb.array([])
     });
   }
 
   ngOnInit() {
-    if (this.umlData) {
-      console.log('Received UML data:', this.umlData);
+    this.loadUMLData();
+  }
+
+  loadUMLData() {
+    if (this.file) {
+      this.generationService.parseDiagramElements(this.file).subscribe({
+        next: (data) => {
+          this.umlData = data;
+          console.log('UML Data fetched:', this.umlData);
+        },
+        error: (error) => console.error('Failed to fetch UML data:', error)
+      });
     }
   }
 
@@ -66,5 +83,32 @@ export class MappingComponent implements OnInit {
     } else {
       alert('Please fill in all required fields');
     }
+  }
+
+  deleteElement(type: string, name: string): void {
+    this.generationService.deleteElement(type, name).subscribe({
+      next: () => {
+        console.log('Element deleted');
+        this.loadUMLData();
+      },
+      error: error => console.error('Failed to delete element:', error)
+    });
+  }
+
+  openRenameDialog(type: string, oldName: string): void {
+    let newName = prompt("Enter new name for " + oldName);
+    if (newName) {
+      this.renameElement(type, oldName, newName);
+    }
+  }
+
+  renameElement(type: string, oldName: string, newName: string): void {
+    this.generationService.renameElement(type, oldName, newName).subscribe({
+      next: () => {
+        alert('Element renamed');
+        this.loadUMLData();
+      },
+      error: error => console.error('Failed to rename element:', error)
+    });
   }
 }
