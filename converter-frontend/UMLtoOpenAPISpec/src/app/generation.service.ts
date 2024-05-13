@@ -10,11 +10,11 @@ export class GenerationService {
 
   constructor(private http: HttpClient) {}
 
-  // parseDiagramElements(file: File): Observable<any> {
-  //   const formData = new FormData();
-  //   formData.append('file', file);
-  //   return this.http.post(`${this.baseUrl}/parse-elements`, formData);
-  // }
+  parseDiagramElements(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<any>(`${this.baseUrl}/parse-elements`, formData);
+  }
 
   generateSpec(file: File): Observable<string> {
     const formData: FormData = new FormData();
@@ -23,10 +23,6 @@ export class GenerationService {
       responseType: 'text'
     });
   }
-
-  // getOpenApiSpec(): Observable<Blob> {
-  //   return this.http.get(`${this.baseUrl}/export.yml`, { responseType: 'blob' });
-  // }
 
   applyMappings(mappings: any[]): Observable<any> {
     return this.http.post(`${this.baseUrl}/apply-mappings`, mappings, {

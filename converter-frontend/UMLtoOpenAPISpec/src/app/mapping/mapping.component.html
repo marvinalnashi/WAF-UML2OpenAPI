@@ -1,6 +1,6 @@
-<div class="mapping-container" cdkDropList (cdkDropListDropped)="drop($event)">
+<div class="mapping-container">
   <form [formGroup]="mappingsForm">
-    <div formArrayName="mappings" *ngFor="let mapping of mappings.controls; let i = index" cdkDrag>
+    <div formArrayName="mappings" *ngFor="let mapping of mappings.controls; let i = index">
       <div [formGroupName]="i">
         <input formControlName="className" placeholder="Class Name">
         <input formControlName="url" placeholder="URL">
@@ -10,7 +10,24 @@
         </select>
       </div>
     </div>
+    <button (click)="addMapping()">Add Mapping</button>
+    <button (click)="applyMappings()">Apply Mappings and Continue</button>
   </form>
-  <button (click)="addMapping()">Add Mapping</button>
-  <button (click)="applyMappings()">Apply Mappings and Continue</button>
+  <div *ngIf="umlData" class="table-responsive">
+    <table class="table borderless">
+      <thead>
+      <tr>
+        <th *ngFor="let className of umlData.classes">{{ className }}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let className of umlData.classes">
+        <td *ngFor="let attribute of umlData.attributes[className] || []">{{ attribute }}</td>
+      </tr>
+      <tr *ngFor="let className of umlData.classes">
+        <td *ngFor="let method of umlData.methods?.[className] || []">{{ method }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

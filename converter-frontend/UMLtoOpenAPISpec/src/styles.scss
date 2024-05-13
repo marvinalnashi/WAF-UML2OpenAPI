@@ -37,6 +37,7 @@ $UMLtoOpenAPISpec-theme: mat.define-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 @import '../src/app/generation/generation.component.scss';
+@import '../src/app/mapping/mapping.component.scss';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

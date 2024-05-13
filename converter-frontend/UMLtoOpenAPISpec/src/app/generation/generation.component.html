@@ -14,7 +14,7 @@
 
     <mat-step [stepControl]="mappingFormGroup">
       <ng-template matStepLabel>Mapping</ng-template>
-      <app-mapping (mappingCompleted)="onMappingCompleted($event)"></app-mapping>
+      <app-mapping (mappingCompleted)="onMappingCompleted($event)" [umlData]="umlData"></app-mapping>
     </mat-step>
 
     <mat-step>

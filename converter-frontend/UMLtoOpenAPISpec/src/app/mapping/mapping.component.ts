@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {GenerationService} from "../generation.service";
 import {MatButton} from "@angular/material/button";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {MatStepper} from "@angular/material/stepper";
 
 @Component({
@@ -16,12 +16,14 @@ import {MatStepper} from "@angular/material/stepper";
     ReactiveFormsModule,
     CdkDropList,
     NgForOf,
-    CdkDrag
+    CdkDrag,
+    NgIf
   ],
   templateUrl: './mapping.component.html',
   styleUrl: './mapping.component.scss'
 })
-export class MappingComponent {
+export class MappingComponent implements OnInit {
+  @Input() umlData: any;
   @Output() mappingCompleted = new EventEmitter<boolean>();
   mappingsForm: FormGroup;
 
@@ -29,6 +31,12 @@ export class MappingComponent {
     this.mappingsForm = this.fb.group({
       mappings: this.fb.array([])
     });
+  }
+
+  ngOnInit() {
+    if (this.umlData) {
+      console.log('Received UML data:', this.umlData);
+    }
   }
 
   get mappings(): FormArray {
@@ -58,9 +66,5 @@ export class MappingComponent {
     } else {
       alert('Please fill in all required fields');
     }
-  }
-
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.mappings.controls, event.previousIndex, event.currentIndex);
   }
 }
