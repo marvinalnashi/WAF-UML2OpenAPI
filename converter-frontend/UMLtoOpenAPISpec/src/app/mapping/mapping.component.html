@@ -19,12 +19,12 @@
       <th [attr.colspan]="umlData.classes.length">Classes</th>
     </tr>
     <tr>
-      <th *ngFor="let className of umlData.classes" class="class-name-section">
+      <th *ngFor="let className of umlData.classes; let classIndex = index" class="class-name-section">
         {{ className }}
-        <button mat-icon-button (click)="deleteElement('class', className)" aria-label="Delete class">
+        <button mat-icon-button (click)="deleteElement('class', className, classIndex, className)" aria-label="Delete class">
           <mat-icon>delete</mat-icon>
         </button>
-        <button mat-icon-button (click)="openRenameDialog('class', className)" aria-label="Rename class">
+        <button mat-icon-button (click)="openRenameDialog('class', className, className, classIndex)" aria-label="Rename class">
           <mat-icon>edit</mat-icon>
         </button>
       </th>
@@ -35,13 +35,13 @@
       <td [attr.colspan]="umlData.classes.length">Attributes</td>
     </tr>
     <tr *ngFor="let i of maxAttributeRows(umlData)">
-      <td *ngFor="let className of umlData.classes" class="attributes-section">
+      <td *ngFor="let className of umlData.classes; let attrIndex = index" class="attributes-section">
         <div *ngIf="umlData.attributes[className]?.[i]">
           {{ umlData.attributes[className]?.[i] }}
-          <button mat-icon-button (click)="deleteElement('attribute', umlData.attributes[className][i])" aria-label="Delete attribute">
+          <button mat-icon-button (click)="deleteElement('attribute', umlData.attributes[className][i], i, className)" aria-label="Delete attribute">
             <mat-icon>delete</mat-icon>
           </button>
-          <button mat-icon-button (click)="openRenameDialog('attribute', umlData.attributes[className][i])" aria-label="Rename attribute">
+          <button mat-icon-button (click)="openRenameDialog('attribute', umlData.attributes[className][i], className, i)" aria-label="Rename attribute">
             <mat-icon>edit</mat-icon>
           </button>
         </div>
@@ -51,13 +51,13 @@
       <td [attr.colspan]="umlData.classes.length">Methods</td>
     </tr>
     <tr *ngFor="let i of maxMethodRows(umlData)">
-      <td *ngFor="let className of umlData.classes" class="methods-section">
+      <td *ngFor="let className of umlData.classes; let methIndex = index" class="methods-section">
         <div *ngIf="umlData.methods?.[className]?.[i]">
           {{ umlData.methods?.[className]?.[i] }}
-          <button mat-icon-button (click)="deleteElement('method', umlData.methods![className][i])" aria-label="Delete method">
+          <button mat-icon-button (click)="deleteElement('method', umlData.methods?.[className][i], i, className)" aria-label="Delete method">
             <mat-icon>delete</mat-icon>
           </button>
-          <button mat-icon-button (click)="openRenameDialog('method', umlData.methods![className][i])" aria-label="Rename method">
+          <button mat-icon-button (click)="openRenameDialog('method', umlData.methods?.[className][i], className, i)" aria-label="Rename method">
             <mat-icon>edit</mat-icon>
           </button>
         </div>

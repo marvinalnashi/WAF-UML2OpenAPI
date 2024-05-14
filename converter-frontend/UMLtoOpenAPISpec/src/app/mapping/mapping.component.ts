@@ -43,22 +43,14 @@ export class MappingComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadUMLData();
   }
 
-  loadUMLData() {
+  loadUMLData(): void {
     if (this.file) {
-      this.generationService.parseDiagramElements(this.file).subscribe({
-        next: (data) => {
-          this.umlData = {
-            classes: Object.keys(data),
-            attributes: data,
-            methods: data
-          };
-          console.log('UML Data fetched:', this.umlData);
-        },
-        error: (error) => console.error('Failed to fetch UML data:', error)
+      this.generationService.parseDiagramElements(this.file).subscribe(data => {
+        this.umlData = data;
       });
     }
   }
@@ -67,7 +59,7 @@ export class MappingComponent implements OnInit {
     return this.mappingsForm.get('mappings') as FormArray;
   }
 
-  addMapping() {
+  addMapping(): void {
     this.mappings.push(this.fb.group({
       className: ['', Validators.required],
       url: ['', Validators.required],
@@ -75,58 +67,51 @@ export class MappingComponent implements OnInit {
     }));
   }
 
-  applyMappings() {
+  applyMappings(): void {
     if (this.mappingsForm.valid) {
-      this.generationService.applyMappings(this.mappingsForm.value.mappings).subscribe({
-        next: () => {
-          alert('Mappings applied successfully');
-          this.mappingCompleted.emit(true);
-        },
-        error: () => {
-          alert('Failed to apply mappings');
-          this.mappingCompleted.emit(false);
-        }
+      this.generationService.applyMappings(this.mappingsForm.value.mappings).subscribe(() => {
+        this.mappingCompleted.emit(true);
       });
-    } else {
-      alert('Please fill in all required fields');
     }
   }
 
-  maxRowsArray(data: any): number[] {
-    let maxRows = 0;
-    for (const className of data.classes) {
-      const totalRows = (data.attributes[className]?.length || 0) + (data.methods[className]?.length || 0);
-      if (totalRows > maxRows) {
-        maxRows = totalRows;
+  deleteElement(type: string, name: string, index: number, className: string): void {
+    this.generationService.deleteElement(type, name).subscribe(() => {
+      if (type === 'attribute') {
+        this.umlData.attributes[className].splice(index, 1);
+      } else if (type === 'method') {
+        this.umlData.methods[className].splice(index, 1);
+      } else if (type === 'class') {
+        this.umlData.classes = this.umlData.classes.filter((c: string) => c !== className);
+        delete this.umlData.attributes[className];
+        delete this.umlData.methods[className];
       }
-    }
-    return [...Array(maxRows).keys()];
-  }
-
-  deleteElement(type: string, name: string): void {
-    this.generationService.deleteElement(type, name).subscribe({
-      next: () => {
-        console.log('Element deleted');
-        this.loadUMLData();
-      },
-      error: error => console.error('Failed to delete element:', error)
     });
   }
 
-  openRenameDialog(type: string, oldName: string): void {
-    let newName = prompt("Enter new name for " + oldName);
-    if (newName) {
-      this.renameElement(type, oldName, newName);
-    }
+  openRenameDialog(type: string, oldName: string, className: string, index: number): void {
+    const dialogRef = this.dialog.open(RenameDialogComponent, {
+      width: '250px',
+      data: { name: oldName }
+    });
+
+    dialogRef.afterClosed().subscribe(newName => {
+      if (newName) {
+        this.renameElement(type, oldName, newName, className, index);
+      }
+    });
   }
 
-  renameElement(type: string, oldName: string, newName: string): void {
-    this.generationService.renameElement(type, oldName, newName).subscribe({
-      next: () => {
-        alert('Element renamed');
-        this.loadUMLData();
-      },
-      error: error => console.error('Failed to rename element:', error)
+  renameElement(type: string, oldName: string, newName: string, className: string, index: number): void {
+    this.generationService.renameElement(type, oldName, newName).subscribe(() => {
+      if (type === 'class') {
+        const classIndex = this.umlData.classes.indexOf(oldName);
+        if (classIndex !== -1) {
+          this.umlData.classes[classIndex] = newName;
+        }
+      } else {
+        this.umlData[type][className][index] = newName;
+      }
     });
   }
 
