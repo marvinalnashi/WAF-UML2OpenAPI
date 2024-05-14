@@ -100,10 +100,43 @@ export class MappingComponent implements OnInit {
     this.generationService.renameElement(type, oldName, newName).subscribe({
       next: () => {
         alert('Element renamed');
-        this.loadUMLData();
+        if (type === 'class') {
+          const index = this.umlData.classes.indexOf(oldName);
+          if (index !== -1) {
+            this.umlData.classes[index] = newName;
+          }
+          this.umlData.attributes[newName] = [...this.umlData.attributes[oldName]];
+          delete this.umlData.attributes[oldName];
+          this.umlData.methods[newName] = [...this.umlData.methods[oldName]];
+          delete this.umlData.methods[oldName];
+        } else if (type === 'attribute') {
+          const classForAttribute = this.getClassForAttribute(oldName);
+          const attrIndex = this.umlData.attributes[classForAttribute].indexOf(oldName);
+          if (attrIndex !== -1) {
+            this.umlData.attributes[classForAttribute][attrIndex] = newName;
+          }
+        } else if (type === 'method') {
+          const classForMethod = this.getClassForMethod(oldName);
+          const methIndex = this.umlData.methods[classForMethod].indexOf(oldName);
+          if (methIndex !== -1) {
+            this.umlData.methods[classForMethod][methIndex] = newName;
+          }
+        }
       },
       error: error => console.error('Failed to rename element:', error)
     });
+  }
+
+  getClassForAttribute(attributeName: string): string {
+    return <string>Object.keys(this.umlData.attributes).find(className =>
+      this.umlData.attributes[className].includes(attributeName)
+    );
+  }
+
+  getClassForMethod(methodName: string): string {
+    return <string>Object.keys(this.umlData.methods).find(className =>
+      this.umlData.methods[className].includes(methodName)
+    );
   }
 
   maxAttributeRows(data: any): number[] {
