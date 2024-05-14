@@ -48,7 +48,11 @@ export class MappingComponent implements OnInit {
     if (this.file) {
       this.generationService.parseDiagramElements(this.file).subscribe({
         next: (data) => {
-          this.umlData = data;
+          this.umlData = {
+            classes: Object.keys(data),
+            attributes: data,
+            methods: data
+          };
           console.log('UML Data fetched:', this.umlData);
         },
         error: (error) => console.error('Failed to fetch UML data:', error)
@@ -83,6 +87,17 @@ export class MappingComponent implements OnInit {
     } else {
       alert('Please fill in all required fields');
     }
+  }
+
+  maxRowsArray(data: any): number[] {
+    let maxRows = 0;
+    for (const className of data.classes) {
+      const totalRows = (data.attributes[className]?.length || 0) + (data.methods[className]?.length || 0);
+      if (totalRows > maxRows) {
+        maxRows = totalRows;
+      }
+    }
+    return [...Array(maxRows).keys()];
   }
 
   deleteElement(type: string, name: string): void {

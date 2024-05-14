@@ -13,7 +13,7 @@
     <button (click)="addMapping()">Add Mapping</button>
     <button (click)="applyMappings()">Apply Mappings and Continue</button>
   </form>
-  <table *ngIf="umlData" class="table table-responsive">
+  <table *ngIf="umlData" class="table">
     <thead>
     <tr>
       <th *ngFor="let className of umlData.classes">
@@ -24,20 +24,26 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let className of umlData.classes">
-      <td *ngFor="let attribute of umlData.attributes[className] || []">
-        {{ attribute }}
-        <button (click)="deleteElement('attribute', attribute)">Delete</button>
-        <button (click)="openRenameDialog('attribute', attribute)">Rename</button>
-      </td>
-    </tr>
-    <tr *ngFor="let className of umlData.classes">
-      <td *ngFor="let method of umlData.methods?.[className] || []">
-        {{ method }}
-        <button (click)="deleteElement('method', method)">Delete</button>
-        <button (click)="openRenameDialog('method', method)">Rename</button>
-      </td>
-    </tr>
+    <ng-container *ngFor="let i of maxRowsArray(umlData)">
+      <tr>
+        <td *ngFor="let className of umlData.classes">
+          <ng-container *ngIf="umlData.attributes[className] as classAttributes">
+            <div *ngIf="classAttributes[i]">
+              {{ classAttributes[i] }}
+              <button (click)="deleteElement('attribute', classAttributes[i])">Delete</button>
+              <button (click)="openRenameDialog('attribute', classAttributes[i])">Rename</button>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="umlData.methods?.[className] as classMethods">
+            <div *ngIf="classMethods[i]">
+              {{ classMethods[i] }}
+              <button *ngIf="classMethods[i]" (click)="deleteElement('method', classMethods[i])">Delete</button>
+              <button *ngIf="classMethods[i]" (click)="openRenameDialog('method', classMethods[i])">Rename</button>
+            </div>
+          </ng-container>
+        </td>
+      </tr>
+    </ng-container>
     </tbody>
   </table>
 </div>
