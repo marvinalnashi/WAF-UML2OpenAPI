@@ -100,6 +100,28 @@ export class MappingComponent implements OnInit {
     return [...Array(maxRows).keys()];
   }
 
+  maxAttributeRows(data: any): number[] {
+    let maxRows = 0;
+    for (const className of data.classes) {
+      const attributeCount = data.attributes[className]?.length || 0;
+      if (attributeCount > maxRows) {
+        maxRows = attributeCount;
+      }
+    }
+    return [...Array(maxRows).keys()];
+  }
+
+  maxMethodRows(data: any): number[] {
+    let maxRows = 0;
+    for (const className of data.classes) {
+      const methodCount = data.methods[className]?.length || 0;
+      if (methodCount > maxRows) {
+        maxRows = methodCount;
+      }
+    }
+    return [...Array(maxRows).keys()];
+  }
+
   deleteElement(type: string, name: string): void {
     this.generationService.deleteElement(type, name).subscribe({
       next: () => {

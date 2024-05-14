@@ -24,26 +24,24 @@
     </tr>
     </thead>
     <tbody>
-    <ng-container *ngFor="let i of maxRowsArray(umlData)">
-      <tr>
-        <td *ngFor="let className of umlData.classes">
-          <ng-container *ngIf="umlData.attributes[className] as classAttributes">
-            <div *ngIf="classAttributes[i]">
-              {{ classAttributes[i] }}
-              <button (click)="deleteElement('attribute', classAttributes[i])">Delete</button>
-              <button (click)="openRenameDialog('attribute', classAttributes[i])">Rename</button>
-            </div>
-          </ng-container>
-          <ng-container *ngIf="umlData.methods?.[className] as classMethods">
-            <div *ngIf="classMethods[i]">
-              {{ classMethods[i] }}
-              <button *ngIf="classMethods[i]" (click)="deleteElement('method', classMethods[i])">Delete</button>
-              <button *ngIf="classMethods[i]" (click)="openRenameDialog('method', classMethods[i])">Rename</button>
-            </div>
-          </ng-container>
-        </td>
-      </tr>
-    </ng-container>
+    <tr *ngFor="let i of maxAttributeRows(umlData)">
+      <td *ngFor="let className of umlData.classes">
+        <div *ngIf="umlData.attributes[className]?.[i]">
+          {{ umlData.attributes[className]?.[i] }}
+          <button (click)="deleteElement('attribute', umlData.attributes[className][i])">Delete</button>
+          <button (click)="openRenameDialog('attribute', umlData.attributes[className][i])">Rename</button>
+        </div>
+      </td>
+    </tr>
+    <tr *ngFor="let i of maxMethodRows(umlData)">
+      <td *ngFor="let className of umlData.classes">
+        <div *ngIf="umlData.methods?.[className]?.[i]">
+          {{ umlData.methods?.[className]?.[i] }}
+          <button *ngIf="umlData.methods?.[className]?.[i]" (click)="deleteElement('method', umlData.methods![className][i])">Delete</button>
+          <button *ngIf="umlData.methods?.[className]?.[i]" (click)="openRenameDialog('method', umlData.methods![className][i])">Rename</button>
+        </div>
+      </td>
+    </tr>
     </tbody>
   </table>
 </div>
