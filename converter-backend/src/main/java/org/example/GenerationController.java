@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,7 +76,7 @@ public class GenerationController {
         Map<String, List<String>> methods = parser.parseMethods(methodStream);
 
         Map<String, Object> elements = new HashMap<>();
-        elements.put("classes", classes.keySet());
+        elements.put("classes", new ArrayList<>(classes.keySet()));
         elements.put("attributes", attributes);
         elements.put("methods", methods);
         return elements;
@@ -126,15 +127,16 @@ public class GenerationController {
         try {
             switch (type) {
                 case "class":
-                    ((Map<String, List<String>>) umlDataStore.get("classes")).remove(name);
-                    ((Map<String, List<String>>) umlDataStore.get("attributes")).remove(name);
-                    ((Map<String, List<String>>) umlDataStore.get("methods")).remove(name);
+                    List<String> classes = (List<String>) umlDataStore.get("classes");
+                    classes.remove(name);
                     break;
                 case "attribute":
-                    ((Map<String, List<String>>) umlDataStore.get("attributes")).values().forEach(attrs -> attrs.removeIf(attr -> attr.equals(name)));
+                    Map<String, List<String>> attributes = (Map<String, List<String>>) umlDataStore.get("attributes");
+                    attributes.values().forEach(attrs -> attrs.removeIf(attr -> attr.equals(name)));
                     break;
                 case "method":
-                    ((Map<String, List<String>>) umlDataStore.get("methods")).values().forEach(methods -> methods.removeIf(method -> method.equals(name)));
+                    Map<String, List<String>> methods = (Map<String, List<String>>) umlDataStore.get("methods");
+                    methods.values().forEach(methodsList -> methodsList.removeIf(method -> method.equals(name)));
                     break;
             }
             return ResponseEntity.ok("Element deleted successfully");
@@ -150,21 +152,15 @@ public class GenerationController {
         }
 
         try {
-            String fileName = file.getOriginalFilename();
-            DiagramParser parser = getParserForFileType(fileName);
-            if (parser == null) {
-                return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("Unsupported file type");
-            }
+            Map<String, List<String>> classes = safelyCastToMap(umlDataStore.get("classes"));
+            Map<String, List<String>> attributes = safelyCastToMap(umlDataStore.get("attributes"));
+            Map<String, List<String>> methods = safelyCastToMap(umlDataStore.get("methods"));
 
-            Map<String, List<String>> classes = parseStream(parser, file.getBytes(), "classes");
-            Map<String, List<String>> attributes = parseStream(parser, file.getBytes(), "attributes");
-            Map<String, List<String>> methods = parseStream(parser, file.getBytes(), "methods");
-
-            String openAPISpec = OpenAPISpecGenerator.generateSpec(classes, attributes, methods, savedMappings, outputPath);
+            String openAPISpec = openAPISpecGenerator.generateSpec(classes, attributes, methods, savedMappings, outputPath);
             return ResponseEntity.ok(openAPISpec);
-
+        } catch (ClassCastException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Data type casting error: " + e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during generation: " + e.getMessage());
         }
     }
@@ -209,6 +205,22 @@ public class GenerationController {
                 return new PlantUMLParser();
             default:
                 return null;
+        }
+    }
+
+    private Map<String, List<String>> safelyCastToMap(Object data) {
+        if (data instanceof Map) {
+            return (Map<String, List<String>>) data;
+        } else if (data instanceof List) {
+            Map<String, List<String>> map = new HashMap<>();
+            for (Object item : (List) data) {
+                if (item instanceof String) {
+                    map.put((String) item, new ArrayList<>());
+                }
+            }
+            return map;
+        } else {
+            throw new ClassCastException("Expected Map but found " + (data == null ? "null" : data.getClass().getSimpleName()));
         }
     }
 }
