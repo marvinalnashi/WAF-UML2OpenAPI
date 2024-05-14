@@ -88,35 +88,65 @@ public class GenerationController {
         String oldName = renameInfo.get("oldName");
         String newName = renameInfo.get("newName");
 
+        if (oldName == null || newName == null || type == null) {
+            return ResponseEntity.badRequest().body("Missing parameters for renaming.");
+        }
+
         try {
             switch (type) {
                 case "class":
-                    Map<String, List<String>> classes = (Map<String, List<String>>) umlDataStore.get("classes");
-                    if (classes.containsKey(oldName)) {
-                        classes.put(newName, classes.remove(oldName));
-                        Map<String, List<String>> attributes = (Map<String, List<String>>) umlDataStore.get("attributes");
-                        attributes.put(newName, attributes.remove(oldName));
-                        Map<String, List<String>> methods = (Map<String, List<String>>) umlDataStore.get("methods");
-                        methods.put(newName, methods.remove(oldName));
-                    }
-                    break;
+                    return renameClass(oldName, newName);
                 case "attribute":
-                    Map<String, List<String>> attributes = (Map<String, List<String>>) umlDataStore.get("attributes");
-                    attributes.entrySet().forEach(entry -> {
-                        entry.setValue(entry.getValue().stream().map(attr -> attr.equals(oldName) ? newName : attr).collect(Collectors.toList()));
-                    });
-                    break;
+                    return renameAttribute(oldName, newName);
                 case "method":
-                    Map<String, List<String>> methods = (Map<String, List<String>>) umlDataStore.get("methods");
-                    methods.entrySet().forEach(entry -> {
-                        entry.setValue(entry.getValue().stream().map(meth -> meth.equals(oldName) ? newName : meth).collect(Collectors.toList()));
-                    });
-                    break;
+                    return renameMethod(oldName, newName);
+                default:
+                    return ResponseEntity.badRequest().body("Invalid type for renaming.");
             }
-            return ResponseEntity.ok("Element renamed successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to rename element: " + e.getMessage());
         }
+    }
+
+    private ResponseEntity<?> renameClass(String oldName, String newName) {
+        Map<String, List<String>> classes = (Map<String, List<String>>) umlDataStore.get("classes");
+        if (classes != null && classes.containsKey(oldName)) {
+            List<String> details = classes.remove(oldName);
+            classes.put(newName, details);
+            umlDataStore.put("classes", classes);
+            return ResponseEntity.ok("Class renamed successfully from " + oldName + " to " + newName);
+        }
+        return ResponseEntity.badRequest().body("Class not found: " + oldName);
+    }
+
+    private ResponseEntity<?> renameAttribute(String oldName, String newName) {
+        Map<String, List<String>> attributes = (Map<String, List<String>>) umlDataStore.get("attributes");
+        if (attributes != null) {
+            attributes.forEach((key, value) -> {
+                List<String> updatedAttributes = value.stream()
+                        .map(attr -> attr.equals(oldName) ? newName : attr)
+                        .collect(Collectors.toList());
+                attributes.put(key, updatedAttributes);
+            });
+            umlDataStore.put("attributes", attributes);
+            return ResponseEntity.ok("Attribute renamed successfully from " + oldName + " to " + newName);
+        }
+        return ResponseEntity.badRequest().body("Attributes not found for: " + oldName);
+    }
+
+    private ResponseEntity<?> renameMethod(String oldName, String newName) {
+        Map<String, List<String>> methods = (Map<String, List<String>>) umlDataStore.get("methods");
+        if (methods != null) {
+            methods.forEach((key, value) -> {
+                List<String> updatedMethods = value.stream()
+                        .map(meth -> meth.equals(oldName) ? newName : meth)
+                        .collect(Collectors.toList());
+                methods.put(key, updatedMethods);
+            });
+            umlDataStore.put("methods", methods);
+            return ResponseEntity.ok("Method renamed successfully from " + oldName + " to " + newName);
+        }
+        return ResponseEntity.badRequest().body("Methods not found for: " + oldName);
     }
 
     @PostMapping("/delete-element")
