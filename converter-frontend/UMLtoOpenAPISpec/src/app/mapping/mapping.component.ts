@@ -4,11 +4,12 @@ import {Observable} from "rxjs";
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {GenerationService} from "../generation.service";
-import {MatButton} from "@angular/material/button";
+import {MatButton, MatIconButton} from "@angular/material/button";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatStepper} from "@angular/material/stepper";
 import {MatDialog} from "@angular/material/dialog";
 import {RenameDialogComponent} from "../rename-dialog/rename-dialog.component";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-mapping',
@@ -19,7 +20,9 @@ import {RenameDialogComponent} from "../rename-dialog/rename-dialog.component";
     CdkDropList,
     NgForOf,
     CdkDrag,
-    NgIf
+    NgIf,
+    MatIcon,
+    MatIconButton
   ],
   templateUrl: './mapping.component.html',
   styleUrl: './mapping.component.scss'

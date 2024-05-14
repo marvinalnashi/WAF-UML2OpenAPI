@@ -21,8 +21,12 @@
     <tr>
       <th *ngFor="let className of umlData.classes" class="class-name-section">
         {{ className }}
-        <button (click)="deleteElement('class', className)">Delete</button>
-        <button (click)="openRenameDialog('class', className)">Rename</button>
+        <button mat-icon-button (click)="deleteElement('class', className)" aria-label="Delete class">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button (click)="openRenameDialog('class', className)" aria-label="Rename class">
+          <mat-icon>edit</mat-icon>
+        </button>
       </th>
     </tr>
     </thead>
@@ -34,8 +38,12 @@
       <td *ngFor="let className of umlData.classes" class="attributes-section">
         <div *ngIf="umlData.attributes[className]?.[i]">
           {{ umlData.attributes[className]?.[i] }}
-          <button (click)="deleteElement('attribute', umlData.attributes[className][i])">Delete</button>
-          <button (click)="openRenameDialog('attribute', umlData.attributes[className][i])">Rename</button>
+          <button mat-icon-button (click)="deleteElement('attribute', umlData.attributes[className][i])" aria-label="Delete attribute">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openRenameDialog('attribute', umlData.attributes[className][i])" aria-label="Rename attribute">
+            <mat-icon>edit</mat-icon>
+          </button>
         </div>
       </td>
     </tr>
@@ -46,8 +54,12 @@
       <td *ngFor="let className of umlData.classes" class="methods-section">
         <div *ngIf="umlData.methods?.[className]?.[i]">
           {{ umlData.methods?.[className]?.[i] }}
-          <button *ngIf="umlData.methods?.[className]?.[i]" (click)="deleteElement('method', umlData.methods![className][i])">Delete</button>
-          <button *ngIf="umlData.methods?.[className]?.[i]" (click)="openRenameDialog('method', umlData.methods![className][i])">Rename</button>
+          <button mat-icon-button (click)="deleteElement('method', umlData.methods![className][i])" aria-label="Delete method">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openRenameDialog('method', umlData.methods![className][i])" aria-label="Rename method">
+            <mat-icon>edit</mat-icon>
+          </button>
         </div>
       </td>
     </tr>
