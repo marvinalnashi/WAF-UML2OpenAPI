@@ -15,8 +15,11 @@
   </form>
   <table *ngIf="umlData" class="table">
     <thead>
+    <tr class="header-row">
+      <th [attr.colspan]="umlData.classes.length">Classes</th>
+    </tr>
     <tr>
-      <th *ngFor="let className of umlData.classes">
+      <th *ngFor="let className of umlData.classes" class="class-name-section">
         {{ className }}
         <button (click)="deleteElement('class', className)">Delete</button>
         <button (click)="openRenameDialog('class', className)">Rename</button>
@@ -24,8 +27,11 @@
     </tr>
     </thead>
     <tbody>
+    <tr class="header-row">
+      <td [attr.colspan]="umlData.classes.length">Attributes</td>
+    </tr>
     <tr *ngFor="let i of maxAttributeRows(umlData)">
-      <td *ngFor="let className of umlData.classes">
+      <td *ngFor="let className of umlData.classes" class="attributes-section">
         <div *ngIf="umlData.attributes[className]?.[i]">
           {{ umlData.attributes[className]?.[i] }}
           <button (click)="deleteElement('attribute', umlData.attributes[className][i])">Delete</button>
@@ -33,8 +39,11 @@
         </div>
       </td>
     </tr>
+    <tr class="header-row">
+      <td [attr.colspan]="umlData.classes.length">Methods</td>
+    </tr>
     <tr *ngFor="let i of maxMethodRows(umlData)">
-      <td *ngFor="let className of umlData.classes">
+      <td *ngFor="let className of umlData.classes" class="methods-section">
         <div *ngIf="umlData.methods?.[className]?.[i]">
           {{ umlData.methods?.[className]?.[i] }}
           <button *ngIf="umlData.methods?.[className]?.[i]" (click)="deleteElement('method', umlData.methods![className][i])">Delete</button>
