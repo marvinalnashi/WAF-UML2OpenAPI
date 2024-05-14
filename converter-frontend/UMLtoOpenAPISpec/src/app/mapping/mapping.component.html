@@ -24,7 +24,7 @@
         <button mat-icon-button (click)="deleteElement('class', className, classIndex, className)" aria-label="Delete class">
           <mat-icon>delete</mat-icon>
         </button>
-        <button mat-icon-button (click)="openRenameDialog('class', className, className, classIndex)" aria-label="Rename class">
+        <button mat-icon-button (click)="openRenameDialog('class', className)" aria-label="Rename class">
           <mat-icon>edit</mat-icon>
         </button>
       </th>
@@ -41,7 +41,7 @@
           <button mat-icon-button (click)="deleteElement('attribute', umlData.attributes[className][i], i, className)" aria-label="Delete attribute">
             <mat-icon>delete</mat-icon>
           </button>
-          <button mat-icon-button (click)="openRenameDialog('attribute', umlData.attributes[className][i], className, i)" aria-label="Rename attribute">
+          <button mat-icon-button (click)="openRenameDialog('attribute', umlData.attributes[className][i])" aria-label="Rename attribute">
             <mat-icon>edit</mat-icon>
           </button>
         </div>
@@ -57,7 +57,7 @@
           <button mat-icon-button (click)="deleteElement('method', umlData.methods?.[className][i], i, className)" aria-label="Delete method">
             <mat-icon>delete</mat-icon>
           </button>
-          <button mat-icon-button (click)="openRenameDialog('method', umlData.methods?.[className][i], className, i)" aria-label="Rename method">
+          <button mat-icon-button (click)="openRenameDialog('method', umlData.methods![className][i])" aria-label="Rename method">
             <mat-icon>edit</mat-icon>
           </button>
         </div>

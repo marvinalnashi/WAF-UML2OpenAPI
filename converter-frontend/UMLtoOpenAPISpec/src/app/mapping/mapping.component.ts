@@ -89,29 +89,20 @@ export class MappingComponent implements OnInit {
     });
   }
 
-  openRenameDialog(type: string, oldName: string, className: string, index: number): void {
-    const dialogRef = this.dialog.open(RenameDialogComponent, {
-      width: '250px',
-      data: { name: oldName }
-    });
-
-    dialogRef.afterClosed().subscribe(newName => {
-      if (newName) {
-        this.renameElement(type, oldName, newName, className, index);
-      }
-    });
+  openRenameDialog(type: string, oldName: string): void {
+    let newName = prompt("Enter new name for " + oldName);
+    if (newName) {
+      this.renameElement(type, oldName, newName);
+    }
   }
 
-  renameElement(type: string, oldName: string, newName: string, className: string, index: number): void {
-    this.generationService.renameElement(type, oldName, newName).subscribe(() => {
-      if (type === 'class') {
-        const classIndex = this.umlData.classes.indexOf(oldName);
-        if (classIndex !== -1) {
-          this.umlData.classes[classIndex] = newName;
-        }
-      } else {
-        this.umlData[type][className][index] = newName;
-      }
+  renameElement(type: string, oldName: string, newName: string): void {
+    this.generationService.renameElement(type, oldName, newName).subscribe({
+      next: () => {
+        alert('Element renamed');
+        this.loadUMLData();
+      },
+      error: error => console.error('Failed to rename element:', error)
     });
   }
 
