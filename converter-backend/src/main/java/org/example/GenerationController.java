@@ -109,15 +109,20 @@ public class GenerationController {
     }
 
     private ResponseEntity<?> renameClass(String oldName, String newName) {
-        Map<String, List<String>> classes = (Map<String, List<String>>) umlDataStore.get("classes");
-        if (classes != null && classes.containsKey(oldName)) {
-            List<String> details = classes.remove(oldName);
-            classes.put(newName, details);
-            umlDataStore.put("classes", classes);
-            return ResponseEntity.ok("Class renamed successfully from " + oldName + " to " + newName);
+        Object classesObject = umlDataStore.get("classes");
+        if (classesObject instanceof List) {
+            List<String> classes = (List<String>) classesObject;
+            int index = classes.indexOf(oldName);
+            if (index != -1) {
+                classes.set(index, newName);
+                umlDataStore.put("classes", classes);
+                return ResponseEntity.ok("Class renamed successfully from " + oldName + " to " + newName);
+            }
+            return ResponseEntity.badRequest().body("Class not found: " + oldName);
         }
-        return ResponseEntity.badRequest().body("Class not found: " + oldName);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected data type for classes.");
     }
+
 
     private ResponseEntity<?> renameAttribute(String oldName, String newName) {
         Map<String, List<String>> attributes = (Map<String, List<String>>) umlDataStore.get("attributes");
