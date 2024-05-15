@@ -41,7 +41,6 @@ export class MappingComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialog: MatDialog,
     private generationService: GenerationService
   ) {
     this.mappingsForm = this.fb.group({
@@ -69,8 +68,26 @@ export class MappingComponent implements OnInit {
     this.mappings.push(this.fb.group({
       className: ['', Validators.required],
       url: ['', Validators.required],
-      method: ['', Validators.required]
+      method: ['', Validators.required],
+      methods: this.fb.array([]),
+      attributes: this.fb.array([])
     }));
+  }
+
+  addMethod(mappingIndex: number): void {
+    const methodName = prompt("Enter the name of the method you want to add:");
+    if (methodName) {
+      const mapping = this.mappings.at(mappingIndex) as FormGroup;
+      (mapping.get('methods') as FormArray).push(this.fb.control(methodName));
+    }
+  }
+
+  addAttribute(mappingIndex: number): void {
+    const attributeName = prompt("Enter the name of the attribute you want to add:");
+    if (attributeName) {
+      const mapping = this.mappings.at(mappingIndex) as FormGroup;
+      (mapping.get('attributes') as FormArray).push(this.fb.control(attributeName));
+    }
   }
 
   applyMappings(): void {

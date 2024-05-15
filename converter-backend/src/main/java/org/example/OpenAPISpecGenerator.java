@@ -50,6 +50,19 @@ public class OpenAPISpecGenerator {
         mappings.forEach(mapping -> {
             String url = "/" + mapping.get("url");
             paths.put(url, createMappedPathItem(mapping));
+
+            List<String> methodList = (List<String>) mapping.get("methods");
+            if (methodList != null) {
+                methodList.forEach(methodName ->
+                        paths.put(url + "/" + methodName.toLowerCase(), createMethodPathItem(methodName, mapping))
+                );
+            }
+            List<String> attributeList = (List<String>) mapping.get("attributes");
+            if (attributeList != null) {
+                attributeList.forEach(attributeName ->
+                        paths.put(url + "/" + attributeName.toLowerCase(), createAttributePathItem(attributeName, mapping))
+                );
+            }
         });
 
         openAPISpec.put("paths", paths);
@@ -79,6 +92,26 @@ public class OpenAPISpecGenerator {
         getOperation.put("responses", responses);
         pathItem.put("get", getOperation);
         return pathItem;
+    }
+
+    private static Map<String, Object> createMethodPathItem(String methodName, Map<String, Object> mapping) {
+        Map<String, Object> methodDetails = new LinkedHashMap<>();
+        methodDetails.put("summary", "Custom operation for " + methodName);
+        methodDetails.put("description", "Performs " + methodName + " on " + mapping.get("className"));
+        methodDetails.put("responses", Map.of(
+                "200", Map.of("description", "Successful operation")
+        ));
+        return Map.of("get", methodDetails);
+    }
+
+    private static Map<String, Object> createAttributePathItem(String attributeName, Map<String, Object> mapping) {
+        Map<String, Object> attributeDetails = new LinkedHashMap<>();
+        attributeDetails.put("summary", "Custom operation for " + attributeName);
+        attributeDetails.put("description", "Retrieves " + attributeName + " from " + mapping.get("className"));
+        attributeDetails.put("responses", Map.of(
+                "200", Map.of("description", "Successful retrieval")
+        ));
+        return Map.of("get", attributeDetails);
     }
 
     private static Map<String, Object> createMappedPathItem(Map<String, Object> mapping) {

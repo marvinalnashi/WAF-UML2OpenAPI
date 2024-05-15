@@ -15,12 +15,11 @@
               <option value="PUT">PUT</option>
               <option value="DELETE">DELETE</option>
             </select>
-<!--            <button mat-icon-button matTooltip="Remove mapping" (click)="removeMapping(i)">-->
-<!--              <mat-icon>delete</mat-icon>-->
-<!--            </button>-->
+            <button mat-button (click)="addMethod(i)">Add Method</button>
+            <button mat-button (click)="addAttribute(i)">Add Attribute</button>
           </div>
         </div>
-        <button mat-button (click)="addMapping()">Add Mappings</button>
+        <button mat-button (click)="addMapping()">Add Mapping</button>
       </form>
     </mat-tab>
     <mat-tab label="Manage Elements">
