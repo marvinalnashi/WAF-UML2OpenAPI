@@ -115,7 +115,19 @@ public class GenerationController {
             int index = classes.indexOf(oldName);
             if (index != -1) {
                 classes.set(index, newName);
+                Map<String, List<String>> attributes = (Map<String, List<String>>) umlDataStore.get("attributes");
+                if (attributes.containsKey(oldName)) {
+                    List<String> attrList = attributes.remove(oldName);
+                    attributes.put(newName, attrList);
+                }
+                Map<String, List<String>> methods = (Map<String, List<String>>) umlDataStore.get("methods");
+                if (methods.containsKey(oldName)) {
+                    List<String> methodList = methods.remove(oldName);
+                    methods.put(newName, methodList);
+                }
                 umlDataStore.put("classes", classes);
+                umlDataStore.put("attributes", attributes);
+                umlDataStore.put("methods", methods);
                 return ResponseEntity.ok("Class renamed successfully from " + oldName + " to " + newName);
             }
             return ResponseEntity.badRequest().body("Class not found: " + oldName);
