@@ -1,70 +1,89 @@
 <div class="mapping-container">
-  <form [formGroup]="mappingsForm">
-    <div formArrayName="mappings" *ngFor="let mapping of mappings.controls; let i = index">
-      <div [formGroupName]="i">
-        <input formControlName="className" placeholder="Class Name">
-        <input formControlName="url" placeholder="URL">
-        <select formControlName="method">
-          <option value="GET">GET</option>
-          <option value="POST">POST</option>
-        </select>
-      </div>
-    </div>
-    <button (click)="addMapping()">Add Mapping</button>
-    <button (click)="applyMappings()">Apply Mappings and Continue</button>
-  </form>
-  <table *ngIf="umlData" class="table">
-    <thead>
-    <tr class="header-row">
-      <th [attr.colspan]="umlData.classes.length">Classes</th>
-    </tr>
-    <tr>
-      <th *ngFor="let className of umlData.classes; let classIndex = index" class="cell-with-content">
-        {{ className }}
-        <button mat-icon-button (click)="deleteElement('class', className, classIndex, className)" aria-label="Delete class">
-          <mat-icon>delete</mat-icon>
-        </button>
-        <button mat-icon-button (click)="openRenameDialog('class', className)" aria-label="Rename class">
-          <mat-icon>edit</mat-icon>
-        </button>
-      </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="header-row">
-      <td [attr.colspan]="umlData.classes.length">Attributes</td>
-    </tr>
-    <tr *ngFor="let i of maxAttributeRows(umlData)">
-      <td *ngFor="let className of umlData.classes; let attrIndex = index"
-          [ngClass]="umlData.attributes[className]?.[i] ? 'cell-with-content' : 'cell-empty'">
-        <div *ngIf="umlData.attributes[className]?.[i]">
-          {{ umlData.attributes[className]?.[i] }}
-          <button mat-icon-button (click)="deleteElement('attribute', umlData.attributes[className][i], i, className)" aria-label="Delete attribute">
-            <mat-icon>delete</mat-icon>
-          </button>
-          <button mat-icon-button (click)="openRenameDialog('attribute', umlData.attributes[className][i])" aria-label="Rename attribute">
-            <mat-icon>edit</mat-icon>
-          </button>
+  <div class="mapping-button-container">
+    <button mat-button (click)="applyMappings()" class="mapping-button">Apply Mappings and Continue</button>
+  </div>
+  <mat-tab-group mat-stretch-tabs class="mat-elevation-z4">
+    <mat-tab label="Add Mapping">
+      <form [formGroup]="mappingsForm">
+        <div formArrayName="mappings" *ngFor="let mapping of mappings.controls; let i = index">
+          <div [formGroupName]="i">
+            <input formControlName="className" placeholder="Class Name">
+            <input formControlName="url" placeholder="URL">
+            <select formControlName="method">
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+              <option value="PUT">PUT</option>
+              <option value="DELETE">DELETE</option>
+            </select>
+<!--            <button mat-icon-button matTooltip="Remove mapping" (click)="removeMapping(i)">-->
+<!--              <mat-icon>delete</mat-icon>-->
+<!--            </button>-->
+          </div>
         </div>
-      </td>
-    </tr>
-    <tr class="header-row">
-      <td [attr.colspan]="umlData.classes.length">Methods</td>
-    </tr>
-    <tr *ngFor="let i of maxMethodRows(umlData)">
-      <td *ngFor="let className of umlData.classes; let methIndex = index"
-          [ngClass]="umlData.methods?.[className]?.[i] ? 'cell-with-content' : 'cell-empty'">
-        <div *ngIf="umlData.methods?.[className]?.[i]">
-          {{ umlData.methods?.[className]?.[i] }}
-          <button mat-icon-button (click)="deleteElement('method', umlData.methods?.[className][i], i, className)" aria-label="Delete method">
-            <mat-icon>delete</mat-icon>
-          </button>
-          <button mat-icon-button (click)="openRenameDialog('method', umlData.methods![className][i])" aria-label="Rename method">
-            <mat-icon>edit</mat-icon>
-          </button>
-        </div>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+        <button mat-button (click)="addMapping()">Add Mappings</button>
+      </form>
+    </mat-tab>
+    <mat-tab label="Manage Elements">
+      <table *ngIf="umlData" class="table">
+        <thead>
+        <tr class="header-row">
+          <th [attr.colspan]="umlData.classes.length">Classes</th>
+        </tr>
+        <tr>
+          <th *ngFor="let className of umlData.classes; let classIndex = index" class="cell-with-content">
+            {{ className }}
+            <button mat-icon-button (click)="deleteElement('class', className, classIndex, className)"
+                    aria-label="Delete class">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button (click)="openRenameDialog('class', className)" aria-label="Rename class">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="header-row">
+          <td [attr.colspan]="umlData.classes.length">Attributes</td>
+        </tr>
+        <tr *ngFor="let i of maxAttributeRows(umlData)">
+          <td *ngFor="let className of umlData.classes; let attrIndex = index"
+              [ngClass]="umlData.attributes[className]?.[i] ? 'cell-with-content' : 'cell-empty'">
+            <div *ngIf="umlData.attributes[className]?.[i]">
+              {{ umlData.attributes[className]?.[i] }}
+              <button mat-icon-button
+                      (click)="deleteElement('attribute', umlData.attributes[className][i], i, className)"
+                      aria-label="Delete attribute">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button mat-icon-button (click)="openRenameDialog('attribute', umlData.attributes[className][i])"
+                      aria-label="Rename attribute">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr class="header-row">
+          <td [attr.colspan]="umlData.classes.length">Methods</td>
+        </tr>
+        <tr *ngFor="let i of maxMethodRows(umlData)">
+          <td *ngFor="let className of umlData.classes; let methIndex = index"
+              [ngClass]="umlData.methods?.[className]?.[i] ? 'cell-with-content' : 'cell-empty'">
+            <div *ngIf="umlData.methods?.[className]?.[i]">
+              {{ umlData.methods?.[className]?.[i] }}
+              <button mat-icon-button (click)="deleteElement('method', umlData.methods?.[className][i], i, className)"
+                      aria-label="Delete method">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button mat-icon-button (click)="openRenameDialog('method', umlData.methods![className][i])"
+                      aria-label="Rename method">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </mat-tab>
+  </mat-tab-group>
 </div>

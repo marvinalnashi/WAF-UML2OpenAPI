@@ -1,4 +1,26 @@
 .mapping-container {
+  mat-tab-group {
+    border: 1px solid #CCC;
+    margin-top: 20px;
+  }
+
+  .mapping-button-container {
+    text-align: right;
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    background: #FFFFFF;
+    z-index: 1000;
+  }
+
+  .mapping-button {
+    color: white;
+    background-color: #0A84FF;
+    &:hover {
+      background-color: #0077CC;
+    }
+  }
+
   .table {
     border-collapse: collapse;
 
@@ -8,7 +30,7 @@
     }
 
     .header-row {
-      background-color: #f0f0f0;
+      background-color: #F0F0F0;
       font-weight: bold;
       text-align: center;
       border: 1px solid #FDC300 !important;

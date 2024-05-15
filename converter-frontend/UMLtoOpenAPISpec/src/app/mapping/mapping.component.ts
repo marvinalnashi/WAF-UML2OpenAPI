@@ -10,6 +10,8 @@ import {MatStepper} from "@angular/material/stepper";
 import {MatDialog} from "@angular/material/dialog";
 import {RenameDialogComponent} from "../rename-dialog/rename-dialog.component";
 import {MatIcon} from "@angular/material/icon";
+import {MatTab, MatTabGroup} from "@angular/material/tabs";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-mapping',
@@ -23,7 +25,10 @@ import {MatIcon} from "@angular/material/icon";
     NgIf,
     MatIcon,
     MatIconButton,
-    NgClass
+    NgClass,
+    MatTab,
+    MatTabGroup,
+    MatTooltip
   ],
   templateUrl: './mapping.component.html',
   styleUrl: './mapping.component.scss'
