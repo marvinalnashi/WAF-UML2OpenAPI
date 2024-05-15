@@ -5,7 +5,7 @@ import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/d
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {GenerationService} from "../generation.service";
 import {MatButton, MatIconButton} from "@angular/material/button";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {MatStepper} from "@angular/material/stepper";
 import {MatDialog} from "@angular/material/dialog";
 import {RenameDialogComponent} from "../rename-dialog/rename-dialog.component";
@@ -22,7 +22,8 @@ import {MatIcon} from "@angular/material/icon";
     CdkDrag,
     NgIf,
     MatIcon,
-    MatIconButton
+    MatIconButton,
+    NgClass
   ],
   templateUrl: './mapping.component.html',
   styleUrl: './mapping.component.scss'

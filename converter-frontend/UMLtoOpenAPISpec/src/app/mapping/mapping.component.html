@@ -19,7 +19,7 @@
       <th [attr.colspan]="umlData.classes.length">Classes</th>
     </tr>
     <tr>
-      <th *ngFor="let className of umlData.classes; let classIndex = index" class="class-name-section">
+      <th *ngFor="let className of umlData.classes; let classIndex = index" class="cell-with-content">
         {{ className }}
         <button mat-icon-button (click)="deleteElement('class', className, classIndex, className)" aria-label="Delete class">
           <mat-icon>delete</mat-icon>
@@ -35,7 +35,8 @@
       <td [attr.colspan]="umlData.classes.length">Attributes</td>
     </tr>
     <tr *ngFor="let i of maxAttributeRows(umlData)">
-      <td *ngFor="let className of umlData.classes; let attrIndex = index" class="attributes-section">
+      <td *ngFor="let className of umlData.classes; let attrIndex = index"
+          [ngClass]="umlData.attributes[className]?.[i] ? 'cell-with-content' : 'cell-empty'">
         <div *ngIf="umlData.attributes[className]?.[i]">
           {{ umlData.attributes[className]?.[i] }}
           <button mat-icon-button (click)="deleteElement('attribute', umlData.attributes[className][i], i, className)" aria-label="Delete attribute">
@@ -51,7 +52,8 @@
       <td [attr.colspan]="umlData.classes.length">Methods</td>
     </tr>
     <tr *ngFor="let i of maxMethodRows(umlData)">
-      <td *ngFor="let className of umlData.classes; let methIndex = index" class="methods-section">
+      <td *ngFor="let className of umlData.classes; let methIndex = index"
+          [ngClass]="umlData.methods?.[className]?.[i] ? 'cell-with-content' : 'cell-empty'">
         <div *ngIf="umlData.methods?.[className]?.[i]">
           {{ umlData.methods?.[className]?.[i] }}
           <button mat-icon-button (click)="deleteElement('method', umlData.methods?.[className][i], i, className)" aria-label="Delete method">

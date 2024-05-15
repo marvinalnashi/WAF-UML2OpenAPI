@@ -2,12 +2,9 @@
   .table {
     border-collapse: collapse;
 
-    th {
-      font-weight: normal;
-    }
-
     th, td {
       text-align: left;
+      font-weight: normal;
     }
 
     .header-row {
@@ -16,11 +13,13 @@
       text-align: center;
       border: 1px solid #FDC300 !important;
     }
-
-    .class-name-section,
-    .attributes-section,
-    .methods-section {
-      border: 1px solid #FDC300;
-    }
   }
+}
+
+.cell-with-content {
+  border: 1px solid #FDC300;
+}
+
+.cell-empty {
+  border: none;
 }
