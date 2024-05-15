@@ -49,27 +49,25 @@ public class OpenAPISpecGenerator {
 
         mappings.forEach(mapping -> {
             String className = (String) mapping.get("className");
-            String url = "/" + className.toLowerCase();
-            Map<String, Object> classOperations = new LinkedHashMap<>();
+            String baseUri = "/" + className.toLowerCase();
 
             String method = (String) mapping.get("method");
             if (method != null && !method.isEmpty()) {
-                classOperations.put(method.toLowerCase(), createOperation("Custom operation for " + className));
+                paths.put(baseUri, Map.of(method.toLowerCase(), createOperation("Custom operation for " + className)));
             }
 
             List<String> attrList = (List<String>) mapping.get("attributes");
             if (attrList != null && !attrList.isEmpty()) {
-                classOperations.put("get", createAttributeOperation("Get attributes of " + className, attrList));
+                String attrUri = baseUri + "/attributes";
+                paths.put(attrUri, Map.of("get", createAttributeOperation("Get attributes of " + className, attrList)));
             }
 
             List<String> methodList = (List<String>) mapping.get("methods");
             if (methodList != null && !methodList.isEmpty()) {
-                classOperations.put("get", createMethodOperation("Get methods of " + className, methodList));
+                String methodUri = baseUri + "/methods";
+                paths.put(methodUri, Map.of("get", createMethodOperation("Get methods of " + className, methodList)));
             }
-
-            paths.put(url, classOperations);
         });
-
 
         openAPISpec.put("paths", paths);
 
@@ -144,7 +142,7 @@ public class OpenAPISpecGenerator {
     private static Map<String, Object> createAttributeOperation(String description, List<String> attributes) {
         Map<String, Object> operation = new LinkedHashMap<>();
         operation.put("summary", description);
-        operation.put("description", description);
+        operation.put("description", "Fetch all attributes for " + description);
         operation.put("responses", Map.of("200", Map.of("description", "Successful retrieval", "content", Map.of("application/json", Map.of("example", attributes)))));
         return operation;
     }
@@ -152,7 +150,7 @@ public class OpenAPISpecGenerator {
     private static Map<String, Object> createMethodOperation(String description, List<String> methods) {
         Map<String, Object> operation = new LinkedHashMap<>();
         operation.put("summary", description);
-        operation.put("description", description);
+        operation.put("description", "Fetch all methods for " + description);
         operation.put("responses", Map.of("200", Map.of("description", "Successful retrieval", "content", Map.of("application/json", Map.of("example", methods)))));
         return operation;
     }
