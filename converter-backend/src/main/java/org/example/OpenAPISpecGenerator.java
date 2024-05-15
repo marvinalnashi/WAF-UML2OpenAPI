@@ -48,22 +48,28 @@ public class OpenAPISpecGenerator {
         });
 
         mappings.forEach(mapping -> {
-            String url = "/" + mapping.get("url");
-            paths.put(url, createMappedPathItem(mapping));
+            String className = (String) mapping.get("className");
+            String url = "/" + className.toLowerCase();
+            Map<String, Object> classOperations = new LinkedHashMap<>();
+
+            String method = (String) mapping.get("method");
+            if (method != null && !method.isEmpty()) {
+                classOperations.put(method.toLowerCase(), createOperation("Custom operation for " + className));
+            }
+
+            List<String> attrList = (List<String>) mapping.get("attributes");
+            if (attrList != null && !attrList.isEmpty()) {
+                classOperations.put("get", createAttributeOperation("Get attributes of " + className, attrList));
+            }
 
             List<String> methodList = (List<String>) mapping.get("methods");
-            if (methodList != null) {
-                methodList.forEach(methodName ->
-                        paths.put(url + "/" + methodName.toLowerCase(), createMethodPathItem(methodName, mapping))
-                );
+            if (methodList != null && !methodList.isEmpty()) {
+                classOperations.put("get", createMethodOperation("Get methods of " + className, methodList));
             }
-            List<String> attributeList = (List<String>) mapping.get("attributes");
-            if (attributeList != null) {
-                attributeList.forEach(attributeName ->
-                        paths.put(url + "/" + attributeName.toLowerCase(), createAttributePathItem(attributeName, mapping))
-                );
-            }
+
+            paths.put(url, classOperations);
         });
+
 
         openAPISpec.put("paths", paths);
 
@@ -124,5 +130,30 @@ public class OpenAPISpecGenerator {
         ));
 
         return Map.of(method.toLowerCase(), methodDetails);
+    }
+
+
+    private static Map<String, Object> createOperation(String description) {
+        Map<String, Object> operation = new LinkedHashMap<>();
+        operation.put("summary", description);
+        operation.put("description", description);
+        operation.put("responses", Map.of("200", Map.of("description", "Successful operation")));
+        return operation;
+    }
+
+    private static Map<String, Object> createAttributeOperation(String description, List<String> attributes) {
+        Map<String, Object> operation = new LinkedHashMap<>();
+        operation.put("summary", description);
+        operation.put("description", description);
+        operation.put("responses", Map.of("200", Map.of("description", "Successful retrieval", "content", Map.of("application/json", Map.of("example", attributes)))));
+        return operation;
+    }
+
+    private static Map<String, Object> createMethodOperation(String description, List<String> methods) {
+        Map<String, Object> operation = new LinkedHashMap<>();
+        operation.put("summary", description);
+        operation.put("description", description);
+        operation.put("responses", Map.of("200", Map.of("description", "Successful retrieval", "content", Map.of("application/json", Map.of("example", methods)))));
+        return operation;
     }
 }
