@@ -186,6 +186,11 @@ export class MappingComponent implements OnInit {
     return [...Array(maxRows).keys()];
   }
 
+  // This function may not be mandatory but helps enforce a fixed amount of HTTP methods
+  maxHttpMethodRows(data: any): number[] {
+    return [0, 1, 2, 3, 4];
+  }
+
   getHttpMethodsForClass(className: string) {
     return [
       { url: `/${className.toLowerCase()}`, method: 'GET' },

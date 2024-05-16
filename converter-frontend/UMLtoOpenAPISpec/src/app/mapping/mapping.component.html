@@ -84,10 +84,11 @@
         <tr class="header-row">
           <td [attr.colspan]="umlData.classes.length">HTTP Methods</td>
         </tr>
-        <tr *ngFor="let className of umlData.classes">
-          <td *ngFor="let method of getHttpMethodsForClass(className)">
-            <div>
-              <mat-checkbox></mat-checkbox> {{ method.url }} ({{ method.method }})
+        <tr *ngFor="let i of maxHttpMethodRows(umlData)">
+          <td *ngFor="let className of umlData.classes; let classIndex = index"
+              [ngClass]="getHttpMethodsForClass(className)[i] ? 'cell-with-content' : 'cell-empty'">
+            <div *ngIf="getHttpMethodsForClass(className)[i]">
+              <mat-checkbox></mat-checkbox> {{ getHttpMethodsForClass(className)[i].url }} ({{ getHttpMethodsForClass(className)[i].method }})
             </div>
           </td>
         </tr>
