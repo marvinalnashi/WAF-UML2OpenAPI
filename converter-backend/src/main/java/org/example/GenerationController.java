@@ -1,5 +1,6 @@
 package org.example;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -135,7 +136,6 @@ public class GenerationController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected data type for classes.");
     }
 
-
     private ResponseEntity<?> renameAttribute(String oldName, String newName) {
         Map<String, List<String>> attributes = (Map<String, List<String>>) umlDataStore.get("attributes");
         if (attributes != null) {
@@ -192,23 +192,25 @@ public class GenerationController {
         }
     }
 
-    @PostMapping("/generate")
-    public ResponseEntity<String> generateOpenAPISpec(@RequestParam("file") MultipartFile file, @RequestBody Map<String, List<String>> selectedHttpMethods) {
+    @PostMapping(value = "/generate", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Map<String, String>> generateOpenAPISpec(@RequestParam("file") MultipartFile file,
+                                                                   @RequestParam("selectedHttpMethods") String selectedHttpMethodsJson) {
         if (file.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File is empty");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "File is empty"));
         }
 
         try {
+            Map<String, List<String>> selectedHttpMethods = new ObjectMapper().readValue(selectedHttpMethodsJson, HashMap.class);
             Map<String, List<String>> classes = safelyCastToMap(umlDataStore.get("classes"));
             Map<String, List<String>> attributes = safelyCastToMap(umlDataStore.get("attributes"));
             Map<String, List<String>> methods = safelyCastToMap(umlDataStore.get("methods"));
 
             String openAPISpec = openAPISpecGenerator.generateSpec(classes, attributes, methods, savedMappings, outputPath, selectedHttpMethods);
-            return ResponseEntity.ok(openAPISpec);
+            return ResponseEntity.ok(Map.of("message", "OpenAPI specification generated successfully at " + outputPath));
         } catch (ClassCastException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Data type casting error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Data type casting error: " + e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during generation: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error during generation: " + e.getMessage()));
         }
     }
 
