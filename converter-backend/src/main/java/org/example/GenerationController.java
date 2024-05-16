@@ -1,7 +1,6 @@
 package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -12,12 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -200,16 +195,25 @@ public class GenerationController {
         }
 
         try {
+            System.out.println("Selected HTTP Methods in JSON format: " + selectedHttpMethodsJson);
             Map<String, List<String>> selectedHttpMethods = new ObjectMapper().readValue(selectedHttpMethodsJson, HashMap.class);
+            System.out.println("Selected HTTP Methods: " + selectedHttpMethods);
+
             Map<String, List<String>> classes = safelyCastToMap(umlDataStore.get("classes"));
             Map<String, List<String>> attributes = safelyCastToMap(umlDataStore.get("attributes"));
             Map<String, List<String>> methods = safelyCastToMap(umlDataStore.get("methods"));
 
+            System.out.println("Classes: " + classes);
+            System.out.println("Attributes: " + attributes);
+            System.out.println("Methods: " + methods);
+
             String openAPISpec = openAPISpecGenerator.generateSpec(classes, attributes, methods, savedMappings, outputPath, selectedHttpMethods);
-            return ResponseEntity.ok(Map.of("message", "OpenAPI specification generated successfully at " + outputPath));
+            return ResponseEntity.ok(Map.of("message", openAPISpec));
         } catch (ClassCastException e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Data type casting error: " + e.getMessage()));
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error during generation: " + e.getMessage()));
         }
     }
