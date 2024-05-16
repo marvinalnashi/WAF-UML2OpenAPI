@@ -88,7 +88,8 @@
           <td *ngFor="let className of umlData.classes; let classIndex = index"
               [ngClass]="getHttpMethodsForClass(className)[i] ? 'cell-with-content' : 'cell-empty'">
             <div *ngIf="getHttpMethodsForClass(className)[i]">
-              <mat-checkbox></mat-checkbox> {{ getHttpMethodsForClass(className)[i].url }} ({{ getHttpMethodsForClass(className)[i].method }})
+              <mat-checkbox (change)="toggleHttpMethodSelection(className, getHttpMethodsForClass(className)[i].method)"></mat-checkbox>
+              {{ getHttpMethodsForClass(className)[i].url }} ({{ getHttpMethodsForClass(className)[i].method }})
             </div>
           </td>
         </tr>

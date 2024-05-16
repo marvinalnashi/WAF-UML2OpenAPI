@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import {MappingComponent} from "../mapping/mapping.component";
-import {FileService} from "../file.service";
 
 @Component({
   selector: 'app-generation',
@@ -38,6 +37,7 @@ export class GenerationComponent implements AfterViewInit, OnInit {
   serverButtonText = 'Start mock server';
   mappingFormGroup: FormGroup;
   umlData: any;
+  selectedHttpMethods: { [className: string]: { [method: string]: boolean } } = {};
   elementCount = {
     classes: 0,
     attributes: 0,
@@ -62,9 +62,7 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     });
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -87,9 +85,29 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     this.umlDataEmitter.emit(data);
   }
 
+  onHttpMethodsSelected(selectedMethods: { [className: string]: { [method: string]: boolean } }) {
+    this.selectedHttpMethods = selectedMethods;
+  }
+
   generate(): void {
     if (this.uploadedFile) {
-      this.generationService.generateSpec(this.uploadedFile).subscribe({
+      const selectedMethods: { [className: string]: string[] } = {};
+      for (const className in this.selectedHttpMethods) {
+        if (this.selectedHttpMethods.hasOwnProperty(className)) {
+          selectedMethods[className] = [];
+          for (const method in this.selectedHttpMethods[className]) {
+            if (this.selectedHttpMethods[className].hasOwnProperty(method) && this.selectedHttpMethods[className][method]) {
+              selectedMethods[className].push(method);
+            }
+          }
+        }
+      }
+
+      const formData = new FormData();
+      formData.append('file', this.uploadedFile);
+      formData.append('selectedHttpMethods', JSON.stringify(selectedMethods));
+
+      this.generationService.generateSpec(formData).subscribe({
         next: (response) => {
           console.log('Generation successful', response);
           this.isGeneratedSuccessfully = true;

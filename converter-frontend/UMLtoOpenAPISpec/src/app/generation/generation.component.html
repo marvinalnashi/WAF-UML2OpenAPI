@@ -14,7 +14,7 @@
 
     <mat-step [stepControl]="mappingFormGroup">
       <ng-template matStepLabel>Mapping</ng-template>
-      <app-mapping (mappingCompleted)="onMappingCompleted($event)" [umlData]="umlData"></app-mapping>
+      <app-mapping (mappingCompleted)="onMappingCompleted($event)" (httpMethodsSelected)="onHttpMethodsSelected($event)" [umlData]="umlData"></app-mapping>
     </mat-step>
 
     <mat-step>
@@ -39,6 +39,9 @@
       <ng-template matStepLabel>Manage</ng-template>
       <button mat-button (click)="toggleMockServer()">{{ serverButtonText }}</button>
       <button mat-button (click)="restartApplication()">Restart Stepper</button>
+      <div *ngIf="isGeneratedSuccessfully">
+        <p>OpenAPI specification generated successfully. You can download it <a href="http://localhost:8080/export.yml" target="_blank">here</a>.</p>
+      </div>
     </mat-step>
   </mat-horizontal-stepper>
 </div>

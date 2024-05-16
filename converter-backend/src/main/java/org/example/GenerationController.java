@@ -193,7 +193,7 @@ public class GenerationController {
     }
 
     @PostMapping("/generate")
-    public ResponseEntity<String> generateOpenAPISpec(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> generateOpenAPISpec(@RequestParam("file") MultipartFile file, @RequestBody Map<String, List<String>> selectedHttpMethods) {
         if (file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File is empty");
         }
@@ -203,7 +203,7 @@ public class GenerationController {
             Map<String, List<String>> attributes = safelyCastToMap(umlDataStore.get("attributes"));
             Map<String, List<String>> methods = safelyCastToMap(umlDataStore.get("methods"));
 
-            String openAPISpec = openAPISpecGenerator.generateSpec(classes, attributes, methods, savedMappings, outputPath);
+            String openAPISpec = openAPISpecGenerator.generateSpec(classes, attributes, methods, savedMappings, outputPath, selectedHttpMethods);
             return ResponseEntity.ok(openAPISpec);
         } catch (ClassCastException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Data type casting error: " + e.getMessage());

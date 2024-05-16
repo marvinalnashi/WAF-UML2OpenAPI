@@ -15,7 +15,8 @@ public class OpenAPISpecGenerator {
                                       Map<String, List<String>> attributes,
                                       Map<String, List<String>> methods,
                                       List<Map<String, Object>> mappings,
-                                      String outputPath) throws Exception {
+                                      String outputPath,
+                                      Map<String, List<String>> selectedHttpMethods) throws Exception {
         Map<String, Object> openAPISpec = new LinkedHashMap<>();
         openAPISpec.put("openapi", "3.0.0");
 
@@ -44,6 +45,13 @@ public class OpenAPISpecGenerator {
             if (methods.containsKey(className)) {
                 paths.put("/" + className.toLowerCase() + "/methods",
                         createPathItem("Get methods of " + className, methods.get(className)));
+            }
+
+            List<String> selectedMethods = selectedHttpMethods.get(className);
+            if (selectedMethods != null) {
+                for (String method : selectedMethods) {
+                    paths.put("/" + className.toLowerCase() + method, createSimpleOperation(method.toUpperCase()));
+                }
             }
         });
 
@@ -98,6 +106,14 @@ public class OpenAPISpecGenerator {
         return pathItem;
     }
 
+    private static Map<String, Object> createSimpleOperation(String method) {
+        Map<String, Object> operation = new LinkedHashMap<>();
+        operation.put("summary", method + " operation");
+        operation.put("description", "Performs " + method + " operation");
+        operation.put("responses", Map.of("200", Map.of("description", "Successful operation")));
+        return Map.of(method.toLowerCase(), operation);
+    }
+
     private static Map<String, Object> createMethodPathItem(String methodName, Map<String, Object> mapping) {
         Map<String, Object> methodDetails = new LinkedHashMap<>();
         methodDetails.put("summary", "Custom operation for " + methodName);
@@ -129,7 +145,6 @@ public class OpenAPISpecGenerator {
 
         return Map.of(method.toLowerCase(), methodDetails);
     }
-
 
     private static Map<String, Object> createOperation(String description) {
         Map<String, Object> operation = new LinkedHashMap<>();

@@ -39,7 +39,9 @@ export class MappingComponent implements OnInit {
   @Input() file: File | undefined;
   @Input() umlData: any;
   @Output() mappingCompleted = new EventEmitter<boolean>();
+  @Output() httpMethodsSelected = new EventEmitter<{ [className: string]: { [method: string]: boolean } }>();
   mappingsForm: FormGroup;
+  selectedHttpMethods: { [className: string]: { [method: string]: boolean } } = {};
 
   constructor(
     private fb: FormBuilder,
@@ -58,6 +60,7 @@ export class MappingComponent implements OnInit {
     if (this.file) {
       this.generationService.parseDiagramElements(this.file).subscribe(data => {
         this.umlData = data;
+        this.initHttpMethodSelection();
       });
     }
   }
@@ -96,6 +99,7 @@ export class MappingComponent implements OnInit {
     if (this.mappingsForm.valid) {
       this.generationService.applyMappings(this.mappingsForm.value.mappings).subscribe(() => {
         this.mappingCompleted.emit(true);
+        this.httpMethodsSelected.emit(this.selectedHttpMethods);
       });
     }
   }
@@ -199,5 +203,24 @@ export class MappingComponent implements OnInit {
       { url: `/${className.toLowerCase()}/{id}`, method: 'PUT' },
       { url: `/${className.toLowerCase()}/{id}`, method: 'DELETE' }
     ];
+  }
+
+  initHttpMethodSelection() {
+    this.umlData.classes.forEach((className: string) => {
+      this.selectedHttpMethods[className] = {
+        'GET': false,
+        'GET/{id}': false,
+        'POST': false,
+        'PUT/{id}': false,
+        'DELETE/{id}': false
+      };
+    });
+  }
+
+  toggleHttpMethodSelection(className: string, method: string) {
+    if (!this.selectedHttpMethods[className]) {
+      this.selectedHttpMethods[className] = {};
+    }
+    this.selectedHttpMethods[className][method] = !this.selectedHttpMethods[className][method];
   }
 }
