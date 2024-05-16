@@ -12,6 +12,7 @@ import {RenameDialogComponent} from "../rename-dialog/rename-dialog.component";
 import {MatIcon} from "@angular/material/icon";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {MatTooltip} from "@angular/material/tooltip";
+import {MatCheckbox} from "@angular/material/checkbox";
 
 @Component({
   selector: 'app-mapping',
@@ -28,7 +29,8 @@ import {MatTooltip} from "@angular/material/tooltip";
     NgClass,
     MatTab,
     MatTabGroup,
-    MatTooltip
+    MatTooltip,
+    MatCheckbox
   ],
   templateUrl: './mapping.component.html',
   styleUrl: './mapping.component.scss'
@@ -182,5 +184,15 @@ export class MappingComponent implements OnInit {
       }
     }
     return [...Array(maxRows).keys()];
+  }
+
+  getHttpMethodsForClass(className: string) {
+    return [
+      { url: `/${className.toLowerCase()}`, method: 'GET' },
+      { url: `/${className.toLowerCase()}/{id}`, method: 'GET' },
+      { url: `/${className.toLowerCase()}`, method: 'POST' },
+      { url: `/${className.toLowerCase()}/{id}`, method: 'PUT' },
+      { url: `/${className.toLowerCase()}/{id}`, method: 'DELETE' }
+    ];
   }
 }

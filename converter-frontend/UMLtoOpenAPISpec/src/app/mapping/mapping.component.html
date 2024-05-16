@@ -81,6 +81,16 @@
             </div>
           </td>
         </tr>
+        <tr class="header-row">
+          <td [attr.colspan]="umlData.classes.length">HTTP Methods</td>
+        </tr>
+        <tr *ngFor="let className of umlData.classes">
+          <td *ngFor="let method of getHttpMethodsForClass(className)">
+            <div>
+              <mat-checkbox></mat-checkbox> {{ method.url }} ({{ method.method }})
+            </div>
+          </td>
+        </tr>
         </tbody>
       </table>
     </mat-tab>
