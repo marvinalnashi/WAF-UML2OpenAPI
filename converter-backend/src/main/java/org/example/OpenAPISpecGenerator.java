@@ -46,17 +46,17 @@ public class OpenAPISpecGenerator {
                 for (String method : selectedMethods) {
                     switch (method.toUpperCase()) {
                         case "GET":
-                            addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperation("GET"));
+                            addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperationWithId("GET"));
                             addPathItem(paths, "/" + className.toLowerCase(), createSimpleOperation("GET"));
                             break;
                         case "POST":
                             addPathItem(paths, "/" + className.toLowerCase(), createSimpleOperation("POST"));
                             break;
                         case "PUT":
-                            addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperation("PUT"));
+                            addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperationWithId("PUT"));
                             break;
                         case "DELETE":
-                            addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperation("DELETE"));
+                            addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperationWithId("DELETE"));
                             break;
                     }
                 }
@@ -118,6 +118,24 @@ public class OpenAPISpecGenerator {
         Map<String, Object> operation = new LinkedHashMap<>();
         operation.put("summary", method + " operation");
         operation.put("description", "Performs " + method + " operation");
+        operation.put("responses", Map.of("200", Map.of("description", "Successful operation")));
+        return Map.of(method.toLowerCase(), operation);
+    }
+
+    private static Map<String, Object> createSimpleOperationWithId(String method) {
+        Map<String, Object> operation = new LinkedHashMap<>();
+        operation.put("summary", method + " operation");
+        operation.put("description", "Performs " + method + " operation");
+
+        List<Map<String, Object>> parameters = new ArrayList<>();
+        Map<String, Object> idParam = new LinkedHashMap<>();
+        idParam.put("name", "id");
+        idParam.put("in", "path");
+        idParam.put("required", true);
+        idParam.put("schema", Map.of("type", "string"));
+        parameters.add(idParam);
+        operation.put("parameters", parameters);
+
         operation.put("responses", Map.of("200", Map.of("description", "Successful operation")));
         return Map.of(method.toLowerCase(), operation);
     }
