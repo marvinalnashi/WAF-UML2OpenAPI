@@ -192,12 +192,11 @@ export class MappingComponent implements OnInit {
 
   // This function may not be mandatory but helps enforce a fixed amount of HTTP methods
   maxHttpMethodRows(data: any): number[] {
-    return [0, 1, 2, 3, 4];
+    return [0, 1, 2, 3];
   }
 
   getHttpMethodsForClass(className: string) {
     return [
-      { url: `/${className.toLowerCase()}`, method: 'GET' },
       { url: `/${className.toLowerCase()}/{id}`, method: 'GET' },
       { url: `/${className.toLowerCase()}`, method: 'POST' },
       { url: `/${className.toLowerCase()}/{id}`, method: 'PUT' },
@@ -208,7 +207,6 @@ export class MappingComponent implements OnInit {
   initHttpMethodSelection() {
     this.umlData.classes.forEach((className: string) => {
       this.selectedHttpMethods[className] = {
-        'GET': false,
         'GET/{id}': false,
         'POST': false,
         'PUT/{id}': false,

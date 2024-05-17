@@ -3,7 +3,7 @@
     <button mat-button (click)="applyMappings()" class="mapping-button">Apply Mappings and Continue</button>
   </div>
   <mat-tab-group mat-stretch-tabs class="mat-elevation-z4">
-    <mat-tab label="Add Mapping">
+    <mat-tab label="Add Elements">
       <form class="remove-overflow" [formGroup]="mappingsForm">
         <div formArrayName="mappings" *ngFor="let mapping of mappings.controls; let i = index">
           <div [formGroupName]="i">
