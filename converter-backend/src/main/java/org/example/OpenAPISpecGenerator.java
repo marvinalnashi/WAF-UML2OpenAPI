@@ -14,83 +14,88 @@ public class OpenAPISpecGenerator {
                                       List<Map<String, Object>> mappings,
                                       String outputPath,
                                       Map<String, List<String>> selectedHttpMethods) throws Exception {
-        Map<String, Object> openAPISpec = new LinkedHashMap<>();
-        openAPISpec.put("openapi", "3.0.0");
+        try {
+            Map<String, Object> openAPISpec = new LinkedHashMap<>();
+            openAPISpec.put("openapi", "3.0.0");
 
-        Map<String, Object> info = new LinkedHashMap<>();
-        info.put("title", "Generated API");
-        info.put("version", "1.0.0");
-        info.put("description", "API dynamically generated from UML.");
-        openAPISpec.put("info", info);
+            Map<String, Object> info = new LinkedHashMap<>();
+            info.put("title", "Generated API");
+            info.put("version", "1.0.0");
+            info.put("description", "API dynamically generated from UML.");
+            openAPISpec.put("info", info);
 
-        List<Map<String, String>> servers = new ArrayList<>();
-        Map<String, String> server = new LinkedHashMap<>();
-        server.put("url", "http://localhost:4010");
-        servers.add(server);
-        openAPISpec.put("servers", servers);
+            List<Map<String, String>> servers = new ArrayList<>();
+            Map<String, String> server = new LinkedHashMap<>();
+            server.put("url", "http://localhost:4010");
+            servers.add(server);
+            openAPISpec.put("servers", servers);
 
-        Map<String, Object> paths = new LinkedHashMap<>();
-        entities.forEach((className, classList) -> {
-            addPathItem(paths, "/" + className.toLowerCase(), createPathItem("Get all instances of " + className, classList));
+            Map<String, Object> paths = new LinkedHashMap<>();
+            entities.forEach((className, classList) -> {
+                addPathItem(paths, "/" + className.toLowerCase(), createPathItem("Get all instances of " + className, classList));
 
-            if (attributes.containsKey(className)) {
-                addPathItem(paths, "/" + className.toLowerCase() + "/attributes", createPathItem("Get attributes of " + className, attributes.get(className)));
-            }
+                if (attributes.containsKey(className)) {
+                    addPathItem(paths, "/" + className.toLowerCase() + "/attributes", createPathItem("Get attributes of " + className, attributes.get(className)));
+                }
 
-            if (methods.containsKey(className)) {
-                addPathItem(paths, "/" + className.toLowerCase() + "/methods", createPathItem("Get methods of " + className, methods.get(className)));
-            }
+                if (methods.containsKey(className)) {
+                    addPathItem(paths, "/" + className.toLowerCase() + "/methods", createPathItem("Get methods of " + className, methods.get(className)));
+                }
 
-            List<String> selectedMethods = selectedHttpMethods.get(className);
-            if (selectedMethods != null) {
-                for (String method : selectedMethods) {
-                    switch (method.toUpperCase()) {
-                        case "GET":
-                            addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperationWithId("GET"));
-                            addPathItem(paths, "/" + className.toLowerCase(), createSimpleOperation("GET"));
-                            break;
-                        case "POST":
-                            addPathItem(paths, "/" + className.toLowerCase(), createSimpleOperation("POST"));
-                            break;
-                        case "PUT":
-                            addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperationWithId("PUT"));
-                            break;
-                        case "DELETE":
-                            addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperationWithId("DELETE"));
-                            break;
+                List<String> selectedMethods = selectedHttpMethods.get(className);
+                if (selectedMethods != null) {
+                    for (String method : selectedMethods) {
+                        switch (method.toUpperCase()) {
+                            case "GET":
+                                addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperationWithId("GET"));
+                                break;
+                            case "POST":
+                                addPathItem(paths, "/" + className.toLowerCase(), createSimpleOperation("POST"));
+                                break;
+                            case "PUT":
+                                addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperationWithId("PUT"));
+                                break;
+                            case "DELETE":
+                                addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperationWithId("DELETE"));
+                                break;
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        mappings.forEach(mapping -> {
-            String className = (String) mapping.get("className");
-            String baseUri = "/" + className.toLowerCase();
+            mappings.forEach(mapping -> {
+                String className = (String) mapping.get("className");
+                String baseUri = "/" + className.toLowerCase();
 
-            String method = (String) mapping.get("method");
-            if (method != null && !method.isEmpty()) {
-                addPathItem(paths, baseUri, Map.of(method.toLowerCase(), createOperation("Custom operation for " + className)));
-            }
+                String method = (String) mapping.get("method");
+                if (method != null && !method.isEmpty()) {
+                    addPathItem(paths, baseUri, Map.of(method.toLowerCase(), createOperation("Custom operation for " + className)));
+                }
 
-            List<String> attrList = (List<String>) mapping.get("attributes");
-            if (attrList != null && !attrList.isEmpty()) {
-                String attrUri = baseUri + "/attributes";
-                addPathItem(paths, attrUri, Map.of("get", createAttributeOperation("Get attributes of " + className, attrList)));
-            }
+                List<String> attrList = (List<String>) mapping.get("attributes");
+                if (attrList != null && !attrList.isEmpty()) {
+                    String attrUri = baseUri + "/attributes";
+                    addPathItem(paths, attrUri, Map.of("get", createAttributeOperation("Get attributes of " + className, attrList)));
+                }
 
-            List<String> methodList = (List<String>) mapping.get("methods");
-            if (methodList != null && !methodList.isEmpty()) {
-                String methodUri = baseUri + "/methods";
-                addPathItem(paths, methodUri, Map.of("get", createMethodOperation("Get methods of " + className, methodList)));
-            }
-        });
+                List<String> methodList = (List<String>) mapping.get("methods");
+                if (methodList != null && !methodList.isEmpty()) {
+                    String methodUri = baseUri + "/methods";
+                    addPathItem(paths, methodUri, Map.of("get", createMethodOperation("Get methods of " + className, methodList)));
+                }
+            });
 
-        openAPISpec.put("paths", paths);
+            openAPISpec.put("paths", paths);
 
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        mapper.writeValue(new File(outputPath), openAPISpec);
+            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+            mapper.writeValue(new File(outputPath), openAPISpec);
 
-        return "OpenAPI specification generated successfully at " + outputPath;
+            return "OpenAPI specification generated successfully at " + outputPath;
+        } catch (Exception e) {
+            System.err.println("Error during OpenAPI specification generation: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     private static Map<String, Object> createPathItem(String description, List<String> details) {
@@ -165,8 +170,12 @@ public class OpenAPISpecGenerator {
     }
 
     private static void addPathItem(Map<String, Object> paths, String path, Map<String, Object> operation) {
-        Map<String, Object> existingOperations = (Map<String, Object>) paths.getOrDefault(path, new LinkedHashMap<>());
-        existingOperations.putAll(operation);
-        paths.put(path, existingOperations);
+        if (paths.containsKey(path)) {
+            Map<String, Object> existingOperations = new LinkedHashMap<>((Map<String, Object>) paths.get(path));
+            existingOperations.putAll(operation);
+            paths.put(path, existingOperations);
+        } else {
+            paths.put(path, operation);
+        }
     }
 }
