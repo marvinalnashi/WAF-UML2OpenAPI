@@ -203,14 +203,11 @@ public class GenerationController {
             Map<String, List<String>> attributes = safelyCastToMap(umlDataStore.get("attributes"));
             Map<String, List<String>> methods = safelyCastToMap(umlDataStore.get("methods"));
 
-            Map<String, Map<String, Object>> dummyData = safelyCastToMapOfMaps(umlDataStore.get("dummyData"));
-
             System.out.println("Classes: " + classes);
             System.out.println("Attributes: " + attributes);
             System.out.println("Methods: " + methods);
-            System.out.println("Dummy Data: " + dummyData);
 
-            String openAPISpec = openAPISpecGenerator.generateSpec(classes, attributes, methods, savedMappings, outputPath, selectedHttpMethods, dummyData);
+            String openAPISpec = openAPISpecGenerator.generateSpec(classes, attributes, methods, savedMappings, outputPath, selectedHttpMethods);
             return ResponseEntity.ok(Map.of("message", openAPISpec));
         } catch (ClassCastException e) {
             e.printStackTrace();
@@ -278,39 +275,5 @@ public class GenerationController {
         } else {
             throw new ClassCastException("Expected Map but found " + (data == null ? "null" : data.getClass().getSimpleName()));
         }
-    }
-
-    private Map<String, Map<String, Object>> safelyCastToMapOfMaps(Object data) {
-        if (data instanceof Map) {
-            return (Map<String, Map<String, Object>>) data;
-        } else if (data instanceof List) {
-            Map<String, Map<String, Object>> map = new HashMap<>();
-            for (Object item : (List) data) {
-                if (item instanceof String) {
-                    map.put((String) item, new HashMap<>());
-                }
-            }
-            return map;
-        } else {
-            throw new ClassCastException("Expected Map of Maps but found " + (data == null ? "null" : data.getClass().getSimpleName()));
-        }
-    }
-
-    @PostMapping("/add-dummy-data")
-    public ResponseEntity<?> addDummyData(@RequestBody Map<String, Object> dummyData) {
-        if (dummyData == null || dummyData.isEmpty()) {
-            return ResponseEntity.badRequest().body("No dummy data received or data is empty");
-        }
-        umlDataStore.put("dummyData", dummyData);
-        return ResponseEntity.ok().body("Dummy data added successfully");
-    }
-
-    @GetMapping("/get-dummy-data")
-    public ResponseEntity<?> getDummyData() {
-        Object dummyData = umlDataStore.get("dummyData");
-        if (dummyData == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No dummy data found");
-        }
-        return ResponseEntity.ok(dummyData);
     }
 }

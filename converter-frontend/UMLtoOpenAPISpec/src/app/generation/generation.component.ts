@@ -2,13 +2,12 @@ import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from 
 import { GenerationService } from '../generation.service';
 import { MockServerService } from '../mock-server.service';
 import { HttpClient } from '@angular/common/http';
-import {MatStep, MatStepLabel, MatStepper, MatStepperNext} from '@angular/material/stepper';
+import {MatStep, MatStepLabel, MatStepper} from '@angular/material/stepper';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import {MappingComponent} from "../mapping/mapping.component";
-import {DataComponent} from "../data/data.component";
 
 @Component({
   selector: 'app-generation',
@@ -22,9 +21,7 @@ import {DataComponent} from "../data/data.component";
     MatButtonModule,
     MatStep,
     MatStepLabel,
-    MappingComponent,
-    DataComponent,
-    MatStepperNext
+    MappingComponent
   ],
   templateUrl: './generation.component.html',
   providers: [GenerationService, MockServerService]
