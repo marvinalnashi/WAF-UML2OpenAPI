@@ -17,6 +17,11 @@
       <app-mapping (mappingCompleted)="onMappingCompleted($event)" (httpMethodsSelected)="onHttpMethodsSelected($event)" [umlData]="umlData"></app-mapping>
     </mat-step>
 
+    <mat-step label="Data">
+      <app-data></app-data>
+      <button mat-button matStepperNext>Next</button>
+    </mat-step>
+
     <mat-step>
       <ng-template matStepLabel>Generate</ng-template>
       <div *ngIf="uploadedFile">

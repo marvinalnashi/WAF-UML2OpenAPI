@@ -1,0 +1,19 @@
+<form [formGroup]="dataForm" (ngSubmit)="submitData()">
+  <div formArrayName="classes">
+    <div *ngFor="let classGroup of classes.controls; let i = index" [formGroupName]="i">
+      <h3>{{ classGroup.get('className')?.value }}</h3>
+      <div formArrayName="attributes">
+        <div *ngFor="let attributeGroup of getAttributes(classGroup).controls; let j = index" [formGroupName]="j">
+          <label>{{ attributeGroup.get('attributeName')?.value }}</label>
+          <div formArrayName="values">
+            <div *ngFor="let valueControl of getValues(attributeGroup).controls; let k = index">
+              <input [formControlName]="k" placeholder="Enter value" />
+            </div>
+          </div>
+          <button type="button" (click)="addValue(attributeGroup)">Add Value</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="submit">Submit Data</button>
+</form>

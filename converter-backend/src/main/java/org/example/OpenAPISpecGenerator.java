@@ -13,7 +13,8 @@ public class OpenAPISpecGenerator {
                                       Map<String, List<String>> methods,
                                       List<Map<String, Object>> mappings,
                                       String outputPath,
-                                      Map<String, List<String>> selectedHttpMethods) throws Exception {
+                                      Map<String, List<String>> selectedHttpMethods,
+                                      Map<String, Map<String, Object>> dummyData) throws Exception {
         try {
             Map<String, Object> openAPISpec = new LinkedHashMap<>();
             openAPISpec.put("openapi", "3.0.0");
@@ -31,7 +32,8 @@ public class OpenAPISpecGenerator {
             openAPISpec.put("servers", servers);
 
             Map<String, Object> paths = new LinkedHashMap<>();
-            entities.forEach((className, classList) -> {
+            for (String className : entities.keySet()) {
+                List<String> classList = entities.get(className);
                 addPathItem(paths, "/" + className.toLowerCase(), createPathItem("Get all instances of " + className, classList));
 
                 if (attributes.containsKey(className)) {
@@ -47,23 +49,23 @@ public class OpenAPISpecGenerator {
                     for (String method : selectedMethods) {
                         switch (method.toUpperCase()) {
                             case "GET":
-                                addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperationWithId("GET"));
+                                addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperationWithId("GET", dummyData.get(className)));
                                 break;
                             case "POST":
                                 addPathItem(paths, "/" + className.toLowerCase(), createSimpleOperation("POST"));
                                 break;
                             case "PUT":
-                                addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperationWithId("PUT"));
+                                addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperationWithId("PUT", dummyData.get(className)));
                                 break;
                             case "DELETE":
-                                addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperationWithId("DELETE"));
+                                addPathItem(paths, "/" + className.toLowerCase() + "/{id}", createSimpleOperationWithId("DELETE", dummyData.get(className)));
                                 break;
                         }
                     }
                 }
-            });
+            }
 
-            mappings.forEach(mapping -> {
+            for (Map<String, Object> mapping : mappings) {
                 String className = (String) mapping.get("className");
                 String baseUri = "/" + className.toLowerCase();
 
@@ -83,7 +85,7 @@ public class OpenAPISpecGenerator {
                     String methodUri = baseUri + "/methods";
                     addPathItem(paths, methodUri, Map.of("get", createMethodOperation("Get methods of " + className, methodList)));
                 }
-            });
+            }
 
             openAPISpec.put("paths", paths);
 
@@ -127,7 +129,7 @@ public class OpenAPISpecGenerator {
         return Map.of(method.toLowerCase(), operation);
     }
 
-    private static Map<String, Object> createSimpleOperationWithId(String method) {
+    private static Map<String, Object> createSimpleOperationWithId(String method, Map<String, Object> dummyData) {
         Map<String, Object> operation = new LinkedHashMap<>();
         operation.put("summary", method + " operation");
         operation.put("description", "Performs " + method + " operation");
@@ -141,7 +143,12 @@ public class OpenAPISpecGenerator {
         parameters.add(idParam);
         operation.put("parameters", parameters);
 
-        operation.put("responses", Map.of("200", Map.of("description", "Successful operation")));
+        Map<String, Object> responseContent = new LinkedHashMap<>();
+        if (dummyData != null) {
+            responseContent.put("application/json", Map.of("example", dummyData));
+        }
+
+        operation.put("responses", Map.of("200", Map.of("description", "Successful operation", "content", responseContent)));
         return Map.of(method.toLowerCase(), operation);
     }
 
