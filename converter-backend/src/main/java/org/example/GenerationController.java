@@ -207,7 +207,16 @@ public class GenerationController {
             System.out.println("Attributes: " + attributes);
             System.out.println("Methods: " + methods);
 
-            String openAPISpec = openAPISpecGenerator.generateSpec(classes, attributes, methods, savedMappings, outputPath, selectedHttpMethods);
+            Map<String, Map<String, Boolean>> convertedHttpMethods = new HashMap<>();
+            selectedHttpMethods.forEach((className, methodsList) -> {
+                Map<String, Boolean> methodsMap = new HashMap<>();
+                for (String method : methodsList) {
+                    methodsMap.put(method, true);
+                }
+                convertedHttpMethods.put(className, methodsMap);
+            });
+
+            String openAPISpec = openAPISpecGenerator.generateSpec(classes, attributes, methods, savedMappings, outputPath, convertedHttpMethods);
             return ResponseEntity.ok(Map.of("message", openAPISpec));
         } catch (ClassCastException e) {
             e.printStackTrace();
