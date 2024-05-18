@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Add {{ isMethod ? 'Method' : 'Attribute' }}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="elementForm">
+    <mat-form-field>
+      <mat-label>Access Modifier</mat-label>
+      <mat-select formControlName="accessModifier">
+        <mat-option value="public">Public (+)</mat-option>
+        <mat-option value="private">Private (-)</mat-option>
+        <mat-option value="protected">Protected (#)</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field *ngIf="isMethod">
+      <mat-label>Parameters</mat-label>
+      <input matInput formControlName="parameters">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Data Type</mat-label>
+      <mat-select formControlName="dataType">
+        <mat-option *ngFor="let type of dataTypes" [value]="type">{{ type }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="onSubmit()" cdkFocusInitial>Add</button>
+</div>

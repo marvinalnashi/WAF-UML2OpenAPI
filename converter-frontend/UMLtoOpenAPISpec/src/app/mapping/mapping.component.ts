@@ -13,6 +13,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MatCheckbox} from "@angular/material/checkbox";
+import {AddElementDialogComponent} from "../add-element-dialog/add-element-dialog.component";
 
 @Component({
   selector: 'app-mapping',
@@ -45,7 +46,8 @@ export class MappingComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private generationService: GenerationService
+    private generationService: GenerationService,
+    public dialog: MatDialog
   ) {
     this.mappingsForm = this.fb.group({
       mappings: this.fb.array([])
@@ -79,20 +81,30 @@ export class MappingComponent implements OnInit {
     this.mappings.push(newMapping);
   }
 
+  openAddElementDialog(isMethod: boolean, mappingIndex: number): void {
+    const dialogRef = this.dialog.open(AddElementDialogComponent, {
+      width: '400px',
+      data: { isMethod }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const mapping = this.mappings.at(mappingIndex) as FormGroup;
+        if (isMethod) {
+          (mapping.get('methods') as FormArray).push(this.fb.control(result));
+        } else {
+          (mapping.get('attributes') as FormArray).push(this.fb.control(result));
+        }
+      }
+    });
+  }
+
   addMethod(mappingIndex: number): void {
-    const methodName = prompt("Enter the name of the method you want to add:");
-    if (methodName) {
-      const mapping = this.mappings.at(mappingIndex) as FormGroup;
-      (mapping.get('methods') as FormArray).push(this.fb.control(methodName));
-    }
+    this.openAddElementDialog(true, mappingIndex);
   }
 
   addAttribute(mappingIndex: number): void {
-    const attributeName = prompt("Enter the name of the attribute you want to add:");
-    if (attributeName) {
-      const mapping = this.mappings.at(mappingIndex) as FormGroup;
-      (mapping.get('attributes') as FormArray).push(this.fb.control(attributeName));
-    }
+    this.openAddElementDialog(false, mappingIndex);
   }
 
   applyMappings(): void {
