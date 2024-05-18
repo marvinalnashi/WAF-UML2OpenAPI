@@ -67,11 +67,6 @@ public class OpenAPISpecGenerator {
                 String className = (String) mapping.get("className");
                 String baseUri = "/" + className.toLowerCase();
 
-                String method = (String) mapping.get("method");
-                if (method != null && !method.isEmpty()) {
-                    addPathItem(paths, baseUri, Map.of(method.toLowerCase(), createOperation("Custom operation for " + className)));
-                }
-
                 List<String> attrList = (List<String>) mapping.get("attributes");
                 if (attrList != null && !attrList.isEmpty()) {
                     String attrUri = baseUri + "/attributes";

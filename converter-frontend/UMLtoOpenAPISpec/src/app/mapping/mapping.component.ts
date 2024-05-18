@@ -70,13 +70,14 @@ export class MappingComponent implements OnInit {
   }
 
   addMapping(): void {
-    this.mappings.push(this.fb.group({
+    const newMapping = this.fb.group({
       className: ['', Validators.required],
       url: ['', Validators.required],
-      method: ['', Validators.required],
       methods: this.fb.array([]),
       attributes: this.fb.array([])
-    }));
+    });
+    this.mappings.push(newMapping);
+    this.addNewClassToElements(newMapping);
   }
 
   addMethod(mappingIndex: number): void {
@@ -92,6 +93,21 @@ export class MappingComponent implements OnInit {
     if (attributeName) {
       const mapping = this.mappings.at(mappingIndex) as FormGroup;
       (mapping.get('attributes') as FormArray).push(this.fb.control(attributeName));
+    }
+  }
+
+  addNewClassToElements(mapping: FormGroup): void {
+    const className = mapping.get('className')?.value;
+    if (className && !this.umlData.classes.includes(className)) {
+      this.umlData.classes.push(className);
+      this.umlData.attributes[className] = [];
+      this.umlData.methods[className] = [];
+      this.selectedHttpMethods[className] = {
+        'GET/{id}': false,
+        'POST': false,
+        'PUT/{id}': false,
+        'DELETE/{id}': false
+      };
     }
   }
 
@@ -190,7 +206,6 @@ export class MappingComponent implements OnInit {
     return [...Array(maxRows).keys()];
   }
 
-  // This function may not be mandatory but helps enforce a fixed amount of HTTP methods
   maxHttpMethodRows(data: any): number[] {
     return [0, 1, 2, 3];
   }

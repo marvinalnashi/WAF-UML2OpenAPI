@@ -9,12 +9,6 @@
           <div [formGroupName]="i">
             <input formControlName="className" placeholder="Class Name">
             <input formControlName="url" placeholder="URL">
-            <select formControlName="method">
-              <option value="GET">GET</option>
-              <option value="POST">POST</option>
-              <option value="PUT">PUT</option>
-              <option value="DELETE">DELETE</option>
-            </select>
             <button mat-button (click)="addMethod(i)">Add Method</button>
             <button mat-button (click)="addAttribute(i)">Add Attribute</button>
           </div>
