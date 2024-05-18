@@ -261,6 +261,33 @@ public class GenerationController {
         }
     }
 
+    @PostMapping("/add-new-element")
+    public ResponseEntity<?> addNewElement(@RequestBody Map<String, Object> newElement) {
+        String className = (String) newElement.get("className");
+        List<String> attributes = (List<String>) newElement.get("attributes");
+        List<String> methods = (List<String>) newElement.get("methods");
+
+        if (!umlDataStore.containsKey("classes")) {
+            umlDataStore.put("classes", new ArrayList<>());
+        }
+        List<String> classes = (List<String>) umlDataStore.get("classes");
+        classes.add(className);
+
+        if (!umlDataStore.containsKey("attributes")) {
+            umlDataStore.put("attributes", new HashMap<>());
+        }
+        Map<String, List<String>> attributesMap = (Map<String, List<String>>) umlDataStore.get("attributes");
+        attributesMap.put(className, attributes);
+
+        if (!umlDataStore.containsKey("methods")) {
+            umlDataStore.put("methods", new HashMap<>());
+        }
+        Map<String, List<String>> methodsMap = (Map<String, List<String>>) umlDataStore.get("methods");
+        methodsMap.put(className, methods);
+
+        return ResponseEntity.ok(Map.of("message", "New element added successfully"));
+    }
+
     private Map<String, List<String>> safelyCastToMap(Object data) {
         if (data instanceof Map) {
             return (Map<String, List<String>>) data;

@@ -77,7 +77,6 @@ export class MappingComponent implements OnInit {
       attributes: this.fb.array([])
     });
     this.mappings.push(newMapping);
-    this.addNewClassToElements(newMapping);
   }
 
   addMethod(mappingIndex: number): void {
@@ -96,21 +95,6 @@ export class MappingComponent implements OnInit {
     }
   }
 
-  addNewClassToElements(mapping: FormGroup): void {
-    const className = mapping.get('className')?.value;
-    if (className && !this.umlData.classes.includes(className)) {
-      this.umlData.classes.push(className);
-      this.umlData.attributes[className] = [];
-      this.umlData.methods[className] = [];
-      this.selectedHttpMethods[className] = {
-        'GET/{id}': false,
-        'POST': false,
-        'PUT/{id}': false,
-        'DELETE/{id}': false
-      };
-    }
-  }
-
   applyMappings(): void {
     if (this.mappingsForm.valid) {
       this.generationService.applyMappings(this.mappingsForm.value.mappings).subscribe(() => {
@@ -118,6 +102,28 @@ export class MappingComponent implements OnInit {
         this.httpMethodsSelected.emit(this.selectedHttpMethods);
       });
     }
+  }
+
+  addNewClassToElements(): void {
+    const newElements = this.mappingsForm.value.mappings.map((mapping: any) => ({
+      className: mapping.className,
+      attributes: mapping.attributes,
+      methods: mapping.methods
+    }));
+
+    newElements.forEach((element: any) => {
+      this.generationService.addNewElement(element).subscribe(() => {
+        this.umlData.classes.push(element.className);
+        this.umlData.attributes[element.className] = element.attributes;
+        this.umlData.methods[element.className] = element.methods;
+        this.selectedHttpMethods[element.className] = {
+          'GET/{id}': false,
+          'POST': false,
+          'PUT/{id}': false,
+          'DELETE/{id}': false
+        };
+      });
+    });
   }
 
   deleteElement(type: string, name: string, index: number, className: string): void {
