@@ -41,17 +41,6 @@ public class OpenAPISpecGenerator {
                 Map<String, Object> classSchema = generateClassSchema(className, classAttributes);
                 schemas.put(className, classSchema);
 
-//                entities.forEach((className, classList) -> {
-//                            addPathItem(paths, "/" + className.toLowerCase(), createPathItem("Get all instances of " + className, classList));
-//
-//                            if (attributes.containsKey(className)) {
-//                                addPathItem(paths, "/" + className.toLowerCase() + "/attributes", createPathItem("Get attributes of " + className, attributes.get(className)));
-//                            }
-//
-//                            if (methods.containsKey(className)) {
-//                                addPathItem(paths, "/" + className.toLowerCase() + "/methods", createPathItem("Get methods of " + className, methods.get(className)));
-//                            }
-
                 Map<String, Boolean> selectedMethods = selectedHttpMethods.getOrDefault(className, new HashMap<>());
                 for (Map.Entry<String, Boolean> entry : selectedMethods.entrySet()) {
                     if (Boolean.TRUE.equals(entry.getValue())) {
@@ -88,15 +77,22 @@ public class OpenAPISpecGenerator {
             String[] parts = attribute.split(" ");
             String name = parts[0].substring(1);
             String type = parts[2];
+            String format = getTypeFormat(type);
 
-            properties.put(name, Map.of("type", mapType(type)));
+            Map<String, Object> attributeSchema = new LinkedHashMap<>();
+            attributeSchema.put("type", mapType(type));
+            if (format != null) {
+                attributeSchema.put("format", format);
+            }
+            properties.put(name, attributeSchema);
             example.put(name, generateExampleValue(type));
         }
 
         return Map.of(
                 "type", "object",
                 "properties", properties,
-                "example", example
+                "example", example,
+                "xml", Map.of("name", className.toLowerCase())
         );
     }
 
@@ -122,6 +118,22 @@ public class OpenAPISpecGenerator {
                 return "integer";
             default:
                 return "string";
+        }
+    }
+
+    private static String getTypeFormat(String type) {
+        switch (type.toLowerCase()) {
+            case "int":
+            case "short":
+                return "int32";
+            case "long":
+                return "int64";
+            case "float":
+                return "float";
+            case "double":
+                return "double";
+            default:
+                return null;
         }
     }
 
@@ -161,6 +173,12 @@ public class OpenAPISpecGenerator {
                     "content", Map.of(
                             "application/json", Map.of(
                                     "schema", Map.of("$ref", "#/components/schemas/" + className)
+                            ),
+                            "application/xml", Map.of(
+                                    "schema", Map.of("$ref", "#/components/schemas/" + className)
+                            ),
+                            "application/x-www-form-urlencoded", Map.of(
+                                    "schema", Map.of("$ref", "#/components/schemas/" + className)
                             )
                     )
             ));
@@ -182,6 +200,9 @@ public class OpenAPISpecGenerator {
                         "description", "Successful operation",
                         "content", Map.of(
                                 "application/json", Map.of(
+                                        "schema", Map.of("$ref", "#/components/schemas/" + className)
+                                ),
+                                "application/xml", Map.of(
                                         "schema", Map.of("$ref", "#/components/schemas/" + className)
                                 )
                         )
