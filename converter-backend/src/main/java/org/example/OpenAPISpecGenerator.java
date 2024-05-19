@@ -104,7 +104,7 @@ public class OpenAPISpecGenerator {
                 String[] parts = attribute.split(" ");
                 String name = parts[0].substring(1);
                 String type = parts[2];
-                prompts.add("Generate a unique example value for a " + type + " attribute named " + name + " for id " + i + ".");
+                prompts.add("Generate a unique example value for a " + type + " attribute named " + name + " for a class " + className + " with id " + i + ". Ensure this value is unique compared to other ids.");
             }
 
             List<Object> generatedValues = generateExampleValues(prompts, apiKey);
@@ -147,7 +147,7 @@ public class OpenAPISpecGenerator {
                 continue;
             }
 
-            String json = "{ \"model\": \"" + OPENAI_ENGINE + "\", \"messages\": [{\"role\": \"system\", \"content\": \"" + prompt + "\"}], \"max_tokens\": 20, \"temperature\": 0.7 }";
+            String json = "{ \"model\": \"" + OPENAI_ENGINE + "\", \"messages\": [{\"role\": \"system\", \"content\": \"" + prompt + "\"}], \"max_tokens\": 30, \"temperature\": 0.9 }";
             RequestBody body = RequestBody.create(json, JSON);
 
             int retryCount = 0;
@@ -265,7 +265,7 @@ public class OpenAPISpecGenerator {
                 String[] parts = attribute.split(" ");
                 String name = parts[0].substring(1);
                 String type = parts[2];
-                prompts.add("Generate a unique example value for a " + type + " attribute named " + name + " for id " + i + ".");
+                prompts.add("Generate a unique example value for a " + type + " attribute named " + name + " for a class " + className + " with id " + i + ". Ensure this value is unique compared to other ids.");
             }
 
             List<Object> generatedValues = generateExampleValues(prompts, apiKey);
