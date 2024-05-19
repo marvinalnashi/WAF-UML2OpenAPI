@@ -41,15 +41,21 @@ public class OpenAPISpecGenerator {
                 Map<String, Object> classSchema = generateClassSchema(className, classAttributes);
                 schemas.put(className, classSchema);
 
+                String lowerCaseClassName = className.toLowerCase();
+                String path = "/" + lowerCaseClassName;
+                Map<String, Object> pathItem = new LinkedHashMap<>();
+                pathItem.put("get", createGetAllOperation(className, classAttributes));
+                paths.put(path, pathItem);
+
                 Map<String, Boolean> selectedMethods = selectedHttpMethods.getOrDefault(className, new HashMap<>());
                 for (Map.Entry<String, Boolean> entry : selectedMethods.entrySet()) {
                     if (Boolean.TRUE.equals(entry.getValue())) {
                         String method = entry.getKey().toUpperCase();
                         String lowerCaseMethod = method.toLowerCase();
-                        String path = "/" + className.toLowerCase() + (method.equals("GET") || method.equals("DELETE") ? "/{id}" : "");
-                        Map<String, Object> pathItem = (Map<String, Object>) paths.getOrDefault(path, new LinkedHashMap<>());
-                        pathItem.put(lowerCaseMethod, createOperation(className, method));
-                        paths.put(path, pathItem);
+                        String methodPath = "/" + lowerCaseClassName + (method.equals("GET") || method.equals("DELETE") || method.equals("PUT") ? "/{id}" : "");
+                        Map<String, Object> methodPathItem = (Map<String, Object>) paths.getOrDefault(methodPath, new LinkedHashMap<>());
+                        methodPathItem.put(lowerCaseMethod, createOperation(className, method, classSchema));
+                        paths.put(methodPath, methodPathItem);
                     }
                 }
             }
@@ -72,26 +78,34 @@ public class OpenAPISpecGenerator {
     private static Map<String, Object> generateClassSchema(String className, List<String> attributes) {
         Map<String, Object> properties = new LinkedHashMap<>();
         Map<String, Object> example = new LinkedHashMap<>();
+        List<Map<String, Object>> exampleArray = new ArrayList<>();
 
-        for (String attribute : attributes) {
-            String[] parts = attribute.split(" ");
-            String name = parts[0].substring(1);
-            String type = parts[2];
-            String format = getTypeFormat(type);
+        for (int i = 1; i <= 7; i++) {
+            Map<String, Object> exampleItem = new LinkedHashMap<>();
+            exampleItem.put("id", i);
 
-            Map<String, Object> attributeSchema = new LinkedHashMap<>();
-            attributeSchema.put("type", mapType(type));
-            if (format != null) {
-                attributeSchema.put("format", format);
+            for (String attribute : attributes) {
+                String[] parts = attribute.split(" ");
+                String name = parts[0].substring(1);
+                String type = parts[2];
+                String format = getTypeFormat(type);
+
+                Map<String, Object> attributeSchema = new LinkedHashMap<>();
+                attributeSchema.put("type", mapType(type));
+                if (format != null) {
+                    attributeSchema.put("format", format);
+                }
+                properties.put(name, attributeSchema);
+                exampleItem.put(name, generateExampleValue(type));
             }
-            properties.put(name, attributeSchema);
-            example.put(name, generateExampleValue(type));
+            exampleArray.add(exampleItem);
         }
 
         return Map.of(
                 "type", "object",
                 "properties", properties,
-                "example", example,
+                "example", exampleArray.get(0),
+                "examples", Map.of("exampleArray", exampleArray),
                 "xml", Map.of("name", className.toLowerCase())
         );
     }
@@ -160,7 +174,51 @@ public class OpenAPISpecGenerator {
         }
     }
 
-    private static Map<String, Object> createOperation(String className, String method) {
+    private static Map<String, Object> createGetAllOperation(String className, List<String> attributes) {
+        Map<String, Object> operation = new LinkedHashMap<>();
+        operation.put("tags", List.of(className));
+        operation.put("summary", "Get all instances of " + className);
+        operation.put("description", "Fetches all instances of " + className);
+
+        List<Map<String, Object>> examples = new ArrayList<>();
+        for (int i = 1; i <= 7; i++) {
+            Map<String, Object> exampleItem = new LinkedHashMap<>();
+            exampleItem.put("id", i);
+
+            for (String attribute : attributes) {
+                String[] parts = attribute.split(" ");
+                String name = parts[0].substring(1);
+                String type = parts[2];
+                exampleItem.put(name, generateExampleValue(type));
+            }
+            examples.add(exampleItem);
+        }
+
+        operation.put("responses", Map.of(
+                "200", Map.of(
+                        "description", "Successful retrieval",
+                        "content", Map.of(
+                                "application/json", Map.of(
+                                        "schema", Map.of(
+                                                "type", "array",
+                                                "items", Map.of("$ref", "#/components/schemas/" + className)
+                                        ),
+                                        "examples", Map.of("exampleArray", Map.of("value", examples))
+                                ),
+                                "application/xml", Map.of(
+                                        "schema", Map.of(
+                                                "type", "array",
+                                                "items", Map.of("$ref", "#/components/schemas/" + className)
+                                        ),
+                                        "examples", Map.of("exampleArray", Map.of("value", examples))
+                                )
+                        )
+                )
+        ));
+        return operation;
+    }
+
+    private static Map<String, Object> createOperation(String className, String method, Map<String, Object> classSchema) {
         Map<String, Object> operation = new LinkedHashMap<>();
         operation.put("tags", List.of(className));
         operation.put("summary", method + " operation for " + className);
@@ -195,19 +253,44 @@ public class OpenAPISpecGenerator {
             operation.put("parameters", parameters);
         }
 
-        operation.put("responses", Map.of(
-                "200", Map.of(
-                        "description", "Successful operation",
-                        "content", Map.of(
-                                "application/json", Map.of(
-                                        "schema", Map.of("$ref", "#/components/schemas/" + className)
-                                ),
-                                "application/xml", Map.of(
-                                        "schema", Map.of("$ref", "#/components/schemas/" + className)
-                                )
-                        )
-                )
-        ));
+        if (method.equalsIgnoreCase("GET")) {
+            List<Map<String, Object>> examples = (List<Map<String, Object>>) ((Map<String, Object>) classSchema.get("examples")).get("exampleArray");
+            Map<String, Object> exampleById = new LinkedHashMap<>();
+            for (Map<String, Object> example : examples) {
+                int id = (int) example.get("id");
+                exampleById.put(String.valueOf(id), Map.of("value", example));
+            }
+            operation.put("responses", Map.of(
+                    "200", Map.of(
+                            "description", "Successful operation",
+                            "content", Map.of(
+                                    "application/json", Map.of(
+                                            "schema", Map.of("$ref", "#/components/schemas/" + className),
+                                            "examples", exampleById
+                                    ),
+                                    "application/xml", Map.of(
+                                            "schema", Map.of("$ref", "#/components/schemas/" + className),
+                                            "examples", exampleById
+                                    )
+                            )
+                    )
+            ));
+        } else {
+            operation.put("responses", Map.of(
+                    "200", Map.of(
+                            "description", "Successful operation",
+                            "content", Map.of(
+                                    "application/json", Map.of(
+                                            "schema", Map.of("$ref", "#/components/schemas/" + className)
+                                    ),
+                                    "application/xml", Map.of(
+                                            "schema", Map.of("$ref", "#/components/schemas/" + className)
+                                    )
+                            )
+                    )
+            ));
+        }
+
         return operation;
     }
 }
