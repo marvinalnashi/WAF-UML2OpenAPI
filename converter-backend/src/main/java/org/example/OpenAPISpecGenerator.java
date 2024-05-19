@@ -10,10 +10,9 @@ import java.io.IOException;
 import java.util.*;
 
 public class OpenAPISpecGenerator {
-    @Value("${openai.api-key}")
-    private static String apiKey;
 
-    private static final String OPENAI_API_KEY = apiKey;
+    private final String apiKey;
+
     private static final OkHttpClient httpClient = new OkHttpClient();
     private static final int MAX_RETRIES = 5;
     private static final int INITIAL_BACKOFF = 1000;
@@ -21,12 +20,16 @@ public class OpenAPISpecGenerator {
 
     private static final Map<String, Object> exampleCache = new HashMap<>();
 
-    public static String generateSpec(Map<String, List<String>> classes,
-                                      Map<String, List<String>> attributes,
-                                      Map<String, List<String>> methods,
-                                      List<Map<String, Object>> mappings,
-                                      String outputPath,
-                                      Map<String, Map<String, Boolean>> selectedHttpMethods) throws Exception {
+    public OpenAPISpecGenerator(@Value("${openai.api.key}") String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    public String generateSpec(Map<String, List<String>> classes,
+                               Map<String, List<String>> attributes,
+                               Map<String, List<String>> methods,
+                               List<Map<String, Object>> mappings,
+                               String outputPath,
+                               Map<String, Map<String, Boolean>> selectedHttpMethods) throws Exception {
         try {
             Map<String, Object> openAPISpec = new LinkedHashMap<>();
             openAPISpec.put("openapi", "3.0.0");
@@ -88,7 +91,7 @@ public class OpenAPISpecGenerator {
         }
     }
 
-    private static Map<String, Object> generateClassSchema(String className, List<String> attributes) throws Exception {
+    private Map<String, Object> generateClassSchema(String className, List<String> attributes) throws Exception {
         Map<String, Object> properties = new LinkedHashMap<>();
         List<Map<String, Object>> exampleArray = new ArrayList<>();
 
@@ -104,7 +107,7 @@ public class OpenAPISpecGenerator {
                 prompts.add("Generate a unique example value for a " + type + " attribute named " + name + " for id " + i + ".");
             }
 
-            List<Object> generatedValues = generateExampleValues(prompts);
+            List<Object> generatedValues = generateExampleValues(prompts, apiKey);
 
             for (int j = 0; j < attributes.size(); j++) {
                 String[] parts = attributes.get(j).split(" ");
@@ -128,11 +131,15 @@ public class OpenAPISpecGenerator {
                 "properties", properties,
                 "example", exampleArray.get(0),
                 "examples", Map.of("exampleArray", exampleArray),
-                "xml", Map.of("name", className.toLowerCase())
+                "xml", Map.of(
+                        "name", className.toLowerCase(),
+                        "wrapped", true,
+                        "namespace", "http://example.com/schema"
+                )
         );
     }
 
-    private static List<Object> generateExampleValues(List<String> prompts) throws IOException {
+    private List<Object> generateExampleValues(List<String> prompts, String apiKey) throws IOException {
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
         for (String prompt : prompts) {
@@ -151,7 +158,7 @@ public class OpenAPISpecGenerator {
                         .url("https://api.openai.com/v1/chat/completions")
                         .post(body)
                         .addHeader("Content-Type", "application/json")
-                        .addHeader("Authorization", "Bearer " + OPENAI_API_KEY)
+                        .addHeader("Authorization", "Bearer " + apiKey)
                         .build();
 
                 try (Response response = httpClient.newCall(request).execute()) {
@@ -172,6 +179,8 @@ public class OpenAPISpecGenerator {
                         System.err.println("Rate limited. Retrying in " + backoffTime + "ms");
                         Thread.sleep(backoffTime);
                         backoffTime *= 2;
+                    } else if (response.code() == 401) {
+                        throw new IOException("Unauthorized: Invalid API key.");
                     } else if (response.code() == 404) {
                         throw new IOException("Invalid endpoint. Please check the URL and endpoint.");
                     } else if (response.code() == 400) {
@@ -240,7 +249,7 @@ public class OpenAPISpecGenerator {
         }
     }
 
-    private static Map<String, Object> createGetAllOperation(String className, List<String> attributes) throws Exception {
+    private Map<String, Object> createGetAllOperation(String className, List<String> attributes) throws Exception {
         Map<String, Object> operation = new LinkedHashMap<>();
         operation.put("tags", List.of(className));
         operation.put("summary", "Get all instances of " + className);
@@ -259,7 +268,7 @@ public class OpenAPISpecGenerator {
                 prompts.add("Generate a unique example value for a " + type + " attribute named " + name + " for id " + i + ".");
             }
 
-            List<Object> generatedValues = generateExampleValues(prompts);
+            List<Object> generatedValues = generateExampleValues(prompts, apiKey);
             for (int j = 0; j < attributes.size(); j++) {
                 String[] parts = attributes.get(j).split(" ");
                 String name = parts[0].substring(1);
@@ -282,7 +291,12 @@ public class OpenAPISpecGenerator {
                                 "application/xml", Map.of(
                                         "schema", Map.of(
                                                 "type", "array",
-                                                "items", Map.of("$ref", "#/components/schemas/" + className)
+                                                "items", Map.of("$ref", "#/components/schemas/" + className),
+                                                "xml", Map.of(
+                                                        "name", className.toLowerCase(),
+                                                        "wrapped", true,
+                                                        "namespace", "http://example.com/schema"
+                                                )
                                         ),
                                         "examples", Map.of("exampleArray", Map.of("value", examples))
                                 )
@@ -292,7 +306,7 @@ public class OpenAPISpecGenerator {
         return operation;
     }
 
-    private static Map<String, Object> createOperation(String className, String method, Map<String, Object> classSchema, boolean isGetMethod) throws Exception {
+    private Map<String, Object> createOperation(String className, String method, Map<String, Object> classSchema, boolean isGetMethod) throws Exception {
         Map<String, Object> operation = new LinkedHashMap<>();
         operation.put("tags", List.of(className));
         operation.put("summary", method + " operation for " + className);
