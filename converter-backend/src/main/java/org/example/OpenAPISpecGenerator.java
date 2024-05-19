@@ -2,11 +2,21 @@ package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import okhttp3.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class OpenAPISpecGenerator {
+
+    private static final String OPENAI_API_KEY = "myPrivateKey";
+    private static final OkHttpClient httpClient = new OkHttpClient();
+    private static final int MAX_RETRIES = 5;
+    private static final int INITIAL_BACKOFF = 1000;
+    private static final String OPENAI_ENGINE = "gpt-3.5-turbo";
+
+    private static final Map<String, Object> exampleCache = new HashMap<>();
 
     public static String generateSpec(Map<String, List<String>> classes,
                                       Map<String, List<String>> attributes,
@@ -75,7 +85,7 @@ public class OpenAPISpecGenerator {
         }
     }
 
-    private static Map<String, Object> generateClassSchema(String className, List<String> attributes) {
+    private static Map<String, Object> generateClassSchema(String className, List<String> attributes) throws Exception {
         Map<String, Object> properties = new LinkedHashMap<>();
         List<Map<String, Object>> exampleArray = new ArrayList<>();
 
@@ -83,8 +93,18 @@ public class OpenAPISpecGenerator {
             Map<String, Object> exampleItem = new LinkedHashMap<>();
             exampleItem.put("id", i);
 
+            List<String> prompts = new ArrayList<>();
             for (String attribute : attributes) {
                 String[] parts = attribute.split(" ");
+                String name = parts[0].substring(1);
+                String type = parts[2];
+                prompts.add("Generate a suitable example value for a " + type + " attribute named " + name + " for id " + i + ".");
+            }
+
+            List<Object> generatedValues = generateExampleValues(prompts);
+
+            for (int j = 0; j < attributes.size(); j++) {
+                String[] parts = attributes.get(j).split(" ");
                 String name = parts[0].substring(1);
                 String type = parts[2];
                 String format = getTypeFormat(type);
@@ -95,7 +115,7 @@ public class OpenAPISpecGenerator {
                     attributeSchema.put("format", format);
                 }
                 properties.put(name, attributeSchema);
-                exampleItem.put(name, generateExampleValue(type));
+                exampleItem.put(name, generatedValues.get(j));
             }
             exampleArray.add(exampleItem);
         }
@@ -107,6 +127,73 @@ public class OpenAPISpecGenerator {
                 "examples", Map.of("exampleArray", exampleArray),
                 "xml", Map.of("name", className.toLowerCase())
         );
+    }
+
+    private static List<Object> generateExampleValues(List<String> prompts) throws IOException {
+        MediaType JSON = MediaType.get("application/json; charset=utf-8");
+
+        for (String prompt : prompts) {
+            if (exampleCache.containsKey(prompt)) {
+                continue;
+            }
+
+            String json = "{ \"model\": \"" + OPENAI_ENGINE + "\", \"messages\": [{\"role\": \"system\", \"content\": \"" + prompt + "\"}], \"max_tokens\": 10, \"temperature\": 0.7 }";
+            RequestBody body = RequestBody.create(json, JSON);
+
+            int retryCount = 0;
+            int backoffTime = INITIAL_BACKOFF;
+
+            while (retryCount < MAX_RETRIES) {
+                Request request = new Request.Builder()
+                        .url("https://api.openai.com/v1/chat/completions")
+                        .post(body)
+                        .addHeader("Content-Type", "application/json")
+                        .addHeader("Authorization", "Bearer " + OPENAI_API_KEY)
+                        .build();
+
+                try (Response response = httpClient.newCall(request).execute()) {
+                    if (response.isSuccessful()) {
+                        String responseBody = response.body().string();
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
+
+                        List<Map<String, Object>> choices = (List<Map<String, Object>>) responseMap.get("choices");
+                        if (choices != null && !choices.isEmpty()) {
+                            Map<String, Object> messageContent = (Map<String, Object>) choices.get(0).get("message");
+                            String content = messageContent.get("content").toString().trim();
+                            exampleCache.put(prompt, content);
+                            break;
+                        }
+                    } else if (response.code() == 429) {
+                        retryCount++;
+                        System.err.println("Rate limited. Retrying in " + backoffTime + "ms");
+                        Thread.sleep(backoffTime);
+                        backoffTime *= 2;
+                    } else if (response.code() == 404) {
+                        throw new IOException("Invalid endpoint. Please check the URL and endpoint.");
+                    } else if (response.code() == 400) {
+                        String responseBody = response.body().string();
+                        throw new IOException("Bad request: " + responseBody);
+                    } else {
+                        throw new IOException("Unexpected code " + response);
+                    }
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    throw new IOException("Thread interrupted during backoff", e);
+                }
+            }
+
+            if (retryCount == MAX_RETRIES) {
+                throw new IOException("Max retries reached. Could not get a response from OpenAI API.");
+            }
+        }
+
+        List<Object> results = new ArrayList<>();
+        for (String prompt : prompts) {
+            results.add(exampleCache.get(prompt));
+        }
+
+        return results;
     }
 
     private static String mapType(String type) {
@@ -150,30 +237,7 @@ public class OpenAPISpecGenerator {
         }
     }
 
-    private static Object generateExampleValue(String type) {
-        Random random = new Random();
-        switch (type.toLowerCase()) {
-            case "int":
-            case "long":
-            case "short":
-                return random.nextInt(100);
-            case "string":
-                return "exampleString";
-            case "float":
-            case "double":
-                return random.nextDouble() * 100;
-            case "boolean":
-                return random.nextBoolean();
-            case "char":
-                return (char) (random.nextInt(26) + 'a');
-            case "byte":
-                return (byte) random.nextInt(256);
-            default:
-                return "exampleString";
-        }
-    }
-
-    private static Map<String, Object> createGetAllOperation(String className, List<String> attributes) {
+    private static Map<String, Object> createGetAllOperation(String className, List<String> attributes) throws Exception {
         Map<String, Object> operation = new LinkedHashMap<>();
         operation.put("tags", List.of(className));
         operation.put("summary", "Get all instances of " + className);
@@ -184,11 +248,19 @@ public class OpenAPISpecGenerator {
             Map<String, Object> exampleItem = new LinkedHashMap<>();
             exampleItem.put("id", i);
 
+            List<String> prompts = new ArrayList<>();
             for (String attribute : attributes) {
                 String[] parts = attribute.split(" ");
                 String name = parts[0].substring(1);
                 String type = parts[2];
-                exampleItem.put(name, generateExampleValue(type));
+                prompts.add("Generate a suitable example value for a " + type + " attribute named " + name + " for id " + i + ".");
+            }
+
+            List<Object> generatedValues = generateExampleValues(prompts);
+            for (int j = 0; j < attributes.size(); j++) {
+                String[] parts = attributes.get(j).split(" ");
+                String name = parts[0].substring(1);
+                exampleItem.put(name, generatedValues.get(j));
             }
             examples.add(exampleItem);
         }
@@ -217,7 +289,7 @@ public class OpenAPISpecGenerator {
         return operation;
     }
 
-    private static Map<String, Object> createOperation(String className, String method, Map<String, Object> classSchema, boolean isGetMethod) {
+    private static Map<String, Object> createOperation(String className, String method, Map<String, Object> classSchema, boolean isGetMethod) throws Exception {
         Map<String, Object> operation = new LinkedHashMap<>();
         operation.put("tags", List.of(className));
         operation.put("summary", method + " operation for " + className);
