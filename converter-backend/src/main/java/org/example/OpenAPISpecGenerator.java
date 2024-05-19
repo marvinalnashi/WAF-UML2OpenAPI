@@ -3,14 +3,17 @@ package org.example;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import okhttp3.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 public class OpenAPISpecGenerator {
+    @Value("${openai.api-key}")
+    private static String apiKey;
 
-    private static final String OPENAI_API_KEY = "myPrivateKey";
+    private static final String OPENAI_API_KEY = apiKey;
     private static final OkHttpClient httpClient = new OkHttpClient();
     private static final int MAX_RETRIES = 5;
     private static final int INITIAL_BACKOFF = 1000;
@@ -98,7 +101,7 @@ public class OpenAPISpecGenerator {
                 String[] parts = attribute.split(" ");
                 String name = parts[0].substring(1);
                 String type = parts[2];
-                prompts.add("Generate a suitable example value for a " + type + " attribute named " + name + " for id " + i + ".");
+                prompts.add("Generate a unique example value for a " + type + " attribute named " + name + " for id " + i + ".");
             }
 
             List<Object> generatedValues = generateExampleValues(prompts);
@@ -137,7 +140,7 @@ public class OpenAPISpecGenerator {
                 continue;
             }
 
-            String json = "{ \"model\": \"" + OPENAI_ENGINE + "\", \"messages\": [{\"role\": \"system\", \"content\": \"" + prompt + "\"}], \"max_tokens\": 10, \"temperature\": 0.7 }";
+            String json = "{ \"model\": \"" + OPENAI_ENGINE + "\", \"messages\": [{\"role\": \"system\", \"content\": \"" + prompt + "\"}], \"max_tokens\": 20, \"temperature\": 0.7 }";
             RequestBody body = RequestBody.create(json, JSON);
 
             int retryCount = 0;
@@ -253,7 +256,7 @@ public class OpenAPISpecGenerator {
                 String[] parts = attribute.split(" ");
                 String name = parts[0].substring(1);
                 String type = parts[2];
-                prompts.add("Generate a suitable example value for a " + type + " attribute named " + name + " for id " + i + ".");
+                prompts.add("Generate a unique example value for a " + type + " attribute named " + name + " for id " + i + ".");
             }
 
             List<Object> generatedValues = generateExampleValues(prompts);
