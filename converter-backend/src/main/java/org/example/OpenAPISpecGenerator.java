@@ -54,7 +54,7 @@ public class OpenAPISpecGenerator {
                         String lowerCaseMethod = method.toLowerCase();
                         String methodPath = "/" + lowerCaseClassName + (method.equals("GET") || method.equals("DELETE") || method.equals("PUT") ? "/{id}" : "");
                         Map<String, Object> methodPathItem = (Map<String, Object>) paths.getOrDefault(methodPath, new LinkedHashMap<>());
-                        methodPathItem.put(lowerCaseMethod, createOperation(className, method, classSchema));
+                        methodPathItem.put(lowerCaseMethod, createOperation(className, method, classSchema, method.equals("GET")));
                         paths.put(methodPath, methodPathItem);
                     }
                 }
@@ -77,7 +77,6 @@ public class OpenAPISpecGenerator {
 
     private static Map<String, Object> generateClassSchema(String className, List<String> attributes) {
         Map<String, Object> properties = new LinkedHashMap<>();
-        Map<String, Object> example = new LinkedHashMap<>();
         List<Map<String, Object>> exampleArray = new ArrayList<>();
 
         for (int i = 1; i <= 7; i++) {
@@ -218,7 +217,7 @@ public class OpenAPISpecGenerator {
         return operation;
     }
 
-    private static Map<String, Object> createOperation(String className, String method, Map<String, Object> classSchema) {
+    private static Map<String, Object> createOperation(String className, String method, Map<String, Object> classSchema, boolean isGetMethod) {
         Map<String, Object> operation = new LinkedHashMap<>();
         operation.put("tags", List.of(className));
         operation.put("summary", method + " operation for " + className);
@@ -253,7 +252,7 @@ public class OpenAPISpecGenerator {
             operation.put("parameters", parameters);
         }
 
-        if (method.equalsIgnoreCase("GET")) {
+        if (isGetMethod) {
             List<Map<String, Object>> examples = (List<Map<String, Object>>) ((Map<String, Object>) classSchema.get("examples")).get("exampleArray");
             Map<String, Object> exampleById = new LinkedHashMap<>();
             for (Map<String, Object> example : examples) {
