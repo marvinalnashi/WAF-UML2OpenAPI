@@ -36,6 +36,27 @@
     </mat-step>
 
     <mat-step>
+      <ng-template matStepLabel>Personalise</ng-template>
+      <div *ngIf="openAPISpec">
+        <h3>Modify Example Values</h3>
+        <div *ngFor="let className of openAPISpec.classes">
+          <h4>{{ className }}</h4>
+          <div *ngFor="let attribute of openAPISpec.attributes[className]">
+            <h5>{{ attribute.name }}</h5>
+            <div *ngFor="let example of attribute.examples; let i = index">
+              <span>{{ example }}</span>
+              <button mat-icon-button (click)="openEditDialog(className, attribute.name, i, example)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button mat-button (click)="saveExampleValues()">Save</button>
+      <button mat-button (click)="stepper.next()">Continue</button>
+    </mat-step>
+
+    <mat-step>
       <ng-template matStepLabel>Manage</ng-template>
       <button mat-button (click)="toggleMockServer()">{{ serverButtonText }}</button>
       <button mat-button (click)="restartApplication()">Restart Stepper</button>
@@ -45,3 +66,17 @@
     </mat-step>
   </mat-horizontal-stepper>
 </div>
+
+<ng-template #editDialog let-data="data">
+  <h2 mat-dialog-title>Edit Example Value</h2>
+  <mat-dialog-content>
+    <mat-form-field>
+      <mat-label>New Value</mat-label>
+      <input matInput [(ngModel)]="data.value">
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="onDialogCancel()">Cancel</button>
+    <button mat-button (click)="onDialogSave(data.className, data.attributeName, data.index, data.value)">Save</button>
+  </mat-dialog-actions>
+</ng-template>
