@@ -1,7 +1,6 @@
 package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -226,31 +224,6 @@ public class GenerationController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error during generation: " + e.getMessage()));
-        }
-    }
-
-    @PostMapping("/update-example-values")
-    public ResponseEntity<?> updateExampleValues(@RequestBody Map<String, Map<String, String>> updatedValues) {
-        try {
-            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            File file = new File(outputPath);
-            Map<String, Object> openAPISpec = mapper.readValue(file, Map.class);
-            Map<String, Object> components = (Map<String, Object>) openAPISpec.get("components");
-            Map<String, Object> schemas = (Map<String, Object>) components.get("schemas");
-            for (String className : updatedValues.keySet()) {
-                Map<String, Object> classSchema = (Map<String, Object>) schemas.get(className);
-                Map<String, Object> properties = (Map<String, Object>) classSchema.get("properties");
-                Map<String, String> updates = updatedValues.get(className);
-                for (String attribute : updates.keySet()) {
-                    Map<String, Object> attributeSchema = (Map<String, Object>) properties.get(attribute);
-                    attributeSchema.put("example", updates.get(attribute));
-                }
-            }
-            mapper.writeValue(file, openAPISpec);
-
-            return ResponseEntity.ok(Map.of("message", "Example values updated successfully"));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", e.getMessage()));
         }
     }
 

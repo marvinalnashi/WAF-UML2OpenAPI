@@ -1,26 +1,13 @@
-import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild, TemplateRef } from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import { GenerationService } from '../generation.service';
 import { MockServerService } from '../mock-server.service';
 import { HttpClient } from '@angular/common/http';
-import { MatStep, MatStepLabel, MatStepper } from '@angular/material/stepper';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {MatStep, MatStepLabel, MatStepper} from '@angular/material/stepper';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogActions, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-import { MappingComponent } from '../mapping/mapping.component';
-import * as yaml from 'js-yaml';
-import { MatIcon } from "@angular/material/icon";
-
-interface OpenAPIAttribute {
-  name: string;
-  examples: string[];
-}
-
-interface OpenAPIData {
-  classes: string[];
-  attributes: { [className: string]: OpenAPIAttribute[] };
-}
+import {MappingComponent} from "../mapping/mapping.component";
 
 @Component({
   selector: 'app-generation',
@@ -34,18 +21,13 @@ interface OpenAPIData {
     MatButtonModule,
     MatStep,
     MatStepLabel,
-    MappingComponent,
-    MatIcon,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions
+    MappingComponent
   ],
   templateUrl: './generation.component.html',
   providers: [GenerationService, MockServerService]
 })
 export class GenerationComponent implements AfterViewInit, OnInit {
   @ViewChild('stepper') private stepper!: MatStepper;
-  @ViewChild('editDialog') editDialog!: TemplateRef<any>;
   @Output() umlDataEmitter = new EventEmitter<any>();
 
   uploadedFile: File | null = null;
@@ -62,15 +44,12 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     methods: 0,
     relationships: 0
   };
-  openAPISpec: OpenAPIData | null = null;
-  exampleValues: any = {};
 
   constructor(
     private fb: FormBuilder,
     private generationService: GenerationService,
     private mockServerService: MockServerService,
-    private http: HttpClient,
-    public dialog: MatDialog
+    private http: HttpClient
   ) {
     this.mappingFormGroup = this.fb.group({
       userConfirmation: ['', Validators.required]
@@ -132,80 +111,12 @@ export class GenerationComponent implements AfterViewInit, OnInit {
         next: (response) => {
           console.log('Generation successful', response);
           this.isGeneratedSuccessfully = true;
-          this.fetchOpenAPISpec();
         },
         error: (error) => console.error('Generation failed', error)
       });
     } else {
       console.error('No file selected');
     }
-  }
-
-  fetchOpenAPISpec(): void {
-    this.http.get('http://localhost:8080/export.yml', { responseType: 'text' }).subscribe((data) => {
-      this.openAPISpec = this.parseYAML(data);
-    });
-  }
-
-  parseYAML(data: string): OpenAPIData | null {
-    try {
-      const parsedData = yaml.load(data) as any;
-      const classes = Object.keys(parsedData.components.schemas);
-      const attributes = classes.reduce((acc: any, className: string) => {
-        const classAttributes = Object.keys(parsedData.components.schemas[className].properties);
-        acc[className] = classAttributes.map(attr => ({
-          name: attr,
-          examples: parsedData.components.schemas[className].properties[attr].example ? [parsedData.components.schemas[className].properties[attr].example] : []
-        }));
-        return acc;
-      }, {});
-      return { classes, attributes };
-    } catch (e) {
-      console.error('Failed to parse YAML', e);
-      return null;
-    }
-  }
-
-  onExampleValueChange(className: string, attributeName: string, index: number, newValue: string): void {
-    if (!this.exampleValues[className]) {
-      this.exampleValues[className] = {};
-    }
-    if (!this.exampleValues[className][attributeName]) {
-      this.exampleValues[className][attributeName] = [];
-    }
-    this.exampleValues[className][attributeName][index] = newValue;
-  }
-
-  saveExampleValues(): void {
-    this.generationService.updateExampleValues(this.exampleValues).subscribe({
-      next: (response) => {
-        console.log('Example values updated successfully');
-      },
-      error: (error) => {
-        console.error('Failed to update example values', error);
-      }
-    });
-  }
-
-  openEditDialog(className: string, attributeName: string, index: number, value: string): void {
-    const dialogRef = this.dialog.open(this.editDialog, {
-      data: { className, attributeName, index, value }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.onExampleValueChange(result.className, result.attributeName, result.index, result.value);
-      }
-    });
-  }
-
-  onDialogCancel(): void {
-    this.dialog.closeAll();
-  }
-
-  onDialogSave(className: string, attributeName: string, index: number, value: string): void {
-    this.dialog.closeAll();
-    this.onExampleValueChange(className, attributeName, index, value);
   }
 
   toggleMockServer(): void {

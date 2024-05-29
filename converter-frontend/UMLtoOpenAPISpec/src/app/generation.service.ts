@@ -46,9 +46,4 @@ export class GenerationService {
   addNewElement(newElement: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/add-new-element`, newElement);
   }
-
-  updateExampleValues(exampleValues: any): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<any>(`${this.baseUrl}/update-example-values`, exampleValues, { headers });
-  }
 }
