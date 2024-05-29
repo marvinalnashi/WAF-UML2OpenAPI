@@ -147,6 +147,7 @@ export class GenerationComponent implements AfterViewInit, OnInit {
   fetchOpenAPISpec(): void {
     this.http.get('http://localhost:8080/export.yml', { responseType: 'text' }).subscribe((data) => {
       this.openAPISpec = this.parseYAML(data);
+      console.log(this.openAPISpec);
     });
   }
 
@@ -158,7 +159,7 @@ export class GenerationComponent implements AfterViewInit, OnInit {
         const classAttributes = Object.keys(parsedData.components.schemas[className].properties);
         acc[className] = classAttributes.map(attr => ({
           name: attr,
-          examples: parsedData.components.schemas[className].properties[attr].examples || []
+          examples: parsedData.components.schemas[className].properties[attr].example || []
         }));
         return acc;
       }, {});
