@@ -135,7 +135,7 @@ export class GenerationComponent implements AfterViewInit, OnInit {
         next: (response) => {
           console.log('Generation successful', response);
           this.isGeneratedSuccessfully = true;
-          setTimeout(() => this.fetchOpenAPISpec(), 2000);
+          this.fetchOpenAPISpec();
         },
         error: (error) => console.error('Generation failed', error)
       });
@@ -146,12 +146,8 @@ export class GenerationComponent implements AfterViewInit, OnInit {
 
   fetchOpenAPISpec(): void {
     this.http.get('http://localhost:8080/export.yml', { responseType: 'text' }).subscribe((data) => {
-      console.log('Fetched OpenAPI specification in generation component:', data);
       this.openAPISpec = this.parseYAML(data);
       console.log(this.openAPISpec);
-      if (this.openAPISpec) {
-        this.logExampleValues();
-      }
     });
   }
 
@@ -163,7 +159,7 @@ export class GenerationComponent implements AfterViewInit, OnInit {
         const classAttributes = Object.keys(parsedData.components.schemas[className].properties);
         acc[className] = classAttributes.map(attr => ({
           name: attr,
-          examples: parsedData.components.schemas[className].properties[attr].examples?.exampleArray.map((example: any) => example.value) || []
+          examples: parsedData.components.schemas[className].properties[attr].example || []
         }));
         return acc;
       }, {});
@@ -171,15 +167,6 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     } catch (e) {
       console.error('Failed to parse YAML', e);
       return null;
-    }
-  }
-
-  logExampleValues(): void {
-    for (const className of this.openAPISpec?.classes || []) {
-      const attributes = this.openAPISpec?.attributes[className] || [];
-      for (const attribute of attributes) {
-        console.log(`Class: ${className}, Attribute: ${attribute.name}, Examples: ${JSON.stringify(attribute.examples)}`);
-      }
     }
   }
 
