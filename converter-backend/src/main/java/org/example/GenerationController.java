@@ -230,7 +230,7 @@ public class GenerationController {
     }
 
     @PostMapping("/update-example-values")
-    public ResponseEntity<?> updateExampleValues(@RequestBody Map<String, Map<String, String>> updatedValues) {
+    public ResponseEntity<?> updateExampleValues(@RequestBody Map<String, Map<String, List<String>>> updatedValues) {
         try {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
             File file = new File(outputPath);
@@ -240,10 +240,10 @@ public class GenerationController {
             for (String className : updatedValues.keySet()) {
                 Map<String, Object> classSchema = (Map<String, Object>) schemas.get(className);
                 Map<String, Object> properties = (Map<String, Object>) classSchema.get("properties");
-                Map<String, String> updates = updatedValues.get(className);
+                Map<String, List<String>> updates = updatedValues.get(className);
                 for (String attribute : updates.keySet()) {
                     Map<String, Object> attributeSchema = (Map<String, Object>) properties.get(attribute);
-                    attributeSchema.put("example", updates.get(attribute));
+                    attributeSchema.put("examples", updates.get(attribute));
                 }
             }
             mapper.writeValue(file, openAPISpec);

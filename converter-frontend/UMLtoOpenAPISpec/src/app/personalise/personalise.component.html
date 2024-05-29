@@ -1,0 +1,50 @@
+<div class="personalise-container">
+  <h3>Modify Example Values</h3>
+  <table mat-table [dataSource]="classData" class="mat-elevation-z8">
+    <ng-container matColumnDef="className">
+      <th mat-header-cell *matHeaderCellDef> Class Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.className}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="attributeName">
+      <th mat-header-cell *matHeaderCellDef> Attribute Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.attributeName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="exampleValues">
+      <th mat-header-cell *matHeaderCellDef> Example Values </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngFor="let example of element.examples; let i = index">
+          <span>{{ example }}</span>
+          <button mat-icon-button (click)="openEditDialog(element.className, element.attributeName, i, example)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button (click)="saveExampleValues()">Save</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+
+<ng-template #editDialog let-data="data">
+  <h2 mat-dialog-title>Edit Example Value</h2>
+  <mat-dialog-content>
+    <mat-form-field>
+      <mat-label>New Value</mat-label>
+      <input matInput [(ngModel)]="data.value">
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="onDialogCancel()">Cancel</button>
+    <button mat-button (click)="onDialogSave(data.className, data.attributeName, data.index, data.value)">Save</button>
+  </mat-dialog-actions>
+</ng-template>
