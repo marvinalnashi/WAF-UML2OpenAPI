@@ -37,7 +37,23 @@
 
     <mat-step>
       <ng-template matStepLabel>Personalise</ng-template>
-      <app-personalise></app-personalise>
+      <div *ngIf="openAPISpec">
+        <h3>Modify Example Values</h3>
+        <div *ngFor="let className of openAPISpec.classes">
+          <h4>{{ className }}</h4>
+          <div *ngFor="let attribute of openAPISpec.attributes[className]">
+            <h5>{{ attribute.name }}</h5>
+            <div *ngFor="let example of attribute.examples; let i = index">
+              <span>{{ example }}</span>
+              <button mat-icon-button (click)="openEditDialog(className, attribute.name, i, example)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button mat-button (click)="saveExampleValues()">Save</button>
+      <button mat-button (click)="stepper.next()">Continue</button>
     </mat-step>
 
     <mat-step>

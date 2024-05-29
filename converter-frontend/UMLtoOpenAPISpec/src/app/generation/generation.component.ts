@@ -11,7 +11,6 @@ import { CommonModule } from '@angular/common';
 import { MappingComponent } from '../mapping/mapping.component';
 import * as yaml from 'js-yaml';
 import { MatIcon } from "@angular/material/icon";
-import {PersonaliseComponent} from "../personalise/personalise.component";
 
 interface OpenAPIAttribute {
   name: string;
@@ -25,8 +24,6 @@ interface OpenAPIData {
 
 @Component({
   selector: 'app-generation',
-  templateUrl: './generation.component.html',
-  styleUrls: ['./generation.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
@@ -41,14 +38,14 @@ interface OpenAPIData {
     MatIcon,
     MatDialogTitle,
     MatDialogContent,
-    MatDialogActions,
-    PersonaliseComponent
+    MatDialogActions
   ],
+  templateUrl: './generation.component.html',
   providers: [GenerationService, MockServerService]
 })
 export class GenerationComponent implements AfterViewInit, OnInit {
   @ViewChild('stepper') private stepper!: MatStepper;
-  @ViewChild('editDialog', { static: true }) editDialog!: TemplateRef<any>;
+  @ViewChild('editDialog') editDialog!: TemplateRef<any>;
   @Output() umlDataEmitter = new EventEmitter<any>();
 
   uploadedFile: File | null = null;
@@ -158,7 +155,7 @@ export class GenerationComponent implements AfterViewInit, OnInit {
         const classAttributes = Object.keys(parsedData.components.schemas[className].properties);
         acc[className] = classAttributes.map(attr => ({
           name: attr,
-          examples: parsedData.components.schemas[className].properties[attr].examples || []
+          examples: parsedData.components.schemas[className].properties[attr].example ? [parsedData.components.schemas[className].properties[attr].example] : []
         }));
         return acc;
       }, {});
