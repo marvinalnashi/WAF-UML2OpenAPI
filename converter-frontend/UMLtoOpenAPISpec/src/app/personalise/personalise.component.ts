@@ -1,49 +1,63 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-personalise',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './personalise.component.html',
   styleUrl: './personalise.component.scss'
 })
 export class PersonaliseComponent implements OnChanges {
   @Input() openApiData: any;
-  examples: { className: string, attrName: string, value: any }[] = [];
-
-  constructor() {}
+  classNames: string[] = [];
+  selectedClassAttributes: string[] = [];
+  selectedAttributeExamples: any[] = [];
+  currentView: 'classes' | 'attributes' | 'examples' = 'classes';
+  selectedClass: string = '';
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['openApiData'] && changes['openApiData'].currentValue) {
-      this.extractExamples(changes['openApiData'].currentValue);
+      this.extractClassNames();
     }
   }
 
-  extractExamples(openApiData: any): void {
-    this.examples = [];
-    if (openApiData && openApiData.components && openApiData.components.schemas) {
-      for (const [className, schema] of Object.entries(openApiData.components.schemas)) {
-        if (schema && typeof schema === 'object' && 'examples' in schema) {
-          const examples = (schema as { examples: { exampleArray: any[] } }).examples.exampleArray;
-          if (examples) {
-            for (const example of examples) {
-              for (const [attrName, value] of Object.entries(example)) {
-                if (attrName !== 'id') {
-                  this.examples.push({
-                    className,
-                    attrName,
-                    value
-                  });
-                }
-              }
-            }
-          }
-        }
-      }
+  extractClassNames(): void {
+    this.classNames = [];
+    if (this.openApiData && this.openApiData.components && this.openApiData.components.schemas) {
+      this.classNames = Object.keys(this.openApiData.components.schemas);
     }
+    this.currentView = 'classes';
+  }
+
+  selectClass(className: string): void {
+    this.selectedClass = className;
+    this.selectedClassAttributes = [];
+    const schema = this.openApiData.components.schemas[className];
+    if (schema && schema.properties) {
+      this.selectedClassAttributes = Object.keys(schema.properties);
+    }
+    this.currentView = 'attributes';
+  }
+
+  selectAttribute(attribute: string): void {
+    this.selectedAttributeExamples = [];
+    const schema = this.openApiData.components.schemas[this.selectedClass];
+    if (schema && schema.examples && schema.examples.exampleArray) {
+      this.selectedAttributeExamples = schema.examples.exampleArray.map((example: { [x: string]: any; }) => example[attribute]);
+    }
+    this.currentView = 'examples';
+  }
+
+  goBack(): void {
+    this.currentView = 'classes';
+  }
+
+  goBackToAttributes(): void {
+    this.currentView = 'attributes';
   }
 }

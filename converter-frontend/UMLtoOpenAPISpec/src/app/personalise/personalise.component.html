@@ -1,4 +1,16 @@
-<div *ngFor="let example of examples">
-  <h3>{{ example.className }}</h3>
-  <p>{{ example.attrName }}: {{ example.value }}</p>
+<div *ngIf="currentView === 'classes'">
+  <button *ngFor="let className of classNames" (click)="selectClass(className)">{{ className }}</button>
 </div>
+
+<div *ngIf="currentView === 'attributes'">
+  <button (click)="goBack()">Back to Classes</button>
+  <button *ngFor="let attribute of selectedClassAttributes" (click)="selectAttribute(attribute)">{{ attribute }}</button>
+</div>
+
+<div *ngIf="currentView === 'examples'">
+  <button (click)="goBackToAttributes()">Back to Attributes</button>
+  <div *ngFor="let example of selectedAttributeExamples">
+    <p>{{ example }}</p>
+  </div>
+</div>
+
