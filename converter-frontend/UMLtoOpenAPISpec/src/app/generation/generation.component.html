@@ -36,6 +36,11 @@
     </mat-step>
 
     <mat-step>
+      <ng-template matStepLabel>Personalise</ng-template>
+      <app-personalise [openApiData]="openApiData"></app-personalise>
+    </mat-step>
+
+    <mat-step>
       <ng-template matStepLabel>Manage</ng-template>
       <button mat-button (click)="toggleMockServer()">{{ serverButtonText }}</button>
       <button mat-button (click)="restartApplication()">Restart Stepper</button>

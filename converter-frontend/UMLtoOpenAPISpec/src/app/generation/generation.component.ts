@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import {MappingComponent} from "../mapping/mapping.component";
+import {PersonaliseComponent} from "../personalise/personalise.component";
 
 @Component({
   selector: 'app-generation',
@@ -21,7 +22,8 @@ import {MappingComponent} from "../mapping/mapping.component";
     MatButtonModule,
     MatStep,
     MatStepLabel,
-    MappingComponent
+    MappingComponent,
+    PersonaliseComponent
   ],
   templateUrl: './generation.component.html',
   providers: [GenerationService, MockServerService]
@@ -37,6 +39,7 @@ export class GenerationComponent implements AfterViewInit, OnInit {
   serverButtonText = 'Start mock server';
   mappingFormGroup: FormGroup;
   umlData: any;
+  openApiData: any = null;
   selectedHttpMethods: { [className: string]: { [method: string]: boolean } } = {};
   elementCount = {
     classes: 0,
@@ -62,7 +65,9 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.openApiData = null;
+  }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -111,12 +116,23 @@ export class GenerationComponent implements AfterViewInit, OnInit {
         next: (response) => {
           console.log('Generation successful', response);
           this.isGeneratedSuccessfully = true;
+          this.openApiData = null;
+          this.generateOpenApiData();
         },
         error: (error) => console.error('Generation failed', error)
       });
     } else {
       console.error('No file selected');
     }
+  }
+
+  generateOpenApiData(): void {
+    this.http.get<any>('http://localhost:8080/personalise').subscribe(
+      data => {
+        this.openApiData = data;
+      },
+      error => console.error('Failed to load OpenAPI data', error)
+    );
   }
 
   toggleMockServer(): void {
