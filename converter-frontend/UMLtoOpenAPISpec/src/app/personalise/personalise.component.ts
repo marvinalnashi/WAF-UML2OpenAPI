@@ -68,8 +68,8 @@ export class PersonaliseComponent implements OnInit {
   loadOpenAPISpec() {
     this.http.get('http://localhost:8080/export.yml', { responseType: 'text' }).subscribe((spec: any) => {
       this.openAPISpec = this.parseYAML(spec);
+      console.log('Loaded OpenAPI specification in personalise component:', this.openAPISpec);
       this.parseOpenAPISpec();
-      console.log(this.openAPISpec);
     });
   }
 
@@ -90,13 +90,14 @@ export class PersonaliseComponent implements OnInit {
         const properties = schemas[className].properties;
         for (const attributeName in properties) {
           if (properties.hasOwnProperty(attributeName)) {
-            const examples = properties[attributeName].example || [];
+            const examples = properties[attributeName].examples?.exampleArray.map((example: any) => example.value) || [];
             classDataArray.push({ className, attributeName, examples });
           }
         }
       }
     }
     this.classData.data = classDataArray;
+    console.log('Parsed Class Data:', classDataArray);
   }
 
   openEditDialog(className: string, attributeName: string, index: number, example: string) {
