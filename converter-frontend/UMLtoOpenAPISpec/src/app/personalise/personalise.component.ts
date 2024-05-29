@@ -69,7 +69,6 @@ export class PersonaliseComponent implements OnInit {
     this.http.get('http://localhost:8080/export.yml', { responseType: 'text' }).subscribe((spec: any) => {
       this.openAPISpec = this.parseYAML(spec);
       this.parseOpenAPISpec();
-      console.log(this.openAPISpec);
     });
   }
 
@@ -90,7 +89,7 @@ export class PersonaliseComponent implements OnInit {
         const properties = schemas[className].properties;
         for (const attributeName in properties) {
           if (properties.hasOwnProperty(attributeName)) {
-            const examples = properties[attributeName].example || [];
+            const examples = properties[attributeName].examples || [];
             classDataArray.push({ className, attributeName, examples });
           }
         }
@@ -125,7 +124,7 @@ export class PersonaliseComponent implements OnInit {
       updatedValues[item.className][item.attributeName] = item.examples;
     });
 
-    this.http.post('http://localhost:8080/update-example-values', updatedValues).subscribe(response => {
+    this.http.post('/update-example-values', updatedValues).subscribe(response => {
       console.log('Example values updated successfully.');
     });
   }
