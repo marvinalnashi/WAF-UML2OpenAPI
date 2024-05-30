@@ -45,9 +45,34 @@ public class PersonaliseController {
             Map<String, Object> examples = (Map<String, Object>) classSchema.get("examples");
             ((Map<String, Object>) ((java.util.List<Object>) examples.get("exampleArray")).get(index)).put(attributeName, newValue);
 
+            updatePaths(openApiSpec, className, attributeName, index, newValue);
+
             mapper.writeValue(file, openApiSpec);
         } catch (IOException e) {
             throw new RuntimeException("Failed to update OpenAPI specification: " + e.getMessage(), e);
+        }
+    }
+
+    private void updatePaths(Map<String, Object> openApiSpec, String className, String attributeName, int index, String newValue) {
+        Map<String, Object> paths = (Map<String, Object>) openApiSpec.get("paths");
+        for (Map.Entry<String, Object> pathEntry : paths.entrySet()) {
+            Map<String, Object> methods = (Map<String, Object>) pathEntry.getValue();
+            for (Map.Entry<String, Object> methodEntry : methods.entrySet()) {
+                Map<String, Object> responses = (Map<String, Object>) ((Map<String, Object>) methodEntry.getValue()).get("responses");
+                if (responses != null) {
+                    for (Map.Entry<String, Object> responseEntry : responses.entrySet()) {
+                        Map<String, Object> content = (Map<String, Object>) ((Map<String, Object>) responseEntry.getValue()).get("content");
+                        if (content != null) {
+                            for (Map.Entry<String, Object> contentEntry : content.entrySet()) {
+                                Map<String, Object> examples = (Map<String, Object>) ((Map<String, Object>) contentEntry.getValue()).get("examples");
+                                if (examples != null && examples.get("exampleArray") != null) {
+                                    ((Map<String, Object>) ((java.util.List<Object>) ((Map<String, Object>) examples.get("exampleArray")).get("value")).get(index)).put(attributeName, newValue);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -20,7 +20,6 @@ import {MatStepper} from "@angular/material/stepper";
   styleUrl: './personalise.component.scss'
 })
 export class PersonaliseComponent implements OnChanges {
-  @ViewChild('stepper') private stepper!: MatStepper;
   @Input() openApiData: any;
   classNames: string[] = [];
   selectedClassAttributes: string[] = [];
@@ -96,15 +95,37 @@ export class PersonaliseComponent implements OnChanges {
     };
     this.http.post('http://localhost:8080/updateExample', updateRequest)
       .subscribe(() => {
+        this.updateOpenApiData(index, newValue);
         console.log('Example updated successfully in the backend.');
       }, error => {
         console.error('Failed to update example in the backend', error);
       });
   }
 
-  saveAndContinue(): void {
-    if (this.stepper) {
-      this.stepper.next();
+  updateOpenApiData(index: number, newValue: string): void {
+    const paths = this.openApiData.paths;
+    for (const path in paths) {
+      if (paths.hasOwnProperty(path)) {
+        const methods = paths[path];
+        for (const method in methods) {
+          if (methods.hasOwnProperty(method)) {
+            const responses = methods[method].responses;
+            for (const response in responses) {
+              if (responses.hasOwnProperty(response)) {
+                const content = responses[response].content;
+                for (const contentType in content) {
+                  if (content.hasOwnProperty(contentType)) {
+                    const examples = content[contentType].examples;
+                    if (examples && examples.exampleArray) {
+                      examples.exampleArray.value[index][this.selectedAttribute] = newValue;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

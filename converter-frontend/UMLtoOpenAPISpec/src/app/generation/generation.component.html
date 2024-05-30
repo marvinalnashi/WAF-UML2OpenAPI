@@ -38,6 +38,7 @@
     <mat-step>
       <ng-template matStepLabel>Personalise</ng-template>
       <app-personalise [openApiData]="openApiData"></app-personalise>
+      <button mat-button (click)="stepper.next()">Continue</button>
     </mat-step>
 
     <mat-step>
