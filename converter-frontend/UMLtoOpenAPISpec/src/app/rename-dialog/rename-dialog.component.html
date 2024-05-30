@@ -1,11 +1,23 @@
-<h1 mat-dialog-title>Rename Element</h1>
+<!--<h1 mat-dialog-title>Rename Element</h1>-->
+<!--<div mat-dialog-content>-->
+<!--  <mat-form-field>-->
+<!--    <mat-label>New Name</mat-label>-->
+<!--    <input matInput [(ngModel)]="data.newName">-->
+<!--  </mat-form-field>-->
+<!--</div>-->
+<!--<div mat-dialog-actions>-->
+<!--  <button mat-button (click)="onNoClick()">Cancel</button>-->
+<!--  <button mat-button [mat-dialog-close]="data.newName" cdkFocusInitial>Ok</button>-->
+<!--</div>-->
+
+<h1 mat-dialog-title>Rename</h1>
 <div mat-dialog-content>
   <mat-form-field>
-    <mat-label>New Name</mat-label>
-    <input matInput [(ngModel)]="data.newName">
+    <mat-label>New Value</mat-label>
+    <input matInput [(ngModel)]="data.newValue">
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="data.newName" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]="data.newValue" cdkFocusInitial>Save</button>
 </div>

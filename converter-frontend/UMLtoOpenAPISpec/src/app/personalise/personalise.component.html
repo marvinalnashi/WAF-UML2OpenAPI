@@ -9,8 +9,8 @@
 
 <div *ngIf="currentView === 'examples'">
   <button (click)="goBackToAttributes()">Back to Attributes</button>
-  <div *ngFor="let example of selectedAttributeExamples">
-    <p>{{ example }}</p>
+  <div *ngFor="let example of selectedAttributeExamples; let i = index">
+    <p>{{ example }} <mat-icon (click)="editExample(i)">edit</mat-icon></p>
   </div>
+  <button mat-button (click)="saveAndContinue()">Save and Continue</button>
 </div>
-
