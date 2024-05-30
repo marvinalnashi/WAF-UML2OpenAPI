@@ -66,7 +66,13 @@ public class PersonaliseController {
                             for (Map.Entry<String, Object> contentEntry : content.entrySet()) {
                                 Map<String, Object> examples = (Map<String, Object>) ((Map<String, Object>) contentEntry.getValue()).get("examples");
                                 if (examples != null && examples.get("exampleArray") != null) {
-                                    ((Map<String, Object>) ((java.util.List<Object>) ((Map<String, Object>) examples.get("exampleArray")).get("value")).get(index)).put(attributeName, newValue);
+                                    java.util.List<Object> exampleArray = (java.util.List<Object>) ((Map<String, Object>) examples.get("exampleArray")).get("value");
+                                    if (exampleArray.size() > index) {
+                                        Map<String, Object> example = (Map<String, Object>) exampleArray.get(index);
+                                        if (example.containsKey(attributeName)) {
+                                            example.put(attributeName, newValue);
+                                        }
+                                    }
                                 }
                             }
                         }
