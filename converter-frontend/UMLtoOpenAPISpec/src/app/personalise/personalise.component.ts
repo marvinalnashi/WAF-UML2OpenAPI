@@ -27,6 +27,7 @@ export class PersonaliseComponent implements OnChanges {
   currentView: 'classes' | 'attributes' | 'examples' = 'classes';
   selectedClass: string = '';
   selectedAttribute: string = '';
+  tempExampleValues: { [key: string]: any[] } = {};
 
   constructor(public dialog: MatDialog, private http: HttpClient) {}
 
@@ -56,10 +57,15 @@ export class PersonaliseComponent implements OnChanges {
 
   selectAttribute(attribute: string): void {
     this.selectedAttribute = attribute;
-    this.selectedAttributeExamples = [];
-    const schema = this.openApiData.components.schemas[this.selectedClass];
-    if (schema && schema.examples && schema.examples.exampleArray) {
-      this.selectedAttributeExamples = schema.examples.exampleArray.map((example: { [x: string]: any; }) => example[attribute]);
+    if (this.tempExampleValues[`${this.selectedClass}_${attribute}`]) {
+      this.selectedAttributeExamples = this.tempExampleValues[`${this.selectedClass}_${attribute}`];
+    } else {
+      this.selectedAttributeExamples = [];
+      const schema = this.openApiData.components.schemas[this.selectedClass];
+      if (schema && schema.examples && schema.examples.exampleArray) {
+        this.selectedAttributeExamples = schema.examples.exampleArray.map((example: { [x: string]: any; }) => example[attribute]);
+        this.tempExampleValues[`${this.selectedClass}_${attribute}`] = this.selectedAttributeExamples;
+      }
     }
     this.currentView = 'examples';
   }
@@ -81,6 +87,7 @@ export class PersonaliseComponent implements OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
         this.selectedAttributeExamples[index] = result;
+        this.tempExampleValues[`${this.selectedClass}_${this.selectedAttribute}`][index] = result;
         this.updateExampleInBackend(index, result);
       }
     });
