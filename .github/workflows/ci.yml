@@ -41,17 +41,20 @@ jobs:
         npm install
         npm run build
 
-    - name: Start Docker Compose services
+    - name: Start backend and frontend services
       run: docker-compose up -d converter-backend converter-frontend
 
+    - name: Install Prism CLI
+      run: npm install -g @stoplight/prism-cli
+
     - name: Start Prism mock server
-      run: docker-compose up -d prism
+      run: prism mock /data/export.yml &
 
     - name: Wait for Prism mock server to be healthy
       run: |
         echo "Waiting for Prism mock server to be healthy..."
         for i in {1..10}; do
-          if docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q prism) | grep "healthy"; then
+          if curl --fail http://localhost:4010/; then
             echo "Prism mock server is healthy."
             break
           else
@@ -70,5 +73,5 @@ jobs:
         npm install -g newman
         newman run tests/api-tests.postman_collection.json --env-var baseUrl=http://localhost:4010
 
-    - name: Stop Prism mock server
+    - name: Stop Docker Compose services
       run: docker-compose down
