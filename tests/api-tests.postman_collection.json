@@ -10,12 +10,12 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:4010/classes",
+          "raw": "http://localhost:4011/classes",
           "protocol": "http",
           "host": [
             "localhost"
           ],
-          "port": "4010",
+          "port": "4011",
           "path": [
             "classes"
           ]
@@ -38,12 +38,12 @@
           "raw": "{\n  \"className\": \"NewClass\"\n}"
         },
         "url": {
-          "raw": "http://localhost:4010/classes",
+          "raw": "http://localhost:4011/classes",
           "protocol": "http",
           "host": [
             "localhost"
           ],
-          "port": "4010",
+          "port": "4011",
           "path": [
             "classes"
           ]
