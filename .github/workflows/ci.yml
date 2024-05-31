@@ -48,7 +48,9 @@ jobs:
       run: npm install -g @stoplight/prism-cli
 
     - name: Start Prism mock server
-      run: prism mock /data/export.yml &
+      run: |
+        prism mock /data/export.yml &
+        sleep 10
 
     - name: Wait for Prism mock server to be healthy
       run: |
