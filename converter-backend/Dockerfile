@@ -1,6 +1,6 @@
 # Use a multi-stage build to first build the Java application
 # Stage 1: Build the application
-FROM maven:3.8.4-openjdk-17 as builder
+FROM maven:3.8.4-openjdk-11-slim as builder
 
 # Copy the source code
 COPY ./converter-backend /build
@@ -10,7 +10,7 @@ WORKDIR /build
 RUN mvn clean package
 
 # Stage 2: Setup the runtime container
-FROM openjdk:17-slim-buster
+FROM openjdk:11-slim
 
 # Install necessary packages for fetching Docker's GPG key, adding the Docker repository, and installing Node.js
 RUN apt-get update && \

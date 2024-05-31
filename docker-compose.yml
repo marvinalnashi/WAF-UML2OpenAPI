@@ -18,7 +18,7 @@ services:
     image: stoplight/prism:4
     command: mock /data/export.yml
     ports:
-      - "4011:4010"
+      - "4010:4010"
     volumes:
       - ./data:/data
     environment:
