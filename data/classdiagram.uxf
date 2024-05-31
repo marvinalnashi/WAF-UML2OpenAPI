@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>60</x>
+      <y>120</y>
+      <w>140</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>Class Author
+--
++name : String
++birthYear : int
+--
++getName() : String
++getBirthYear() : int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>260</x>
+      <y>120</y>
+      <w>180</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>Class Book
+--
++title : String
++isbn : String
++publicationYear : int
+--
++getTitle() : String
++getIsbn() : String
++getPublicationYear() : int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>260</x>
+      <y>370</y>
+      <w>170</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>Class Library
+--
++libraryName : String
+--
++addBook(book : Book)
++listBooks() : List&lt;Book&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>190</x>
+      <y>160</y>
+      <w>90</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+relation1</panel_attributes>
+    <additional_attributes>70.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>240</y>
+      <w>110</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=0..1
+included in &gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+</diagram>
