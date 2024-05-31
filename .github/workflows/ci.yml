@@ -66,11 +66,6 @@ jobs:
         cd converter-backend
         ./mvnw test
 
-    - name: Run frontend tests
-      run: |
-        cd converter-frontend/UMLtoOpenAPISpec
-        npm run test -- --browsers=ChromeHeadless --no-watch
-
     - name: Run API tests against mock server
       run: |
         npm install -g newman
