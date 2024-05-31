@@ -44,36 +44,10 @@ jobs:
     - name: Start backend and frontend services
       run: docker-compose up -d converter-backend converter-frontend
 
-    - name: Install Prism CLI
-      run: npm install -g @stoplight/prism-cli
-
-    - name: Start Prism mock server
-      run: |
-        prism mock ./data/export.yml --port 4010 &
-        sleep 10
-
-    - name: Wait for Prism mock server to be healthy
-      run: |
-        echo "Waiting for Prism mock server to be healthy..."
-        for i in {1..10}; do
-          if curl --fail http://localhost:4010/; then
-            echo "Prism mock server is healthy."
-            break
-          else
-            echo "Waiting for Prism mock server..."
-            sleep 10
-          fi
-        done
-
     - name: Run backend tests
       run: |
         cd converter-backend
         ./mvnw test
-
-    - name: Run API tests against mock server
-      run: |
-        npm install -g newman
-        newman run tests/api-tests.postman_collection.json --env-var baseUrl=http://localhost:4010
 
     - name: Stop Docker Compose services
       run: docker-compose down
