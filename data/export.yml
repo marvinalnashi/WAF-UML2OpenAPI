@@ -7,227 +7,6 @@ info:
 servers:
 - url: "http://localhost:4010"
 paths:
-  /building:
-    get:
-      tags:
-      - "Building"
-      summary: "Get all instances of Building"
-      description: "Fetches all instances of Building"
-      responses:
-        "200":
-          content:
-            application/xml:
-              schema:
-                xml:
-                  name: "building"
-                  wrapped: true
-                  namespace: "http://example.com/schema"
-                items:
-                  $ref: "#/components/schemas/Building"
-                type: "array"
-              examples:
-                exampleArray:
-                  value:
-                  - id: 1
-                    buildingType: "Skyscraper"
-                  - id: 2
-                    buildingType: "\"commercial\""
-                  - id: 3
-                    buildingType: "Hut"
-                  - id: 4
-                    buildingType: "buildingType: \"Skyscraper\""
-                  - id: 5
-                    buildingType: "Skyscraper"
-                  - id: 6
-                    buildingType: "Commercial Office Building"
-                  - id: 7
-                    buildingType: "Building with id 7 has a buildingType attribute\
-                      \ value of \"Corporate Office Building\"."
-            application/json:
-              schema:
-                items:
-                  $ref: "#/components/schemas/Building"
-                type: "array"
-              examples:
-                exampleArray:
-                  value:
-                  - id: 1
-                    buildingType: "Skyscraper"
-                  - id: 2
-                    buildingType: "\"commercial\""
-                  - id: 3
-                    buildingType: "Hut"
-                  - id: 4
-                    buildingType: "buildingType: \"Skyscraper\""
-                  - id: 5
-                    buildingType: "Skyscraper"
-                  - id: 6
-                    buildingType: "Commercial Office Building"
-                  - id: 7
-                    buildingType: "Building with id 7 has a buildingType attribute\
-                      \ value of \"Corporate Office Building\"."
-          description: "Successful retrieval"
-    post:
-      tags:
-      - "Building"
-      summary: "POST operation for Building"
-      description: "Performs POST operation for Building"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Building"
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: "#/components/schemas/Building"
-          application/xml:
-            schema:
-              $ref: "#/components/schemas/Building"
-        description: "Payload for POST operation"
-        required: true
-      responses:
-        "200":
-          content:
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/Building"
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Building"
-          description: "Successful operation"
-  /building/{id}:
-    delete:
-      tags:
-      - "Building"
-      summary: "DELETE operation for Building"
-      description: "Performs DELETE operation for Building"
-      parameters:
-      - in: "path"
-        name: "id"
-        schema:
-          type: "string"
-        required: true
-      responses:
-        "200":
-          content:
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/Building"
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Building"
-          description: "Successful operation"
-    get:
-      tags:
-      - "Building"
-      summary: "GET operation for Building"
-      description: "Performs GET operation for Building"
-      parameters:
-      - in: "path"
-        name: "id"
-        schema:
-          type: "string"
-        required: true
-      responses:
-        "200":
-          content:
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/Building"
-              examples:
-                "1":
-                  value:
-                    id: 1
-                    buildingType: "buildingType: \"Skyscraper\""
-                "2":
-                  value:
-                    id: 2
-                    buildingType: "\"commercial\""
-                "3":
-                  value:
-                    id: 3
-                    buildingType: "For Building with id 3, the unique buildingType\
-                      \ could be \"Skyscraper\"."
-                "4":
-                  value:
-                    id: 4
-                    buildingType: "buildingType: \"Skyscraper\""
-                "5":
-                  value:
-                    id: 5
-                    buildingType: "Skyscraper"
-                "6":
-                  value:
-                    id: 6
-                    buildingType: "Commercial Office Building"
-                "7":
-                  value:
-                    id: 7
-                    buildingType: "Building with id 7 has a buildingType attribute\
-                      \ value of \"Corporate Office Building\"."
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Building"
-              examples:
-                "1":
-                  value:
-                    id: 1
-                    buildingType: "buildingType: \"Skyscraper\""
-                "2":
-                  value:
-                    id: 2
-                    buildingType: "\"commercial\""
-                "3":
-                  value:
-                    id: 3
-                    buildingType: "For Building with id 3, the unique buildingType\
-                      \ could be \"Skyscraper\"."
-                "4":
-                  value:
-                    id: 4
-                    buildingType: "buildingType: \"Skyscraper\""
-                "5":
-                  value:
-                    id: 5
-                    buildingType: "Skyscraper"
-                "6":
-                  value:
-                    id: 6
-                    buildingType: "Commercial Office Building"
-                "7":
-                  value:
-                    id: 7
-                    buildingType: "Building with id 7 has a buildingType attribute\
-                      \ value of \"Corporate Office Building\"."
-          description: "Successful operation"
-    put:
-      tags:
-      - "Building"
-      summary: "PUT operation for Building"
-      description: "Performs PUT operation for Building"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Building"
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: "#/components/schemas/Building"
-          application/xml:
-            schema:
-              $ref: "#/components/schemas/Building"
-        description: "Payload for PUT operation"
-        required: true
-      responses:
-        "200":
-          content:
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/Building"
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Building"
-          description: "Successful operation"
   /library:
     get:
       tags:
@@ -237,60 +16,60 @@ paths:
       responses:
         "200":
           content:
-            application/xml:
+            application/json:
+              examples:
+                exampleArray:
+                  value:
+                  - id: 1
+                    libraryName: "libraryName: \"Wonderland Library\""
+                  - id: 2
+                    libraryName: "libraryName: \"Bookworm Haven\""
+                  - id: 3
+                    libraryName: "libraryName: \"Sunset City Public Library\""
+                  - id: 4
+                    libraryName: "Library with id 4 libraryName value: \"Lighthouse\
+                      \ Library\""
+                  - id: 5
+                    libraryName: "The unique example value for the String attribute\
+                      \ libraryName for a Library with id 5 could be \"Sunshine Public\
+                      \ Library\"."
+                  - id: 6
+                    libraryName: "Library 6: \"Wonderland Public Library\""
+                  - id: 7
+                    libraryName: "libraryName: \"Sunflower Reading Paradise\""
               schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Library"
+            application/xml:
+              examples:
+                exampleArray:
+                  value:
+                  - id: 1
+                    libraryName: "libraryName: \"Wonderland Library\""
+                  - id: 2
+                    libraryName: "libraryName: \"Bookworm Haven\""
+                  - id: 3
+                    libraryName: "libraryName: \"Sunset City Public Library\""
+                  - id: 4
+                    libraryName: "Library with id 4 libraryName value: \"Lighthouse\
+                      \ Library\""
+                  - id: 5
+                    libraryName: "The unique example value for the String attribute\
+                      \ libraryName for a Library with id 5 could be \"Sunshine Public\
+                      \ Library\"."
+                  - id: 6
+                    libraryName: "Library 6: \"Wonderland Public Library\""
+                  - id: 7
+                    libraryName: "libraryName: \"Sunflower Reading Paradise\""
+              schema:
+                items:
+                  $ref: "#/components/schemas/Library"
+                type: "array"
                 xml:
-                  name: "library"
                   wrapped: true
                   namespace: "http://example.com/schema"
-                items:
-                  $ref: "#/components/schemas/Library"
-                type: "array"
-              examples:
-                exampleArray:
-                  value:
-                  - id: 1
-                    libraryName: "Renamed Library"
-                  - id: 2
-                    libraryName: "libraryName: \"Sunrise Library\""
-                  - id: 3
-                    libraryName: "Library 3 - \"Book Haven\""
-                  - id: 4
-                    libraryName: "libraryName: \"Wonderland_Public_Library_4\""
-                  - id: 5
-                    libraryName: "The unique example value for Library with id 5 attribute\
-                      \ libraryName could be \"Dreamland Public Library\"."
-                  - id: 6
-                    libraryName: "The unique example value for the libraryName attribute\
-                      \ of Library with id 6 could be \"Golden Gate Public Library\"\
-                      ."
-                  - id: 7
-                    libraryName: "libraryName: \"Sunshine Valley Public Library\""
-            application/json:
-              schema:
-                items:
-                  $ref: "#/components/schemas/Library"
-                type: "array"
-              examples:
-                exampleArray:
-                  value:
-                  - id: 1
-                    libraryName: "Renamed Library"
-                  - id: 2
-                    libraryName: "libraryName: \"Sunrise Library\""
-                  - id: 3
-                    libraryName: "Library 3 - \"Book Haven\""
-                  - id: 4
-                    libraryName: "libraryName: \"Wonderland_Public_Library_4\""
-                  - id: 5
-                    libraryName: "The unique example value for Library with id 5 attribute\
-                      \ libraryName could be \"Dreamland Public Library\"."
-                  - id: 6
-                    libraryName: "The unique example value for the libraryName attribute\
-                      \ of Library with id 6 could be \"Golden Gate Public Library\"\
-                      ."
-                  - id: 7
-                    libraryName: "libraryName: \"Sunshine Valley Public Library\""
+                  name: "library"
           description: "Successful retrieval"
     post:
       tags:
@@ -299,13 +78,13 @@ paths:
       description: "Performs POST operation for Library"
       requestBody:
         content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Library"
           application/x-www-form-urlencoded:
             schema:
               $ref: "#/components/schemas/Library"
           application/xml:
+            schema:
+              $ref: "#/components/schemas/Library"
+          application/json:
             schema:
               $ref: "#/components/schemas/Library"
         description: "Payload for POST operation"
@@ -313,10 +92,10 @@ paths:
       responses:
         "200":
           content:
-            application/xml:
+            application/json:
               schema:
                 $ref: "#/components/schemas/Library"
-            application/json:
+            application/xml:
               schema:
                 $ref: "#/components/schemas/Library"
           description: "Successful operation"
@@ -327,18 +106,18 @@ paths:
       summary: "DELETE operation for Library"
       description: "Performs DELETE operation for Library"
       parameters:
-      - in: "path"
-        name: "id"
+      - name: "id"
         schema:
           type: "string"
         required: true
+        in: "path"
       responses:
         "200":
           content:
-            application/xml:
+            application/json:
               schema:
                 $ref: "#/components/schemas/Library"
-            application/json:
+            application/xml:
               schema:
                 $ref: "#/components/schemas/Library"
           description: "Successful operation"
@@ -348,84 +127,84 @@ paths:
       summary: "GET operation for Library"
       description: "Performs GET operation for Library"
       parameters:
-      - in: "path"
-        name: "id"
+      - name: "id"
         schema:
           type: "string"
         required: true
+        in: "path"
       responses:
         "200":
           content:
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/Library"
-              examples:
-                "1":
-                  value:
-                    id: 1
-                    libraryName: "CoolReader'sArchiveLib"
-                "2":
-                  value:
-                    id: 2
-                    libraryName: "libraryName: \"Sunrise Library\""
-                "3":
-                  value:
-                    id: 3
-                    libraryName: "Library 3 - \"Book Haven\""
-                "4":
-                  value:
-                    id: 4
-                    libraryName: "libraryName: \"Wonderland_Public_Library_4\""
-                "5":
-                  value:
-                    id: 5
-                    libraryName: "The unique example value for Library with id 5 attribute\
-                      \ libraryName could be \"Dreamland Public Library\"."
-                "6":
-                  value:
-                    id: 6
-                    libraryName: "The unique example value for the libraryName attribute\
-                      \ of Library with id 6 could be \"Golden Gate Public Library\"\
-                      ."
-                "7":
-                  value:
-                    id: 7
-                    libraryName: "libraryName: \"Sunshine Valley Public Library\""
             application/json:
-              schema:
-                $ref: "#/components/schemas/Library"
               examples:
                 "1":
                   value:
                     id: 1
-                    libraryName: "CoolReader'sArchiveLib"
+                    libraryName: "libraryName: \"Wonderland Library\""
                 "2":
                   value:
                     id: 2
-                    libraryName: "libraryName: \"Sunrise Library\""
+                    libraryName: "libraryName: \"Bookworm Haven\""
                 "3":
                   value:
                     id: 3
-                    libraryName: "Library 3 - \"Book Haven\""
+                    libraryName: "libraryName: \"Sunset City Public Library\""
                 "4":
                   value:
                     id: 4
-                    libraryName: "libraryName: \"Wonderland_Public_Library_4\""
+                    libraryName: "Library with id 4 libraryName value: \"Lighthouse\
+                      \ Library\""
                 "5":
                   value:
                     id: 5
-                    libraryName: "The unique example value for Library with id 5 attribute\
-                      \ libraryName could be \"Dreamland Public Library\"."
+                    libraryName: "The unique example value for the String attribute\
+                      \ libraryName for a Library with id 5 could be \"Sunshine Public\
+                      \ Library\"."
                 "6":
                   value:
                     id: 6
-                    libraryName: "The unique example value for the libraryName attribute\
-                      \ of Library with id 6 could be \"Golden Gate Public Library\"\
-                      ."
+                    libraryName: "Library 6: \"Wonderland Public Library\""
                 "7":
                   value:
                     id: 7
-                    libraryName: "libraryName: \"Sunshine Valley Public Library\""
+                    libraryName: "libraryName: \"Sunflower Reading Paradise\""
+              schema:
+                $ref: "#/components/schemas/Library"
+            application/xml:
+              examples:
+                "1":
+                  value:
+                    id: 1
+                    libraryName: "libraryName: \"Wonderland Library\""
+                "2":
+                  value:
+                    id: 2
+                    libraryName: "libraryName: \"Bookworm Haven\""
+                "3":
+                  value:
+                    id: 3
+                    libraryName: "libraryName: \"Sunset City Public Library\""
+                "4":
+                  value:
+                    id: 4
+                    libraryName: "Library with id 4 libraryName value: \"Lighthouse\
+                      \ Library\""
+                "5":
+                  value:
+                    id: 5
+                    libraryName: "The unique example value for the String attribute\
+                      \ libraryName for a Library with id 5 could be \"Sunshine Public\
+                      \ Library\"."
+                "6":
+                  value:
+                    id: 6
+                    libraryName: "Library 6: \"Wonderland Public Library\""
+                "7":
+                  value:
+                    id: 7
+                    libraryName: "libraryName: \"Sunflower Reading Paradise\""
+              schema:
+                $ref: "#/components/schemas/Library"
           description: "Successful operation"
     put:
       tags:
@@ -434,13 +213,13 @@ paths:
       description: "Performs PUT operation for Library"
       requestBody:
         content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Library"
           application/x-www-form-urlencoded:
             schema:
               $ref: "#/components/schemas/Library"
           application/xml:
+            schema:
+              $ref: "#/components/schemas/Library"
+          application/json:
             schema:
               $ref: "#/components/schemas/Library"
         description: "Payload for PUT operation"
@@ -448,71 +227,284 @@ paths:
       responses:
         "200":
           content:
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/Library"
             application/json:
               schema:
                 $ref: "#/components/schemas/Library"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Library"
+          description: "Successful operation"
+  /bike:
+    get:
+      tags:
+      - "Bike"
+      summary: "Get all instances of Bike"
+      description: "Fetches all instances of Bike"
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                exampleArray:
+                  value:
+                  - id: 1
+                    bikeType: "\"mountain\""
+                  - id: 2
+                    bikeType: "\"BMX\""
+                  - id: 3
+                    bikeType: "mountain bike"
+                  - id: 4
+                    bikeType: "Mountain Bike - 4"
+                  - id: 5
+                    bikeType: "Mountain Bike"
+                  - id: 6
+                    bikeType: "\"mountain\""
+                  - id: 7
+                    bikeType: "mountain bike"
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Bike"
+            application/xml:
+              examples:
+                exampleArray:
+                  value:
+                  - id: 1
+                    bikeType: "\"mountain\""
+                  - id: 2
+                    bikeType: "\"BMX\""
+                  - id: 3
+                    bikeType: "mountain bike"
+                  - id: 4
+                    bikeType: "Mountain Bike - 4"
+                  - id: 5
+                    bikeType: "Mountain Bike"
+                  - id: 6
+                    bikeType: "\"mountain\""
+                  - id: 7
+                    bikeType: "mountain bike"
+              schema:
+                items:
+                  $ref: "#/components/schemas/Bike"
+                type: "array"
+                xml:
+                  wrapped: true
+                  namespace: "http://example.com/schema"
+                  name: "bike"
+          description: "Successful retrieval"
+    post:
+      tags:
+      - "Bike"
+      summary: "POST operation for Bike"
+      description: "Performs POST operation for Bike"
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Bike"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Bike"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Bike"
+        description: "Payload for POST operation"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bike"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Bike"
+          description: "Successful operation"
+  /bike/{id}:
+    delete:
+      tags:
+      - "Bike"
+      summary: "DELETE operation for Bike"
+      description: "Performs DELETE operation for Bike"
+      parameters:
+      - name: "id"
+        schema:
+          type: "string"
+        required: true
+        in: "path"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bike"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Bike"
+          description: "Successful operation"
+    get:
+      tags:
+      - "Bike"
+      summary: "GET operation for Bike"
+      description: "Performs GET operation for Bike"
+      parameters:
+      - name: "id"
+        schema:
+          type: "string"
+        required: true
+        in: "path"
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                "1":
+                  value:
+                    id: 1
+                    bikeType: "\"mountain\""
+                "2":
+                  value:
+                    id: 2
+                    bikeType: "\"BMX\""
+                "3":
+                  value:
+                    id: 3
+                    bikeType: "mountain bike"
+                "4":
+                  value:
+                    id: 4
+                    bikeType: "Mountain Bike - 4"
+                "5":
+                  value:
+                    id: 5
+                    bikeType: "Mountain Bike"
+                "6":
+                  value:
+                    id: 6
+                    bikeType: "\"mountain\""
+                "7":
+                  value:
+                    id: 7
+                    bikeType: "mountain bike"
+              schema:
+                $ref: "#/components/schemas/Bike"
+            application/xml:
+              examples:
+                "1":
+                  value:
+                    id: 1
+                    bikeType: "\"mountain\""
+                "2":
+                  value:
+                    id: 2
+                    bikeType: "\"BMX\""
+                "3":
+                  value:
+                    id: 3
+                    bikeType: "mountain bike"
+                "4":
+                  value:
+                    id: 4
+                    bikeType: "Mountain Bike - 4"
+                "5":
+                  value:
+                    id: 5
+                    bikeType: "Mountain Bike"
+                "6":
+                  value:
+                    id: 6
+                    bikeType: "\"mountain\""
+                "7":
+                  value:
+                    id: 7
+                    bikeType: "mountain bike"
+              schema:
+                $ref: "#/components/schemas/Bike"
+          description: "Successful operation"
+    put:
+      tags:
+      - "Bike"
+      summary: "PUT operation for Bike"
+      description: "Performs PUT operation for Bike"
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Bike"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Bike"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Bike"
+        description: "Payload for PUT operation"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bike"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Bike"
           description: "Successful operation"
 components:
   schemas:
-    Building:
-      examples:
-        exampleArray:
-        - id: 1
-          buildingType: "Skyscraper"
-        - id: 2
-          buildingType: "\"commercial\""
-        - id: 3
-          buildingType: "Hut"
-        - id: 4
-          buildingType: "buildingType: \"Skyscraper\""
-        - id: 5
-          buildingType: "Skyscraper"
-        - id: 6
-          buildingType: "Commercial Office Building"
-        - id: 7
-          buildingType: "Building with id 7 has a buildingType attribute value of\
-            \ \"Corporate Office Building\"."
-      properties:
-        buildingType:
-          type: "string"
-      type: "object"
+    Library:
       xml:
-        name: "building"
         wrapped: true
         namespace: "http://example.com/schema"
+        name: "library"
       example:
         id: 1
-        buildingType: "buildingType: \"Skyscraper\""
-    Library:
+        libraryName: "libraryName: \"Wonderland Library\""
       examples:
         exampleArray:
         - id: 1
-          libraryName: "Renamed Library"
+          libraryName: "libraryName: \"Wonderland Library\""
         - id: 2
-          libraryName: "libraryName: \"Sunrise Library\""
+          libraryName: "libraryName: \"Bookworm Haven\""
         - id: 3
-          libraryName: "Library 3 - \"Book Haven\""
+          libraryName: "libraryName: \"Sunset City Public Library\""
         - id: 4
-          libraryName: "libraryName: \"Wonderland_Public_Library_4\""
+          libraryName: "Library with id 4 libraryName value: \"Lighthouse Library\""
         - id: 5
-          libraryName: "The unique example value for Library with id 5 attribute libraryName\
-            \ could be \"Dreamland Public Library\"."
+          libraryName: "The unique example value for the String attribute libraryName\
+            \ for a Library with id 5 could be \"Sunshine Public Library\"."
         - id: 6
-          libraryName: "The unique example value for the libraryName attribute of\
-            \ Library with id 6 could be \"Golden Gate Public Library\"."
+          libraryName: "Library 6: \"Wonderland Public Library\""
         - id: 7
-          libraryName: "libraryName: \"Sunshine Valley Public Library\""
+          libraryName: "libraryName: \"Sunflower Reading Paradise\""
       properties:
         libraryName:
           type: "string"
       type: "object"
+    Bike:
       xml:
-        name: "library"
         wrapped: true
         namespace: "http://example.com/schema"
+        name: "bike"
       example:
         id: 1
-        libraryName: "CoolReader'sArchiveLib"
+        bikeType: "\"mountain\""
+      examples:
+        exampleArray:
+        - id: 1
+          bikeType: "\"mountain\""
+        - id: 2
+          bikeType: "\"BMX\""
+        - id: 3
+          bikeType: "mountain bike"
+        - id: 4
+          bikeType: "Mountain Bike - 4"
+        - id: 5
+          bikeType: "Mountain Bike"
+        - id: 6
+          bikeType: "\"mountain\""
+        - id: 7
+          bikeType: "mountain bike"
+      properties:
+        bikeType:
+          type: "string"
+      type: "object"

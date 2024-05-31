@@ -35,24 +35,23 @@ jobs:
       with:
         node-version: '18'
 
-    - name: Install frontend dependencies
-      run: |
-        cd converter-frontend/UMLtoOpenAPISpec
-        npm install
-
     - name: Build frontend
       run: |
         cd converter-frontend/UMLtoOpenAPISpec
+        npm install
         npm run build
 
+    - name: Start Docker Compose services
+      run: docker-compose up -d converter-backend converter-frontend
+
     - name: Start Prism mock server
-      run: docker-compose up -d
+      run: docker-compose up -d prism
 
     - name: Wait for Prism mock server to be healthy
       run: |
         echo "Waiting for Prism mock server to be healthy..."
         for i in {1..10}; do
-          if docker-compose ps | grep prism | grep "healthy"; then
+          if docker inspect --format='{{json .State.Health.Status}}' $(docker-compose ps -q prism) | grep "healthy"; then
             echo "Prism mock server is healthy."
             break
           else
@@ -69,4 +68,7 @@ jobs:
     - name: Run API tests against mock server
       run: |
         npm install -g newman
-        newman run tests/api-tests.postman_collection.json --env-var baseUrl=http://localhost:4011
+        newman run tests/api-tests.postman_collection.json --env-var baseUrl=http://localhost:4010
+
+    - name: Stop Prism mock server
+      run: docker-compose down
