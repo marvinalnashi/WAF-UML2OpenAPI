@@ -49,7 +49,7 @@ jobs:
 
     - name: Start Prism mock server
       run: |
-        prism mock /data/export.yml &
+        prism mock /home/runner/work/WAF-UML2OpenAPI/WAF-UML2OpenAPI/data/export.yml &
         sleep 10
 
     - name: Wait for Prism mock server to be healthy
