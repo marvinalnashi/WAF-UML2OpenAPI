@@ -39,7 +39,7 @@ RUN apt-get update && \
 # Existing Dockerfile steps for setting up the Java application environment
 
 # Install a specific stable version of Node.js if necessary
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs
 
 # Uninstall and Reinstall Prism CLI with a specific version

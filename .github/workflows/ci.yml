@@ -35,10 +35,14 @@ jobs:
       with:
         node-version: '18'
 
-    - name: Build frontend
+    - name: Install frontend dependencies
       run: |
         cd converter-frontend/UMLtoOpenAPISpec
         npm install
+
+    - name: Build frontend
+      run: |
+        cd converter-frontend/UMLtoOpenAPISpec
         npm run build
 
     - name: Start Prism mock server
@@ -65,7 +69,7 @@ jobs:
     - name: Run frontend tests
       run: |
         cd converter-frontend/UMLtoOpenAPISpec
-        npm run test
+        npm run test -- --browsers=ChromeHeadless --no-watch
 
     - name: Run API tests against mock server
       run: |
