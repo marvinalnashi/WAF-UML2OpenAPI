@@ -1,0 +1,55 @@
+{
+  "info": {
+    "name": "API Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Classes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4010/classes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4010",
+          "path": [
+            "classes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Class",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"className\": \"NewClass\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4010/classes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4010",
+          "path": [
+            "classes"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
