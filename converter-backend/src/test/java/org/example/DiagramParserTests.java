@@ -73,4 +73,12 @@ public class DiagramParserTests {
         });
     }
 
+    @Test
+    public void testParseMalformedXML() {
+        String malformedXML = "<mxGraphModel><root><mxCell id=\"1\" style=\"swimlane\" value=\"Class<Test\" parent=\"0\"></root></mxGraphModel>";
+        InputStream inputStream = new ByteArrayInputStream(malformedXML.getBytes());
+        assertThrows(SAXParseException.class, () -> {
+            xmlParser.parse(inputStream);
+        });
+    }
 }

@@ -38,4 +38,21 @@ public class OpenAPISpecGeneratorTests {
         String response = openAPISpecGenerator.generateSpec(classes, attributes, methods, mappings, outputPath, selectedHttpMethods);
         assertEquals(expectedResponse, response);
     }
+
+    @Test
+    public void testGenerateSpecWithNoData() throws Exception {
+        Map<String, List<String>> classes = Collections.emptyMap();
+        Map<String, List<String>> attributes = Collections.emptyMap();
+        Map<String, List<String>> methods = Collections.emptyMap();
+        List<Map<String, Object>> mappings = new ArrayList<>();
+        String outputPath = "/data/export.yml";
+        Map<String, Map<String, Boolean>> selectedHttpMethods = Collections.emptyMap();
+
+        String expectedResponse = "OpenAPI specification generated successfully at " + outputPath;
+
+        when(openAPISpecGenerator.generateSpec(classes, attributes, methods, mappings, outputPath, selectedHttpMethods)).thenReturn(expectedResponse);
+
+        String response = openAPISpecGenerator.generateSpec(classes, attributes, methods, mappings, outputPath, selectedHttpMethods);
+        assertEquals(expectedResponse, response);
+    }
 }

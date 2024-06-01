@@ -49,4 +49,11 @@ public class GenerationControllerTests {
         assertEquals(200, response.getStatusCodeValue());
         assertEquals("Generated OpenAPI specification", response.getBody().get("message"));
     }
+
+    @Test
+    public void testParseDiagramElementsWithInvalidFileType() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "Invalid content".getBytes());
+        ResponseEntity<Map<String, Object>> response = generationController.parseDiagramElements(file);
+        assertEquals(415, response.getStatusCodeValue());
+    }
 }
