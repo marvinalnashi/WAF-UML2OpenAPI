@@ -30,11 +30,8 @@ public class OpenAPISpecGeneratorTests {
         List<Map<String, Object>> mappings = new ArrayList<>();
         String outputPath = "/data/export.yml";
         Map<String, Map<String, Boolean>> selectedHttpMethods = Map.of("Test", Map.of("GET", true));
-
         String expectedResponse = "OpenAPI specification generated successfully at " + outputPath;
-
         when(openAPISpecGenerator.generateSpec(classes, attributes, methods, mappings, outputPath, selectedHttpMethods)).thenReturn(expectedResponse);
-
         String response = openAPISpecGenerator.generateSpec(classes, attributes, methods, mappings, outputPath, selectedHttpMethods);
         assertEquals(expectedResponse, response);
     }
@@ -47,11 +44,8 @@ public class OpenAPISpecGeneratorTests {
         List<Map<String, Object>> mappings = new ArrayList<>();
         String outputPath = "/data/export.yml";
         Map<String, Map<String, Boolean>> selectedHttpMethods = Collections.emptyMap();
-
         String expectedResponse = "OpenAPI specification generated successfully at " + outputPath;
-
         when(openAPISpecGenerator.generateSpec(classes, attributes, methods, mappings, outputPath, selectedHttpMethods)).thenReturn(expectedResponse);
-
         String response = openAPISpecGenerator.generateSpec(classes, attributes, methods, mappings, outputPath, selectedHttpMethods);
         assertEquals(expectedResponse, response);
     }

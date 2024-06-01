@@ -26,9 +26,7 @@ public class MockServerSchedulerTests {
     public void testCheckAndStartMockServer() throws IOException {
         MockServerScheduler spyScheduler = spy(mockServerScheduler);
         doNothing().when(spyScheduler).checkAndStartMockServer();
-
         spyScheduler.checkAndStartMockServer();
-
         verify(spyScheduler, times(1)).checkAndStartMockServer();
     }
 
@@ -38,9 +36,7 @@ public class MockServerSchedulerTests {
         if (triggerFile.exists()) {
             triggerFile.delete();
         }
-
         mockServerScheduler.checkAndStartMockServer();
-
         assertFalse(triggerFile.exists());
     }
 }
