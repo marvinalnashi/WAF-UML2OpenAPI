@@ -3,6 +3,7 @@ import { RenameDialogComponent } from './rename-dialog.component';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('RenameDialogComponent', () => {
   let component: RenameDialogComponent;
@@ -19,7 +20,8 @@ describe('RenameDialogComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: { close: jasmine.createSpy('close') } },
         { provide: MAT_DIALOG_DATA, useValue: { newValue: 'testValue' } }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   });
 
@@ -37,5 +39,9 @@ describe('RenameDialogComponent', () => {
     const dialogRef = TestBed.inject(MatDialogRef);
     component.onNoClick();
     expect(dialogRef.close).toHaveBeenCalled();
+  });
+
+  it('should initialize with provided data', () => {
+    expect(component.data.newValue).toBe('testValue');
   });
 });
