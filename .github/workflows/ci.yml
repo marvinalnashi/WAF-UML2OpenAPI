@@ -92,7 +92,7 @@ jobs:
       working-directory: converter-frontend/UMLtoOpenAPISpec
 
     - name: Run frontend tests
-      run: npm test
+      run: npm test --watch=false
       working-directory: converter-frontend/UMLtoOpenAPISpec
 
   deploy:
