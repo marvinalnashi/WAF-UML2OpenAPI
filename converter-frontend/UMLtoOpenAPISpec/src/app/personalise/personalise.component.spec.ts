@@ -23,7 +23,7 @@ describe('PersonaliseComponent', () => {
           useValue: {
             open: () => ({
               afterClosed: () => ({
-                subscribe: (fn: (value: any) => void) => fn({ newValue: 'testValue' })
+                subscribe: (fn: (value: any) => void) => fn({ newValue: 'RenamedExample' })
               })
             })
           }
@@ -48,6 +48,8 @@ describe('PersonaliseComponent', () => {
         }
       }
     };
+    component.selectedClassAttributes = ['attr1', 'attr2'];
+    component.selectedAttributeExamples = ['example1', 'example2'];
     fixture.detectChanges();
   });
 
@@ -68,5 +70,21 @@ describe('PersonaliseComponent', () => {
     fixture.detectChanges();
     expect(component.selectedClass).toBe('TestClass');
     expect(component.selectedClassAttributes.length).toBe(2);
+  });
+
+  it('should handle example value updates', () => {
+    component.selectClass('TestClass');
+    fixture.detectChanges();
+
+    component.selectAttribute('attr1');
+    fixture.detectChanges();
+
+    component.selectedAttributeExamples = ['example1', 'example2'];
+    fixture.detectChanges();
+
+    component.selectedAttributeExamples[0] = 'UpdatedExample';
+    fixture.detectChanges();
+
+    expect(component.selectedAttributeExamples[0]).toBe('UpdatedExample');
   });
 });
