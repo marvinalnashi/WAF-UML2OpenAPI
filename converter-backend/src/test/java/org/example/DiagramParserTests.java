@@ -2,6 +2,9 @@ package org.example;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+import org.xml.sax.SAXParseException;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -9,20 +12,25 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DiagramParserTests {
 
-    private DiagramParser mdjParser;
-    private DiagramParser plantUmlParser;
-    private DiagramParser uxfParser;
-    private DiagramParser xmlParser;
+    @InjectMocks
+    private XMLParser xmlParser;
+
+    @InjectMocks
+    private UXFParser uxfParser;
+
+    @InjectMocks
+    private MDJParser mdjParser;
+
+    @InjectMocks
+    private PlantUMLParser plantUmlParser;
 
     @BeforeEach
     public void setUp() {
-        mdjParser = new MDJParser();
-        plantUmlParser = new PlantUMLParser();
-        uxfParser = new UXFParser();
-        xmlParser = new XMLParser();
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -55,4 +63,14 @@ public class DiagramParserTests {
         assertEquals(1, result.size());
         assertEquals("Test", result.keySet().iterator().next());
     }
+
+    @Test
+    public void testParseInvalidFormat() {
+        String invalidXML = "Invalid XML Content";
+        InputStream inputStream = new ByteArrayInputStream(invalidXML.getBytes());
+        assertThrows(SAXParseException.class, () -> {
+            xmlParser.parse(inputStream);
+        });
+    }
+
 }
