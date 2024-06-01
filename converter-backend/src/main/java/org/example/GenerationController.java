@@ -21,7 +21,7 @@ public class GenerationController {
     private final String outputPath = "/data/export.yml";
     private final OpenAPISpecGenerator openAPISpecGenerator;
     private List<Map<String, Object>> savedMappings = new ArrayList<>();
-    private Map<String, Object> umlDataStore = new HashMap<>();
+    Map<String, Object> umlDataStore = new HashMap<>();
 
     public GenerationController(OpenAPISpecGenerator openAPISpecGenerator) {
         this.openAPISpecGenerator = openAPISpecGenerator;

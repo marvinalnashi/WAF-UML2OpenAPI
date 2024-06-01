@@ -81,6 +81,9 @@ public class XMLParser implements DiagramParser {
     }
 
     private String extractClassName(String value) {
+        if (value.contains("Class<")) {
+            return value.substring(value.indexOf("Class<") + 6, value.indexOf(">"));
+        }
         return value.replaceAll("<.*?>", "").trim();
     }
 }

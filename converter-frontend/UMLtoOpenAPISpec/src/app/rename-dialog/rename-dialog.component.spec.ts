@@ -41,7 +41,7 @@ describe('RenameDialogComponent', () => {
     expect(dialogRef.close).toHaveBeenCalled();
   });
 
-  it('should initialize with provided data', () => {
+  it('should initialise with provided data', () => {
     expect(component.data.newValue).toBe('testValue');
   });
 });
