@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import {MappingComponent} from "../mapping/mapping.component";
 import {PersonaliseComponent} from "../personalise/personalise.component";
+import {TopBarComponent} from "../top-bar/top-bar.component";
 
 @Component({
   selector: 'app-generation',
@@ -23,7 +24,8 @@ import {PersonaliseComponent} from "../personalise/personalise.component";
     MatStep,
     MatStepLabel,
     MappingComponent,
-    PersonaliseComponent
+    PersonaliseComponent,
+    TopBarComponent
   ],
   templateUrl: './generation.component.html',
   providers: [GenerationService, MockServerService]

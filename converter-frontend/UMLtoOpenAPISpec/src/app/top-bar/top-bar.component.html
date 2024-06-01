@@ -1,0 +1,11 @@
+<div class="top-bar flex justify-between items-center p-2 bg-gray-800 dark:bg-gray-900 text-white">
+  <div class="text-center flex-grow">
+    <h1 class="text-2xl">UML to OpenAPI Specification Converter</h1>
+  </div>
+  <div class="flex-shrink-0">
+    <button (click)="toggleTheme()" class="p-2 focus:outline-none">
+      <span *ngIf="!isDarkMode" class="material-icons">dark_mode</span>
+      <span *ngIf="isDarkMode" class="material-icons">light_mode</span>
+    </button>
+  </div>
+</div>
