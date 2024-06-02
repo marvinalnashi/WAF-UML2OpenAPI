@@ -27,7 +27,11 @@
             <th [attr.colspan]="umlData.classes.length">Classes</th>
           </tr>
           <tr>
-            <th *ngFor="let className of umlData.classes">{{ className }}</th>
+            <th *ngFor="let className of umlData.classes; let classIndex = index" class="cell-with-content">
+              {{ className }}
+              <button (click)="deleteElement('class', className, classIndex, className)" class="icon-btn">🗑️</button>
+              <button (click)="openRenameDialog('class', className)" class="icon-btn">✏️</button>
+            </th>
           </tr>
           </thead>
           <tbody>
