@@ -1,12 +1,12 @@
-import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { GenerationService } from '../generation.service';
 import { MockServerService } from '../mock-server.service';
 import { HttpClient } from '@angular/common/http';
 import {MatStep, MatStepLabel, MatStepper} from '@angular/material/stepper';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from "@angular/common";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
 import {MappingComponent} from "../mapping/mapping.component";
 import {PersonaliseComponent} from "../personalise/personalise.component";
 import {TopBarComponent} from "../top-bar/top-bar.component";
@@ -38,12 +38,19 @@ export class GenerationComponent implements AfterViewInit, OnInit {
   isGeneratedSuccessfully = false;
   fileFormat: string = '';
   diagramType: string = 'Class Diagram';
+  modellingTool: string = '';
   serverButtonText = 'Start mock server';
   mappingFormGroup: FormGroup;
   umlData: any;
   openApiData: any = null;
   selectedHttpMethods: { [className: string]: { [method: string]: boolean } } = {};
   elementCount = {
+    classes: 0,
+    attributes: 0,
+    methods: 0,
+    relationships: 0
+  };
+  mappedElementCount = {
     classes: 0,
     attributes: 0,
     methods: 0,
@@ -78,6 +85,7 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     }
     this.uploadedFile = input.files[0];
     this.fileFormat = this.uploadedFile.name.split('.').pop()!;
+    this.modellingTool = this.getModellingTool(this.fileFormat);
     this.readFile(this.uploadedFile);
     this.generationService.parseDiagramElements(this.uploadedFile).subscribe({
       next: (data) => {
@@ -86,6 +94,21 @@ export class GenerationComponent implements AfterViewInit, OnInit {
       },
       error: (error) => console.error('Failed to parse diagram', error)
     });
+  }
+
+  getModellingTool(format: string): string {
+    switch (format) {
+      case 'uxf':
+        return 'UMLet';
+      case 'xml':
+        return 'Draw.io';
+      case 'mdj':
+        return 'StarUML';
+      case 'puml':
+        return 'PlantUML';
+      default:
+        return 'Unknown';
+    }
   }
 
   emitUmlData(data: any): void {
