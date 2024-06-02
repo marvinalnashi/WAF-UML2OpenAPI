@@ -8,18 +8,18 @@ import { NgClass, NgForOf, NgIf } from '@angular/common';
 @Component({
   selector: 'app-mapping',
   standalone: true,
-  imports: [
-    NgForOf,
-    NgIf,
-    NgClass,
-    ReactiveFormsModule
-  ],
+  imports: [NgForOf, NgIf, NgClass, ReactiveFormsModule],
   templateUrl: './mapping.component.html',
   styleUrl: './mapping.component.scss'
 })
 export class MappingComponent implements OnInit {
   @Input() file: File | undefined;
-  @Input() umlData: any;
+  @Input() umlData: any = {
+    classes: [],
+    attributes: {},
+    methods: {},
+    relationships: []
+  };
   @Output() mappingCompleted = new EventEmitter<boolean>();
   @Output() httpMethodsSelected = new EventEmitter<{ [className: string]: { [method: string]: boolean } }>();
   @Output() elementCountUpdated = new EventEmitter<any>();
@@ -255,8 +255,8 @@ export class MappingComponent implements OnInit {
   updateElementCount(): void {
     const count = {
       classes: this.umlData.classes.length,
-      attributes: Object.values(this.umlData.attributes).reduce((acc: number, attrs) => acc + (attrs as string[]).length, 0),
-      methods: Object.values(this.umlData.methods).reduce((acc: number, meths) => acc + (meths as string[]).length, 0),
+      attributes: Object.values(this.umlData.attributes).reduce((acc: number, attrs: unknown) => acc + (attrs as string[]).length, 0),
+      methods: Object.values(this.umlData.methods).reduce((acc: number, meths: unknown) => acc + (meths as string[]).length, 0),
       relationships: this.umlData.relationships ? this.umlData.relationships.length : 0
     };
     this.elementCountUpdated.emit(count);
