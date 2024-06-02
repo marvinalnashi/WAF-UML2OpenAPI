@@ -1,0 +1,49 @@
+.mapping-container {
+  .tabs {
+    .tab-button {
+      @apply px-4 py-2 mx-1 text-gray-600 border-b-2 border-transparent cursor-pointer;
+      &.active {
+        @apply text-gray-900 border-primary;
+      }
+      &:hover {
+        @apply text-gray-900;
+      }
+    }
+  }
+
+  .content {
+    .mapping-entry {
+      @apply flex space-x-2;
+    }
+
+    .add-mapping-btn {
+      @apply bg-white border-primary border-2 rounded-lg;
+    }
+
+    .table-container {
+      @apply overflow-x-auto;
+    }
+
+    .table {
+      @apply border-collapse w-full;
+      .header-row {
+        @apply bg-gray-100 text-center border-b-2 border-primary;
+      }
+      th, td {
+        @apply border p-2 text-center align-middle;
+        .icon-btn {
+          @apply inline-block mx-1 cursor-pointer;
+        }
+      }
+    }
+  }
+
+  .button-container {
+    .btn {
+      @apply bg-white border-primary border-2 rounded-lg;
+    }
+    .continue-btn {
+      @apply mx-2;
+    }
+  }
+}
