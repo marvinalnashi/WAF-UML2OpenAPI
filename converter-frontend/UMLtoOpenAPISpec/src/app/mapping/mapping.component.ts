@@ -1,37 +1,18 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {GenerationService} from "../generation.service";
-import {MatButton, MatIconButton} from "@angular/material/button";
-import {NgClass, NgForOf, NgIf} from "@angular/common";
-import {MatStepper} from "@angular/material/stepper";
 import {MatDialog} from "@angular/material/dialog";
-import {RenameDialogComponent} from "../rename-dialog/rename-dialog.component";
-import {MatIcon} from "@angular/material/icon";
-import {MatTab, MatTabGroup} from "@angular/material/tabs";
-import {MatTooltip} from "@angular/material/tooltip";
-import {MatCheckbox} from "@angular/material/checkbox";
 import {AddElementDialogComponent} from "../add-element-dialog/add-element-dialog.component";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-mapping',
   standalone: true,
   imports: [
-    MatButton,
-    ReactiveFormsModule,
-    CdkDropList,
     NgForOf,
-    CdkDrag,
     NgIf,
-    MatIcon,
-    MatIconButton,
     NgClass,
-    MatTab,
-    MatTabGroup,
-    MatTooltip,
-    MatCheckbox
+    ReactiveFormsModule
   ],
   templateUrl: './mapping.component.html',
   styleUrl: './mapping.component.scss'
@@ -43,6 +24,7 @@ export class MappingComponent implements OnInit {
   @Output() httpMethodsSelected = new EventEmitter<{ [className: string]: { [method: string]: boolean } }>();
   mappingsForm: FormGroup;
   selectedHttpMethods: { [className: string]: { [method: string]: boolean } } = {};
+  selectedTab: string = 'add-elements';
 
   constructor(
     private fb: FormBuilder,

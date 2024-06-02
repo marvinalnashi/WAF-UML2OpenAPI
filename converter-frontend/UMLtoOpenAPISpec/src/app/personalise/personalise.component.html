@@ -1,15 +1,16 @@
 <div *ngIf="currentView === 'classes'">
-  <button *ngFor="let className of classNames" (click)="selectClass(className)">{{ className }}</button>
+  <button *ngFor="let className of classNames" (click)="selectClass(className)" class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded m-2">{{ className }}</button>
 </div>
 
 <div *ngIf="currentView === 'attributes'">
-  <button (click)="goBack()">Back to Classes</button>
-  <button *ngFor="let attribute of selectedClassAttributes" (click)="selectAttribute(attribute)">{{ attribute }}</button>
+  <button (click)="goBack()" class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded m-2">Back to Classes</button>
+  <button *ngFor="let attribute of selectedClassAttributes" (click)="selectAttribute(attribute)" class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded m-2">{{ attribute }}</button>
 </div>
 
 <div *ngIf="currentView === 'examples'">
-  <button (click)="goBackToAttributes()">Back to Attributes</button>
-  <div *ngFor="let example of selectedAttributeExamples; let i = index">
-    <p>{{ example }} <mat-icon (click)="editExample(i)">edit</mat-icon></p>
+  <button (click)="goBackToAttributes()" class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded m-2">Back to Attributes</button>
+  <div *ngFor="let example of selectedAttributeExamples; let i = index" class="flex items-center m-2">
+    <p class="flex-grow">{{ example }}</p>
+    <mat-icon (click)="editExample(i)" class="cursor-pointer">edit</mat-icon>
   </div>
 </div>
