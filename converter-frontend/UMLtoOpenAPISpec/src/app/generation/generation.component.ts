@@ -119,6 +119,10 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     this.selectedHttpMethods = selectedMethods;
   }
 
+  updateMappedElementCount(count: any): void {
+    this.mappedElementCount = count;
+  }
+
   generate(): void {
     if (this.uploadedFile) {
       const selectedMethods: { [className: string]: string[] } = {};

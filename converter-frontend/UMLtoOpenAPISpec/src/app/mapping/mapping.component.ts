@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {GenerationService} from "../generation.service";
-import {MatDialog} from "@angular/material/dialog";
-import {AddElementDialogComponent} from "../add-element-dialog/add-element-dialog.component";
-import {NgClass, NgForOf, NgIf} from "@angular/common";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { GenerationService } from '../generation.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddElementDialogComponent } from '../add-element-dialog/add-element-dialog.component';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-mapping',
@@ -22,6 +22,7 @@ export class MappingComponent implements OnInit {
   @Input() umlData: any;
   @Output() mappingCompleted = new EventEmitter<boolean>();
   @Output() httpMethodsSelected = new EventEmitter<{ [className: string]: { [method: string]: boolean } }>();
+  @Output() elementCountUpdated = new EventEmitter<any>();
   mappingsForm: FormGroup;
   selectedHttpMethods: { [className: string]: { [method: string]: boolean } } = {};
   selectedTab: string = 'add-elements';
@@ -46,6 +47,7 @@ export class MappingComponent implements OnInit {
       this.generationService.parseDiagramElements(this.file).subscribe(data => {
         this.umlData = data;
         this.initHttpMethodSelection();
+        this.updateElementCount();
       });
     }
   }
@@ -79,6 +81,7 @@ export class MappingComponent implements OnInit {
         } else {
           (mapping.get('attributes') as FormArray).push(this.fb.control(result));
         }
+        this.updateElementCount();
       }
     });
   }
@@ -96,6 +99,7 @@ export class MappingComponent implements OnInit {
       this.generationService.applyMappings(this.mappingsForm.value.mappings).subscribe(() => {
         this.mappingCompleted.emit(true);
         this.httpMethodsSelected.emit(this.selectedHttpMethods);
+        this.updateElementCount();
       });
     }
   }
@@ -118,6 +122,7 @@ export class MappingComponent implements OnInit {
           'PUT/{id}': false,
           'DELETE/{id}': false
         };
+        this.updateElementCount();
       });
     });
 
@@ -139,6 +144,7 @@ export class MappingComponent implements OnInit {
         delete this.umlData.attributes[className];
         delete this.umlData.methods[className];
       }
+      this.updateElementCount();
     });
   }
 
@@ -175,6 +181,7 @@ export class MappingComponent implements OnInit {
             this.umlData.methods[classForMethod][methIndex] = newName;
           }
         }
+        this.updateElementCount();
       },
       error: error => console.error('Failed to rename element:', error)
     });
@@ -243,5 +250,15 @@ export class MappingComponent implements OnInit {
       this.selectedHttpMethods[className] = {};
     }
     this.selectedHttpMethods[className][method] = !this.selectedHttpMethods[className][method];
+  }
+
+  updateElementCount(): void {
+    const count = {
+      classes: this.umlData.classes.length,
+      attributes: Object.values(this.umlData.attributes).reduce((acc: number, attrs) => acc + (attrs as string[]).length, 0),
+      methods: Object.values(this.umlData.methods).reduce((acc: number, meths) => acc + (meths as string[]).length, 0),
+      relationships: this.umlData.relationships ? this.umlData.relationships.length : 0
+    };
+    this.elementCountUpdated.emit(count);
   }
 }
