@@ -245,7 +245,7 @@ public class GenerationController {
     @PostMapping("/apply-mappings")
     public ResponseEntity<?> applyMappings(@RequestBody List<Map<String, Object>> mappings) {
         if (mappings == null || mappings.isEmpty()) {
-            return ResponseEntity.badRequest().body("No mappings data received or mappings are empty");
+            return ResponseEntity.ok().body("No elements remain in the buffer that need to be applied. Proceeding.");
         }
         savedMappings = mappings;
         return ResponseEntity.ok().body("Mappings saved successfully");
