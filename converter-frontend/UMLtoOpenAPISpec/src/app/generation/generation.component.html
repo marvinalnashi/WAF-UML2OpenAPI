@@ -124,3 +124,10 @@
     </mat-step>
   </mat-horizontal-stepper>
 </div>
+<div *ngIf="isLoading" class="loader-overlay">
+  <app-loader [texts]="[
+  'Please wait while your OpenAPI specification is being generated.',
+  'Example values for your attributes are being generated with AI.',
+  'This process will not take too long.'
+  ]"></app-loader>
+</div>

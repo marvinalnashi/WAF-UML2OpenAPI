@@ -31,3 +31,9 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.rotating-text {
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #333;
+}

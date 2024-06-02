@@ -2,15 +2,16 @@ import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } fro
 import { GenerationService } from '../generation.service';
 import { MockServerService } from '../mock-server.service';
 import { HttpClient } from '@angular/common/http';
-import {MatStep, MatStepLabel, MatStepper} from '@angular/material/stepper';
+import { MatStep, MatStepLabel, MatStepper } from '@angular/material/stepper';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {CommonModule} from "@angular/common";
-import {MatInputModule} from "@angular/material/input";
-import {MatButtonModule} from "@angular/material/button";
-import {MappingComponent} from "../mapping/mapping.component";
-import {PersonaliseComponent} from "../personalise/personalise.component";
-import {TopBarComponent} from "../top-bar/top-bar.component";
-import {MatIcon} from "@angular/material/icon";
+import { CommonModule } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MappingComponent } from '../mapping/mapping.component';
+import { PersonaliseComponent } from '../personalise/personalise.component';
+import { TopBarComponent } from '../top-bar/top-bar.component';
+import { MatIcon } from '@angular/material/icon';
+import {LoaderComponent} from "../loader/loader.component";
 
 @Component({
   selector: 'app-generation',
@@ -27,7 +28,8 @@ import {MatIcon} from "@angular/material/icon";
     MappingComponent,
     PersonaliseComponent,
     TopBarComponent,
-    MatIcon
+    MatIcon,
+    LoaderComponent
   ],
   templateUrl: './generation.component.html',
   providers: [GenerationService, MockServerService]
@@ -60,6 +62,7 @@ export class GenerationComponent implements AfterViewInit, OnInit {
   };
 
   isMappingStepCompleted = false;
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -128,6 +131,7 @@ export class GenerationComponent implements AfterViewInit, OnInit {
   }
 
   generate(): void {
+    this.isLoading = true;
     if (this.uploadedFile) {
       const selectedMethods: { [className: string]: string[] } = {};
       for (const className in this.selectedHttpMethods) {
@@ -151,11 +155,16 @@ export class GenerationComponent implements AfterViewInit, OnInit {
           this.isGeneratedSuccessfully = true;
           this.openApiData = null;
           this.generateOpenApiData();
+          this.isLoading = false;
         },
-        error: (error) => console.error('Generation failed', error)
+        error: (error) => {
+          console.error('Generation failed', error);
+          this.isLoading = false;
+        }
       });
     } else {
       console.error('No file selected');
+      this.isLoading = false;
     }
   }
 
