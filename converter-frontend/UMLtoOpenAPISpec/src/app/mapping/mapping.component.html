@@ -1,74 +1,99 @@
- <div class="mapping-button-container flex justify-end p-2 bg-white sticky top-0 z-10">
-    <button class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" (click)="applyMappings()">Apply Mappings and Continue</button>
-    <button class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" (click)="addNewClassToElements()">Apply Additions</button>
-  </div>
-  <div class="tabs">
-    <div class="tab" (click)="selectedTab = 'add-elements'">Add Elements</div>
-    <div class="tab" (click)="selectedTab = 'manage-elements'">Manage Elements</div>
-  </div>
-  <div *ngIf="selectedTab === 'add-elements'">
-    <form [formGroup]="mappingsForm">
-      <div formArrayName="mappings" *ngFor="let mapping of mappings.controls; let i = index">
-        <div [formGroupName]="i">
-          <input class="input" formControlName="className" placeholder="Class Name">
-          <input class="input" formControlName="url" placeholder="URL">
-          <button class="btn bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded" (click)="addMethod(i)">Add Method</button>
-          <button class="btn bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded" (click)="addAttribute(i)">Add Attribute</button>
-        </div>
+<div class="mapping-button-container flex justify-end p-2 bg-white sticky top-0 z-10">
+  <button class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" (click)="applyMappings()">
+    Apply Mappings and Continue
+  </button>
+  <button *ngIf="showApplyAdditionsButton" class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+          (click)="addNewClassToElements()">Apply Additions
+  </button>
+</div>
+<div class="tabs">
+  <div class="tab" (click)="selectedTab = 'add-elements'">Add Elements</div>
+  <div class="tab" (click)="selectedTab = 'manage-elements'">Manage Elements</div>
+</div>
+<div *ngIf="selectedTab === 'add-elements'">
+  <form [formGroup]="mappingsForm">
+    <div formArrayName="mappings" *ngFor="let mapping of mappings.controls; let i = index">
+      <div [formGroupName]="i">
+        <input class="input" formControlName="className" placeholder="Class Name">
+        <input class="input" formControlName="url" placeholder="URL">
+        <button class="btn bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded" (click)="addMethod(i)">Add
+          Method
+        </button>
+        <button class="btn bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded" (click)="addAttribute(i)">Add
+          Attribute
+        </button>
       </div>
-      <button class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" (click)="addMapping()">Add Mapping</button>
-    </form>
-  </div>
-  <div *ngIf="selectedTab === 'manage-elements'">
-    <table *ngIf="umlData" class="table border-collapse w-full">
-      <thead>
-      <tr class="header-row bg-gray-100 text-center border-b-2 border-primary-light">
-        <th [attr.colspan]="umlData.classes.length">Classes</th>
-      </tr>
-      <tr>
-        <th *ngFor="let className of umlData.classes; let classIndex = index" class="cell-with-content border">
-          {{ className }}
-          <button (click)="deleteElement('class', className, classIndex, className)" aria-label="Delete class" class="material-icons cursor-pointer">delete</button>
-          <button (click)="openRenameDialog('class', className)" aria-label="Rename class" class="material-icons cursor-pointer">edit</button>
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr class="header-row bg-gray-100 text-center border-b-2 border-primary-light">
-        <td [attr.colspan]="umlData.classes.length">Attributes</td>
-      </tr>
-      <tr *ngFor="let i of maxAttributeRows(umlData)">
-        <td *ngFor="let className of umlData.classes; let attrIndex = index" [ngClass]="umlData.attributes[className]?.[i] ? 'cell-with-content border' : 'cell-empty'">
-          <div *ngIf="umlData.attributes[className]?.[i]">
-            {{ umlData.attributes[className]?.[i] }}
-            <button (click)="deleteElement('attribute', umlData.attributes[className][i], i, className)" aria-label="Delete attribute" class="material-icons cursor-pointer">delete</button>
-            <button (click)="openRenameDialog('attribute', umlData.attributes[className][i])" aria-label="Rename attribute" class="material-icons cursor-pointer">edit</button>
-          </div>
-        </td>
-      </tr>
-      <tr class="header-row bg-gray-100 text-center border-b-2 border-primary-light">
-        <td [attr.colspan]="umlData.classes.length">Methods</td>
-      </tr>
-      <tr *ngFor="let i of maxMethodRows(umlData)">
-        <td *ngFor="let className of umlData.classes; let methIndex = index" [ngClass]="umlData.methods?.[className]?.[i] ? 'cell-with-content border' : 'cell-empty'">
-          <div *ngIf="umlData.methods?.[className]?.[i]">
-            {{ umlData.methods?.[className]?.[i] }}
-            <button (click)="deleteElement('method', umlData.methods?.[className][i], i, className)" aria-label="Delete method" class="material-icons cursor-pointer">delete</button>
-            <button (click)="openRenameDialog('method', umlData.methods![className][i])" aria-label="Rename method" class="material-icons cursor-pointer">edit</button>
-          </div>
-        </td>
-      </tr>
-      <tr class="header-row bg-gray-100 text-center border-b-2 border-primary-light">
-        <td [attr.colspan]="umlData.classes.length">HTTP Methods</td>
-      </tr>
-      <tr *ngFor="let i of maxHttpMethodRows(umlData)">
-        <td *ngFor="let className of umlData.classes; let classIndex = index" [ngClass]="getHttpMethodsForClass(className)[i] ? 'cell-with-content border' : 'cell-empty'">
-          <div *ngIf="getHttpMethodsForClass(className)[i]">
-            <input type="checkbox" (change)="toggleHttpMethodSelection(className, getHttpMethodsForClass(className)[i].method)">
-            {{ getHttpMethodsForClass(className)[i].url }} ({{ getHttpMethodsForClass(className)[i].method }})
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+    </div>
+    <button class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" (click)="addMapping()">Add Mapping
+    </button>
+  </form>
+</div>
+<div *ngIf="selectedTab === 'manage-elements'">
+  <table *ngIf="umlData" class="table border-collapse w-full">
+    <thead>
+    <tr class="header-row bg-gray-100 text-center border-b-2 border-primary-light">
+      <th [attr.colspan]="umlData.classes.length">Classes</th>
+    </tr>
+    <tr>
+      <th *ngFor="let className of umlData.classes; let classIndex = index" class="cell-with-content border">
+        {{ className }}
+        <button (click)="deleteElement('class', className, classIndex, className)" aria-label="Delete class"
+                class="material-icons cursor-pointer">delete
+        </button>
+        <button (click)="openRenameDialog('class', className)" aria-label="Rename class"
+                class="material-icons cursor-pointer">edit
+        </button>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="header-row bg-gray-100 text-center border-b-2 border-primary-light">
+      <td [attr.colspan]="umlData.classes.length">Attributes</td>
+    </tr>
+    <tr *ngFor="let i of maxAttributeRows(umlData)">
+      <td *ngFor="let className of umlData.classes; let attrIndex = index"
+          [ngClass]="umlData.attributes[className]?.[i] ? 'cell-with-content border' : 'cell-empty'">
+        <div *ngIf="umlData.attributes[className]?.[i]">
+          {{ umlData.attributes[className]?.[i] }}
+          <button (click)="deleteElement('attribute', umlData.attributes[className][i], i, className)"
+                  aria-label="Delete attribute" class="material-icons cursor-pointer">delete
+          </button>
+          <button (click)="openRenameDialog('attribute', umlData.attributes[className][i])"
+                  aria-label="Rename attribute" class="material-icons cursor-pointer">edit
+          </button>
+        </div>
+      </td>
+    </tr>
+    <tr class="header-row bg-gray-100 text-center border-b-2 border-primary-light">
+      <td [attr.colspan]="umlData.classes.length">Methods</td>
+    </tr>
+    <tr *ngFor="let i of maxMethodRows(umlData)">
+      <td *ngFor="let className of umlData.classes; let methIndex = index"
+          [ngClass]="umlData.methods?.[className]?.[i] ? 'cell-with-content border' : 'cell-empty'">
+        <div *ngIf="umlData.methods?.[className]?.[i]">
+          {{ umlData.methods?.[className]?.[i] }}
+          <button (click)="deleteElement('method', umlData.methods?.[className][i], i, className)"
+                  aria-label="Delete method" class="material-icons cursor-pointer">delete
+          </button>
+          <button (click)="openRenameDialog('method', umlData.methods![className][i])" aria-label="Rename method"
+                  class="material-icons cursor-pointer">edit
+          </button>
+        </div>
+      </td>
+    </tr>
+    <tr class="header-row bg-gray-100 text-center border-b-2 border-primary-light">
+      <td [attr.colspan]="umlData.classes.length">HTTP Methods</td>
+    </tr>
+    <tr *ngFor="let i of maxHttpMethodRows(umlData)">
+      <td *ngFor="let className of umlData.classes; let classIndex = index"
+          [ngClass]="getHttpMethodsForClass(className)[i] ? 'cell-with-content border' : 'cell-empty'">
+        <div *ngIf="getHttpMethodsForClass(className)[i]">
+          <input type="checkbox"
+                 (change)="toggleHttpMethodSelection(className, getHttpMethodsForClass(className)[i].method)">
+          {{ getHttpMethodsForClass(className)[i].url }} ({{ getHttpMethodsForClass(className)[i].method }})
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

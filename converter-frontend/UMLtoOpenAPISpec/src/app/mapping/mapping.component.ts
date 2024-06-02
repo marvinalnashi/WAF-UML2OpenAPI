@@ -25,6 +25,7 @@ export class MappingComponent implements OnInit {
   mappingsForm: FormGroup;
   selectedHttpMethods: { [className: string]: { [method: string]: boolean } } = {};
   selectedTab: string = 'add-elements';
+  showApplyAdditionsButton: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -61,6 +62,7 @@ export class MappingComponent implements OnInit {
       attributes: this.fb.array([])
     });
     this.mappings.push(newMapping);
+    this.showApplyAdditionsButton = true;
   }
 
   openAddElementDialog(isMethod: boolean, mappingIndex: number): void {
@@ -118,6 +120,12 @@ export class MappingComponent implements OnInit {
         };
       });
     });
+
+    this.mappingsForm.reset();
+    while (this.mappings.length) {
+      this.mappings.removeAt(0);
+    }
+    this.showApplyAdditionsButton = false;
   }
 
   deleteElement(type: string, name: string, index: number, className: string): void {
