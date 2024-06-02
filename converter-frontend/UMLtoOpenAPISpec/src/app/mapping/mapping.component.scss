@@ -22,17 +22,24 @@
 
     .table-container {
       @apply overflow-x-auto;
-    }
-
-    .table {
-      @apply border-collapse w-full;
-      .header-row {
-        @apply bg-gray-100 text-center border-b-2 border-primary;
-      }
-      th, td {
-        @apply border p-2 text-center align-middle;
-        .icon-btn {
-          @apply inline-block mx-1 cursor-pointer;
+      .table-wrapper {
+        @apply w-full;
+        .table {
+          @apply border-collapse;
+          min-width: 100%;
+          .header-row {
+            @apply bg-gray-100 text-center border-b-2 border-primary;
+          }
+          th, td {
+            @apply border p-2 text-center align-middle whitespace-nowrap;
+            height: 2.5rem;
+            .icon-btn {
+              @apply inline-block mx-1 cursor-pointer;
+            }
+            .table-cell-content {
+              @apply flex items-center space-x-2;
+            }
+          }
         }
       }
     }

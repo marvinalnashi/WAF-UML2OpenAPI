@@ -19,54 +19,56 @@
       </form>
     </div>
 
-    <div *ngIf="selectedTab === 'manage-elements'" class="table-container overflow-x-auto">
-      <table *ngIf="umlData" class="table w-full">
-        <thead>
-        <tr class="header-row">
-          <th [attr.colspan]="umlData.classes.length">Classes</th>
-        </tr>
-        <tr>
-          <th *ngFor="let className of umlData.classes">{{ className }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="header-row">
-          <td [attr.colspan]="umlData.classes.length">Attributes</td>
-        </tr>
-        <tr *ngFor="let i of maxAttributeRows(umlData)">
-          <td *ngFor="let className of umlData.classes">
-            <div *ngIf="umlData.attributes[className]?.[i]">
-              {{ umlData.attributes[className]?.[i] }}
-              <button (click)="deleteElement('attribute', umlData.attributes[className][i], i, className)" class="icon-btn">🗑️</button>
-              <button (click)="openRenameDialog('attribute', umlData.attributes[className][i])" class="icon-btn">✏️</button>
-            </div>
-          </td>
-        </tr>
-        <tr class="header-row">
-          <td [attr.colspan]="umlData.classes.length">Methods</td>
-        </tr>
-        <tr *ngFor="let i of maxMethodRows(umlData)">
-          <td *ngFor="let className of umlData.classes">
-            <div *ngIf="umlData.methods?.[className]?.[i]">
-              {{ umlData.methods?.[className]?.[i] }}
-              <button (click)="deleteElement('method', umlData.methods?.[className][i], i, className)" class="icon-btn">🗑️</button>
-              <button (click)="openRenameDialog('method', umlData.methods![className][i])" class="icon-btn">✏️</button>
-            </div>
-          </td>
-        </tr>
-        <tr class="header-row">
-          <td [attr.colspan]="umlData.classes.length">HTTP Methods</td>
-        </tr>
-        <tr *ngFor="let i of maxHttpMethodRows(umlData)">
-          <td *ngFor="let className of umlData.classes">
-            <div *ngIf="getHttpMethodsForClass(className)[i]">
-              <input type="checkbox" (change)="toggleHttpMethodSelection(className, getHttpMethodsForClass(className)[i].method)">
-              {{ getHttpMethodsForClass(className)[i].url }} ({{ getHttpMethodsForClass(className)[i].method }})
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+    <div *ngIf="selectedTab === 'manage-elements'" class="table-container">
+      <div class="table-wrapper">
+        <table *ngIf="umlData" class="table w-full">
+          <thead>
+          <tr class="header-row">
+            <th [attr.colspan]="umlData.classes.length">Classes</th>
+          </tr>
+          <tr>
+            <th *ngFor="let className of umlData.classes">{{ className }}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="header-row">
+            <td [attr.colspan]="umlData.classes.length">Attributes</td>
+          </tr>
+          <tr *ngFor="let i of maxAttributeRows(umlData)">
+            <td *ngFor="let className of umlData.classes">
+              <div *ngIf="umlData.attributes[className]?.[i]" class="table-cell-content">
+                {{ umlData.attributes[className]?.[i] }}
+                <button (click)="deleteElement('attribute', umlData.attributes[className][i], i, className)" class="icon-btn">🗑️</button>
+                <button (click)="openRenameDialog('attribute', umlData.attributes[className][i])" class="icon-btn">✏️</button>
+              </div>
+            </td>
+          </tr>
+          <tr class="header-row">
+            <td [attr.colspan]="umlData.classes.length">Methods</td>
+          </tr>
+          <tr *ngFor="let i of maxMethodRows(umlData)">
+            <td *ngFor="let className of umlData.classes">
+              <div *ngIf="umlData.methods?.[className]?.[i]" class="table-cell-content">
+                {{ umlData.methods?.[className]?.[i] }}
+                <button (click)="deleteElement('method', umlData.methods?.[className][i], i, className)" class="icon-btn">🗑️</button>
+                <button (click)="openRenameDialog('method', umlData.methods![className][i])" class="icon-btn">✏️</button>
+              </div>
+            </td>
+          </tr>
+          <tr class="header-row">
+            <td [attr.colspan]="umlData.classes.length">HTTP Methods</td>
+          </tr>
+          <tr *ngFor="let i of maxHttpMethodRows(umlData)">
+            <td *ngFor="let className of umlData.classes">
+              <div *ngIf="getHttpMethodsForClass(className)[i]" class="table-cell-content">
+                <input type="checkbox" (change)="toggleHttpMethodSelection(className, getHttpMethodsForClass(className)[i].method)">
+                {{ getHttpMethodsForClass(className)[i].url }} ({{ getHttpMethodsForClass(className)[i].method }})
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
