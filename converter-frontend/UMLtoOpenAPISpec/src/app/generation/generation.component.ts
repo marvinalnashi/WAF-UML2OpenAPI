@@ -10,6 +10,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MappingComponent} from "../mapping/mapping.component";
 import {PersonaliseComponent} from "../personalise/personalise.component";
 import {TopBarComponent} from "../top-bar/top-bar.component";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-generation',
@@ -25,7 +26,8 @@ import {TopBarComponent} from "../top-bar/top-bar.component";
     MatStepLabel,
     MappingComponent,
     PersonaliseComponent,
-    TopBarComponent
+    TopBarComponent,
+    MatIcon
   ],
   templateUrl: './generation.component.html',
   providers: [GenerationService, MockServerService]
@@ -295,5 +297,13 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     } else {
       console.error("Failed to apply mappings");
     }
+  }
+
+  openSwaggerUI(): void {
+    window.open('http://localhost:8080/swagger-ui/index.html', '_blank');
+  }
+
+  downloadOpenAPISpecification(): void {
+    window.open('http://localhost:8080/export.yml', '_blank');
   }
 }
