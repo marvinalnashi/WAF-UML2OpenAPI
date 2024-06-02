@@ -59,6 +59,8 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     relationships: 0
   };
 
+  isMappingStepCompleted = false;
+
   constructor(
     private fb: FormBuilder,
     private generationService: GenerationService,
@@ -293,6 +295,7 @@ export class GenerationComponent implements AfterViewInit, OnInit {
 
   onMappingCompleted(success: boolean) {
     if (success) {
+      this.isMappingStepCompleted = true;
       this.stepper.next();
     } else {
       console.error("Failed to apply mappings");
