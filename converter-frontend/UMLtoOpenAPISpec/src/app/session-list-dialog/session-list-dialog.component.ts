@@ -9,7 +9,7 @@ import {
   MatRow,
   MatRowDef, MatTable
 } from "@angular/material/table";
-import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
+import {MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 
@@ -42,7 +42,7 @@ export class SessionListDialogComponent implements OnInit {
   sessions: any[] = [];
   displayedColumns: string[] = ['umlDiagram', 'openApiSpec', 'actions'];
 
-  constructor(private sessionService: StepperSessionService) {}
+  constructor(private sessionService: StepperSessionService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.sessionService.getAllSessions().subscribe((data: any[]) => {

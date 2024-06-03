@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class StepperSessionService {
-  private baseUrl = '/api/sessions';
+  private baseUrl = 'http://localhost:8080/api/sessions';
 
   constructor(private http: HttpClient) {}
 
