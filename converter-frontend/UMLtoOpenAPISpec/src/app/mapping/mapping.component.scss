@@ -16,17 +16,12 @@
       @apply flex space-x-2;
     }
 
-    .add-mapping-btn {
-      @apply bg-white border-primary border-2 rounded-lg;
-    }
-
     .table-container {
       @apply overflow-x-auto;
       .table-wrapper {
         @apply w-full;
         .table {
-          @apply border-collapse;
-          min-width: 100%;
+          @apply border-collapse min-w-full;
           .header-row {
             @apply bg-gray-100 text-center border-b-2 border-primary;
           }
@@ -42,15 +37,6 @@
           }
         }
       }
-    }
-  }
-
-  .button-container {
-    .btn {
-      @apply bg-white border-primary border-2 rounded-lg;
-    }
-    .continue-btn {
-      @apply mx-2;
     }
   }
 }

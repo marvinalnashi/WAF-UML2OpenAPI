@@ -1,29 +1,23 @@
 .table-auto {
-  width: 100%;
-  border-collapse: collapse;
+  @apply w-full border-collapse;
 }
 
 .table-auto th, .table-auto td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  @apply border p-2;
 }
 
 .table-auto th {
-  background-color: #f2f2f2;
-  text-align: left;
+  @apply bg-gray-200 text-left;
 }
 
 .table-auto tr:nth-child(even) {
-  background-color: #f9f9f9;
+  @apply bg-gray-100;
 }
 
 .table-auto tr:hover {
-  background-color: #ddd;
+  @apply bg-gray-200;
 }
 
 .table-auto th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  background-color: #4CAF50;
-  color: white;
+  @apply py-3 bg-primary text-white;
 }
