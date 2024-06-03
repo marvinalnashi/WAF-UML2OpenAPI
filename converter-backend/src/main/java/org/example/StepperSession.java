@@ -8,8 +8,15 @@ public class StepperSession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Lob
+    @Column(name = "uml_diagram", columnDefinition = "TEXT")
     private String umlDiagram;
+
+    @Lob
+    @Column(name = "open_api_spec", columnDefinition = "TEXT")
     private String openApiSpec;
+
     private LocalDateTime createdAt;
 
     public Long getId() {
