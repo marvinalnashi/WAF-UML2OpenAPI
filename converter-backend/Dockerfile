@@ -1,4 +1,3 @@
-# Use a multi-stage build to first build the Java application
 # Stage 1: Build the application
 FROM maven:3.8.4-openjdk-11-slim as builder
 
@@ -36,8 +35,6 @@ RUN add-apt-repository \
 RUN apt-get update && \
     apt-get install -y docker-ce docker-ce-cli containerd.io
 
-# Existing Dockerfile steps for setting up the Java application environment
-
 # Install a specific stable version of Node.js if necessary
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs
@@ -52,11 +49,12 @@ WORKDIR /app
 # Copy the built JAR file from the builder stage
 COPY --from=builder /build/target/*.jar /app/app.jar
 
-# Copy the data directory to the container
-COPY ./data /data
+# Copy wait-for-it script from the root directory
+COPY ./wait-for-it.sh /app/wait-for-it.sh
+RUN chmod +x /app/wait-for-it.sh
 
 # Expose the port the application uses
 EXPOSE 8080
 
 # Command to run the application
-CMD ["java", "-jar", "/app/app.jar"]
+CMD ["/app/wait-for-it.sh", "db:5432", "--", "java", "-jar", "/app/app.jar"]

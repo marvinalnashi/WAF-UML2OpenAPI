@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy the package.json and package-lock.json to install dependencies
 COPY UMLtoOpenAPISpec/package.json UMLtoOpenAPISpec/package-lock.json ./
 
-# Install all dependencies including Express
+# Install all dependencies
 RUN npm install
 
 # Copy the rest of the application's source code

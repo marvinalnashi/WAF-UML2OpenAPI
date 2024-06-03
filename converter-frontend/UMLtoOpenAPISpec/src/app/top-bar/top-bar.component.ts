@@ -1,16 +1,24 @@
 import { Component } from '@angular/core';
 import {NgIf} from "@angular/common";
+import {MatIconButton} from "@angular/material/button";
+import {MatIcon} from "@angular/material/icon";
+import {SessionListDialogComponent} from "../session-list-dialog/session-list-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-top-bar',
   standalone: true,
   imports: [
-    NgIf
+    NgIf,
+    MatIconButton,
+    MatIcon
   ],
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.scss'
 })
 export class TopBarComponent {
+  constructor(public dialog: MatDialog) {}
+
   isDarkMode = false;
 
   toggleTheme() {
@@ -20,5 +28,11 @@ export class TopBarComponent {
     } else {
       document.documentElement.classList.remove('dark');
     }
+  }
+
+  openSessionListDialog(): void {
+    const dialogRef = this.dialog.open(SessionListDialogComponent, {
+      width: '600px'
+    });
   }
 }

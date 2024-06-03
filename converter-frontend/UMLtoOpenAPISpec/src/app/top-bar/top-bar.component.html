@@ -7,5 +7,8 @@
       <span *ngIf="!isDarkMode" class="material-icons text-white">dark_mode</span>
       <span *ngIf="isDarkMode" class="material-icons text-primary">light_mode</span>
     </button>
+    <button mat-icon-button (click)="openSessionListDialog()">
+      <mat-icon>history</mat-icon>
+    </button>
   </div>
 </div>

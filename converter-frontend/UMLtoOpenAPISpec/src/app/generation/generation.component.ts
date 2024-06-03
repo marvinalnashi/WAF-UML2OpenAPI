@@ -12,6 +12,7 @@ import { PersonaliseComponent } from '../personalise/personalise.component';
 import { TopBarComponent } from '../top-bar/top-bar.component';
 import { MatIcon } from '@angular/material/icon';
 import {LoaderComponent} from "../loader/loader.component";
+import { StepperSessionService } from '../stepper-session.service';
 
 @Component({
   selector: 'app-generation',
@@ -32,7 +33,7 @@ import {LoaderComponent} from "../loader/loader.component";
     LoaderComponent
   ],
   templateUrl: './generation.component.html',
-  providers: [GenerationService, MockServerService]
+  providers: [GenerationService, MockServerService, StepperSessionService]
 })
 export class GenerationComponent implements AfterViewInit, OnInit {
   @ViewChild('stepper') private stepper!: MatStepper;
@@ -68,7 +69,8 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     private fb: FormBuilder,
     private generationService: GenerationService,
     private mockServerService: MockServerService,
-    private http: HttpClient
+    private http: HttpClient,
+    private sessionService: StepperSessionService
   ) {
     this.mappingFormGroup = this.fb.group({
       userConfirmation: ['', Validators.required]
@@ -190,7 +192,25 @@ export class GenerationComponent implements AfterViewInit, OnInit {
   }
 
   restartApplication(): void {
-    window.location.reload();
+    if (this.uploadedFile && this.openApiData) {
+      const umlDiagram = this.uploadedFile.name;
+      const openApiSpec = JSON.stringify(this.openApiData);
+      const session = { umlDiagram, openApiSpec };
+
+      this.sessionService.saveSession(session).subscribe({
+        next: () => {
+          console.log('Session saved successfully');
+          window.location.reload();
+        },
+        error: (error) => {
+          console.error('Failed to save session', error);
+          window.location.reload();
+        }
+      });
+    } else {
+      console.error('No file selected or OpenAPI data missing');
+      window.location.reload();
+    }
   }
 
   readFile(file: File): void {

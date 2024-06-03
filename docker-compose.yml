@@ -9,9 +9,28 @@ services:
     ports:
       - "8080:8080"
       - "4010:4010"
+    depends_on:
+      - db
+
   converter-frontend:
     build:
       context: ./converter-frontend
       dockerfile: Dockerfile
     ports:
       - "4200:80"
+    depends_on:
+      - converter-backend
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: marvinalnashi
+      POSTGRES_PASSWORD: Dr@gonFire22
+      POSTGRES_DB: wafumlopenapi
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
