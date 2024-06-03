@@ -12,6 +12,7 @@ import {
 import {MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-session-list-dialog',
@@ -33,14 +34,15 @@ import {MatIcon} from "@angular/material/icon";
     MatDialogContent,
     MatDialogTitle,
     MatIcon,
-    MatIconButton
+    MatIconButton,
+    DatePipe
   ],
   templateUrl: './session-list-dialog.component.html',
   styleUrl: './session-list-dialog.component.scss'
 })
 export class SessionListDialogComponent implements OnInit {
   sessions: any[] = [];
-  displayedColumns: string[] = ['umlDiagram', 'openApiSpec', 'actions'];
+  displayedColumns: string[] = ['createdAt', 'umlDiagram', 'openApiSpec', 'actions'];
 
   constructor(private sessionService: StepperSessionService, public dialog: MatDialog) {}
 
