@@ -1,0 +1,23 @@
+.table-auto {
+  @apply w-full border-collapse;
+}
+
+.table-auto th, .table-auto td {
+  @apply border p-2;
+}
+
+.table-auto th {
+  @apply bg-gray-200 text-left;
+}
+
+.table-auto tr:nth-child(even) {
+  @apply bg-gray-100;
+}
+
+.table-auto tr:hover {
+  @apply bg-gray-200;
+}
+
+.table-auto th {
+  @apply py-3 bg-primary text-white;
+}

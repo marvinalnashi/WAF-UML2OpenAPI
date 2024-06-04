@@ -1,0 +1,49 @@
+<div *ngIf="uploadedFile">
+  <table class="table-auto w-full text-left">
+    <thead>
+    <tr>
+      <th colspan="2">Uploaded Diagram Information</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>File Format:</td>
+      <td>{{ fileFormat }}</td>
+    </tr>
+    <tr>
+      <td>Modelling Tool:</td>
+      <td>{{ modellingTool }}</td>
+    </tr>
+    <tr>
+      <td>Diagram Type:</td>
+      <td>{{ diagramType }}</td>
+    </tr>
+    </tbody>
+    <thead>
+    <tr>
+      <th>Uploaded UML Element Count</th>
+      <th>Element Count After Mapping</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Classes: {{ elementCount.classes }}</td>
+      <td>Classes: {{ mappedElementCount.classes }}</td>
+    </tr>
+    <tr>
+      <td>Attributes: {{ elementCount.attributes }}</td>
+      <td>Attributes: {{ mappedElementCount.attributes }}</td>
+    </tr>
+    <tr>
+      <td>Methods: {{ elementCount.methods }}</td>
+      <td>Methods: {{ mappedElementCount.methods }}</td>
+    </tr>
+    <tr>
+      <td>Relationships: {{ elementCount.relationships }}</td>
+      <td>Relationships: {{ mappedElementCount.relationships }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<button class="btn" (click)="onGenerateClick()">Generate</button>
+<button class="btn" *ngIf="isGeneratedSuccessfully" (click)="stepper.next()">Continue</button>
