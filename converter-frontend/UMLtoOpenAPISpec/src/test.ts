@@ -12,4 +12,4 @@ getTestBed().initTestEnvironment(
 );
 
 import './app/app.component.spec';
-import './app/generation/generation.component.spec';
+import './app/stepper/stepper.component.spec';

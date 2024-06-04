@@ -19,7 +19,7 @@ import { GenerateComponent } from '../generate/generate.component';
 import { ManageComponent } from '../manage/manage.component';
 
 @Component({
-  selector: 'app-generation',
+  selector: 'app-stepper',
   standalone: true,
   imports: [
     CommonModule,
@@ -40,10 +40,10 @@ import { ManageComponent } from '../manage/manage.component';
     GenerateComponent,
     ManageComponent
   ],
-  templateUrl: './generation.component.html',
+  templateUrl: './stepper.component.html',
   providers: [GenerationService, MockServerService, StepperSessionService]
 })
-export class GenerationComponent implements AfterViewInit, OnInit {
+export class StepperComponent implements AfterViewInit, OnInit {
   @ViewChild('stepper') private stepper!: MatStepper;
   @Output() umlDataEmitter = new EventEmitter<any>();
 

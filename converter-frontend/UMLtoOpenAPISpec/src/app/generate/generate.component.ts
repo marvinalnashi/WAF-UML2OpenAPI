@@ -1,6 +1,4 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {GenerationService} from "../generation.service";
-import {HttpClient} from "@angular/common/http";
 import {NgIf} from "@angular/common";
 import {MatStepper} from "@angular/material/stepper";
 
@@ -25,10 +23,7 @@ export class GenerateComponent {
   @Input() stepper!: MatStepper;
   @Output() generate = new EventEmitter<void>();
 
-  constructor(
-    private generationService: GenerationService,
-    private http: HttpClient
-  ) { }
+  constructor() {}
 
   onGenerateClick(): void {
     this.generate.emit();

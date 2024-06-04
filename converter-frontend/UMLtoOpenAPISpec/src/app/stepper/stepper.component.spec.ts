@@ -1,5 +1,5 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { GenerationComponent } from './generation.component';
+import { StepperComponent } from './stepper.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
@@ -8,9 +8,9 @@ import { MockServerService } from '../mock-server.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-describe('GenerationComponent', () => {
-  let component: GenerationComponent;
-  let fixture: ComponentFixture<GenerationComponent>;
+describe('StepperComponent', () => {
+  let component: StepperComponent;
+  let fixture: ComponentFixture<StepperComponent>;
   let generationService: jasmine.SpyObj<GenerationService>;
   let mockServerService: jasmine.SpyObj<MockServerService>;
 
@@ -24,7 +24,7 @@ describe('GenerationComponent', () => {
         ReactiveFormsModule,
         FormsModule,
         BrowserAnimationsModule,
-        GenerationComponent
+        StepperComponent
       ],
       providers: [
         { provide: GenerationService, useValue: generationServiceSpy },
@@ -38,7 +38,7 @@ describe('GenerationComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GenerationComponent);
+    fixture = TestBed.createComponent(StepperComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

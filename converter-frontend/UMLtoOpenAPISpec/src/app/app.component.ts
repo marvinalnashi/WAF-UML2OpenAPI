@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import { GenerationComponent } from './generation/generation.component';
+import { StepperComponent } from './stepper/stepper.component';
 import {NgIf} from "@angular/common";
 import {LoaderComponent} from "./loader/loader.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [GenerationComponent, NgIf, LoaderComponent],
+  imports: [StepperComponent, NgIf, LoaderComponent],
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {

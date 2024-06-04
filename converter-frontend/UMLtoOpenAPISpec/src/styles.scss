@@ -39,7 +39,7 @@ $UMLtoOpenAPISpec-theme: mat.define-light-theme((
 @include mat.all-component-themes($UMLtoOpenAPISpec-theme);
 
 /* You can add global styles to this file, and also import other style files */
-@import '../src/app/generation/generation.component.scss';
+@import 'app/stepper/stepper.component';
 @import '../src/app/mapping/mapping.component.scss';
 
 html, body { height: 100%; }
