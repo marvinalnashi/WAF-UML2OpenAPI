@@ -1,0 +1,7 @@
+{
+  "disableFileReader": false,
+  "components": ["src/app/**/*.component.ts"],
+  "docs": {
+    "components": true
+  }
+}

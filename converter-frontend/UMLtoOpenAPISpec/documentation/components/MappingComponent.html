@@ -1,0 +1,2441 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>umlto-open-apispec documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">umlto-open-apispec documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  MappingComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/mapping/mapping.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-mapping</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>NgForOf</code>
+                            <code>NgIf</code>
+                            <code>NgClass</code>
+                            <code>ReactiveFormsModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./mapping.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./mapping.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dialog" >dialog</a>
+                            </li>
+                            <li>
+                                <a href="#mappingsForm" >mappingsForm</a>
+                            </li>
+                            <li>
+                                <a href="#selectedHttpMethods" >selectedHttpMethods</a>
+                            </li>
+                            <li>
+                                <a href="#selectedTab" >selectedTab</a>
+                            </li>
+                            <li>
+                                <a href="#showApplyAdditionsButton" >showApplyAdditionsButton</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addAttribute" >addAttribute</a>
+                            </li>
+                            <li>
+                                <a href="#addMapping" >addMapping</a>
+                            </li>
+                            <li>
+                                <a href="#addMethod" >addMethod</a>
+                            </li>
+                            <li>
+                                <a href="#addNewClassToElements" >addNewClassToElements</a>
+                            </li>
+                            <li>
+                                <a href="#applyMappings" >applyMappings</a>
+                            </li>
+                            <li>
+                                <a href="#deleteElement" >deleteElement</a>
+                            </li>
+                            <li>
+                                <a href="#getClassForAttribute" >getClassForAttribute</a>
+                            </li>
+                            <li>
+                                <a href="#getClassForMethod" >getClassForMethod</a>
+                            </li>
+                            <li>
+                                <a href="#getHttpMethodsForClass" >getHttpMethodsForClass</a>
+                            </li>
+                            <li>
+                                <a href="#initHttpMethodSelection" >initHttpMethodSelection</a>
+                            </li>
+                            <li>
+                                <a href="#loadUMLData" >loadUMLData</a>
+                            </li>
+                            <li>
+                                <a href="#maxAttributeRows" >maxAttributeRows</a>
+                            </li>
+                            <li>
+                                <a href="#maxHttpMethodRows" >maxHttpMethodRows</a>
+                            </li>
+                            <li>
+                                <a href="#maxMethodRows" >maxMethodRows</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#openAddElementDialog" >openAddElementDialog</a>
+                            </li>
+                            <li>
+                                <a href="#openRenameDialog" >openRenameDialog</a>
+                            </li>
+                            <li>
+                                <a href="#renameElement" >renameElement</a>
+                            </li>
+                            <li>
+                                <a href="#toggleHttpMethodSelection" >toggleHttpMethodSelection</a>
+                            </li>
+                            <li>
+                                <a href="#updateElementCount" >updateElementCount</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#file" >file</a>
+                            </li>
+                            <li>
+                                <a href="#umlData" >umlData</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#elementCountUpdated" >elementCountUpdated</a>
+                            </li>
+                            <li>
+                                <a href="#httpMethodsSelected" >httpMethodsSelected</a>
+                            </li>
+                            <li>
+                                <a href="#mappingCompleted" >mappingCompleted</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#mappings" >mappings</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(fb: FormBuilder, generationService: <a href="../injectables/GenerationService.html" target="_self">GenerationService</a>, dialog: MatDialog)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/mapping/mapping.component.ts:29</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>fb</td>
+                                                  
+                                                        <td>
+                                                                    <code>FormBuilder</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>generationService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GenerationService.html" target="_self" >GenerationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialog</td>
+                                                  
+                                                        <td>
+                                                                    <code>MatDialog</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="file"></a>
+                        <b>file</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>File | undefined</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/mapping/mapping.component.ts:16</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="umlData"></a>
+                        <b>umlData</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    classes: [],
+    attributes: {},
+    methods: {},
+    relationships: []
+  }</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/mapping/mapping.component.ts:17</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="elementCountUpdated"></a>
+                        <b>elementCountUpdated</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/mapping/mapping.component.ts:25</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="httpMethodsSelected"></a>
+                        <b>httpMethodsSelected</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/mapping/mapping.component.ts:24</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="mappingCompleted"></a>
+                        <b>mappingCompleted</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/mapping/mapping.component.ts:23</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addAttribute"></a>
+                    <span class="name">
+                        <span ><b>addAttribute</b></span>
+                        <a href="#addAttribute"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addAttribute(mappingIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="93"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:93</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>mappingIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addMapping"></a>
+                    <span class="name">
+                        <span ><b>addMapping</b></span>
+                        <a href="#addMapping"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addMapping()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="59"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addMethod"></a>
+                    <span class="name">
+                        <span ><b>addMethod</b></span>
+                        <a href="#addMethod"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addMethod(mappingIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="89"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:89</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>mappingIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addNewClassToElements"></a>
+                    <span class="name">
+                        <span ><b>addNewClassToElements</b></span>
+                        <a href="#addNewClassToElements"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addNewClassToElements()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="107"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:107</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyMappings"></a>
+                    <span class="name">
+                        <span ><b>applyMappings</b></span>
+                        <a href="#applyMappings"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>applyMappings()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="97"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:97</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteElement"></a>
+                    <span class="name">
+                        <span ><b>deleteElement</b></span>
+                        <a href="#deleteElement"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>deleteElement(type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, className: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="136"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:136</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>type</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>name</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>className</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getClassForAttribute"></a>
+                    <span class="name">
+                        <span ><b>getClassForAttribute</b></span>
+                        <a href="#getClassForAttribute"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getClassForAttribute(attributeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="190"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:190</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>attributeName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getClassForMethod"></a>
+                    <span class="name">
+                        <span ><b>getClassForMethod</b></span>
+                        <a href="#getClassForMethod"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getClassForMethod(methodName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="196"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:196</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>methodName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getHttpMethodsForClass"></a>
+                    <span class="name">
+                        <span ><b>getHttpMethodsForClass</b></span>
+                        <a href="#getHttpMethodsForClass"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getHttpMethodsForClass(className: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="228"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:228</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>className</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>{}</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initHttpMethodSelection"></a>
+                    <span class="name">
+                        <span ><b>initHttpMethodSelection</b></span>
+                        <a href="#initHttpMethodSelection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initHttpMethodSelection()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="237"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:237</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadUMLData"></a>
+                    <span class="name">
+                        <span ><b>loadUMLData</b></span>
+                        <a href="#loadUMLData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadUMLData()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="45"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="maxAttributeRows"></a>
+                    <span class="name">
+                        <span ><b>maxAttributeRows</b></span>
+                        <a href="#maxAttributeRows"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>maxAttributeRows(data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="202"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:202</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>number[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="maxHttpMethodRows"></a>
+                    <span class="name">
+                        <span ><b>maxHttpMethodRows</b></span>
+                        <a href="#maxHttpMethodRows"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>maxHttpMethodRows(data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="224"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:224</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>number[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="maxMethodRows"></a>
+                    <span class="name">
+                        <span ><b>maxMethodRows</b></span>
+                        <a href="#maxMethodRows"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>maxMethodRows(data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="213"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:213</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>number[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="41"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openAddElementDialog"></a>
+                    <span class="name">
+                        <span ><b>openAddElementDialog</b></span>
+                        <a href="#openAddElementDialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openAddElementDialog(isMethod: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, mappingIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="70"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>isMethod</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>mappingIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openRenameDialog"></a>
+                    <span class="name">
+                        <span ><b>openRenameDialog</b></span>
+                        <a href="#openRenameDialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openRenameDialog(type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, oldName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="151"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:151</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>type</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>oldName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="renameElement"></a>
+                    <span class="name">
+                        <span ><b>renameElement</b></span>
+                        <a href="#renameElement"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>renameElement(type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, oldName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, newName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="158"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:158</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>type</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>oldName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>newName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleHttpMethodSelection"></a>
+                    <span class="name">
+                        <span ><b>toggleHttpMethodSelection</b></span>
+                        <a href="#toggleHttpMethodSelection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleHttpMethodSelection(className: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, method: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="248"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:248</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>className</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>method</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateElementCount"></a>
+                    <span class="name">
+                        <span ><b>updateElementCount</b></span>
+                        <a href="#updateElementCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateElementCount()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="255"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:255</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dialog"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>dialog</b></span>
+                        <a href="#dialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatDialog</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/mapping/mapping.component.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mappingsForm"></a>
+                    <span class="name">
+                        <span ><b>mappingsForm</b></span>
+                        <a href="#mappingsForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>FormGroup</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/mapping/mapping.component.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedHttpMethods"></a>
+                    <span class="name">
+                        <span ><b>selectedHttpMethods</b></span>
+                        <a href="#selectedHttpMethods"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/mapping/mapping.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedTab"></a>
+                    <span class="name">
+                        <span ><b>selectedTab</b></span>
+                        <a href="#selectedTab"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;add-elements&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/mapping/mapping.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showApplyAdditionsButton"></a>
+                    <span class="name">
+                        <span ><b>showApplyAdditionsButton</b></span>
+                        <a href="#showApplyAdditionsButton"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/mapping/mapping.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="mappings"></a>
+                        <span class="name"><b>mappings</b><a href="#mappings"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>mappings()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/mapping/mapping.component.ts:55</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Input, OnInit, Output } from &#x27;@angular/core&#x27;;
+import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from &#x27;@angular/forms&#x27;;
+import { GenerationService } from &#x27;../generation.service&#x27;;
+import { MatDialog } from &#x27;@angular/material/dialog&#x27;;
+import { AddElementDialogComponent } from &#x27;../add-element-dialog/add-element-dialog.component&#x27;;
+import { NgClass, NgForOf, NgIf } from &#x27;@angular/common&#x27;;
+
+@Component({
+  selector: &#x27;app-mapping&#x27;,
+  standalone: true,
+  imports: [NgForOf, NgIf, NgClass, ReactiveFormsModule],
+  templateUrl: &#x27;./mapping.component.html&#x27;,
+  styleUrl: &#x27;./mapping.component.scss&#x27;
+})
+export class MappingComponent implements OnInit {
+  @Input() file: File | undefined;
+  @Input() umlData: any &#x3D; {
+    classes: [],
+    attributes: {},
+    methods: {},
+    relationships: []
+  };
+  @Output() mappingCompleted &#x3D; new EventEmitter&lt;boolean&gt;();
+  @Output() httpMethodsSelected &#x3D; new EventEmitter&lt;{ [className: string]: { [method: string]: boolean } }&gt;();
+  @Output() elementCountUpdated &#x3D; new EventEmitter&lt;any&gt;();
+  mappingsForm: FormGroup;
+  selectedHttpMethods: { [className: string]: { [method: string]: boolean } } &#x3D; {};
+  selectedTab: string &#x3D; &#x27;add-elements&#x27;;
+  showApplyAdditionsButton: boolean &#x3D; false;
+
+  constructor(
+    private fb: FormBuilder,
+    private generationService: GenerationService,
+    public dialog: MatDialog
+  ) {
+    this.mappingsForm &#x3D; this.fb.group({
+      mappings: this.fb.array([])
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadUMLData();
+  }
+
+  loadUMLData(): void {
+    if (this.file) {
+      this.generationService.parseDiagramElements(this.file).subscribe(data &#x3D;&gt; {
+        this.umlData &#x3D; data;
+        this.initHttpMethodSelection();
+        this.updateElementCount();
+      });
+    }
+  }
+
+  get mappings(): FormArray {
+    return this.mappingsForm.get(&#x27;mappings&#x27;) as FormArray;
+  }
+
+  addMapping(): void {
+    const newMapping &#x3D; this.fb.group({
+      className: [&#x27;&#x27;, Validators.required],
+      url: [&#x27;&#x27;, Validators.required],
+      methods: this.fb.array([]),
+      attributes: this.fb.array([])
+    });
+    this.mappings.push(newMapping);
+    this.showApplyAdditionsButton &#x3D; true;
+  }
+
+  openAddElementDialog(isMethod: boolean, mappingIndex: number): void {
+    const dialogRef &#x3D; this.dialog.open(AddElementDialogComponent, {
+      width: &#x27;400px&#x27;,
+      data: { isMethod }
+    });
+
+    dialogRef.afterClosed().subscribe(result &#x3D;&gt; {
+      if (result) {
+        const mapping &#x3D; this.mappings.at(mappingIndex) as FormGroup;
+        if (isMethod) {
+          (mapping.get(&#x27;methods&#x27;) as FormArray).push(this.fb.control(result));
+        } else {
+          (mapping.get(&#x27;attributes&#x27;) as FormArray).push(this.fb.control(result));
+        }
+        this.updateElementCount();
+      }
+    });
+  }
+
+  addMethod(mappingIndex: number): void {
+    this.openAddElementDialog(true, mappingIndex);
+  }
+
+  addAttribute(mappingIndex: number): void {
+    this.openAddElementDialog(false, mappingIndex);
+  }
+
+  applyMappings(): void {
+    if (this.mappingsForm.valid) {
+      this.generationService.applyMappings(this.mappingsForm.value.mappings).subscribe(() &#x3D;&gt; {
+        this.mappingCompleted.emit(true);
+        this.httpMethodsSelected.emit(this.selectedHttpMethods);
+        this.updateElementCount();
+      });
+    }
+  }
+
+  addNewClassToElements(): void {
+    const newElements &#x3D; this.mappingsForm.value.mappings.map((mapping: any) &#x3D;&gt; ({
+      className: mapping.className,
+      attributes: mapping.attributes,
+      methods: mapping.methods
+    }));
+
+    newElements.forEach((element: any) &#x3D;&gt; {
+      this.generationService.addNewElement(element).subscribe(() &#x3D;&gt; {
+        this.umlData.classes.push(element.className);
+        this.umlData.attributes[element.className] &#x3D; element.attributes;
+        this.umlData.methods[element.className] &#x3D; element.methods;
+        this.selectedHttpMethods[element.className] &#x3D; {
+          &#x27;GET/{id}&#x27;: false,
+          &#x27;POST&#x27;: false,
+          &#x27;PUT/{id}&#x27;: false,
+          &#x27;DELETE/{id}&#x27;: false
+        };
+        this.updateElementCount();
+      });
+    });
+
+    this.mappingsForm.reset();
+    while (this.mappings.length) {
+      this.mappings.removeAt(0);
+    }
+    this.showApplyAdditionsButton &#x3D; false;
+  }
+
+  deleteElement(type: string, name: string, index: number, className: string): void {
+    this.generationService.deleteElement(type, name).subscribe(() &#x3D;&gt; {
+      if (type &#x3D;&#x3D;&#x3D; &#x27;attribute&#x27;) {
+        this.umlData.attributes[className].splice(index, 1);
+      } else if (type &#x3D;&#x3D;&#x3D; &#x27;method&#x27;) {
+        this.umlData.methods[className].splice(index, 1);
+      } else if (type &#x3D;&#x3D;&#x3D; &#x27;class&#x27;) {
+        this.umlData.classes &#x3D; this.umlData.classes.filter((c: string) &#x3D;&gt; c !&#x3D;&#x3D; className);
+        delete this.umlData.attributes[className];
+        delete this.umlData.methods[className];
+      }
+      this.updateElementCount();
+    });
+  }
+
+  openRenameDialog(type: string, oldName: string): void {
+    let newName &#x3D; prompt(&quot;Enter new name for &quot; + oldName);
+    if (newName) {
+      this.renameElement(type, oldName, newName);
+    }
+  }
+
+  renameElement(type: string, oldName: string, newName: string): void {
+    this.generationService.renameElement(type, oldName, newName).subscribe({
+      next: () &#x3D;&gt; {
+        alert(&#x27;Element renamed&#x27;);
+        if (type &#x3D;&#x3D;&#x3D; &#x27;class&#x27;) {
+          const index &#x3D; this.umlData.classes.indexOf(oldName);
+          if (index !&#x3D;&#x3D; -1) {
+            this.umlData.classes[index] &#x3D; newName;
+          }
+          this.umlData.attributes[newName] &#x3D; [...this.umlData.attributes[oldName]];
+          delete this.umlData.attributes[oldName];
+          this.umlData.methods[newName] &#x3D; [...this.umlData.methods[oldName]];
+          delete this.umlData.methods[oldName];
+        } else if (type &#x3D;&#x3D;&#x3D; &#x27;attribute&#x27;) {
+          const classForAttribute &#x3D; this.getClassForAttribute(oldName);
+          const attrIndex &#x3D; this.umlData.attributes[classForAttribute].indexOf(oldName);
+          if (attrIndex !&#x3D;&#x3D; -1) {
+            this.umlData.attributes[classForAttribute][attrIndex] &#x3D; newName;
+          }
+        } else if (type &#x3D;&#x3D;&#x3D; &#x27;method&#x27;) {
+          const classForMethod &#x3D; this.getClassForMethod(oldName);
+          const methIndex &#x3D; this.umlData.methods[classForMethod].indexOf(oldName);
+          if (methIndex !&#x3D;&#x3D; -1) {
+            this.umlData.methods[classForMethod][methIndex] &#x3D; newName;
+          }
+        }
+        this.updateElementCount();
+      },
+      error: error &#x3D;&gt; console.error(&#x27;Failed to rename element:&#x27;, error)
+    });
+  }
+
+  getClassForAttribute(attributeName: string): string {
+    return &lt;string&gt;Object.keys(this.umlData.attributes).find(className &#x3D;&gt;
+      this.umlData.attributes[className].includes(attributeName)
+    );
+  }
+
+  getClassForMethod(methodName: string): string {
+    return &lt;string&gt;Object.keys(this.umlData.methods).find(className &#x3D;&gt;
+      this.umlData.methods[className].includes(methodName)
+    );
+  }
+
+  maxAttributeRows(data: any): number[] {
+    let maxRows &#x3D; 0;
+    for (const className of data.classes) {
+      const attributeCount &#x3D; data.attributes[className]?.length || 0;
+      if (attributeCount &gt; maxRows) {
+        maxRows &#x3D; attributeCount;
+      }
+    }
+    return [...Array(maxRows).keys()];
+  }
+
+  maxMethodRows(data: any): number[] {
+    let maxRows &#x3D; 0;
+    for (const className of data.classes) {
+      const methodCount &#x3D; data.methods[className]?.length || 0;
+      if (methodCount &gt; maxRows) {
+        maxRows &#x3D; methodCount;
+      }
+    }
+    return [...Array(maxRows).keys()];
+  }
+
+  maxHttpMethodRows(data: any): number[] {
+    return [0, 1, 2, 3];
+  }
+
+  getHttpMethodsForClass(className: string) {
+    return [
+      { url: &#x60;/${className.toLowerCase()}/{id}&#x60;, method: &#x27;GET&#x27; },
+      { url: &#x60;/${className.toLowerCase()}&#x60;, method: &#x27;POST&#x27; },
+      { url: &#x60;/${className.toLowerCase()}/{id}&#x60;, method: &#x27;PUT&#x27; },
+      { url: &#x60;/${className.toLowerCase()}/{id}&#x60;, method: &#x27;DELETE&#x27; }
+    ];
+  }
+
+  initHttpMethodSelection() {
+    this.umlData.classes.forEach((className: string) &#x3D;&gt; {
+      this.selectedHttpMethods[className] &#x3D; {
+        &#x27;GET/{id}&#x27;: false,
+        &#x27;POST&#x27;: false,
+        &#x27;PUT/{id}&#x27;: false,
+        &#x27;DELETE/{id}&#x27;: false
+      };
+    });
+  }
+
+  toggleHttpMethodSelection(className: string, method: string) {
+    if (!this.selectedHttpMethods[className]) {
+      this.selectedHttpMethods[className] &#x3D; {};
+    }
+    this.selectedHttpMethods[className][method] &#x3D; !this.selectedHttpMethods[className][method];
+  }
+
+  updateElementCount(): void {
+    const count &#x3D; {
+      classes: this.umlData.classes.length,
+      attributes: Object.values(this.umlData.attributes).reduce((acc: number, attrs: unknown) &#x3D;&gt; acc + (attrs as string[]).length, 0),
+      methods: Object.values(this.umlData.methods).reduce((acc: number, meths: unknown) &#x3D;&gt; acc + (meths as string[]).length, 0),
+      relationships: this.umlData.relationships ? this.umlData.relationships.length : 0
+    };
+    this.elementCountUpdated.emit(count);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;mapping-container&quot;&gt;
+  &lt;div class&#x3D;&quot;tabs flex justify-center bg-gray-100 py-2&quot;&gt;
+    &lt;button class&#x3D;&quot;tab-button&quot; [ngClass]&#x3D;&quot;{&#x27;active&#x27;: selectedTab &#x3D;&#x3D;&#x3D; &#x27;add-elements&#x27;}&quot; (click)&#x3D;&quot;selectedTab &#x3D; &#x27;add-elements&#x27;&quot;&gt;Add Elements&lt;/button&gt;
+    &lt;button class&#x3D;&quot;tab-button&quot; [ngClass]&#x3D;&quot;{&#x27;active&#x27;: selectedTab &#x3D;&#x3D;&#x3D; &#x27;manage-elements&#x27;}&quot; (click)&#x3D;&quot;selectedTab &#x3D; &#x27;manage-elements&#x27;&quot;&gt;Manage Elements&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;content p-4&quot;&gt;
+    &lt;div *ngIf&#x3D;&quot;selectedTab &#x3D;&#x3D;&#x3D; &#x27;add-elements&#x27;&quot;&gt;
+      &lt;form [formGroup]&#x3D;&quot;mappingsForm&quot;&gt;
+        &lt;div formArrayName&#x3D;&quot;mappings&quot; *ngFor&#x3D;&quot;let mapping of mappings.controls; let i &#x3D; index&quot;&gt;
+          &lt;div [formGroupName]&#x3D;&quot;i&quot; class&#x3D;&quot;mapping-entry mb-2&quot;&gt;
+            &lt;input class&#x3D;&quot;input&quot; formControlName&#x3D;&quot;className&quot; placeholder&#x3D;&quot;Class Name&quot;&gt;
+            &lt;input class&#x3D;&quot;input&quot; formControlName&#x3D;&quot;url&quot; placeholder&#x3D;&quot;URL&quot;&gt;
+            &lt;button class&#x3D;&quot;btn&quot; (click)&#x3D;&quot;addMethod(i)&quot;&gt;Add Method&lt;/button&gt;
+            &lt;button class&#x3D;&quot;btn&quot; (click)&#x3D;&quot;addAttribute(i)&quot;&gt;Add Attribute&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;button class&#x3D;&quot;btn add-mapping-btn&quot; (click)&#x3D;&quot;addMapping()&quot;&gt;Add Mapping&lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+
+    &lt;div *ngIf&#x3D;&quot;selectedTab &#x3D;&#x3D;&#x3D; &#x27;manage-elements&#x27;&quot; class&#x3D;&quot;table-container&quot;&gt;
+      &lt;div class&#x3D;&quot;table-wrapper&quot;&gt;
+        &lt;table *ngIf&#x3D;&quot;umlData&quot; class&#x3D;&quot;table w-full&quot;&gt;
+          &lt;thead&gt;
+          &lt;tr class&#x3D;&quot;header-row&quot;&gt;
+            &lt;th [attr.colspan]&#x3D;&quot;umlData.classes.length&quot;&gt;Classes&lt;/th&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th *ngFor&#x3D;&quot;let className of umlData.classes; let classIndex &#x3D; index&quot; class&#x3D;&quot;cell-with-content&quot;&gt;
+              {{ className }}
+              &lt;button (click)&#x3D;&quot;deleteElement(&#x27;class&#x27;, className, classIndex, className)&quot; class&#x3D;&quot;icon-btn&quot;&gt;🗑️&lt;/button&gt;
+              &lt;button (click)&#x3D;&quot;openRenameDialog(&#x27;class&#x27;, className)&quot; class&#x3D;&quot;icon-btn&quot;&gt;✏️&lt;/button&gt;
+            &lt;/th&gt;
+          &lt;/tr&gt;
+          &lt;/thead&gt;
+          &lt;tbody&gt;
+          &lt;tr class&#x3D;&quot;header-row&quot;&gt;
+            &lt;td [attr.colspan]&#x3D;&quot;umlData.classes.length&quot;&gt;Attributes&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr *ngFor&#x3D;&quot;let i of maxAttributeRows(umlData)&quot;&gt;
+            &lt;td *ngFor&#x3D;&quot;let className of umlData.classes&quot;&gt;
+              &lt;div *ngIf&#x3D;&quot;umlData.attributes[className]?.[i]&quot; class&#x3D;&quot;table-cell-content&quot;&gt;
+                {{ umlData.attributes[className]?.[i] }}
+                &lt;button (click)&#x3D;&quot;deleteElement(&#x27;attribute&#x27;, umlData.attributes[className][i], i, className)&quot; class&#x3D;&quot;icon-btn&quot;&gt;🗑️&lt;/button&gt;
+                &lt;button (click)&#x3D;&quot;openRenameDialog(&#x27;attribute&#x27;, umlData.attributes[className][i])&quot; class&#x3D;&quot;icon-btn&quot;&gt;✏️&lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr class&#x3D;&quot;header-row&quot;&gt;
+            &lt;td [attr.colspan]&#x3D;&quot;umlData.classes.length&quot;&gt;Methods&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr *ngFor&#x3D;&quot;let i of maxMethodRows(umlData)&quot;&gt;
+            &lt;td *ngFor&#x3D;&quot;let className of umlData.classes&quot;&gt;
+              &lt;div *ngIf&#x3D;&quot;umlData.methods?.[className]?.[i]&quot; class&#x3D;&quot;table-cell-content&quot;&gt;
+                {{ umlData.methods?.[className]?.[i] }}
+                &lt;button (click)&#x3D;&quot;deleteElement(&#x27;method&#x27;, umlData.methods?.[className][i], i, className)&quot; class&#x3D;&quot;icon-btn&quot;&gt;🗑️&lt;/button&gt;
+                &lt;button (click)&#x3D;&quot;openRenameDialog(&#x27;method&#x27;, umlData.methods![className][i])&quot; class&#x3D;&quot;icon-btn&quot;&gt;✏️&lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr class&#x3D;&quot;header-row&quot;&gt;
+            &lt;td [attr.colspan]&#x3D;&quot;umlData.classes.length&quot;&gt;HTTP Methods&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr *ngFor&#x3D;&quot;let i of maxHttpMethodRows(umlData)&quot;&gt;
+            &lt;td *ngFor&#x3D;&quot;let className of umlData.classes&quot;&gt;
+              &lt;div *ngIf&#x3D;&quot;getHttpMethodsForClass(className)[i]&quot; class&#x3D;&quot;table-cell-content&quot;&gt;
+                &lt;input type&#x3D;&quot;checkbox&quot; (change)&#x3D;&quot;toggleHttpMethodSelection(className, getHttpMethodsForClass(className)[i].method)&quot;&gt;
+                {{ getHttpMethodsForClass(className)[i].url }} ({{ getHttpMethodsForClass(className)[i].method }})
+              &lt;/div&gt;
+            &lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;/tbody&gt;
+        &lt;/table&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;button-container flex justify-end p-4&quot;&gt;
+    &lt;button class&#x3D;&quot;btn&quot; (click)&#x3D;&quot;applyMappings()&quot;&gt;Apply Mappings and Continue&lt;/button&gt;
+    &lt;button *ngIf&#x3D;&quot;showApplyAdditionsButton&quot; class&#x3D;&quot;btn&quot; (click)&#x3D;&quot;addNewClassToElements()&quot;&gt;Apply Additions&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="mapping-container">  <div class="tabs flex justify-center bg-gray-100 py-2">    <button class="tab-button" [ngClass]="{\'active\': selectedTab === \'add-elements\'}" (click)="selectedTab = \'add-elements\'">Add Elements</button>    <button class="tab-button" [ngClass]="{\'active\': selectedTab === \'manage-elements\'}" (click)="selectedTab = \'manage-elements\'">Manage Elements</button>  </div>  <div class="content p-4">    <div *ngIf="selectedTab === \'add-elements\'">      <form [formGroup]="mappingsForm">        <div formArrayName="mappings" *ngFor="let mapping of mappings.controls; let i = index">          <div [formGroupName]="i" class="mapping-entry mb-2">            <input class="input" formControlName="className" placeholder="Class Name">            <input class="input" formControlName="url" placeholder="URL">            <button class="btn" (click)="addMethod(i)">Add Method</button>            <button class="btn" (click)="addAttribute(i)">Add Attribute</button>          </div>        </div>        <button class="btn add-mapping-btn" (click)="addMapping()">Add Mapping</button>      </form>    </div>    <div *ngIf="selectedTab === \'manage-elements\'" class="table-container">      <div class="table-wrapper">        <table *ngIf="umlData" class="table w-full">          <thead>          <tr class="header-row">            <th [attr.colspan]="umlData.classes.length">Classes</th>          </tr>          <tr>            <th *ngFor="let className of umlData.classes; let classIndex = index" class="cell-with-content">              {{ className }}              <button (click)="deleteElement(\'class\', className, classIndex, className)" class="icon-btn">🗑️</button>              <button (click)="openRenameDialog(\'class\', className)" class="icon-btn">✏️</button>            </th>          </tr>          </thead>          <tbody>          <tr class="header-row">            <td [attr.colspan]="umlData.classes.length">Attributes</td>          </tr>          <tr *ngFor="let i of maxAttributeRows(umlData)">            <td *ngFor="let className of umlData.classes">              <div *ngIf="umlData.attributes[className]?.[i]" class="table-cell-content">                {{ umlData.attributes[className]?.[i] }}                <button (click)="deleteElement(\'attribute\', umlData.attributes[className][i], i, className)" class="icon-btn">🗑️</button>                <button (click)="openRenameDialog(\'attribute\', umlData.attributes[className][i])" class="icon-btn">✏️</button>              </div>            </td>          </tr>          <tr class="header-row">            <td [attr.colspan]="umlData.classes.length">Methods</td>          </tr>          <tr *ngFor="let i of maxMethodRows(umlData)">            <td *ngFor="let className of umlData.classes">              <div *ngIf="umlData.methods?.[className]?.[i]" class="table-cell-content">                {{ umlData.methods?.[className]?.[i] }}                <button (click)="deleteElement(\'method\', umlData.methods?.[className][i], i, className)" class="icon-btn">🗑️</button>                <button (click)="openRenameDialog(\'method\', umlData.methods![className][i])" class="icon-btn">✏️</button>              </div>            </td>          </tr>          <tr class="header-row">            <td [attr.colspan]="umlData.classes.length">HTTP Methods</td>          </tr>          <tr *ngFor="let i of maxHttpMethodRows(umlData)">            <td *ngFor="let className of umlData.classes">              <div *ngIf="getHttpMethodsForClass(className)[i]" class="table-cell-content">                <input type="checkbox" (change)="toggleHttpMethodSelection(className, getHttpMethodsForClass(className)[i].method)">                {{ getHttpMethodsForClass(className)[i].url }} ({{ getHttpMethodsForClass(className)[i].method }})              </div>            </td>          </tr>          </tbody>        </table>      </div>    </div>  </div>  <div class="button-container flex justify-end p-4">    <button class="btn" (click)="applyMappings()">Apply Mappings and Continue</button>    <button *ngIf="showApplyAdditionsButton" class="btn" (click)="addNewClassToElements()">Apply Additions</button>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AddElementDialogComponent', 'selector': 'app-add-element-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'GenerateComponent', 'selector': 'app-generate'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'ManageComponent', 'selector': 'app-manage'},{'name': 'MappingComponent', 'selector': 'app-mapping'},{'name': 'PersonaliseComponent', 'selector': 'app-personalise'},{'name': 'RenameDialogComponent', 'selector': 'app-rename-dialog'},{'name': 'SessionListDialogComponent', 'selector': 'app-session-list-dialog'},{'name': 'StartComponent', 'selector': 'app-start'},{'name': 'StepperComponent', 'selector': 'app-stepper'},{'name': 'TopBarComponent', 'selector': 'app-top-bar'},{'name': 'UploadComponent', 'selector': 'app-upload'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'MappingComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'MappingComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

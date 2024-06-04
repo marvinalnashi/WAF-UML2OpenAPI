@@ -1,0 +1,2607 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>umlto-open-apispec documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">umlto-open-apispec documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  StepperComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/stepper/stepper.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>AfterViewInit</code>
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                                <code><a href="../injectables/GenerationService.html" target="_self" >GenerationService</a></code>
+                                <code><a href="../injectables/MockServerService.html" target="_self" >MockServerService</a></code>
+                                <code><a href="../injectables/StepperSessionService.html" target="_self" >StepperSessionService</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-stepper</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>MatStepper</code>
+                            <code>MatInputModule</code>
+                            <code>MatButtonModule</code>
+                                <code><a href="../components/MappingComponent.html" target="_self" >MappingComponent</a></code>
+                                <code><a href="../components/PersonaliseComponent.html" target="_self" >PersonaliseComponent</a></code>
+                                <code><a href="../components/TopBarComponent.html" target="_self" >TopBarComponent</a></code>
+                            <code>MatIcon</code>
+                                <code><a href="../components/LoaderComponent.html" target="_self" >LoaderComponent</a></code>
+                            <code>MatStep</code>
+                                <code><a href="../components/UploadComponent.html" target="_self" >UploadComponent</a></code>
+                                <code><a href="../components/StartComponent.html" target="_self" >StartComponent</a></code>
+                            <code>MatStepLabel</code>
+                                <code><a href="../components/UploadComponent.html" target="_self" >UploadComponent</a></code>
+                                <code><a href="../components/GenerateComponent.html" target="_self" >GenerateComponent</a></code>
+                                <code><a href="../components/GenerateComponent.html" target="_self" >GenerateComponent</a></code>
+                                <code><a href="../components/ManageComponent.html" target="_self" >ManageComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./stepper.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#diagramType" >diagramType</a>
+                            </li>
+                            <li>
+                                <a href="#elementCount" >elementCount</a>
+                            </li>
+                            <li>
+                                <a href="#fileFormat" >fileFormat</a>
+                            </li>
+                            <li>
+                                <a href="#isGeneratedSuccessfully" >isGeneratedSuccessfully</a>
+                            </li>
+                            <li>
+                                <a href="#isLoading" >isLoading</a>
+                            </li>
+                            <li>
+                                <a href="#isMappingStepCompleted" >isMappingStepCompleted</a>
+                            </li>
+                            <li>
+                                <a href="#mappedElementCount" >mappedElementCount</a>
+                            </li>
+                            <li>
+                                <a href="#mappingFormGroup" >mappingFormGroup</a>
+                            </li>
+                            <li>
+                                <a href="#modellingTool" >modellingTool</a>
+                            </li>
+                            <li>
+                                <a href="#openApiData" >openApiData</a>
+                            </li>
+                            <li>
+                                <a href="#selectedHttpMethods" >selectedHttpMethods</a>
+                            </li>
+                            <li>
+                                <a href="#serverButtonText" >serverButtonText</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Private</span>
+                                <a href="#stepper" >stepper</a>
+                            </li>
+                            <li>
+                                <a href="#umlData" >umlData</a>
+                            </li>
+                            <li>
+                                <a href="#uploadedFile" >uploadedFile</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#downloadOpenAPISpecification" >downloadOpenAPISpecification</a>
+                            </li>
+                            <li>
+                                <a href="#emitUmlData" >emitUmlData</a>
+                            </li>
+                            <li>
+                                <a href="#generate" >generate</a>
+                            </li>
+                            <li>
+                                <a href="#generateOpenApiData" >generateOpenApiData</a>
+                            </li>
+                            <li>
+                                <a href="#getModellingTool" >getModellingTool</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onFileSelected" >onFileSelected</a>
+                            </li>
+                            <li>
+                                <a href="#onHttpMethodsSelected" >onHttpMethodsSelected</a>
+                            </li>
+                            <li>
+                                <a href="#onMappingCompleted" >onMappingCompleted</a>
+                            </li>
+                            <li>
+                                <a href="#openSwaggerUI" >openSwaggerUI</a>
+                            </li>
+                            <li>
+                                <a href="#parseContentByFormat" >parseContentByFormat</a>
+                            </li>
+                            <li>
+                                <a href="#parseDrawioXML" >parseDrawioXML</a>
+                            </li>
+                            <li>
+                                <a href="#parseMDJ" >parseMDJ</a>
+                            </li>
+                            <li>
+                                <a href="#parsePUML" >parsePUML</a>
+                            </li>
+                            <li>
+                                <a href="#parseUMLetUXF" >parseUMLetUXF</a>
+                            </li>
+                            <li>
+                                <a href="#readFile" >readFile</a>
+                            </li>
+                            <li>
+                                <a href="#restartApplication" >restartApplication</a>
+                            </li>
+                            <li>
+                                <a href="#toggleMockServer" >toggleMockServer</a>
+                            </li>
+                            <li>
+                                <a href="#updateMappedElementCount" >updateMappedElementCount</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#umlDataEmitter" >umlDataEmitter</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(fb: FormBuilder, generationService: <a href="../injectables/GenerationService.html" target="_self">GenerationService</a>, mockServerService: <a href="../injectables/MockServerService.html" target="_self">MockServerService</a>, http: HttpClient, sessionService: <a href="../injectables/StepperSessionService.html" target="_self">StepperSessionService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/stepper/stepper.component.ts:74</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>fb</td>
+                                                  
+                                                        <td>
+                                                                    <code>FormBuilder</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>generationService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GenerationService.html" target="_self" >GenerationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>mockServerService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MockServerService.html" target="_self" >MockServerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>http</td>
+                                                  
+                                                        <td>
+                                                                    <code>HttpClient</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>sessionService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/StepperSessionService.html" target="_self" >StepperSessionService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="umlDataEmitter"></a>
+                        <b>umlDataEmitter</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/stepper/stepper.component.ts:48</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="downloadOpenAPISpecification"></a>
+                    <span class="name">
+                        <span ><b>downloadOpenAPISpecification</b></span>
+                        <a href="#downloadOpenAPISpecification"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>downloadOpenAPISpecification()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="342"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:342</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emitUmlData"></a>
+                    <span class="name">
+                        <span ><b>emitUmlData</b></span>
+                        <a href="#emitUmlData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>emitUmlData(data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="127"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:127</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generate"></a>
+                    <span class="name">
+                        <span ><b>generate</b></span>
+                        <a href="#generate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>generate()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="139"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:139</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateOpenApiData"></a>
+                    <span class="name">
+                        <span ><b>generateOpenApiData</b></span>
+                        <a href="#generateOpenApiData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>generateOpenApiData()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="177"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:177</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getModellingTool"></a>
+                    <span class="name">
+                        <span ><b>getModellingTool</b></span>
+                        <a href="#getModellingTool"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getModellingTool(format: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="112"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:112</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>format</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="88"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:88</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="94"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onFileSelected"></a>
+                    <span class="name">
+                        <span ><b>onFileSelected</b></span>
+                        <a href="#onFileSelected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onFileSelected(file: File)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="98"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:98</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>file</td>
+                                            <td>
+                                                        <code>File</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onHttpMethodsSelected"></a>
+                    <span class="name">
+                        <span ><b>onHttpMethodsSelected</b></span>
+                        <a href="#onHttpMethodsSelected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onHttpMethodsSelected(selectedMethods: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="131"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:131</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>selectedMethods</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMappingCompleted"></a>
+                    <span class="name">
+                        <span ><b>onMappingCompleted</b></span>
+                        <a href="#onMappingCompleted"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onMappingCompleted(success: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="329"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:329</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>success</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openSwaggerUI"></a>
+                    <span class="name">
+                        <span ><b>openSwaggerUI</b></span>
+                        <a href="#openSwaggerUI"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openSwaggerUI()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="338"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:338</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parseContentByFormat"></a>
+                    <span class="name">
+                        <span ><b>parseContentByFormat</b></span>
+                        <a href="#parseContentByFormat"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>parseContentByFormat(content: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, format: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="229"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:229</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>content</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>format</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parseDrawioXML"></a>
+                    <span class="name">
+                        <span ><b>parseDrawioXML</b></span>
+                        <a href="#parseDrawioXML"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>parseDrawioXML(content: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="244"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:244</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>content</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parseMDJ"></a>
+                    <span class="name">
+                        <span ><b>parseMDJ</b></span>
+                        <a href="#parseMDJ"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>parseMDJ(content: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="296"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:296</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>content</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parsePUML"></a>
+                    <span class="name">
+                        <span ><b>parsePUML</b></span>
+                        <a href="#parsePUML"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>parsePUML(content: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="320"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:320</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>content</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parseUMLetUXF"></a>
+                    <span class="name">
+                        <span ><b>parseUMLetUXF</b></span>
+                        <a href="#parseUMLetUXF"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>parseUMLetUXF(content: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="274"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:274</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>content</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="readFile"></a>
+                    <span class="name">
+                        <span ><b>readFile</b></span>
+                        <a href="#readFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>readFile(file: File)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="220"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:220</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>file</td>
+                                            <td>
+                                                        <code>File</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="restartApplication"></a>
+                    <span class="name">
+                        <span ><b>restartApplication</b></span>
+                        <a href="#restartApplication"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>restartApplication()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="198"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:198</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleMockServer"></a>
+                    <span class="name">
+                        <span ><b>toggleMockServer</b></span>
+                        <a href="#toggleMockServer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleMockServer()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="186"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:186</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateMappedElementCount"></a>
+                    <span class="name">
+                        <span ><b>updateMappedElementCount</b></span>
+                        <a href="#updateMappedElementCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateMappedElementCount(count: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="135"
+                                    class="link-to-prism">src/app/stepper/stepper.component.ts:135</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>count</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="diagramType"></a>
+                    <span class="name">
+                        <span ><b>diagramType</b></span>
+                        <a href="#diagramType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Class Diagram&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/stepper/stepper.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="elementCount"></a>
+                    <span class="name">
+                        <span ><b>elementCount</b></span>
+                        <a href="#elementCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    classes: 0,
+    attributes: 0,
+    methods: 0,
+    relationships: 0
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/stepper/stepper.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fileFormat"></a>
+                    <span class="name">
+                        <span ><b>fileFormat</b></span>
+                        <a href="#fileFormat"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/stepper/stepper.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isGeneratedSuccessfully"></a>
+                    <span class="name">
+                        <span ><b>isGeneratedSuccessfully</b></span>
+                        <a href="#isGeneratedSuccessfully"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/stepper/stepper.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLoading"></a>
+                    <span class="name">
+                        <span ><b>isLoading</b></span>
+                        <a href="#isLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/stepper/stepper.component.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isMappingStepCompleted"></a>
+                    <span class="name">
+                        <span ><b>isMappingStepCompleted</b></span>
+                        <a href="#isMappingStepCompleted"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/stepper/stepper.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mappedElementCount"></a>
+                    <span class="name">
+                        <span ><b>mappedElementCount</b></span>
+                        <a href="#mappedElementCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    classes: 0,
+    attributes: 0,
+    methods: 0,
+    relationships: 0
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/stepper/stepper.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mappingFormGroup"></a>
+                    <span class="name">
+                        <span ><b>mappingFormGroup</b></span>
+                        <a href="#mappingFormGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>FormGroup</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/stepper/stepper.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="modellingTool"></a>
+                    <span class="name">
+                        <span ><b>modellingTool</b></span>
+                        <a href="#modellingTool"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/stepper/stepper.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openApiData"></a>
+                    <span class="name">
+                        <span ><b>openApiData</b></span>
+                        <a href="#openApiData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/stepper/stepper.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedHttpMethods"></a>
+                    <span class="name">
+                        <span ><b>selectedHttpMethods</b></span>
+                        <a href="#selectedHttpMethods"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/stepper/stepper.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="serverButtonText"></a>
+                    <span class="name">
+                        <span ><b>serverButtonText</b></span>
+                        <a href="#serverButtonText"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Start mock server&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/stepper/stepper.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stepper"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Private</span>
+                        <span ><b>stepper</b></span>
+                        <a href="#stepper"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatStepper</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;stepper&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/stepper/stepper.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="umlData"></a>
+                    <span class="name">
+                        <span ><b>umlData</b></span>
+                        <a href="#umlData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/stepper/stepper.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="uploadedFile"></a>
+                    <span class="name">
+                        <span ><b>uploadedFile</b></span>
+                        <a href="#uploadedFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>File | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/stepper/stepper.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from &#x27;@angular/core&#x27;;
+import { GenerationService } from &#x27;../generation.service&#x27;;
+import { MockServerService } from &#x27;../mock-server.service&#x27;;
+import { HttpClient } from &#x27;@angular/common/http&#x27;;
+import {MatStep, MatStepLabel, MatStepper} from &#x27;@angular/material/stepper&#x27;;
+import { FormBuilder, FormGroup, Validators } from &#x27;@angular/forms&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { MatInputModule } from &#x27;@angular/material/input&#x27;;
+import { MatButtonModule } from &#x27;@angular/material/button&#x27;;
+import { MappingComponent } from &#x27;../mapping/mapping.component&#x27;;
+import { PersonaliseComponent } from &#x27;../personalise/personalise.component&#x27;;
+import { TopBarComponent } from &#x27;../top-bar/top-bar.component&#x27;;
+import { MatIcon } from &#x27;@angular/material/icon&#x27;;
+import { LoaderComponent } from &#x27;../loader/loader.component&#x27;;
+import { StepperSessionService } from &#x27;../stepper-session.service&#x27;;
+import {UploadComponent} from &quot;../upload/upload.component&quot;;
+import {StartComponent} from &quot;../start/start.component&quot;;
+import { GenerateComponent } from &#x27;../generate/generate.component&#x27;;
+import { ManageComponent } from &#x27;../manage/manage.component&#x27;;
+
+@Component({
+  selector: &#x27;app-stepper&#x27;,
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatStepper,
+    MatInputModule,
+    MatButtonModule,
+    MappingComponent,
+    PersonaliseComponent,
+    TopBarComponent,
+    MatIcon,
+    LoaderComponent,
+    MatStep,
+    UploadComponent,
+    StartComponent,
+    MatStepLabel,
+    UploadComponent,
+    GenerateComponent,
+    GenerateComponent,
+    ManageComponent
+  ],
+  templateUrl: &#x27;./stepper.component.html&#x27;,
+  providers: [GenerationService, MockServerService, StepperSessionService]
+})
+export class StepperComponent implements AfterViewInit, OnInit {
+  @ViewChild(&#x27;stepper&#x27;) private stepper!: MatStepper;
+  @Output() umlDataEmitter &#x3D; new EventEmitter&lt;any&gt;();
+
+  uploadedFile: File | null &#x3D; null;
+  isGeneratedSuccessfully &#x3D; false;
+  fileFormat: string &#x3D; &#x27;&#x27;;
+  diagramType: string &#x3D; &#x27;Class Diagram&#x27;;
+  modellingTool: string &#x3D; &#x27;&#x27;;
+  serverButtonText &#x3D; &#x27;Start mock server&#x27;;
+  mappingFormGroup: FormGroup;
+  umlData: any;
+  openApiData: any &#x3D; null;
+  selectedHttpMethods: { [className: string]: { [method: string]: boolean } } &#x3D; {};
+  elementCount &#x3D; {
+    classes: 0,
+    attributes: 0,
+    methods: 0,
+    relationships: 0
+  };
+  mappedElementCount &#x3D; {
+    classes: 0,
+    attributes: 0,
+    methods: 0,
+    relationships: 0
+  };
+
+  isMappingStepCompleted &#x3D; false;
+  isLoading &#x3D; false;
+
+  constructor(
+    private fb: FormBuilder,
+    private generationService: GenerationService,
+    private mockServerService: MockServerService,
+    private http: HttpClient,
+    private sessionService: StepperSessionService
+  ) {
+    this.mappingFormGroup &#x3D; this.fb.group({
+      userConfirmation: [&#x27;&#x27;, Validators.required]
+    });
+  }
+
+  ngAfterViewInit() {
+    this.stepper._stepHeader.forEach(header &#x3D;&gt; {
+      header._elementRef.nativeElement.style.pointerEvents &#x3D; &#x27;none&#x27;;
+    });
+  }
+
+  ngOnInit(): void {
+    this.openApiData &#x3D; null;
+  }
+
+  onFileSelected(file: File): void {
+    this.uploadedFile &#x3D; file;
+    this.fileFormat &#x3D; this.uploadedFile.name.split(&#x27;.&#x27;).pop()!;
+    this.modellingTool &#x3D; this.getModellingTool(this.fileFormat);
+    this.readFile(this.uploadedFile);
+    this.generationService.parseDiagramElements(this.uploadedFile).subscribe({
+      next: (data) &#x3D;&gt; {
+        this.umlData &#x3D; data;
+        this.emitUmlData(data);
+      },
+      error: (error) &#x3D;&gt; console.error(&#x27;Failed to parse diagram&#x27;, error)
+    });
+  }
+
+  getModellingTool(format: string): string {
+    switch (format) {
+      case &#x27;uxf&#x27;:
+        return &#x27;UMLet&#x27;;
+      case &#x27;xml&#x27;:
+        return &#x27;Draw.io&#x27;;
+      case &#x27;mdj&#x27;:
+        return &#x27;StarUML&#x27;;
+      case &#x27;puml&#x27;:
+        return &#x27;PlantUML&#x27;;
+      default:
+        return &#x27;Unknown&#x27;;
+    }
+  }
+
+  emitUmlData(data: any): void {
+    this.umlDataEmitter.emit(data);
+  }
+
+  onHttpMethodsSelected(selectedMethods: { [className: string]: { [method: string]: boolean } }) {
+    this.selectedHttpMethods &#x3D; selectedMethods;
+  }
+
+  updateMappedElementCount(count: any): void {
+    this.mappedElementCount &#x3D; count;
+  }
+
+  generate(): void {
+    this.isLoading &#x3D; true;
+    if (this.uploadedFile) {
+      const selectedMethods: { [className: string]: string[] } &#x3D; {};
+      for (const className in this.selectedHttpMethods) {
+        if (this.selectedHttpMethods.hasOwnProperty(className)) {
+          selectedMethods[className] &#x3D; [];
+          for (const method in this.selectedHttpMethods[className]) {
+            if (this.selectedHttpMethods[className].hasOwnProperty(method) &amp;&amp; this.selectedHttpMethods[className][method]) {
+              selectedMethods[className].push(method);
+            }
+          }
+        }
+      }
+
+      const formData &#x3D; new FormData();
+      formData.append(&#x27;file&#x27;, this.uploadedFile);
+      formData.append(&#x27;selectedHttpMethods&#x27;, JSON.stringify(selectedMethods));
+
+      this.generationService.generateSpec(formData).subscribe({
+        next: (response) &#x3D;&gt; {
+          console.log(&#x27;Generation successful&#x27;, response);
+          this.isGeneratedSuccessfully &#x3D; true;
+          this.openApiData &#x3D; null;
+          this.generateOpenApiData();
+          this.isLoading &#x3D; false;
+        },
+        error: (error) &#x3D;&gt; {
+          console.error(&#x27;Generation failed&#x27;, error);
+          this.isLoading &#x3D; false;
+        }
+      });
+    } else {
+      console.error(&#x27;No file selected&#x27;);
+      this.isLoading &#x3D; false;
+    }
+  }
+
+  generateOpenApiData(): void {
+    this.http.get&lt;any&gt;(&#x27;http://localhost:8080/personalise&#x27;).subscribe(
+      data &#x3D;&gt; {
+        this.openApiData &#x3D; data;
+      },
+      error &#x3D;&gt; console.error(&#x27;Failed to load OpenAPI data&#x27;, error)
+    );
+  }
+
+  toggleMockServer(): void {
+    this.mockServerService.toggleMockServer().subscribe({
+      next: (response) &#x3D;&gt; {
+        console.log(response.message);
+        this.serverButtonText &#x3D; response.message.includes(&#x27;starting&#x27;) ? &#x27;Restart mock server&#x27; : &#x27;Start mock server&#x27;;
+      },
+      error: (error) &#x3D;&gt; {
+        console.error(&#x27;Server toggle failed&#x27;, error);
+      }
+    });
+  }
+
+  restartApplication(): void {
+    if (this.uploadedFile &amp;&amp; this.openApiData) {
+      const umlDiagram &#x3D; this.uploadedFile.name;
+      const openApiSpec &#x3D; JSON.stringify(this.openApiData);
+      const session &#x3D; { umlDiagram, openApiSpec };
+
+      this.sessionService.saveSession(session).subscribe({
+        next: () &#x3D;&gt; {
+          console.log(&#x27;Session saved successfully&#x27;);
+          window.location.reload();
+        },
+        error: (error) &#x3D;&gt; {
+          console.error(&#x27;Failed to save session&#x27;, error);
+          window.location.reload();
+        }
+      });
+    } else {
+      console.error(&#x27;No file selected or OpenAPI data missing&#x27;);
+      window.location.reload();
+    }
+  }
+
+  readFile(file: File): void {
+    const reader &#x3D; new FileReader();
+    reader.onload &#x3D; () &#x3D;&gt; {
+      const content &#x3D; reader.result as string;
+      this.elementCount &#x3D; this.parseContentByFormat(content, this.fileFormat);
+    };
+    reader.readAsText(file);
+  }
+
+  parseContentByFormat(content: string, format: string) {
+    switch (format) {
+      case &#x27;xml&#x27;:
+        return this.parseDrawioXML(content);
+      case &#x27;uxf&#x27;:
+        return this.parseUMLetUXF(content);
+      case &#x27;mdj&#x27;:
+        return this.parseMDJ(content);
+      case &#x27;puml&#x27;:
+        return this.parsePUML(content);
+      default:
+        return {};
+    }
+  }
+
+  parseDrawioXML(content: string): any {
+    const parser &#x3D; new DOMParser();
+    const xmlDoc &#x3D; parser.parseFromString(content, &quot;application/xml&quot;);
+    let classes &#x3D; 0, attributes &#x3D; 0, methods &#x3D; 0, relationships &#x3D; 0;
+
+    xmlDoc.querySelectorAll(&#x27;mxCell&#x27;).forEach(cell &#x3D;&gt; {
+      const value &#x3D; cell.getAttribute(&#x27;value&#x27;);
+      const style &#x3D; cell.getAttribute(&#x27;style&#x27;);
+
+      if (style?.includes(&#x27;swimlane&#x27;) &amp;&amp; value) {
+        classes++;
+      }
+
+      if (style?.includes(&#x27;edgeStyle&#x27;)) {
+        relationships++;
+      }
+
+      if (style?.includes(&#x27;text;&#x27;) &amp;&amp; value) {
+        const cleanValue &#x3D; value.replace(/&lt;[^&gt;]*&gt;/g, &#x27;&#x27;);
+        if (cleanValue.includes(&#x27;(&#x27;) &amp;&amp; cleanValue.includes(&#x27;)&#x27;)) {
+          methods +&#x3D; cleanValue.split(&#x27;+&#x27;).filter(line &#x3D;&gt; line.includes(&#x27;(&#x27;) &amp;&amp; line.includes(&#x27;)&#x27;)).length;
+        } else {
+          attributes +&#x3D; cleanValue.split(&#x27;+&#x27;).filter(line &#x3D;&gt; line.includes(&#x27;:&#x27;)).length;
+        }
+      }
+    });
+
+    return { classes, attributes, methods, relationships };
+  }
+
+  parseUMLetUXF(content: string): any {
+    const parser &#x3D; new DOMParser();
+    const xmlDoc &#x3D; parser.parseFromString(content, &quot;application/xml&quot;);
+    let classes &#x3D; 0, attributes &#x3D; 0, methods &#x3D; 0, relationships &#x3D; 0;
+
+    xmlDoc.querySelectorAll(&#x27;element&#x27;).forEach(element &#x3D;&gt; {
+      if (element.querySelector(&#x27;id&#x27;)?.textContent &#x3D;&#x3D;&#x3D; &#x27;UMLClass&#x27;) {
+        classes++;
+        const panelAttributes &#x3D; element.querySelector(&#x27;panel_attributes&#x27;)?.textContent;
+        if (panelAttributes) {
+          attributes +&#x3D; (panelAttributes.match(/\+\w+\s+:/g) || []).length;
+          methods +&#x3D; (panelAttributes.match(/\+\w+\s*\(.*?\)/g) || []).length;
+        }
+      }
+      if (element.querySelector(&#x27;id&#x27;)?.textContent &#x3D;&#x3D;&#x3D; &#x27;Relation&#x27;) {
+        relationships++;
+      }
+    });
+
+    return { classes, attributes, methods, relationships };
+  }
+
+  parseMDJ(content: string): any {
+    const json &#x3D; JSON.parse(content);
+    let classes &#x3D; 0, attributes &#x3D; 0, methods &#x3D; 0, relationships &#x3D; 0;
+    const iterateElements &#x3D; (element: { _type: string; attributes: string | any[]; operations: string | any[]; ownedElements: any[]; }) &#x3D;&gt; {
+      if (element._type &#x3D;&#x3D;&#x3D; &#x27;UMLClass&#x27;) {
+        classes++;
+        if (element.attributes) {
+          attributes +&#x3D; element.attributes.length;
+        }
+        if (element.operations) {
+          methods +&#x3D; element.operations.length;
+        }
+      } else if (element._type &#x3D;&#x3D;&#x3D; &#x27;UMLAssociation&#x27;) {
+        relationships++;
+      }
+      if (element.ownedElements) {
+        element.ownedElements.forEach(iterateElements);
+      }
+    };
+
+    json.ownedElements.forEach(iterateElements);
+    return { classes, attributes, methods, relationships };
+  }
+
+  parsePUML(content: string): any {
+    const lines &#x3D; content.split(&#x27;\n&#x27;);
+    let classes &#x3D; lines.filter(line &#x3D;&gt; line.trim().startsWith(&#x27;class &#x27;)).length;
+    let attributes &#x3D; lines.filter(line &#x3D;&gt; line.match(/^\s+[+-]\w+\s*:\s*\w+/)).length;
+    let methods &#x3D; lines.filter(line &#x3D;&gt; line.match(/^\s+[+-]\w+\s*\([^)]*\)\s*(?::\s*\w+)?/)).length;
+    let relationships &#x3D; lines.filter(line &#x3D;&gt; line.trim().includes(&#x27;--&#x27;)).length;
+    return { classes, attributes, methods, relationships };
+  }
+
+  onMappingCompleted(success: boolean) {
+    if (success) {
+      this.isMappingStepCompleted &#x3D; true;
+      this.stepper.next();
+    } else {
+      console.error(&quot;Failed to apply mappings&quot;);
+    }
+  }
+
+  openSwaggerUI(): void {
+    window.open(&#x27;http://localhost:8080/swagger-ui/index.html&#x27;, &#x27;_blank&#x27;);
+  }
+
+  downloadOpenAPISpecification(): void {
+    window.open(&#x27;http://localhost:8080/export.yml&#x27;, &#x27;_blank&#x27;);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;app-top-bar&gt;&lt;/app-top-bar&gt;
+&lt;div class&#x3D;&quot;mt-16 p-5 max-w-[60vw] min-h-[70vh] mx-auto my-[15vh] bg-primary rounded-lg&quot;&gt;
+  &lt;mat-horizontal-stepper #stepper&gt;
+    &lt;mat-step&gt;
+      &lt;ng-template matStepLabel&gt;Start&lt;/ng-template&gt;
+      &lt;app-start [stepper]&#x3D;&quot;stepper&quot;&gt;&lt;/app-start&gt;
+    &lt;/mat-step&gt;
+    &lt;mat-step&gt;
+      &lt;ng-template matStepLabel&gt;Upload&lt;/ng-template&gt;
+      &lt;app-upload (fileSelected)&#x3D;&quot;onFileSelected($event)&quot; [stepper]&#x3D;&quot;stepper&quot;&gt;&lt;/app-upload&gt;
+    &lt;/mat-step&gt;
+    &lt;mat-step
+      [stepControl]&#x3D;&quot;mappingFormGroup&quot;
+      [completed]&#x3D;&quot;isMappingStepCompleted&quot;&gt;
+      &lt;ng-template matStepLabel&gt;Mapping&lt;/ng-template&gt;
+      &lt;app-mapping
+        (mappingCompleted)&#x3D;&quot;onMappingCompleted($event)&quot;
+        (httpMethodsSelected)&#x3D;&quot;onHttpMethodsSelected($event)&quot;
+        [umlData]&#x3D;&quot;umlData&quot;
+        (elementCountUpdated)&#x3D;&quot;updateMappedElementCount($event)&quot;
+      &gt;&lt;/app-mapping&gt;
+    &lt;/mat-step&gt;
+    &lt;mat-step&gt;
+      &lt;ng-template matStepLabel&gt;Generate&lt;/ng-template&gt;
+      &lt;app-generate
+        [uploadedFile]&#x3D;&quot;uploadedFile&quot;
+        [fileFormat]&#x3D;&quot;fileFormat&quot;
+        [modellingTool]&#x3D;&quot;modellingTool&quot;
+        [elementCount]&#x3D;&quot;elementCount&quot;
+        [mappedElementCount]&#x3D;&quot;mappedElementCount&quot;
+        [isGeneratedSuccessfully]&#x3D;&quot;isGeneratedSuccessfully&quot;
+        [isLoading]&#x3D;&quot;isLoading&quot;
+        (generate)&#x3D;&quot;generate()&quot;
+        [stepper]&#x3D;&quot;stepper&quot;
+      &gt;&lt;/app-generate&gt;
+    &lt;/mat-step&gt;
+    &lt;mat-step&gt;
+      &lt;ng-template matStepLabel&gt;Personalise&lt;/ng-template&gt;
+      &lt;app-personalise
+        [openApiData]&#x3D;&quot;openApiData&quot;
+      &gt;&lt;/app-personalise&gt;
+      &lt;button class&#x3D;&quot;btn&quot; (click)&#x3D;&quot;stepper.next()&quot;&gt;Continue&lt;/button&gt;
+    &lt;/mat-step&gt;
+    &lt;mat-step&gt;
+      &lt;ng-template matStepLabel&gt;Manage&lt;/ng-template&gt;
+      &lt;app-manage
+        [isGeneratedSuccessfully]&#x3D;&quot;isGeneratedSuccessfully&quot;
+        (toggleMockServer)&#x3D;&quot;toggleMockServer()&quot;
+        (openSwaggerUI)&#x3D;&quot;openSwaggerUI()&quot;
+        (restartApplication)&#x3D;&quot;restartApplication()&quot;
+        (downloadOpenAPISpecification)&#x3D;&quot;downloadOpenAPISpecification()&quot;
+      &gt;&lt;/app-manage&gt;
+    &lt;/mat-step&gt;
+  &lt;/mat-horizontal-stepper&gt;
+&lt;/div&gt;
+&lt;div *ngIf&#x3D;&quot;isLoading&quot; class&#x3D;&quot;loader-overlay&quot;&gt;
+  &lt;app-loader [texts]&#x3D;&quot;[
+  &#x27;Please wait while your OpenAPI specification is being generated.&#x27;,
+  &#x27;Example values for your attributes are being generated with AI.&#x27;,
+  &#x27;This process will not take too long.&#x27;
+  ]&quot;&gt;&lt;/app-loader&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><app-top-bar></app-top-bar><div class="mt-16 p-5 max-w-[60vw] min-h-[70vh] mx-auto my-[15vh] bg-primary rounded-lg">  <mat-horizontal-stepper #stepper>    <mat-step>      <ng-template matStepLabel>Start</ng-template>      <app-start [stepper]="stepper"></app-start>    </mat-step>    <mat-step>      <ng-template matStepLabel>Upload</ng-template>      <app-upload (fileSelected)="onFileSelected($event)" [stepper]="stepper"></app-upload>    </mat-step>    <mat-step      [stepControl]="mappingFormGroup"      [completed]="isMappingStepCompleted">      <ng-template matStepLabel>Mapping</ng-template>      <app-mapping        (mappingCompleted)="onMappingCompleted($event)"        (httpMethodsSelected)="onHttpMethodsSelected($event)"        [umlData]="umlData"        (elementCountUpdated)="updateMappedElementCount($event)"      ></app-mapping>    </mat-step>    <mat-step>      <ng-template matStepLabel>Generate</ng-template>      <app-generate        [uploadedFile]="uploadedFile"        [fileFormat]="fileFormat"        [modellingTool]="modellingTool"        [elementCount]="elementCount"        [mappedElementCount]="mappedElementCount"        [isGeneratedSuccessfully]="isGeneratedSuccessfully"        [isLoading]="isLoading"        (generate)="generate()"        [stepper]="stepper"      ></app-generate>    </mat-step>    <mat-step>      <ng-template matStepLabel>Personalise</ng-template>      <app-personalise        [openApiData]="openApiData"      ></app-personalise>      <button class="btn" (click)="stepper.next()">Continue</button>    </mat-step>    <mat-step>      <ng-template matStepLabel>Manage</ng-template>      <app-manage        [isGeneratedSuccessfully]="isGeneratedSuccessfully"        (toggleMockServer)="toggleMockServer()"        (openSwaggerUI)="openSwaggerUI()"        (restartApplication)="restartApplication()"        (downloadOpenAPISpecification)="downloadOpenAPISpecification()"      ></app-manage>    </mat-step>  </mat-horizontal-stepper></div><div *ngIf="isLoading" class="loader-overlay">  <app-loader [texts]="[  \'Please wait while your OpenAPI specification is being generated.\',  \'Example values for your attributes are being generated with AI.\',  \'This process will not take too long.\'  ]"></app-loader></div></div>'
+    var COMPONENTS = [{'name': 'AddElementDialogComponent', 'selector': 'app-add-element-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'GenerateComponent', 'selector': 'app-generate'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'ManageComponent', 'selector': 'app-manage'},{'name': 'MappingComponent', 'selector': 'app-mapping'},{'name': 'PersonaliseComponent', 'selector': 'app-personalise'},{'name': 'RenameDialogComponent', 'selector': 'app-rename-dialog'},{'name': 'SessionListDialogComponent', 'selector': 'app-session-list-dialog'},{'name': 'StartComponent', 'selector': 'app-start'},{'name': 'StepperComponent', 'selector': 'app-stepper'},{'name': 'TopBarComponent', 'selector': 'app-top-bar'},{'name': 'UploadComponent', 'selector': 'app-upload'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'StepperComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'StepperComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
