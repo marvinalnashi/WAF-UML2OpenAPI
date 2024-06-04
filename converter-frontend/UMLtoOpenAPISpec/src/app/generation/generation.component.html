@@ -3,20 +3,11 @@
   <mat-horizontal-stepper #stepper>
     <mat-step>
       <ng-template matStepLabel>Start</ng-template>
-      <div class="text-center">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis eros efficitur dui fermentum molestie at sed metus. Maecenas auctor purus ut commodo faucibus.</p>
-        <button class="btn" (click)="stepper.next()">Start the process</button>
-      </div>
+      <app-start [stepper]="stepper"></app-start>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Upload</ng-template>
-      <div class="text-center">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis eros efficitur dui fermentum molestie at sed metus. Maecenas auctor purus ut commodo faucibus.</p>
-        <div class="flex justify-center items-center">
-          <input type="file" (change)="onFileSelected($event)">
-          <button class="btn" (click)="stepper.next()">Next</button>
-        </div>
-      </div>
+      <app-upload (fileSelected)="onFileSelected($event)" [stepper]="stepper"></app-upload>
     </mat-step>
     <mat-step [stepControl]="mappingFormGroup" [completed]="isMappingStepCompleted">
       <ng-template matStepLabel>Mapping</ng-template>

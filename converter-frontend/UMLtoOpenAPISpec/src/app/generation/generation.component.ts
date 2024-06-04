@@ -2,8 +2,8 @@ import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } fro
 import { GenerationService } from '../generation.service';
 import { MockServerService } from '../mock-server.service';
 import { HttpClient } from '@angular/common/http';
-import { MatStep, MatStepLabel, MatStepper } from '@angular/material/stepper';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatStep, MatStepLabel, MatStepper} from '@angular/material/stepper';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,26 +11,29 @@ import { MappingComponent } from '../mapping/mapping.component';
 import { PersonaliseComponent } from '../personalise/personalise.component';
 import { TopBarComponent } from '../top-bar/top-bar.component';
 import { MatIcon } from '@angular/material/icon';
-import {LoaderComponent} from "../loader/loader.component";
+import { LoaderComponent } from '../loader/loader.component';
 import { StepperSessionService } from '../stepper-session.service';
+import {UploadComponent} from "../upload/upload.component";
+import {StartComponent} from "../start/start.component";
 
 @Component({
   selector: 'app-generation',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     MatStepper,
     MatInputModule,
     MatButtonModule,
-    MatStep,
-    MatStepLabel,
     MappingComponent,
     PersonaliseComponent,
     TopBarComponent,
     MatIcon,
-    LoaderComponent
+    LoaderComponent,
+    MatStep,
+    UploadComponent,
+    StartComponent,
+    MatStepLabel,
+    UploadComponent
   ],
   templateUrl: './generation.component.html',
   providers: [GenerationService, MockServerService, StepperSessionService]
@@ -87,12 +90,8 @@ export class GenerationComponent implements AfterViewInit, OnInit {
     this.openApiData = null;
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (!input.files?.length) {
-      return;
-    }
-    this.uploadedFile = input.files[0];
+  onFileSelected(file: File): void {
+    this.uploadedFile = file;
     this.fileFormat = this.uploadedFile.name.split('.').pop()!;
     this.modellingTool = this.getModellingTool(this.fileFormat);
     this.readFile(this.uploadedFile);

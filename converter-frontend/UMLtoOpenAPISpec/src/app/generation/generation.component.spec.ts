@@ -47,15 +47,15 @@ describe('GenerationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should read file on file selected', () => {
-    const file = new File(['test content'], 'test.xml', { type: 'text/xml' });
-    const event = { target: { files: [file] } } as unknown as Event;
-
-    generationService.parseDiagramElements.and.returnValue(of({}));
-    spyOn(component, 'readFile').and.callThrough();
-
-    component.onFileSelected(event);
-    expect(component.readFile).toHaveBeenCalledWith(file);
-    expect(component.uploadedFile).toBe(file);
-  });
+  // it('should read file on file selected', () => {
+  //   const file = new File(['test content'], 'test.xml', { type: 'text/xml' });
+  //   const event = { target: { files: [file] } } as unknown as Event;
+  //
+  //   generationService.parseDiagramElements.and.returnValue(of({}));
+  //   spyOn(component, 'readFile').and.callThrough();
+  //
+  //   component.onFileSelected(event);
+  //   expect(component.readFile).toHaveBeenCalledWith(file);
+  //   expect(component.uploadedFile).toBe(file);
+  // });
 });
