@@ -16,6 +16,7 @@ import { StepperSessionService } from '../stepper-session.service';
 import {UploadComponent} from "../upload/upload.component";
 import {StartComponent} from "../start/start.component";
 import { GenerateComponent } from '../generate/generate.component';
+import { ManageComponent } from '../manage/manage.component';
 
 @Component({
   selector: 'app-generation',
@@ -35,7 +36,9 @@ import { GenerateComponent } from '../generate/generate.component';
     StartComponent,
     MatStepLabel,
     UploadComponent,
-    GenerateComponent
+    GenerateComponent,
+    GenerateComponent,
+    ManageComponent
   ],
   templateUrl: './generation.component.html',
   providers: [GenerationService, MockServerService, StepperSessionService]

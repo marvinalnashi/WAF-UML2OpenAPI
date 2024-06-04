@@ -1,0 +1,39 @@
+<div class="text-center">
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis eros efficitur dui fermentum molestie at sed metus. Maecenas auctor purus ut commodo faucibus.</p>
+  <table class="w-full border-separate">
+    <tbody>
+    <tr>
+      <td class="w-3/4">Start the Prism mock server.</td>
+      <td class="w-1/4 text-center">
+        <button mat-icon-button class="btn" (click)="onToggleMockServer()">
+          <mat-icon>play_arrow</mat-icon>
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td class="w-3/4">Start Swagger UI and load the generated OpenAPI specification.</td>
+      <td class="w-1/4 text-center">
+        <button mat-icon-button class="btn" (click)="onOpenSwaggerUI()">
+          <mat-icon>play_arrow</mat-icon>
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td class="w-3/4">Restart the stepper and upload a new UML diagram.</td>
+      <td class="w-1/4 text-center">
+        <button mat-icon-button class="btn" (click)="onRestartApplication()">
+          <mat-icon>play_arrow</mat-icon>
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td class="w-3/4">Download the generated OpenAPI specification file.</td>
+      <td class="w-1/4 text-center">
+        <button mat-icon-button class="btn" *ngIf="isGeneratedSuccessfully" (click)="onDownloadOpenAPISpecification()">
+          <mat-icon>play_arrow</mat-icon>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
