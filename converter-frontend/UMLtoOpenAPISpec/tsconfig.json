@@ -1,14 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "paths": {
-      "@ng-doc/generated": [
-        "./ng-doc/UMLtoOpenAPISpec/index.ts"
-      ],
-      "@ng-doc/generated/*": [
-        "./ng-doc/UMLtoOpenAPISpec/*"
-      ]
-    },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
