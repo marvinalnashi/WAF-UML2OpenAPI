@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {NgIf} from "@angular/common";
 import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
@@ -17,6 +17,8 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrl: './top-bar.component.scss'
 })
 export class TopBarComponent {
+  @Output() toggleDoc = new EventEmitter<void>();
+
   constructor(public dialog: MatDialog) {}
 
   isDarkMode = false;
@@ -32,7 +34,11 @@ export class TopBarComponent {
 
   openSessionListDialog(): void {
     const dialogRef = this.dialog.open(SessionListDialogComponent, {
-      width: '600px'
+      width: '800px'
     });
+  }
+
+  openDocumentation(): void {
+    this.toggleDoc.emit();
   }
 }

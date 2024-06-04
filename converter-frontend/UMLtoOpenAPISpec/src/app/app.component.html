@@ -1,4 +1,6 @@
+<app-top-bar (toggleDoc)="toggleDocumentation()"></app-top-bar>
 <div *ngIf="isLoading" class="loader-overlay">
   <app-loader></app-loader>
 </div>
-<app-generation></app-generation>
+<app-generation *ngIf="!showDocumentation"></app-generation>
+<app-ng-doc *ngIf="showDocumentation"></app-ng-doc>
