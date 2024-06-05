@@ -3,7 +3,7 @@
 </div>
 
 <div *ngIf="currentView === 'attributes'">
-  <button (click)="goBack()" class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded m-2">Back to Classes</button>
+  <button (click)="goBackToClasses()" class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded m-2">Back to Classes</button>
   <button *ngFor="let attribute of selectedClassAttributes" (click)="selectAttribute(attribute)" class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded m-2">{{ attribute }}</button>
 </div>
 
@@ -11,6 +11,6 @@
   <button (click)="goBackToAttributes()" class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded m-2">Back to Attributes</button>
   <div *ngFor="let example of selectedAttributeExamples; let i = index" class="flex items-center m-2">
     <p class="flex-grow">{{ example }}</p>
-    <mat-icon (click)="editExample(i)" class="cursor-pointer">edit</mat-icon>
+    <mat-icon (click)="editExampleValue(i)" class="cursor-pointer">edit</mat-icon>
   </div>
 </div>

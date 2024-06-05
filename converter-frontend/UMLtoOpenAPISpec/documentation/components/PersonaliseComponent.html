@@ -120,6 +120,13 @@
 </p>
 
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Component for modifying the example values that were generated with AI for the generated OpenAPI specification.</p>
+
+    </p>
 
 
     <p class="comment">
@@ -224,7 +231,7 @@
                                 <a href="#selectedClassAttributes" >selectedClassAttributes</a>
                             </li>
                             <li>
-                                <a href="#tempExampleValues" >tempExampleValues</a>
+                                <a href="#temporarilyStoredExampleValues" >temporarilyStoredExampleValues</a>
                             </li>
                         </ul>
                     </td>
@@ -239,28 +246,28 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#editExample" >editExample</a>
+                                <a href="#editExampleValue" >editExampleValue</a>
                             </li>
                             <li>
                                 <a href="#extractClassNames" >extractClassNames</a>
                             </li>
                             <li>
-                                <a href="#goBack" >goBack</a>
-                            </li>
-                            <li>
                                 <a href="#goBackToAttributes" >goBackToAttributes</a>
                             </li>
                             <li>
+                                <a href="#goBackToClasses" >goBackToClasses</a>
+                            </li>
+                            <li>
                                 <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#postExampleValue" >postExampleValue</a>
                             </li>
                             <li>
                                 <a href="#selectAttribute" >selectAttribute</a>
                             </li>
                             <li>
                                 <a href="#selectClass" >selectClass</a>
-                            </li>
-                            <li>
-                                <a href="#updateExampleInBackend" >updateExampleInBackend</a>
                             </li>
                             <li>
                                 <a href="#updateOpenApiData" >updateOpenApiData</a>
@@ -302,12 +309,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/personalise/personalise.component.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/personalise/personalise.component.ts:64</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Creates an instance of PersonaliseComponent.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -316,6 +325,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -330,6 +340,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <p>The popup dialog service.</p>
+
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>http</td>
@@ -342,6 +356,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <p>The HTTP client service.</p>
+
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -370,9 +388,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/personalise/personalise.component.ts:23</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/personalise/personalise.component.ts:29</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Input property for the transmission of the generated OpenAPI specification data.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -388,30 +412,32 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="editExample"></a>
+                    <a name="editExampleValue"></a>
                     <span class="name">
-                        <span ><b>editExample</b></span>
-                        <a href="#editExample"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>editExampleValue</b></span>
+                        <a href="#editExampleValue"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>editExample(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>editExampleValue(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="81"
-                                    class="link-to-prism">src/app/personalise/personalise.component.ts:81</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="144"
+                                    class="link-to-prism">src/app/personalise/personalise.component.ts:144</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Activates a popup dialog in which a generated example value can be modified.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -422,6 +448,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -436,6 +463,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The index of the example value to modify.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -471,51 +502,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="40"
-                                    class="link-to-prism">src/app/personalise/personalise.component.ts:40</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="85"
+                                    class="link-to-prism">src/app/personalise/personalise.component.ts:85</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                        </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="goBack"></a>
-                    <span class="name">
-                        <span ><b>goBack</b></span>
-                        <a href="#goBack"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>goBack()</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="73"
-                                    class="link-to-prism">src/app/personalise/personalise.component.ts:73</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
+                        <div class="io-description"><p>Extracts classnames from the generated OpenAPI specification data.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -545,14 +541,55 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="77"
-                                    class="link-to-prism">src/app/personalise/personalise.component.ts:77</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="136"
+                                    class="link-to-prism">src/app/personalise/personalise.component.ts:136</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Navigates back to the view of the explorer that contains the attributes of a selected class.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="goBackToClasses"></a>
+                    <span class="name">
+                        <span ><b>goBackToClasses</b></span>
+                        <a href="#goBackToClasses"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>goBackToClasses()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="129"
+                                    class="link-to-prism">src/app/personalise/personalise.component.ts:129</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Navigates back to the main view of the explorer that contains the classnames.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -582,14 +619,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="34"
-                                    class="link-to-prism">src/app/personalise/personalise.component.ts:34</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="76"
+                                    class="link-to-prism">src/app/personalise/personalise.component.ts:76</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Updates a modified example value, its attribute, and its class.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -633,6 +672,96 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="postExampleValue"></a>
+                    <span class="name">
+                        <span ><b>postExampleValue</b></span>
+                        <a href="#postExampleValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>postExampleValue(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, newValue: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="164"
+                                    class="link-to-prism">src/app/personalise/personalise.component.ts:164</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Updates an example value in the backend by sending a POST request.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The index of the example value that will be sent to the backend.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>newValue</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The newly set example value that will be sent to the backend.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="selectAttribute"></a>
                     <span class="name">
                         <span ><b>selectAttribute</b></span>
@@ -649,14 +778,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="58"
-                                    class="link-to-prism">src/app/personalise/personalise.component.ts:58</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="111"
+                                    class="link-to-prism">src/app/personalise/personalise.component.ts:111</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Selects an attribute and extracts its example values from the generated OpenAPI specification data.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -667,6 +798,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -681,6 +813,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The name of the attribute to select.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -716,14 +852,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="48"
-                                    class="link-to-prism">src/app/personalise/personalise.component.ts:48</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="97"
+                                    class="link-to-prism">src/app/personalise/personalise.component.ts:97</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Selects a class and extracts its attributes from the generated OpenAPI specification data.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -734,6 +872,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -748,85 +887,10 @@
                                             </td>
 
 
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="updateExampleInBackend"></a>
-                    <span class="name">
-                        <span ><b>updateExampleInBackend</b></span>
-                        <a href="#updateExampleInBackend"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>updateExampleInBackend(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, newValue: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="96"
-                                    class="link-to-prism">src/app/personalise/personalise.component.ts:96</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>index</td>
                                             <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                    <p>The name of the class to select.</p>
+
                                             </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                        </tr>
-                                        <tr>
-                                                <td>newValue</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
                                         </tr>
                                     </tbody>
                                 </table>
@@ -862,14 +926,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="112"
-                                    class="link-to-prism">src/app/personalise/personalise.component.ts:112</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="185"
+                                    class="link-to-prism">src/app/personalise/personalise.component.ts:185</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Updates the generated OpenAPI specification data with the new example value.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -880,6 +946,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -894,6 +961,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The index of the example value.</p>
+
+                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>newValue</td>
@@ -906,6 +977,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The newly set example value.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -951,10 +1026,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/personalise/personalise.component.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/personalise/personalise.component.ts:34</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>List of classnames from the generated OpenAPI specification data, which are displayed in the explorer section.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -982,10 +1063,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/personalise/personalise.component.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/personalise/personalise.component.ts:49</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Current view of the explorer, based on the selected items and the state of the Personalise step in the stepper.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1009,10 +1096,15 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/personalise/personalise.component.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/personalise/personalise.component.ts:71</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">The popup dialog service.</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1040,10 +1132,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/personalise/personalise.component.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/personalise/personalise.component.ts:59</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The attribute that is currently selected in the explorer by the user.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1071,10 +1169,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/personalise/personalise.component.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/personalise/personalise.component.ts:44</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>List of example values that were generated with AI from the generated OpenAPI specification data for the selected attribute in the explorer section.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1102,10 +1206,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/personalise/personalise.component.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/personalise/personalise.component.ts:54</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The classname that is currently selected in the explorer by the user.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1133,10 +1243,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/personalise/personalise.component.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/personalise/personalise.component.ts:39</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>List of attributes from the generated OpenAPI specification data for the selected classname in the explorer section.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1144,10 +1260,10 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="tempExampleValues"></a>
+                    <a name="temporarilyStoredExampleValues"></a>
                     <span class="name">
-                        <span ><b>tempExampleValues</b></span>
-                        <a href="#tempExampleValues"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>temporarilyStoredExampleValues</b></span>
+                        <a href="#temporarilyStoredExampleValues"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1164,10 +1280,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/personalise/personalise.component.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/personalise/personalise.component.ts:64</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Temporary storage for example values of attributes. This ensures that example value updates are successfully processed and displayed in the user interface.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1186,6 +1308,9 @@ import {MatIcon} from &quot;@angular/material/icon&quot;;
 import {MatButton} from &quot;@angular/material/button&quot;;
 import {MatStepper} from &quot;@angular/material/stepper&quot;;
 
+/**
+ * Component for modifying the example values that were generated with AI for the generated OpenAPI specification.
+ */
 @Component({
   selector: &#x27;app-personalise&#x27;,
   standalone: true,
@@ -1199,23 +1324,65 @@ import {MatStepper} from &quot;@angular/material/stepper&quot;;
   styleUrl: &#x27;./personalise.component.scss&#x27;
 })
 export class PersonaliseComponent implements OnChanges {
+  /**
+   * Input property for the transmission of the generated OpenAPI specification data.
+   */
   @Input() openApiData: any;
-  classNames: string[] &#x3D; [];
-  selectedClassAttributes: string[] &#x3D; [];
-  selectedAttributeExamples: any[] &#x3D; [];
-  currentView: &#x27;classes&#x27; | &#x27;attributes&#x27; | &#x27;examples&#x27; &#x3D; &#x27;classes&#x27;;
-  selectedClass: string &#x3D; &#x27;&#x27;;
-  selectedAttribute: string &#x3D; &#x27;&#x27;;
-  tempExampleValues: { [key: string]: any[] } &#x3D; {};
 
+  /**
+   * List of classnames from the generated OpenAPI specification data, which are displayed in the explorer section.
+   */
+  classNames: string[] &#x3D; [];
+
+  /**
+   * List of attributes from the generated OpenAPI specification data for the selected classname in the explorer section.
+   */
+  selectedClassAttributes: string[] &#x3D; [];
+
+  /**
+   * List of example values that were generated with AI from the generated OpenAPI specification data for the selected attribute in the explorer section.
+   */
+  selectedAttributeExamples: any[] &#x3D; [];
+
+  /**
+   * Current view of the explorer, based on the selected items and the state of the Personalise step in the stepper.
+   */
+  currentView: &#x27;classes&#x27; | &#x27;attributes&#x27; | &#x27;examples&#x27; &#x3D; &#x27;classes&#x27;;
+
+  /**
+   * The classname that is currently selected in the explorer by the user.
+   */
+  selectedClass: string &#x3D; &#x27;&#x27;;
+
+  /**
+   * The attribute that is currently selected in the explorer by the user.
+   */
+  selectedAttribute: string &#x3D; &#x27;&#x27;;
+
+  /**
+   * Temporary storage for example values of attributes. This ensures that example value updates are successfully processed and displayed in the user interface.
+   */
+  temporarilyStoredExampleValues: { [key: string]: any[] } &#x3D; {};
+
+  /**
+   * Creates an instance of PersonaliseComponent.
+   * @param dialog The popup dialog service.
+   * @param http The HTTP client service.
+   */
   constructor(public dialog: MatDialog, private http: HttpClient) {}
 
+  /**
+   * Updates a modified example value, its attribute, and its class.
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes[&#x27;openApiData&#x27;] &amp;&amp; changes[&#x27;openApiData&#x27;].currentValue) {
       this.extractClassNames();
     }
   }
 
+  /**
+   * Extracts classnames from the generated OpenAPI specification data.
+   */
   extractClassNames(): void {
     this.classNames &#x3D; [];
     if (this.openApiData &amp;&amp; this.openApiData.components &amp;&amp; this.openApiData.components.schemas) {
@@ -1224,6 +1391,10 @@ export class PersonaliseComponent implements OnChanges {
     this.currentView &#x3D; &#x27;classes&#x27;;
   }
 
+  /**
+   * Selects a class and extracts its attributes from the generated OpenAPI specification data.
+   * @param className The name of the class to select.
+   */
   selectClass(className: string): void {
     this.selectedClass &#x3D; className;
     this.selectedClassAttributes &#x3D; [];
@@ -1234,30 +1405,44 @@ export class PersonaliseComponent implements OnChanges {
     this.currentView &#x3D; &#x27;attributes&#x27;;
   }
 
+  /**
+   * Selects an attribute and extracts its example values from the generated OpenAPI specification data.
+   * @param attribute The name of the attribute to select.
+   */
   selectAttribute(attribute: string): void {
     this.selectedAttribute &#x3D; attribute;
-    if (this.tempExampleValues[&#x60;${this.selectedClass}_${attribute}&#x60;]) {
-      this.selectedAttributeExamples &#x3D; this.tempExampleValues[&#x60;${this.selectedClass}_${attribute}&#x60;];
+    if (this.temporarilyStoredExampleValues[&#x60;${this.selectedClass}_${attribute}&#x60;]) {
+      this.selectedAttributeExamples &#x3D; this.temporarilyStoredExampleValues[&#x60;${this.selectedClass}_${attribute}&#x60;];
     } else {
       this.selectedAttributeExamples &#x3D; [];
       const schema &#x3D; this.openApiData.components.schemas[this.selectedClass];
       if (schema &amp;&amp; schema.examples &amp;&amp; schema.examples.exampleArray) {
         this.selectedAttributeExamples &#x3D; schema.examples.exampleArray.map((example: { [x: string]: any; }) &#x3D;&gt; example[attribute]);
-        this.tempExampleValues[&#x60;${this.selectedClass}_${attribute}&#x60;] &#x3D; this.selectedAttributeExamples;
+        this.temporarilyStoredExampleValues[&#x60;${this.selectedClass}_${attribute}&#x60;] &#x3D; this.selectedAttributeExamples;
       }
     }
     this.currentView &#x3D; &#x27;examples&#x27;;
   }
 
-  goBack(): void {
+  /**
+   * Navigates back to the main view of the explorer that contains the classnames.
+   */
+  goBackToClasses(): void {
     this.currentView &#x3D; &#x27;classes&#x27;;
   }
 
+  /**
+   * Navigates back to the view of the explorer that contains the attributes of a selected class.
+   */
   goBackToAttributes(): void {
     this.currentView &#x3D; &#x27;attributes&#x27;;
   }
 
-  editExample(index: number): void {
+  /**
+   * Activates a popup dialog in which a generated example value can be modified.
+   * @param index The index of the example value to modify.
+   */
+  editExampleValue(index: number): void {
     const dialogRef &#x3D; this.dialog.open(RenameDialogComponent, {
       width: &#x27;250px&#x27;,
       data: { newValue: this.selectedAttributeExamples[index] }
@@ -1266,13 +1451,18 @@ export class PersonaliseComponent implements OnChanges {
     dialogRef.afterClosed().subscribe(result &#x3D;&gt; {
       if (result !&#x3D;&#x3D; undefined) {
         this.selectedAttributeExamples[index] &#x3D; result;
-        this.tempExampleValues[&#x60;${this.selectedClass}_${this.selectedAttribute}&#x60;][index] &#x3D; result;
-        this.updateExampleInBackend(index, result);
+        this.temporarilyStoredExampleValues[&#x60;${this.selectedClass}_${this.selectedAttribute}&#x60;][index] &#x3D; result;
+        this.postExampleValue(index, result);
       }
     });
   }
 
-  updateExampleInBackend(index: number, newValue: string): void {
+  /**
+   * Updates an example value in the backend by sending a POST request.
+   * @param index The index of the example value that will be sent to the backend.
+   * @param newValue The newly set example value that will be sent to the backend.
+   */
+  postExampleValue(index: number, newValue: string): void {
     const updateRequest &#x3D; {
       className: this.selectedClass,
       attributeName: this.selectedAttribute,
@@ -1288,7 +1478,13 @@ export class PersonaliseComponent implements OnChanges {
       });
   }
 
+  /**
+   * Updates the generated OpenAPI specification data with the new example value.
+   * @param index The index of the example value.
+   * @param newValue The newly set example value.
+   */
   updateOpenApiData(index: number, newValue: string): void {
+    // NOTE: This function is bad for the application&#x27;s performance and might need to be rewritten.
     const paths &#x3D; this.openApiData.paths;
     for (const path in paths) {
       if (paths.hasOwnProperty(path)) {
@@ -1324,7 +1520,7 @@ export class PersonaliseComponent implements OnChanges {
 &lt;/div&gt;
 
 &lt;div *ngIf&#x3D;&quot;currentView &#x3D;&#x3D;&#x3D; &#x27;attributes&#x27;&quot;&gt;
-  &lt;button (click)&#x3D;&quot;goBack()&quot; class&#x3D;&quot;btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded m-2&quot;&gt;Back to Classes&lt;/button&gt;
+  &lt;button (click)&#x3D;&quot;goBackToClasses()&quot; class&#x3D;&quot;btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded m-2&quot;&gt;Back to Classes&lt;/button&gt;
   &lt;button *ngFor&#x3D;&quot;let attribute of selectedClassAttributes&quot; (click)&#x3D;&quot;selectAttribute(attribute)&quot; class&#x3D;&quot;btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded m-2&quot;&gt;{{ attribute }}&lt;/button&gt;
 &lt;/div&gt;
 
@@ -1332,7 +1528,7 @@ export class PersonaliseComponent implements OnChanges {
   &lt;button (click)&#x3D;&quot;goBackToAttributes()&quot; class&#x3D;&quot;btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded m-2&quot;&gt;Back to Attributes&lt;/button&gt;
   &lt;div *ngFor&#x3D;&quot;let example of selectedAttributeExamples; let i &#x3D; index&quot; class&#x3D;&quot;flex items-center m-2&quot;&gt;
     &lt;p class&#x3D;&quot;flex-grow&quot;&gt;{{ example }}&lt;/p&gt;
-    &lt;mat-icon (click)&#x3D;&quot;editExample(i)&quot; class&#x3D;&quot;cursor-pointer&quot;&gt;edit&lt;/mat-icon&gt;
+    &lt;mat-icon (click)&#x3D;&quot;editExampleValue(i)&quot; class&#x3D;&quot;cursor-pointer&quot;&gt;edit&lt;/mat-icon&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
@@ -1364,7 +1560,7 @@ export class PersonaliseComponent implements OnChanges {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div *ngIf="currentView === \'classes\'">  <button *ngFor="let className of classNames" (click)="selectClass(className)" class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded m-2">{{ className }}</button></div><div *ngIf="currentView === \'attributes\'">  <button (click)="goBack()" class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded m-2">Back to Classes</button>  <button *ngFor="let attribute of selectedClassAttributes" (click)="selectAttribute(attribute)" class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded m-2">{{ attribute }}</button></div><div *ngIf="currentView === \'examples\'">  <button (click)="goBackToAttributes()" class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded m-2">Back to Attributes</button>  <div *ngFor="let example of selectedAttributeExamples; let i = index" class="flex items-center m-2">    <p class="flex-grow">{{ example }}</p>    <mat-icon (click)="editExample(i)" class="cursor-pointer">edit</mat-icon>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div *ngIf="currentView === \'classes\'">  <button *ngFor="let className of classNames" (click)="selectClass(className)" class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded m-2">{{ className }}</button></div><div *ngIf="currentView === \'attributes\'">  <button (click)="goBackToClasses()" class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded m-2">Back to Classes</button>  <button *ngFor="let attribute of selectedClassAttributes" (click)="selectAttribute(attribute)" class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded m-2">{{ attribute }}</button></div><div *ngIf="currentView === \'examples\'">  <button (click)="goBackToAttributes()" class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded m-2">Back to Attributes</button>  <div *ngFor="let example of selectedAttributeExamples; let i = index" class="flex items-center m-2">    <p class="flex-grow">{{ example }}</p>    <mat-icon (click)="editExampleValue(i)" class="cursor-pointer">edit</mat-icon>  </div></div></div>'
     var COMPONENTS = [{'name': 'AddElementDialogComponent', 'selector': 'app-add-element-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'GenerateComponent', 'selector': 'app-generate'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'ManageComponent', 'selector': 'app-manage'},{'name': 'MappingComponent', 'selector': 'app-mapping'},{'name': 'PersonaliseComponent', 'selector': 'app-personalise'},{'name': 'RenameDialogComponent', 'selector': 'app-rename-dialog'},{'name': 'SessionListDialogComponent', 'selector': 'app-session-list-dialog'},{'name': 'StartComponent', 'selector': 'app-start'},{'name': 'StepperComponent', 'selector': 'app-stepper'},{'name': 'TopBarComponent', 'selector': 'app-top-bar'},{'name': 'UploadComponent', 'selector': 'app-upload'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'PersonaliseComponent'};

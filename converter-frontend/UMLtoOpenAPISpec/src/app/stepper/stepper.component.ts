@@ -18,6 +18,9 @@ import {StartComponent} from "../start/start.component";
 import { GenerateComponent } from '../generate/generate.component';
 import { ManageComponent } from '../manage/manage.component';
 
+/**
+ * Component for handling the main functionalities of the stepper and interacting with its child components.
+ */
 @Component({
   selector: 'app-stepper',
   standalone: true,
@@ -44,25 +47,70 @@ import { ManageComponent } from '../manage/manage.component';
   providers: [GenerationService, MockServerService, StepperSessionService]
 })
 export class StepperComponent implements AfterViewInit, OnInit {
+  /**
+   * Instance of the stepper that is used for navigation between steps.
+   */
   @ViewChild('stepper') private stepper!: MatStepper;
+
+  /**
+   * Output property for emitting the extracted data of the uploaded UML diagram to the Generation service.
+   */
   @Output() umlDataEmitter = new EventEmitter<any>();
 
+  /**
+   * The UML diagram the user uploaded in the Upload step of the stepper.
+   */
   uploadedFile: File | null = null;
+
+  /**
+   * Indicates whether an OpenAPI specification was successfully generated.
+   */
   isGeneratedSuccessfully = false;
+
+  /**
+   * The file format of the UML diagram the user uploaded in the Upload step of the stepper.
+   */
   fileFormat: string = '';
-  diagramType: string = 'Class Diagram';
+
+  /**
+   * The modelling tool that was used to create the UML diagram the user uploaded in the Upload step of the stepper.
+   */
   modellingTool: string = '';
   serverButtonText = 'Start mock server';
+
+  /**
+   * Form group that is used for the form in the Add Elements tab of the Mapping step of the stepper.
+   */
   mappingFormGroup: FormGroup;
+
+  /**
+   * The data that is extracted from the UML diagram the user uploaded in the Upload step of the stepper.
+   */
   umlData: any;
+
+  /**
+   * The data of the uploaded UML diagram and generated OpenAPI specification of the current session that will be saved to the database.
+   */
   openApiData: any = null;
+
+  /**
+   * The HTTP methods that the user selects for one or more classes in the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
   selectedHttpMethods: { [className: string]: { [method: string]: boolean } } = {};
+
+  /**
+   * The amounts of elements in the uploaded UML diagram before the modifications the user has done in the Mapping step.
+   */
   elementCount = {
     classes: 0,
     attributes: 0,
     methods: 0,
     relationships: 0
   };
+
+  /**
+   * The amounts of elements in the uploaded UML diagram after the modifications the user has done in the Mapping step.
+   */
   mappedElementCount = {
     classes: 0,
     attributes: 0,
@@ -70,9 +118,24 @@ export class StepperComponent implements AfterViewInit, OnInit {
     relationships: 0
   };
 
+  /**
+   * Indicates whether the Mapping step of the stepper has been successfully completed.
+   */
   isMappingStepCompleted = false;
+
+  /**
+   * Indicates whether the loader overlay that contains the spinner needs to be activated.
+   */
   isLoading = false;
 
+  /**
+   * Creates an instance of StepperComponent.
+   * @param fb The Form builder service.
+   * @param generationService The Generation service.
+   * @param mockServerService The Mock server service.
+   * @param http The HTTP client service.
+   * @param sessionService The Stepper session service.
+   */
   constructor(
     private fb: FormBuilder,
     private generationService: GenerationService,
@@ -85,16 +148,26 @@ export class StepperComponent implements AfterViewInit, OnInit {
     });
   }
 
+  /**
+   * Makes the step header of each step in the stepper unclickable after the stepper has been initialised.
+   */
   ngAfterViewInit() {
     this.stepper._stepHeader.forEach(header => {
       header._elementRef.nativeElement.style.pointerEvents = 'none';
     });
   }
 
+  /**
+   * Sets the default value of the OpenAPI specification data to null when the stepper has been initialised and before an OpenAPI specification is generated.
+   */
   ngOnInit(): void {
     this.openApiData = null;
   }
 
+  /**
+   * Handles the event in which the user clicks on the button in the Upload step and uploads a UML diagram file.
+   * @param file The selected UML diagram file that is parsed.
+   */
   onFileSelected(file: File): void {
     this.uploadedFile = file;
     this.fileFormat = this.uploadedFile.name.split('.').pop()!;
@@ -109,6 +182,11 @@ export class StepperComponent implements AfterViewInit, OnInit {
     });
   }
 
+  /**
+   * Determines the modelling tool that is used to create the uploaded UML diagram based on the uploaded file's format.
+   * @param format The file format of the uploaded UML diagram file.
+   * @returns The name of the modelling tool that is used to create the uploaded UML diagram.
+   */
   getModellingTool(format: string): string {
     switch (format) {
       case 'uxf':
@@ -124,18 +202,33 @@ export class StepperComponent implements AfterViewInit, OnInit {
     }
   }
 
+  /**
+   * Emits the extracted data of the uploaded UML diagram to the Generation service.
+   * @param data The extracted data of the uploaded UML diagram.
+   */
   emitUmlData(data: any): void {
     this.umlDataEmitter.emit(data);
   }
 
+  /**
+   * Processes the HTTP methods that the user selects in the table of the Manage Elements tab of the Mapping step of the stepper, so that endpoints can be created for them in the generated OpenAPI specification.
+   * @param selectedMethods The HTTP methods that the user selects in the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
   onHttpMethodsSelected(selectedMethods: { [className: string]: { [method: string]: boolean } }) {
     this.selectedHttpMethods = selectedMethods;
   }
 
+  /**
+   * Updates the amounts of elements in the uploaded UML diagram after the modifications the user has done in the Mapping step of the stepper.
+   * @param count The amounts of elements after the Mapping step of the stepper.
+   */
   updateMappedElementCount(count: any): void {
     this.mappedElementCount = count;
   }
 
+  /**
+   * Generates an OpenAPI specification based on the uploaded UML diagram and the modifications performed by the user.
+   */
   generate(): void {
     this.isLoading = true;
     if (this.uploadedFile) {
@@ -155,7 +248,7 @@ export class StepperComponent implements AfterViewInit, OnInit {
       formData.append('file', this.uploadedFile);
       formData.append('selectedHttpMethods', JSON.stringify(selectedMethods));
 
-      this.generationService.generateSpec(formData).subscribe({
+      this.generationService.generateSpecification(formData).subscribe({
         next: (response) => {
           console.log('Generation successful', response);
           this.isGeneratedSuccessfully = true;
@@ -174,7 +267,11 @@ export class StepperComponent implements AfterViewInit, OnInit {
     }
   }
 
+  /**
+   * Generates the data that is used for and included in the generated OpenAPI specification, including the example values of attributes, which are generated using AI.
+   */
   generateOpenApiData(): void {
+    // This function needs to be moved to the Generation Service, as the other HTTP methods are stored in that file too.
     this.http.get<any>('http://localhost:8080/personalise').subscribe(
       data => {
         this.openApiData = data;
@@ -183,6 +280,9 @@ export class StepperComponent implements AfterViewInit, OnInit {
     );
   }
 
+  /**
+   * Starts or restarts the Prism mock server in the Manage step of the stepper.
+   */
   toggleMockServer(): void {
     this.mockServerService.toggleMockServer().subscribe({
       next: (response) => {
@@ -195,6 +295,9 @@ export class StepperComponent implements AfterViewInit, OnInit {
     });
   }
 
+  /**
+   * Saves data of the current session, consisting of the uploaded UML diagram and the generated OpenAPI specification, and restarts the stepper.
+   */
   restartApplication(): void {
     if (this.uploadedFile && this.openApiData) {
       const umlDiagram = this.uploadedFile.name;
@@ -217,6 +320,11 @@ export class StepperComponent implements AfterViewInit, OnInit {
     }
   }
 
+
+  /**
+   * Reads and parses the uploaded UML diagram file to identify individual elements.
+   * @param file The selected file.
+   */
   readFile(file: File): void {
     const reader = new FileReader();
     reader.onload = () => {
@@ -226,6 +334,12 @@ export class StepperComponent implements AfterViewInit, OnInit {
     reader.readAsText(file);
   }
 
+  /**
+   * Determines which parser function needs to be executed based on the file format of the uploaded UML diagram.
+   * @param content The code inside the uploaded UML diagram file.
+   * @param format The file format of the uploaded UML diagram file.
+   * @returns The parsed content of the uploaded UML diagram file.
+   */
   parseContentByFormat(content: string, format: string) {
     switch (format) {
       case 'xml':
@@ -241,6 +355,11 @@ export class StepperComponent implements AfterViewInit, OnInit {
     }
   }
 
+  /**
+   * Parses the content of a UML diagram that was uploaded in the XML file format and identifies individual elements.
+   * @param content The parsed content of the uploaded UML diagram file.
+   * @returns The identified individual elements of the uploaded UML diagram file.
+   */
   parseDrawioXML(content: string): any {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(content, "application/xml");
@@ -271,6 +390,11 @@ export class StepperComponent implements AfterViewInit, OnInit {
     return { classes, attributes, methods, relationships };
   }
 
+  /**
+   * Parses the content of a UML diagram that was uploaded in the UXF file format and identifies individual elements.
+   * @param content The parsed content of the uploaded UML diagram file.
+   * @returns The identified individual elements of the uploaded UML diagram file.
+   */
   parseUMLetUXF(content: string): any {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(content, "application/xml");
@@ -293,6 +417,11 @@ export class StepperComponent implements AfterViewInit, OnInit {
     return { classes, attributes, methods, relationships };
   }
 
+  /**
+   * Parses the content of a MDJ diagram that was uploaded in the XML file format and identifies individual elements.
+   * @param content The parsed content of the uploaded UML diagram file.
+   * @returns The identified individual elements of the uploaded UML diagram file.
+   */
   parseMDJ(content: string): any {
     const json = JSON.parse(content);
     let classes = 0, attributes = 0, methods = 0, relationships = 0;
@@ -317,6 +446,11 @@ export class StepperComponent implements AfterViewInit, OnInit {
     return { classes, attributes, methods, relationships };
   }
 
+  /**
+   * Parses the content of a UML diagram that was uploaded in the PUML file format and identifies individual elements.
+   * @param content The parsed content of the uploaded UML diagram file.
+   * @returns The identified individual elements of the uploaded UML diagram file.
+   */
   parsePUML(content: string): any {
     const lines = content.split('\n');
     let classes = lines.filter(line => line.trim().startsWith('class ')).length;
@@ -326,6 +460,10 @@ export class StepperComponent implements AfterViewInit, OnInit {
     return { classes, attributes, methods, relationships };
   }
 
+  /**
+   * Determines whether the Mapping step of the stepper was completed successfully and navigates to the Generate step if so.
+   * @param success Indicates whether the Mapping step of the stepper was completed successfully.
+   */
   onMappingCompleted(success: boolean) {
     if (success) {
       this.isMappingStepCompleted = true;
@@ -335,11 +473,17 @@ export class StepperComponent implements AfterViewInit, OnInit {
     }
   }
 
+  /**
+   * Opens Swagger UI in a new tab and automatically loads the generated OpenAPI specification in the tool.
+   */
   openSwaggerUI(): void {
     window.open('http://localhost:8080/swagger-ui/index.html', '_blank');
   }
 
-  downloadOpenAPISpecification(): void {
+  /**
+   * Downloads the generated OpenAPI specification of the current session.
+   */
+  downloadOpenApiSpecification(): void {
     window.open('http://localhost:8080/export.yml', '_blank');
   }
 }

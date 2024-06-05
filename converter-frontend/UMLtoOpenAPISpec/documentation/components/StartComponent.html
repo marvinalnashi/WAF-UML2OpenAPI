@@ -120,6 +120,13 @@
 </p>
 
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Component for displaying the Start step of the stepper.</p>
+
+    </p>
 
 
 
@@ -213,7 +220,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/start/start.component.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/start/start.component.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -239,9 +246,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/start/start.component.ts:12</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/start/start.component.ts:18</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Input property for the navigation between steps in the stepper.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -257,6 +270,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input} from &#x27;@angular/core&#x27;;
 import {MatStepper} from &quot;@angular/material/stepper&quot;;
 
+/**
+ * Component for displaying the Start step of the stepper.
+ */
 @Component({
   selector: &#x27;app-start&#x27;,
   standalone: true,
@@ -265,6 +281,9 @@ import {MatStepper} from &quot;@angular/material/stepper&quot;;
   styleUrl: &#x27;./start.component.scss&#x27;
 })
 export class StartComponent {
+  /**
+   * Input property for the navigation between steps in the stepper.
+   */
   @Input() stepper!: MatStepper;
 
   constructor() {}

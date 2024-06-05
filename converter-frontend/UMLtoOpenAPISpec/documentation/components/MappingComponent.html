@@ -120,6 +120,13 @@
 </p>
 
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Component for processing added UML diagrams and managing UML mappings.</p>
+
+    </p>
 
 
     <p class="comment">
@@ -233,7 +240,7 @@
                                 <a href="#addAttribute" >addAttribute</a>
                             </li>
                             <li>
-                                <a href="#addMapping" >addMapping</a>
+                                <a href="#addElement" >addElement</a>
                             </li>
                             <li>
                                 <a href="#addMethod" >addMethod</a>
@@ -242,7 +249,7 @@
                                 <a href="#addNewClassToElements" >addNewClassToElements</a>
                             </li>
                             <li>
-                                <a href="#applyMappings" >applyMappings</a>
+                                <a href="#applyAdditions" >applyAdditions</a>
                             </li>
                             <li>
                                 <a href="#deleteElement" >deleteElement</a>
@@ -257,7 +264,7 @@
                                 <a href="#getHttpMethodsForClass" >getHttpMethodsForClass</a>
                             </li>
                             <li>
-                                <a href="#initHttpMethodSelection" >initHttpMethodSelection</a>
+                                <a href="#initialiseHttpMethodSelection" >initialiseHttpMethodSelection</a>
                             </li>
                             <li>
                                 <a href="#loadUMLData" >loadUMLData</a>
@@ -343,7 +350,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                    <a href="#mappings" >mappings</a>
+                                    <a href="#elements" >elements</a>
                                 </li>
                             </ul>
                         </td>
@@ -363,12 +370,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/mapping/mapping.component.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/mapping/mapping.component.ts:67</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Creates an instance of MappingComponent.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -377,6 +386,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -391,6 +401,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <p>The Form builder service.</p>
+
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>generationService</td>
@@ -403,6 +417,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <p>The Generation service.</p>
+
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>dialog</td>
@@ -415,6 +433,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <p>The Angular Material dialog service.</p>
+
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -443,9 +465,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/mapping/mapping.component.ts:16</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/mapping/mapping.component.ts:22</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Input property for processing the uploaded UML diagram file.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <table class="table table-sm table-bordered">
@@ -474,9 +502,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/mapping/mapping.component.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/mapping/mapping.component.ts:27</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Input property for storing the identified elements of the uploaded UML diagram file.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -498,9 +532,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/mapping/mapping.component.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/mapping/mapping.component.ts:47</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Output property for emitting the event to indicate that the counted amounts of elements have been updated.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <table class="table table-sm table-bordered">
@@ -519,9 +559,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/mapping/mapping.component.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/mapping/mapping.component.ts:42</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Output property for emitting the event to process which HTTP methods have been selected in the table of the Manage Elements tab of the Mapping step of the stepper.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <table class="table table-sm table-bordered">
@@ -540,9 +586,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/mapping/mapping.component.ts:23</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/mapping/mapping.component.ts:37</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Output property for emitting the event to indicate whether the Mapping step of the stepper was completed successfully.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -566,21 +618,23 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>addAttribute(mappingIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>addAttribute(elementIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="93"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:93</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="163"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:163</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Adds a new attribute to the added class and its path in the Add Element tab of the Mapping step of the stepper.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -591,11 +645,12 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                                <td>mappingIndex</td>
+                                                <td>elementIndex</td>
                                             <td>
                                                             <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
                                             </td>
@@ -605,6 +660,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The index of the added element in the form array.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -624,30 +683,32 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="addMapping"></a>
+                    <a name="addElement"></a>
                     <span class="name">
-                        <span ><b>addMapping</b></span>
-                        <a href="#addMapping"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>addElement</b></span>
+                        <a href="#addElement"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>addMapping()</code>
+<code>addElement()</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="59"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:59</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="116"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:116</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Adds a new element to the form array that contains the elements added in the Add Elements tab of the Mapping step of the stepper.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -670,21 +731,23 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>addMethod(mappingIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>addMethod(elementIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="89"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:89</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="155"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:155</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Adds a new method to the added class and its path in the Add Element tab of the Mapping step of the stepper.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -695,11 +758,12 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                                <td>mappingIndex</td>
+                                                <td>elementIndex</td>
                                             <td>
                                                             <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
                                             </td>
@@ -709,6 +773,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The index of the added element in the form array.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -744,14 +812,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="107"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:107</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="183"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:183</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Adds created elements to the table of the Manage Elements tab of the Mapping step of the stepper.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -765,30 +835,32 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="applyMappings"></a>
+                    <a name="applyAdditions"></a>
                     <span class="name">
-                        <span ><b>applyMappings</b></span>
-                        <a href="#applyMappings"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>applyAdditions</b></span>
+                        <a href="#applyAdditions"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>applyMappings()</code>
+<code>applyAdditions()</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="97"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:97</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="170"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:170</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Applies the added class and its path and eventual attributes and methods and updates the elements counts.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -818,14 +890,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="136"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:136</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="219"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:219</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Removes an element from the table of the Manage Elements tab of the Mapping step of the stepper.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -836,6 +910,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -850,6 +925,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The type of the added element. This can be a class, an attribute or a method.</p>
+
+                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>name</td>
@@ -862,6 +941,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The name of the added element.</p>
+
+                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>index</td>
@@ -874,6 +957,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The index of the added element.</p>
+
+                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>className</td>
@@ -886,6 +973,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The name of the class an attribute or method is part of.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -921,14 +1012,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="190"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:190</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="289"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:289</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Gets the classname for a renamed attribute so that the renamed attribute&#39;s value can be propagated to its corresponding class.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -939,6 +1032,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -953,6 +1047,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The name of the renamed attribute.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -962,7 +1060,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>The name of the class the renamed attribute is part of.</p>
+
                             </div>
                 </td>
             </tr>
@@ -988,14 +1087,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="196"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:196</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="300"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:300</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Gets the classname for a renamed method so that the renamed method&#39;s value can be propagated to its corresponding class.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -1006,6 +1107,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1020,6 +1122,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The name of the renamed method.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1029,7 +1135,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>The name of the class the renamed method is part of.</p>
+
                             </div>
                 </td>
             </tr>
@@ -1055,14 +1162,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="228"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:228</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="352"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:352</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Gets the HTTP methods for a given class based on its classname.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -1073,6 +1182,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1087,6 +1197,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The name of the class in the table of the Manage Elements tab of the Mapping step of the stepper.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1096,7 +1210,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>An array that contains the HTTP methods for the class.</p>
+
                             </div>
                 </td>
             </tr>
@@ -1106,30 +1221,32 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="initHttpMethodSelection"></a>
+                    <a name="initialiseHttpMethodSelection"></a>
                     <span class="name">
-                        <span ><b>initHttpMethodSelection</b></span>
-                        <a href="#initHttpMethodSelection"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>initialiseHttpMethodSelection</b></span>
+                        <a href="#initialiseHttpMethodSelection"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>initHttpMethodSelection()</code>
+<code>initialiseHttpMethodSelection()</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="237"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:237</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="364"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:364</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Initialises the HTTP method checkboxes for each class in the table of the Manage Elements tab of the Mapping step of the stepper.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1159,14 +1276,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="45"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:45</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="95"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:95</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Loads the data of the identified individual elements of the uploaded UML diagram.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1196,14 +1315,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="202"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:202</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="311"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:311</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Sets the maximum amount of rows in the table of the Manage Elements tab of the Mapping step of the stepper for the attributes based on the class with the most attributes.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -1214,6 +1335,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1228,6 +1350,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The data of the identified individual elements of the uploaded UML diagram.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1237,7 +1363,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>An array representing the maximum number of rows that need to be allocated for the attributes in the table of the Manage Elements tab of the Mapping step of the stepper.</p>
+
                             </div>
                 </td>
             </tr>
@@ -1263,14 +1390,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="224"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:224</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="343"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:343</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Sets the maximum amount of rows in the table of the Manage Elements tab of the Mapping step of the stepper for the HTTP methods to exactly 4.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -1281,6 +1410,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1295,6 +1425,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The data of the identified individual elements of the uploaded UML diagram.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1304,7 +1438,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>An array representing the maximum number of rows that need to be allocated for the HTTP methods in the table of the Manage Elements tab of the Mapping step of the stepper.</p>
+
                             </div>
                 </td>
             </tr>
@@ -1330,14 +1465,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="213"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:213</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="327"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:327</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Sets the maximum amount of rows in the table of the Manage Elements tab of the Mapping step of the stepper for the methods based on the class with the most methods.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -1348,6 +1485,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1362,6 +1500,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The data of the identified individual elements of the uploaded UML diagram.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1371,7 +1513,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>An array representing the maximum number of rows that need to be allocated for the methods in the table of the Manage Elements tab of the Mapping step of the stepper.</p>
+
                             </div>
                 </td>
             </tr>
@@ -1397,14 +1540,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="41"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:41</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="88"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:88</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Executes the function that loads the data of the identified individual elements of the uploaded UML diagram after the Mapping step has been initialised.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1427,21 +1572,23 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>openAddElementDialog(isMethod: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, mappingIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>openAddElementDialog(isMethod: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, elementIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="70"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:70</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="132"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:132</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Activates the Add Element dialog for adding a new attribute or method in the Add Elements tab of the Mapping step of the stepper.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -1452,6 +1599,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1466,9 +1614,13 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>Boolean indicating if the element is a method.</p>
+
+                                            </td>
                                         </tr>
                                         <tr>
-                                                <td>mappingIndex</td>
+                                                <td>elementIndex</td>
                                             <td>
                                                             <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
                                             </td>
@@ -1478,6 +1630,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The index of the added element in the form array.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1513,14 +1669,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="151"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:151</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="239"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:239</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Activates the rename popup dialog in which a class, attribute or method can be renamed.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -1531,6 +1689,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1545,6 +1704,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The type of the added element. This can be a class, an attribute or a method.</p>
+
+                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>oldName</td>
@@ -1557,6 +1720,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The current name of the added element.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1592,14 +1759,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="158"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:158</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="252"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:252</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Renames an added element by replacing its old name by a new name that the user specifies.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -1610,6 +1779,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1624,6 +1794,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The type of the added element. This can be a class, an attribute or a method.</p>
+
+                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>oldName</td>
@@ -1636,6 +1810,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The current name of the added element.</p>
+
+                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>newName</td>
@@ -1648,6 +1826,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The new name for the added element.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1683,14 +1865,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="248"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:248</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="380"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:380</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Handles the selection of HTTP methods based on whether a checkbox of an HTTP method is checked.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -1701,6 +1885,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1715,6 +1900,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The name of the class in the table of the Manage Elements tab of the Mapping step of the stepper.</p>
+
+                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>method</td>
@@ -1727,6 +1916,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The HTTP method that the user selects for a class by checking its corresponding checkbox.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1762,14 +1955,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="255"
-                                    class="link-to-prism">src/app/mapping/mapping.component.ts:255</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="390"
+                                    class="link-to-prism">src/app/mapping/mapping.component.ts:390</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Updates the count for the amounts of elements in the data of the identified individual elements of the uploaded UML diagram.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1805,10 +2000,15 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/mapping/mapping.component.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/mapping/mapping.component.ts:78</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">The Angular Material dialog service.</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1831,10 +2031,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/mapping/mapping.component.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/mapping/mapping.component.ts:52</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Form group that is used for the form in the Add Elements tab of the Mapping step of the stepper.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1862,10 +2068,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/mapping/mapping.component.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/mapping/mapping.component.ts:57</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The HTTP methods that the user selects for one or more classes in the table of the Manage Elements tab of the Mapping step of the stepper.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1893,10 +2105,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/mapping/mapping.component.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/mapping/mapping.component.ts:62</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The currently selected tab in the Mapping step of the stepper.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1924,10 +2142,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/mapping/mapping.component.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/mapping/mapping.component.ts:67</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Boolean that indicates whether the Apply Additions button is to be displayed for the user, based on the state of the Add Element form in the Add Elements tab of the Mapping step of the stepper.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1941,21 +2165,34 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="mappings"></a>
-                        <span class="name"><b>mappings</b><a href="#mappings"><span class="icon ion-ios-link"></span></a></span>
+                        <a name="elements"></a>
+                        <span class="name"><b>elements</b><a href="#elements"><span class="icon ion-ios-link"></span></a></span>
                     </td>
                 </tr>
 
                 <tr>
                     <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>mappings()</code></span>
+                        <span class="accessor"><b>get</b><code>elements()</code></span>
                     </td>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/mapping/mapping.component.ts:55</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">src/app/mapping/mapping.component.ts:109</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Gets the array of elements added in the Add Elements tab of the Mapping step of the stepper.</p>
+</div>
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>FormArray</code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -1971,6 +2208,9 @@ import { MatDialog } from &#x27;@angular/material/dialog&#x27;;
 import { AddElementDialogComponent } from &#x27;../add-element-dialog/add-element-dialog.component&#x27;;
 import { NgClass, NgForOf, NgIf } from &#x27;@angular/common&#x27;;
 
+/**
+ * Component for processing added UML diagrams and managing UML mappings.
+ */
 @Component({
   selector: &#x27;app-mapping&#x27;,
   standalone: true,
@@ -1979,21 +2219,62 @@ import { NgClass, NgForOf, NgIf } from &#x27;@angular/common&#x27;;
   styleUrl: &#x27;./mapping.component.scss&#x27;
 })
 export class MappingComponent implements OnInit {
+  /**
+   * Input property for processing the uploaded UML diagram file.
+   */
   @Input() file: File | undefined;
+
+  /**
+   * Input property for storing the identified elements of the uploaded UML diagram file.
+   */
   @Input() umlData: any &#x3D; {
     classes: [],
     attributes: {},
     methods: {},
     relationships: []
   };
+
+  /**
+   * Output property for emitting the event to indicate whether the Mapping step of the stepper was completed successfully.
+   */
   @Output() mappingCompleted &#x3D; new EventEmitter&lt;boolean&gt;();
+
+  /**
+   * Output property for emitting the event to process which HTTP methods have been selected in the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
   @Output() httpMethodsSelected &#x3D; new EventEmitter&lt;{ [className: string]: { [method: string]: boolean } }&gt;();
+
+  /**
+   * Output property for emitting the event to indicate that the counted amounts of elements have been updated.
+   */
   @Output() elementCountUpdated &#x3D; new EventEmitter&lt;any&gt;();
+
+  /**
+   * Form group that is used for the form in the Add Elements tab of the Mapping step of the stepper.
+   */
   mappingsForm: FormGroup;
+
+  /**
+   * The HTTP methods that the user selects for one or more classes in the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
   selectedHttpMethods: { [className: string]: { [method: string]: boolean } } &#x3D; {};
+
+  /**
+   * The currently selected tab in the Mapping step of the stepper.
+   */
   selectedTab: string &#x3D; &#x27;add-elements&#x27;;
+
+  /**
+   * Boolean that indicates whether the Apply Additions button is to be displayed for the user, based on the state of the Add Element form in the Add Elements tab of the Mapping step of the stepper.
+   */
   showApplyAdditionsButton: boolean &#x3D; false;
 
+  /**
+   * Creates an instance of MappingComponent.
+   * @param fb The Form builder service.
+   * @param generationService The Generation service.
+   * @param dialog The Angular Material dialog service.
+   */
   constructor(
     private fb: FormBuilder,
     private generationService: GenerationService,
@@ -2004,36 +2285,54 @@ export class MappingComponent implements OnInit {
     });
   }
 
+  /**
+   * Executes the function that loads the data of the identified individual elements of the uploaded UML diagram after the Mapping step has been initialised.
+   */
   ngOnInit(): void {
     this.loadUMLData();
   }
 
+  /**
+   * Loads the data of the identified individual elements of the uploaded UML diagram.
+   */
   loadUMLData(): void {
     if (this.file) {
       this.generationService.parseDiagramElements(this.file).subscribe(data &#x3D;&gt; {
         this.umlData &#x3D; data;
-        this.initHttpMethodSelection();
+        this.initialiseHttpMethodSelection();
         this.updateElementCount();
       });
     }
   }
 
-  get mappings(): FormArray {
+  /**
+   * Gets the array of elements added in the Add Elements tab of the Mapping step of the stepper.
+   * @returns The form array that contains the added elements. The amount of added elements can vary.
+   */
+  get elements(): FormArray {
     return this.mappingsForm.get(&#x27;mappings&#x27;) as FormArray;
   }
 
-  addMapping(): void {
+  /**
+   * Adds a new element to the form array that contains the elements added in the Add Elements tab of the Mapping step of the stepper.
+   */
+  addElement(): void {
     const newMapping &#x3D; this.fb.group({
       className: [&#x27;&#x27;, Validators.required],
       url: [&#x27;&#x27;, Validators.required],
       methods: this.fb.array([]),
       attributes: this.fb.array([])
     });
-    this.mappings.push(newMapping);
+    this.elements.push(newMapping);
     this.showApplyAdditionsButton &#x3D; true;
   }
 
-  openAddElementDialog(isMethod: boolean, mappingIndex: number): void {
+  /**
+   * Activates the Add Element dialog for adding a new attribute or method in the Add Elements tab of the Mapping step of the stepper.
+   * @param isMethod Boolean indicating if the element is a method.
+   * @param elementIndex The index of the added element in the form array.
+   */
+  openAddElementDialog(isMethod: boolean, elementIndex: number): void {
     const dialogRef &#x3D; this.dialog.open(AddElementDialogComponent, {
       width: &#x27;400px&#x27;,
       data: { isMethod }
@@ -2041,26 +2340,37 @@ export class MappingComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result &#x3D;&gt; {
       if (result) {
-        const mapping &#x3D; this.mappings.at(mappingIndex) as FormGroup;
+        const element &#x3D; this.elements.at(elementIndex) as FormGroup;
         if (isMethod) {
-          (mapping.get(&#x27;methods&#x27;) as FormArray).push(this.fb.control(result));
+          (element.get(&#x27;methods&#x27;) as FormArray).push(this.fb.control(result));
         } else {
-          (mapping.get(&#x27;attributes&#x27;) as FormArray).push(this.fb.control(result));
+          (element.get(&#x27;attributes&#x27;) as FormArray).push(this.fb.control(result));
         }
         this.updateElementCount();
       }
     });
   }
 
-  addMethod(mappingIndex: number): void {
-    this.openAddElementDialog(true, mappingIndex);
+  /**
+   * Adds a new method to the added class and its path in the Add Element tab of the Mapping step of the stepper.
+   * @param elementIndex The index of the added element in the form array.
+   */
+  addMethod(elementIndex: number): void {
+    this.openAddElementDialog(true, elementIndex);
   }
 
-  addAttribute(mappingIndex: number): void {
-    this.openAddElementDialog(false, mappingIndex);
+  /**
+   * Adds a new attribute to the added class and its path in the Add Element tab of the Mapping step of the stepper.
+   * @param elementIndex The index of the added element in the form array.
+   */
+  addAttribute(elementIndex: number): void {
+    this.openAddElementDialog(false, elementIndex);
   }
 
-  applyMappings(): void {
+  /**
+   * Applies the added class and its path and eventual attributes and methods and updates the elements counts.
+   */
+  applyAdditions(): void {
     if (this.mappingsForm.valid) {
       this.generationService.applyMappings(this.mappingsForm.value.mappings).subscribe(() &#x3D;&gt; {
         this.mappingCompleted.emit(true);
@@ -2070,6 +2380,9 @@ export class MappingComponent implements OnInit {
     }
   }
 
+  /**
+   * Adds created elements to the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
   addNewClassToElements(): void {
     const newElements &#x3D; this.mappingsForm.value.mappings.map((mapping: any) &#x3D;&gt; ({
       className: mapping.className,
@@ -2093,12 +2406,19 @@ export class MappingComponent implements OnInit {
     });
 
     this.mappingsForm.reset();
-    while (this.mappings.length) {
-      this.mappings.removeAt(0);
+    while (this.elements.length) {
+      this.elements.removeAt(0);
     }
     this.showApplyAdditionsButton &#x3D; false;
   }
 
+  /**
+   * Removes an element from the table of the Manage Elements tab of the Mapping step of the stepper.
+   * @param type The type of the added element. This can be a class, an attribute or a method.
+   * @param name The name of the added element.
+   * @param index The index of the added element.
+   * @param className The name of the class an attribute or method is part of.
+   */
   deleteElement(type: string, name: string, index: number, className: string): void {
     this.generationService.deleteElement(type, name).subscribe(() &#x3D;&gt; {
       if (type &#x3D;&#x3D;&#x3D; &#x27;attribute&#x27;) {
@@ -2114,6 +2434,11 @@ export class MappingComponent implements OnInit {
     });
   }
 
+  /**
+   * Activates the rename popup dialog in which a class, attribute or method can be renamed.
+   * @param type The type of the added element. This can be a class, an attribute or a method.
+   * @param oldName The current name of the added element.
+   */
   openRenameDialog(type: string, oldName: string): void {
     let newName &#x3D; prompt(&quot;Enter new name for &quot; + oldName);
     if (newName) {
@@ -2121,6 +2446,12 @@ export class MappingComponent implements OnInit {
     }
   }
 
+  /**
+   * Renames an added element by replacing its old name by a new name that the user specifies.
+   * @param type The type of the added element. This can be a class, an attribute or a method.
+   * @param oldName The current name of the added element.
+   * @param newName The new name for the added element.
+   */
   renameElement(type: string, oldName: string, newName: string): void {
     this.generationService.renameElement(type, oldName, newName).subscribe({
       next: () &#x3D;&gt; {
@@ -2153,18 +2484,33 @@ export class MappingComponent implements OnInit {
     });
   }
 
+  /**
+   * Gets the classname for a renamed attribute so that the renamed attribute&#x27;s value can be propagated to its corresponding class.
+   * @param attributeName The name of the renamed attribute.
+   * @returns The name of the class the renamed attribute is part of.
+   */
   getClassForAttribute(attributeName: string): string {
     return &lt;string&gt;Object.keys(this.umlData.attributes).find(className &#x3D;&gt;
       this.umlData.attributes[className].includes(attributeName)
     );
   }
 
+  /**
+   * Gets the classname for a renamed method so that the renamed method&#x27;s value can be propagated to its corresponding class.
+   * @param methodName The name of the renamed method.
+   * @returns The name of the class the renamed method is part of.
+   */
   getClassForMethod(methodName: string): string {
     return &lt;string&gt;Object.keys(this.umlData.methods).find(className &#x3D;&gt;
       this.umlData.methods[className].includes(methodName)
     );
   }
 
+  /**
+   * Sets the maximum amount of rows in the table of the Manage Elements tab of the Mapping step of the stepper for the attributes based on the class with the most attributes.
+   * @param data The data of the identified individual elements of the uploaded UML diagram.
+   * @returns An array representing the maximum number of rows that need to be allocated for the attributes in the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
   maxAttributeRows(data: any): number[] {
     let maxRows &#x3D; 0;
     for (const className of data.classes) {
@@ -2176,6 +2522,11 @@ export class MappingComponent implements OnInit {
     return [...Array(maxRows).keys()];
   }
 
+  /**
+   * Sets the maximum amount of rows in the table of the Manage Elements tab of the Mapping step of the stepper for the methods based on the class with the most methods.
+   * @param data The data of the identified individual elements of the uploaded UML diagram.
+   * @returns An array representing the maximum number of rows that need to be allocated for the methods in the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
   maxMethodRows(data: any): number[] {
     let maxRows &#x3D; 0;
     for (const className of data.classes) {
@@ -2187,10 +2538,20 @@ export class MappingComponent implements OnInit {
     return [...Array(maxRows).keys()];
   }
 
+  /**
+   * Sets the maximum amount of rows in the table of the Manage Elements tab of the Mapping step of the stepper for the HTTP methods to exactly 4.
+   * @param data The data of the identified individual elements of the uploaded UML diagram.
+   * @returns An array representing the maximum number of rows that need to be allocated for the HTTP methods in the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
   maxHttpMethodRows(data: any): number[] {
     return [0, 1, 2, 3];
   }
 
+  /**
+   * Gets the HTTP methods for a given class based on its classname.
+   * @param className The name of the class in the table of the Manage Elements tab of the Mapping step of the stepper.
+   * @returns An array that contains the HTTP methods for the class.
+   */
   getHttpMethodsForClass(className: string) {
     return [
       { url: &#x60;/${className.toLowerCase()}/{id}&#x60;, method: &#x27;GET&#x27; },
@@ -2200,7 +2561,10 @@ export class MappingComponent implements OnInit {
     ];
   }
 
-  initHttpMethodSelection() {
+  /**
+   * Initialises the HTTP method checkboxes for each class in the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
+  initialiseHttpMethodSelection() {
     this.umlData.classes.forEach((className: string) &#x3D;&gt; {
       this.selectedHttpMethods[className] &#x3D; {
         &#x27;GET/{id}&#x27;: false,
@@ -2211,6 +2575,11 @@ export class MappingComponent implements OnInit {
     });
   }
 
+  /**
+   * Handles the selection of HTTP methods based on whether a checkbox of an HTTP method is checked.
+   * @param className The name of the class in the table of the Manage Elements tab of the Mapping step of the stepper.
+   * @param method The HTTP method that the user selects for a class by checking its corresponding checkbox.
+   */
   toggleHttpMethodSelection(className: string, method: string) {
     if (!this.selectedHttpMethods[className]) {
       this.selectedHttpMethods[className] &#x3D; {};
@@ -2218,6 +2587,9 @@ export class MappingComponent implements OnInit {
     this.selectedHttpMethods[className][method] &#x3D; !this.selectedHttpMethods[className][method];
   }
 
+  /**
+   * Updates the count for the amounts of elements in the data of the identified individual elements of the uploaded UML diagram.
+   */
   updateElementCount(): void {
     const count &#x3D; {
       classes: this.umlData.classes.length,
@@ -2241,7 +2613,7 @@ export class MappingComponent implements OnInit {
   &lt;div class&#x3D;&quot;content p-4&quot;&gt;
     &lt;div *ngIf&#x3D;&quot;selectedTab &#x3D;&#x3D;&#x3D; &#x27;add-elements&#x27;&quot;&gt;
       &lt;form [formGroup]&#x3D;&quot;mappingsForm&quot;&gt;
-        &lt;div formArrayName&#x3D;&quot;mappings&quot; *ngFor&#x3D;&quot;let mapping of mappings.controls; let i &#x3D; index&quot;&gt;
+        &lt;div formArrayName&#x3D;&quot;mappings&quot; *ngFor&#x3D;&quot;let mapping of elements.controls; let i &#x3D; index&quot;&gt;
           &lt;div [formGroupName]&#x3D;&quot;i&quot; class&#x3D;&quot;mapping-entry mb-2&quot;&gt;
             &lt;input class&#x3D;&quot;input&quot; formControlName&#x3D;&quot;className&quot; placeholder&#x3D;&quot;Class Name&quot;&gt;
             &lt;input class&#x3D;&quot;input&quot; formControlName&#x3D;&quot;url&quot; placeholder&#x3D;&quot;URL&quot;&gt;
@@ -2249,7 +2621,7 @@ export class MappingComponent implements OnInit {
             &lt;button class&#x3D;&quot;btn&quot; (click)&#x3D;&quot;addAttribute(i)&quot;&gt;Add Attribute&lt;/button&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        &lt;button class&#x3D;&quot;btn add-mapping-btn&quot; (click)&#x3D;&quot;addMapping()&quot;&gt;Add Mapping&lt;/button&gt;
+        &lt;button class&#x3D;&quot;btn add-mapping-btn&quot; (click)&#x3D;&quot;addElement()&quot;&gt;Add Mapping&lt;/button&gt;
       &lt;/form&gt;
     &lt;/div&gt;
 
@@ -2311,7 +2683,7 @@ export class MappingComponent implements OnInit {
   &lt;/div&gt;
 
   &lt;div class&#x3D;&quot;button-container flex justify-end p-4&quot;&gt;
-    &lt;button class&#x3D;&quot;btn&quot; (click)&#x3D;&quot;applyMappings()&quot;&gt;Apply Mappings and Continue&lt;/button&gt;
+    &lt;button class&#x3D;&quot;btn&quot; (click)&#x3D;&quot;applyAdditions()&quot;&gt;Apply Mappings and Continue&lt;/button&gt;
     &lt;button *ngIf&#x3D;&quot;showApplyAdditionsButton&quot; class&#x3D;&quot;btn&quot; (click)&#x3D;&quot;addNewClassToElements()&quot;&gt;Apply Additions&lt;/button&gt;
   &lt;/div&gt;
 &lt;/div&gt;
@@ -2344,7 +2716,7 @@ export class MappingComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="mapping-container">  <div class="tabs flex justify-center bg-gray-100 py-2">    <button class="tab-button" [ngClass]="{\'active\': selectedTab === \'add-elements\'}" (click)="selectedTab = \'add-elements\'">Add Elements</button>    <button class="tab-button" [ngClass]="{\'active\': selectedTab === \'manage-elements\'}" (click)="selectedTab = \'manage-elements\'">Manage Elements</button>  </div>  <div class="content p-4">    <div *ngIf="selectedTab === \'add-elements\'">      <form [formGroup]="mappingsForm">        <div formArrayName="mappings" *ngFor="let mapping of mappings.controls; let i = index">          <div [formGroupName]="i" class="mapping-entry mb-2">            <input class="input" formControlName="className" placeholder="Class Name">            <input class="input" formControlName="url" placeholder="URL">            <button class="btn" (click)="addMethod(i)">Add Method</button>            <button class="btn" (click)="addAttribute(i)">Add Attribute</button>          </div>        </div>        <button class="btn add-mapping-btn" (click)="addMapping()">Add Mapping</button>      </form>    </div>    <div *ngIf="selectedTab === \'manage-elements\'" class="table-container">      <div class="table-wrapper">        <table *ngIf="umlData" class="table w-full">          <thead>          <tr class="header-row">            <th [attr.colspan]="umlData.classes.length">Classes</th>          </tr>          <tr>            <th *ngFor="let className of umlData.classes; let classIndex = index" class="cell-with-content">              {{ className }}              <button (click)="deleteElement(\'class\', className, classIndex, className)" class="icon-btn">🗑️</button>              <button (click)="openRenameDialog(\'class\', className)" class="icon-btn">✏️</button>            </th>          </tr>          </thead>          <tbody>          <tr class="header-row">            <td [attr.colspan]="umlData.classes.length">Attributes</td>          </tr>          <tr *ngFor="let i of maxAttributeRows(umlData)">            <td *ngFor="let className of umlData.classes">              <div *ngIf="umlData.attributes[className]?.[i]" class="table-cell-content">                {{ umlData.attributes[className]?.[i] }}                <button (click)="deleteElement(\'attribute\', umlData.attributes[className][i], i, className)" class="icon-btn">🗑️</button>                <button (click)="openRenameDialog(\'attribute\', umlData.attributes[className][i])" class="icon-btn">✏️</button>              </div>            </td>          </tr>          <tr class="header-row">            <td [attr.colspan]="umlData.classes.length">Methods</td>          </tr>          <tr *ngFor="let i of maxMethodRows(umlData)">            <td *ngFor="let className of umlData.classes">              <div *ngIf="umlData.methods?.[className]?.[i]" class="table-cell-content">                {{ umlData.methods?.[className]?.[i] }}                <button (click)="deleteElement(\'method\', umlData.methods?.[className][i], i, className)" class="icon-btn">🗑️</button>                <button (click)="openRenameDialog(\'method\', umlData.methods![className][i])" class="icon-btn">✏️</button>              </div>            </td>          </tr>          <tr class="header-row">            <td [attr.colspan]="umlData.classes.length">HTTP Methods</td>          </tr>          <tr *ngFor="let i of maxHttpMethodRows(umlData)">            <td *ngFor="let className of umlData.classes">              <div *ngIf="getHttpMethodsForClass(className)[i]" class="table-cell-content">                <input type="checkbox" (change)="toggleHttpMethodSelection(className, getHttpMethodsForClass(className)[i].method)">                {{ getHttpMethodsForClass(className)[i].url }} ({{ getHttpMethodsForClass(className)[i].method }})              </div>            </td>          </tr>          </tbody>        </table>      </div>    </div>  </div>  <div class="button-container flex justify-end p-4">    <button class="btn" (click)="applyMappings()">Apply Mappings and Continue</button>    <button *ngIf="showApplyAdditionsButton" class="btn" (click)="addNewClassToElements()">Apply Additions</button>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="mapping-container">  <div class="tabs flex justify-center bg-gray-100 py-2">    <button class="tab-button" [ngClass]="{\'active\': selectedTab === \'add-elements\'}" (click)="selectedTab = \'add-elements\'">Add Elements</button>    <button class="tab-button" [ngClass]="{\'active\': selectedTab === \'manage-elements\'}" (click)="selectedTab = \'manage-elements\'">Manage Elements</button>  </div>  <div class="content p-4">    <div *ngIf="selectedTab === \'add-elements\'">      <form [formGroup]="mappingsForm">        <div formArrayName="mappings" *ngFor="let mapping of elements.controls; let i = index">          <div [formGroupName]="i" class="mapping-entry mb-2">            <input class="input" formControlName="className" placeholder="Class Name">            <input class="input" formControlName="url" placeholder="URL">            <button class="btn" (click)="addMethod(i)">Add Method</button>            <button class="btn" (click)="addAttribute(i)">Add Attribute</button>          </div>        </div>        <button class="btn add-mapping-btn" (click)="addElement()">Add Mapping</button>      </form>    </div>    <div *ngIf="selectedTab === \'manage-elements\'" class="table-container">      <div class="table-wrapper">        <table *ngIf="umlData" class="table w-full">          <thead>          <tr class="header-row">            <th [attr.colspan]="umlData.classes.length">Classes</th>          </tr>          <tr>            <th *ngFor="let className of umlData.classes; let classIndex = index" class="cell-with-content">              {{ className }}              <button (click)="deleteElement(\'class\', className, classIndex, className)" class="icon-btn">🗑️</button>              <button (click)="openRenameDialog(\'class\', className)" class="icon-btn">✏️</button>            </th>          </tr>          </thead>          <tbody>          <tr class="header-row">            <td [attr.colspan]="umlData.classes.length">Attributes</td>          </tr>          <tr *ngFor="let i of maxAttributeRows(umlData)">            <td *ngFor="let className of umlData.classes">              <div *ngIf="umlData.attributes[className]?.[i]" class="table-cell-content">                {{ umlData.attributes[className]?.[i] }}                <button (click)="deleteElement(\'attribute\', umlData.attributes[className][i], i, className)" class="icon-btn">🗑️</button>                <button (click)="openRenameDialog(\'attribute\', umlData.attributes[className][i])" class="icon-btn">✏️</button>              </div>            </td>          </tr>          <tr class="header-row">            <td [attr.colspan]="umlData.classes.length">Methods</td>          </tr>          <tr *ngFor="let i of maxMethodRows(umlData)">            <td *ngFor="let className of umlData.classes">              <div *ngIf="umlData.methods?.[className]?.[i]" class="table-cell-content">                {{ umlData.methods?.[className]?.[i] }}                <button (click)="deleteElement(\'method\', umlData.methods?.[className][i], i, className)" class="icon-btn">🗑️</button>                <button (click)="openRenameDialog(\'method\', umlData.methods![className][i])" class="icon-btn">✏️</button>              </div>            </td>          </tr>          <tr class="header-row">            <td [attr.colspan]="umlData.classes.length">HTTP Methods</td>          </tr>          <tr *ngFor="let i of maxHttpMethodRows(umlData)">            <td *ngFor="let className of umlData.classes">              <div *ngIf="getHttpMethodsForClass(className)[i]" class="table-cell-content">                <input type="checkbox" (change)="toggleHttpMethodSelection(className, getHttpMethodsForClass(className)[i].method)">                {{ getHttpMethodsForClass(className)[i].url }} ({{ getHttpMethodsForClass(className)[i].method }})              </div>            </td>          </tr>          </tbody>        </table>      </div>    </div>  </div>  <div class="button-container flex justify-end p-4">    <button class="btn" (click)="applyAdditions()">Apply Mappings and Continue</button>    <button *ngIf="showApplyAdditionsButton" class="btn" (click)="addNewClassToElements()">Apply Additions</button>  </div></div></div>'
     var COMPONENTS = [{'name': 'AddElementDialogComponent', 'selector': 'app-add-element-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'GenerateComponent', 'selector': 'app-generate'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'ManageComponent', 'selector': 'app-manage'},{'name': 'MappingComponent', 'selector': 'app-mapping'},{'name': 'PersonaliseComponent', 'selector': 'app-personalise'},{'name': 'RenameDialogComponent', 'selector': 'app-rename-dialog'},{'name': 'SessionListDialogComponent', 'selector': 'app-session-list-dialog'},{'name': 'StartComponent', 'selector': 'app-start'},{'name': 'StepperComponent', 'selector': 'app-stepper'},{'name': 'TopBarComponent', 'selector': 'app-top-bar'},{'name': 'UploadComponent', 'selector': 'app-upload'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'MappingComponent'};

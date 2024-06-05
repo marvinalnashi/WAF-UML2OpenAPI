@@ -16,7 +16,7 @@ export class GenerationService {
     return this.http.post<any>(`${this.baseUrl}/parse-elements`, formData);
   }
 
-  generateSpec(formData: FormData): Observable<any> {
+  generateSpecification(formData: FormData): Observable<any> {
     return this.http.post(`${this.baseUrl}/generate`, formData);
   }
 

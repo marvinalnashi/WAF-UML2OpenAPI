@@ -14,6 +14,9 @@ import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {DatePipe} from "@angular/common";
 
+/**
+ * Component for displaying the data of previous sessions in the Session List popup dialog.
+ */
 @Component({
   selector: 'app-session-list-dialog',
   standalone: true,
@@ -41,17 +44,36 @@ import {DatePipe} from "@angular/common";
   styleUrl: './session-list-dialog.component.scss'
 })
 export class SessionListDialogComponent implements OnInit {
+  /**
+   * Array that stores the previous sessions.
+   */
   sessions: any[] = [];
+
+  /**
+   * Array that contains the columns that are displayed in the Session List popup dialog.
+   */
   displayedColumns: string[] = ['createdAt', 'umlDiagram', 'openApiSpec', 'actions'];
 
+  /**
+   * Creates an instance of SessionListDialogComponent.
+   * @param sessionService Service for processing the data of previous sessions.
+   * @param dialog The popup dialog service
+   */
   constructor(private sessionService: StepperSessionService, public dialog: MatDialog) {}
 
+  /**
+   * Fetches all the data of all the previous sessions to display them in the Session List popup dialog.
+   */
   ngOnInit(): void {
     this.sessionService.getAllSessions().subscribe((data: any[]) => {
       this.sessions = data;
     });
   }
 
+  /**
+   * Downloads the uploaded UML diagram and the generated OpenAPI specification in JSON format of a selected previous session.
+   * @param session The previous session to download.
+   */
   downloadSession(session: any) {
     this.sessionService.getSession(session.id).subscribe((data) => {
       const umlBlob = new Blob([data.umlDiagram], { type: 'text/xml' });

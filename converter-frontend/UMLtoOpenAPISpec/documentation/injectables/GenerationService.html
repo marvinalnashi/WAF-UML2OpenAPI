@@ -160,7 +160,7 @@
                                 <a href="#deleteElement" >deleteElement</a>
                             </li>
                             <li>
-                                <a href="#generateSpec" >generateSpec</a>
+                                <a href="#generateSpecification" >generateSpecification</a>
                             </li>
                             <li>
                                 <a href="#parseDiagramElements" >parseDiagramElements</a>
@@ -451,16 +451,16 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="generateSpec"></a>
+                    <a name="generateSpecification"></a>
                     <span class="name">
-                        <span ><b>generateSpec</b></span>
-                        <a href="#generateSpec"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>generateSpecification</b></span>
+                        <a href="#generateSpecification"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>generateSpec(formData: FormData)</code>
+<code>generateSpecification(formData: FormData)</code>
                 </td>
             </tr>
 
@@ -734,7 +734,7 @@ export class GenerationService {
     return this.http.post&lt;any&gt;(&#x60;${this.baseUrl}/parse-elements&#x60;, formData);
   }
 
-  generateSpec(formData: FormData): Observable&lt;any&gt; {
+  generateSpecification(formData: FormData): Observable&lt;any&gt; {
     return this.http.post(&#x60;${this.baseUrl}/generate&#x60;, formData);
   }
 

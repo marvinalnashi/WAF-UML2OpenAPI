@@ -7,7 +7,7 @@
   <div class="content p-4">
     <div *ngIf="selectedTab === 'add-elements'">
       <form [formGroup]="mappingsForm">
-        <div formArrayName="mappings" *ngFor="let mapping of mappings.controls; let i = index">
+        <div formArrayName="mappings" *ngFor="let mapping of elements.controls; let i = index">
           <div [formGroupName]="i" class="mapping-entry mb-2">
             <input class="input" formControlName="className" placeholder="Class Name">
             <input class="input" formControlName="url" placeholder="URL">
@@ -15,7 +15,7 @@
             <button class="btn" (click)="addAttribute(i)">Add Attribute</button>
           </div>
         </div>
-        <button class="btn add-mapping-btn" (click)="addMapping()">Add Mapping</button>
+        <button class="btn add-mapping-btn" (click)="addElement()">Add Mapping</button>
       </form>
     </div>
 
@@ -77,7 +77,7 @@
   </div>
 
   <div class="button-container flex justify-end p-4">
-    <button class="btn" (click)="applyMappings()">Apply Mappings and Continue</button>
+    <button class="btn" (click)="applyAdditions()">Apply Mappings and Continue</button>
     <button *ngIf="showApplyAdditionsButton" class="btn" (click)="addNewClassToElements()">Apply Additions</button>
   </div>
 </div>

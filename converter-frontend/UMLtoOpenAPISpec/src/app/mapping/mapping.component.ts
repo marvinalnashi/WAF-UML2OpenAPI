@@ -5,6 +5,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddElementDialogComponent } from '../add-element-dialog/add-element-dialog.component';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 
+/**
+ * Component for processing added UML diagrams and managing UML mappings.
+ */
 @Component({
   selector: 'app-mapping',
   standalone: true,
@@ -13,21 +16,62 @@ import { NgClass, NgForOf, NgIf } from '@angular/common';
   styleUrl: './mapping.component.scss'
 })
 export class MappingComponent implements OnInit {
+  /**
+   * Input property for processing the uploaded UML diagram file.
+   */
   @Input() file: File | undefined;
+
+  /**
+   * Input property for storing the identified elements of the uploaded UML diagram file.
+   */
   @Input() umlData: any = {
     classes: [],
     attributes: {},
     methods: {},
     relationships: []
   };
+
+  /**
+   * Output property for emitting the event to indicate whether the Mapping step of the stepper was completed successfully.
+   */
   @Output() mappingCompleted = new EventEmitter<boolean>();
+
+  /**
+   * Output property for emitting the event to process which HTTP methods have been selected in the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
   @Output() httpMethodsSelected = new EventEmitter<{ [className: string]: { [method: string]: boolean } }>();
+
+  /**
+   * Output property for emitting the event to indicate that the counted amounts of elements have been updated.
+   */
   @Output() elementCountUpdated = new EventEmitter<any>();
+
+  /**
+   * Form group that is used for the form in the Add Elements tab of the Mapping step of the stepper.
+   */
   mappingsForm: FormGroup;
+
+  /**
+   * The HTTP methods that the user selects for one or more classes in the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
   selectedHttpMethods: { [className: string]: { [method: string]: boolean } } = {};
+
+  /**
+   * The currently selected tab in the Mapping step of the stepper.
+   */
   selectedTab: string = 'add-elements';
+
+  /**
+   * Boolean that indicates whether the Apply Additions button is to be displayed for the user, based on the state of the Add Element form in the Add Elements tab of the Mapping step of the stepper.
+   */
   showApplyAdditionsButton: boolean = false;
 
+  /**
+   * Creates an instance of MappingComponent.
+   * @param fb The Form builder service.
+   * @param generationService The Generation service.
+   * @param dialog The Angular Material dialog service.
+   */
   constructor(
     private fb: FormBuilder,
     private generationService: GenerationService,
@@ -38,36 +82,54 @@ export class MappingComponent implements OnInit {
     });
   }
 
+  /**
+   * Executes the function that loads the data of the identified individual elements of the uploaded UML diagram after the Mapping step has been initialised.
+   */
   ngOnInit(): void {
     this.loadUMLData();
   }
 
+  /**
+   * Loads the data of the identified individual elements of the uploaded UML diagram.
+   */
   loadUMLData(): void {
     if (this.file) {
       this.generationService.parseDiagramElements(this.file).subscribe(data => {
         this.umlData = data;
-        this.initHttpMethodSelection();
+        this.initialiseHttpMethodSelection();
         this.updateElementCount();
       });
     }
   }
 
-  get mappings(): FormArray {
+  /**
+   * Gets the array of elements added in the Add Elements tab of the Mapping step of the stepper.
+   * @returns The form array that contains the added elements. The amount of added elements can vary.
+   */
+  get elements(): FormArray {
     return this.mappingsForm.get('mappings') as FormArray;
   }
 
-  addMapping(): void {
+  /**
+   * Adds a new element to the form array that contains the elements added in the Add Elements tab of the Mapping step of the stepper.
+   */
+  addElement(): void {
     const newMapping = this.fb.group({
       className: ['', Validators.required],
       url: ['', Validators.required],
       methods: this.fb.array([]),
       attributes: this.fb.array([])
     });
-    this.mappings.push(newMapping);
+    this.elements.push(newMapping);
     this.showApplyAdditionsButton = true;
   }
 
-  openAddElementDialog(isMethod: boolean, mappingIndex: number): void {
+  /**
+   * Activates the Add Element dialog for adding a new attribute or method in the Add Elements tab of the Mapping step of the stepper.
+   * @param isMethod Boolean indicating if the element is a method.
+   * @param elementIndex The index of the added element in the form array.
+   */
+  openAddElementDialog(isMethod: boolean, elementIndex: number): void {
     const dialogRef = this.dialog.open(AddElementDialogComponent, {
       width: '400px',
       data: { isMethod }
@@ -75,26 +137,37 @@ export class MappingComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const mapping = this.mappings.at(mappingIndex) as FormGroup;
+        const element = this.elements.at(elementIndex) as FormGroup;
         if (isMethod) {
-          (mapping.get('methods') as FormArray).push(this.fb.control(result));
+          (element.get('methods') as FormArray).push(this.fb.control(result));
         } else {
-          (mapping.get('attributes') as FormArray).push(this.fb.control(result));
+          (element.get('attributes') as FormArray).push(this.fb.control(result));
         }
         this.updateElementCount();
       }
     });
   }
 
-  addMethod(mappingIndex: number): void {
-    this.openAddElementDialog(true, mappingIndex);
+  /**
+   * Adds a new method to the added class and its path in the Add Element tab of the Mapping step of the stepper.
+   * @param elementIndex The index of the added element in the form array.
+   */
+  addMethod(elementIndex: number): void {
+    this.openAddElementDialog(true, elementIndex);
   }
 
-  addAttribute(mappingIndex: number): void {
-    this.openAddElementDialog(false, mappingIndex);
+  /**
+   * Adds a new attribute to the added class and its path in the Add Element tab of the Mapping step of the stepper.
+   * @param elementIndex The index of the added element in the form array.
+   */
+  addAttribute(elementIndex: number): void {
+    this.openAddElementDialog(false, elementIndex);
   }
 
-  applyMappings(): void {
+  /**
+   * Applies the added class and its path and eventual attributes and methods and updates the elements counts.
+   */
+  applyAdditions(): void {
     if (this.mappingsForm.valid) {
       this.generationService.applyMappings(this.mappingsForm.value.mappings).subscribe(() => {
         this.mappingCompleted.emit(true);
@@ -104,6 +177,9 @@ export class MappingComponent implements OnInit {
     }
   }
 
+  /**
+   * Adds created elements to the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
   addNewClassToElements(): void {
     const newElements = this.mappingsForm.value.mappings.map((mapping: any) => ({
       className: mapping.className,
@@ -127,12 +203,19 @@ export class MappingComponent implements OnInit {
     });
 
     this.mappingsForm.reset();
-    while (this.mappings.length) {
-      this.mappings.removeAt(0);
+    while (this.elements.length) {
+      this.elements.removeAt(0);
     }
     this.showApplyAdditionsButton = false;
   }
 
+  /**
+   * Removes an element from the table of the Manage Elements tab of the Mapping step of the stepper.
+   * @param type The type of the added element. This can be a class, an attribute or a method.
+   * @param name The name of the added element.
+   * @param index The index of the added element.
+   * @param className The name of the class an attribute or method is part of.
+   */
   deleteElement(type: string, name: string, index: number, className: string): void {
     this.generationService.deleteElement(type, name).subscribe(() => {
       if (type === 'attribute') {
@@ -148,6 +231,11 @@ export class MappingComponent implements OnInit {
     });
   }
 
+  /**
+   * Activates the rename popup dialog in which a class, attribute or method can be renamed.
+   * @param type The type of the added element. This can be a class, an attribute or a method.
+   * @param oldName The current name of the added element.
+   */
   openRenameDialog(type: string, oldName: string): void {
     let newName = prompt("Enter new name for " + oldName);
     if (newName) {
@@ -155,6 +243,12 @@ export class MappingComponent implements OnInit {
     }
   }
 
+  /**
+   * Renames an added element by replacing its old name by a new name that the user specifies.
+   * @param type The type of the added element. This can be a class, an attribute or a method.
+   * @param oldName The current name of the added element.
+   * @param newName The new name for the added element.
+   */
   renameElement(type: string, oldName: string, newName: string): void {
     this.generationService.renameElement(type, oldName, newName).subscribe({
       next: () => {
@@ -187,18 +281,33 @@ export class MappingComponent implements OnInit {
     });
   }
 
+  /**
+   * Gets the classname for a renamed attribute so that the renamed attribute's value can be propagated to its corresponding class.
+   * @param attributeName The name of the renamed attribute.
+   * @returns The name of the class the renamed attribute is part of.
+   */
   getClassForAttribute(attributeName: string): string {
     return <string>Object.keys(this.umlData.attributes).find(className =>
       this.umlData.attributes[className].includes(attributeName)
     );
   }
 
+  /**
+   * Gets the classname for a renamed method so that the renamed method's value can be propagated to its corresponding class.
+   * @param methodName The name of the renamed method.
+   * @returns The name of the class the renamed method is part of.
+   */
   getClassForMethod(methodName: string): string {
     return <string>Object.keys(this.umlData.methods).find(className =>
       this.umlData.methods[className].includes(methodName)
     );
   }
 
+  /**
+   * Sets the maximum amount of rows in the table of the Manage Elements tab of the Mapping step of the stepper for the attributes based on the class with the most attributes.
+   * @param data The data of the identified individual elements of the uploaded UML diagram.
+   * @returns An array representing the maximum number of rows that need to be allocated for the attributes in the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
   maxAttributeRows(data: any): number[] {
     let maxRows = 0;
     for (const className of data.classes) {
@@ -210,6 +319,11 @@ export class MappingComponent implements OnInit {
     return [...Array(maxRows).keys()];
   }
 
+  /**
+   * Sets the maximum amount of rows in the table of the Manage Elements tab of the Mapping step of the stepper for the methods based on the class with the most methods.
+   * @param data The data of the identified individual elements of the uploaded UML diagram.
+   * @returns An array representing the maximum number of rows that need to be allocated for the methods in the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
   maxMethodRows(data: any): number[] {
     let maxRows = 0;
     for (const className of data.classes) {
@@ -221,10 +335,20 @@ export class MappingComponent implements OnInit {
     return [...Array(maxRows).keys()];
   }
 
+  /**
+   * Sets the maximum amount of rows in the table of the Manage Elements tab of the Mapping step of the stepper for the HTTP methods to exactly 4.
+   * @param data The data of the identified individual elements of the uploaded UML diagram.
+   * @returns An array representing the maximum number of rows that need to be allocated for the HTTP methods in the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
   maxHttpMethodRows(data: any): number[] {
     return [0, 1, 2, 3];
   }
 
+  /**
+   * Gets the HTTP methods for a given class based on its classname.
+   * @param className The name of the class in the table of the Manage Elements tab of the Mapping step of the stepper.
+   * @returns An array that contains the HTTP methods for the class.
+   */
   getHttpMethodsForClass(className: string) {
     return [
       { url: `/${className.toLowerCase()}/{id}`, method: 'GET' },
@@ -234,7 +358,10 @@ export class MappingComponent implements OnInit {
     ];
   }
 
-  initHttpMethodSelection() {
+  /**
+   * Initialises the HTTP method checkboxes for each class in the table of the Manage Elements tab of the Mapping step of the stepper.
+   */
+  initialiseHttpMethodSelection() {
     this.umlData.classes.forEach((className: string) => {
       this.selectedHttpMethods[className] = {
         'GET/{id}': false,
@@ -245,6 +372,11 @@ export class MappingComponent implements OnInit {
     });
   }
 
+  /**
+   * Handles the selection of HTTP methods based on whether a checkbox of an HTTP method is checked.
+   * @param className The name of the class in the table of the Manage Elements tab of the Mapping step of the stepper.
+   * @param method The HTTP method that the user selects for a class by checking its corresponding checkbox.
+   */
   toggleHttpMethodSelection(className: string, method: string) {
     if (!this.selectedHttpMethods[className]) {
       this.selectedHttpMethods[className] = {};
@@ -252,6 +384,9 @@ export class MappingComponent implements OnInit {
     this.selectedHttpMethods[className][method] = !this.selectedHttpMethods[className][method];
   }
 
+  /**
+   * Updates the count for the amounts of elements in the data of the identified individual elements of the uploaded UML diagram.
+   */
   updateElementCount(): void {
     const count = {
       classes: this.umlData.classes.length,

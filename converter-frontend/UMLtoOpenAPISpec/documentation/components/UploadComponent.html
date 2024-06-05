@@ -120,6 +120,13 @@
 </p>
 
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Component for uploading UML diagrams.</p>
+
+    </p>
 
 
 
@@ -241,12 +248,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/upload/upload.component.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/upload/upload.component.ts:24</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Creates an instance of UploadComponent.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -255,6 +264,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -269,6 +279,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <p>The Generation service.</p>
+
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -297,9 +311,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/upload/upload.component.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/upload/upload.component.ts:24</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Input property for the navigation between steps in the stepper.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -321,9 +341,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/upload/upload.component.ts:13</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/upload/upload.component.ts:19</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Output property for processing the UML diagram file that the user selects to upload.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -354,14 +380,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="18"
-                                    class="link-to-prism">src/app/upload/upload.component.ts:18</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="36"
+                                    class="link-to-prism">src/app/upload/upload.component.ts:36</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Processes the UML diagram file that the user selects to upload.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -372,6 +400,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -386,6 +415,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>The event in which the user selects a file to upload.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -411,6 +444,9 @@
 import {GenerationService} from &quot;../generation.service&quot;;
 import {MatStepper} from &quot;@angular/material/stepper&quot;;
 
+/**
+ * Component for uploading UML diagrams.
+ */
 @Component({
   selector: &#x27;app-upload&#x27;,
   standalone: true,
@@ -419,11 +455,26 @@ import {MatStepper} from &quot;@angular/material/stepper&quot;;
   styleUrl: &#x27;./upload.component.scss&#x27;
 })
 export class UploadComponent {
+  /**
+   * Output property for processing the UML diagram file that the user selects to upload.
+   */
   @Output() fileSelected &#x3D; new EventEmitter&lt;File&gt;();
+
+  /**
+   * Input property for the navigation between steps in the stepper.
+   */
   @Input() stepper!: MatStepper;
 
+  /**
+   * Creates an instance of UploadComponent.
+   * @param generationService The Generation service.
+   */
   constructor(private generationService: GenerationService) { }
 
+  /**
+   * Processes the UML diagram file that the user selects to upload.
+   * @param event The event in which the user selects a file to upload.
+   */
   onFileSelected(event: Event): void {
     const input &#x3D; event.target as HTMLInputElement;
     if (!input.files?.length) {

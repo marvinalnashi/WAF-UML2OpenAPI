@@ -48,22 +48,22 @@ describe('MappingComponent', () => {
   });
 
   it('should add a new mapping', () => {
-    const initialLength = component.mappings.length;
-    component.addMapping();
-    expect(component.mappings.length).toBeGreaterThan(initialLength);
+    const initialLength = component.elements.length;
+    component.addElement();
+    expect(component.elements.length).toBeGreaterThan(initialLength);
     expect(component.showApplyAdditionsButton).toBeTrue();
   });
 
   it('should open add element dialog', () => {
-    component.addMapping();
+    component.addElement();
     component.openAddElementDialog(true, 0);
     expect(dialogSpy).toHaveBeenCalled();
   });
 
   it('should reset the form after applying additions', () => {
-    component.addMapping();
+    component.addElement();
     component.addNewClassToElements();
-    expect(component.mappings.length).toBe(0);
+    expect(component.elements.length).toBe(0);
     expect(component.showApplyAdditionsButton).toBeFalse();
   });
 });

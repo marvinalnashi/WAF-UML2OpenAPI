@@ -120,6 +120,13 @@
 </p>
 
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Component for displaying the top bar of the application and initialising its icons.</p>
+
+    </p>
 
 
 
@@ -242,12 +249,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/top-bar/top-bar.component.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/top-bar/top-bar.component.ts:27</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Creates an instance of TopBarComponent.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -256,6 +265,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -270,6 +280,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <p>The popup dialog service.</p>
+
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -309,14 +323,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="33"
-                                    class="link-to-prism">src/app/top-bar/top-bar.component.ts:33</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="50"
+                                    class="link-to-prism">src/app/top-bar/top-bar.component.ts:50</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Opens the Session List popup dialog after its corresponding icon in the top bar has been clicked.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -346,14 +362,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="24"
-                                    class="link-to-prism">src/app/top-bar/top-bar.component.ts:24</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="38"
+                                    class="link-to-prism">src/app/top-bar/top-bar.component.ts:38</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Toggles the theme of the application between light mode and dark mode.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -389,10 +407,15 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/top-bar/top-bar.component.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/top-bar/top-bar.component.ts:33</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">The popup dialog service.</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -414,10 +437,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/top-bar/top-bar.component.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/top-bar/top-bar.component.ts:27</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indicates whether the dark mode is enabled.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -434,6 +463,9 @@ import {MatIcon} from &quot;@angular/material/icon&quot;;
 import {SessionListDialogComponent} from &quot;../session-list-dialog/session-list-dialog.component&quot;;
 import {MatDialog} from &quot;@angular/material/dialog&quot;;
 
+/**
+ * Component for displaying the top bar of the application and initialising its icons.
+ */
 @Component({
   selector: &#x27;app-top-bar&#x27;,
   standalone: true,
@@ -446,10 +478,21 @@ import {MatDialog} from &quot;@angular/material/dialog&quot;;
   styleUrl: &#x27;./top-bar.component.scss&#x27;
 })
 export class TopBarComponent {
-  constructor(public dialog: MatDialog) {}
 
+  /**
+   * Indicates whether the dark mode is enabled.
+   */
   isDarkMode &#x3D; false;
 
+  /**
+   * Creates an instance of TopBarComponent.
+   * @param dialog The popup dialog service.
+   */
+  constructor(public dialog: MatDialog) {}
+
+  /**
+   * Toggles the theme of the application between light mode and dark mode.
+   */
   toggleTheme() {
     this.isDarkMode &#x3D; !this.isDarkMode;
     if (this.isDarkMode) {
@@ -459,6 +502,9 @@ export class TopBarComponent {
     }
   }
 
+  /**
+   * Opens the Session List popup dialog after its corresponding icon in the top bar has been clicked.
+   */
   openSessionListDialog(): void {
     const dialogRef &#x3D; this.dialog.open(SessionListDialogComponent, {
       width: &#x27;600px&#x27;

@@ -120,6 +120,13 @@
 </p>
 
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>The main component of the application.</p>
+
+    </p>
 
 
     <p class="comment">
@@ -256,14 +263,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="15"
-                                    class="link-to-prism">src/app/app.component.ts:15</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="24"
+                                    class="link-to-prism">src/app/app.component.ts:24</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>The index of the string that is currently being displayed in the loader/spinner overlay.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -297,10 +306,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/app.component.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/app.component.ts:19</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indicates whether the loader overlay that contains the spinner needs to be activated.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -315,6 +330,9 @@ import { StepperComponent } from &#x27;./stepper/stepper.component&#x27;;
 import {NgIf} from &quot;@angular/common&quot;;
 import {LoaderComponent} from &quot;./loader/loader.component&quot;;
 
+/**
+ * The main component of the application.
+ */
 @Component({
   selector: &#x27;app-root&#x27;,
   standalone: true,
@@ -322,8 +340,14 @@ import {LoaderComponent} from &quot;./loader/loader.component&quot;;
   templateUrl: &#x27;./app.component.html&#x27;,
 })
 export class AppComponent implements OnInit {
+  /**
+   * Indicates whether the loader overlay that contains the spinner needs to be activated.
+   */
   isLoading &#x3D; true;
 
+  /**
+   * The index of the string that is currently being displayed in the loader/spinner overlay.
+   */
   ngOnInit() {
     setTimeout(() &#x3D;&gt; {
       this.isLoading &#x3D; false;

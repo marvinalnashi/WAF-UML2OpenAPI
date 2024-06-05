@@ -120,6 +120,13 @@
 </p>
 
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Component for renaming elements of the uploaded UML diagram and elements added in the Add Elements tab of the Mapping step of the stepper and of the generated example values in the Personalise step of the stepper through the Rename popup dialog.</p>
+
+    </p>
 
 
 
@@ -247,12 +254,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/rename-dialog/rename-dialog.component.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/rename-dialog/rename-dialog.component.ts:34</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Creates an instance of RenameDialogComponent.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -261,6 +270,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -275,6 +285,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <p>Reference to the activated popup dialog.</p>
+
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>data</td>
@@ -287,6 +301,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <p>Data passed to the activated popup dialog.</p>
+
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -326,14 +344,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="36"
-                                    class="link-to-prism">src/app/rename-dialog/rename-dialog.component.ts:36</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="47"
+                                    class="link-to-prism">src/app/rename-dialog/rename-dialog.component.ts:47</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Closes the popup dialog without applying any modifications.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -379,10 +399,15 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/rename-dialog/rename-dialog.component.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/rename-dialog/rename-dialog.component.ts:42</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">Data passed to the activated popup dialog.</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -406,10 +431,15 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/rename-dialog/rename-dialog.component.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/rename-dialog/rename-dialog.component.ts:41</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">Reference to the activated popup dialog.</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -432,6 +462,9 @@ import {MatInput} from &quot;@angular/material/input&quot;;
 import {FormsModule} from &quot;@angular/forms&quot;;
 import {MatButton} from &quot;@angular/material/button&quot;;
 
+/**
+ * Component for renaming elements of the uploaded UML diagram and elements added in the Add Elements tab of the Mapping step of the stepper and of the generated example values in the Personalise step of the stepper through the Rename popup dialog.
+ */
 @Component({
   selector: &#x27;app-rename-dialog&#x27;,
   standalone: true,
@@ -450,10 +483,18 @@ import {MatButton} from &quot;@angular/material/button&quot;;
   styleUrl: &#x27;./rename-dialog.component.scss&#x27;
 })
 export class RenameDialogComponent {
+  /**
+   * Creates an instance of RenameDialogComponent.
+   * @param dialogRef Reference to the activated popup dialog.
+   * @param data Data passed to the activated popup dialog.
+   */
   constructor(
     public dialogRef: MatDialogRef&lt;RenameDialogComponent&gt;,
     @Inject(MAT_DIALOG_DATA) public data: any) {}
 
+  /**
+   * Closes the popup dialog without applying any modifications.
+   */
   onNoClick(): void {
     this.dialogRef.close();
   }

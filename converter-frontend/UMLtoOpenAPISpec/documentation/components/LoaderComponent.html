@@ -120,6 +120,13 @@
 </p>
 
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Loader component for displaying the loader/spinner overlay and its contents.</p>
+
+    </p>
 
 
     <p class="comment">
@@ -274,9 +281,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/loader/loader.component.ts:16</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/loader/loader.component.ts:22</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Input property that sets strings as rotating texts in an array for the loader/spinner overlay.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -308,14 +321,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="20"
-                                    class="link-to-prism">src/app/loader/loader.component.ts:20</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="38"
+                                    class="link-to-prism">src/app/loader/loader.component.ts:38</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Sets the interval in milliseconds between the strings that are rotated in the loader/spinner overlay.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -345,14 +360,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="27"
-                                    class="link-to-prism">src/app/loader/loader.component.ts:27</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="48"
+                                    class="link-to-prism">src/app/loader/loader.component.ts:48</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Updates the text that is currently being displayed in the loader/spinner overlay.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -392,10 +409,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/loader/loader.component.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/loader/loader.component.ts:27</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The string that is currently being displayed in the loader/spinner overlay.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -424,10 +447,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/loader/loader.component.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/loader/loader.component.ts:32</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The index of the string that is currently being displayed in the loader/spinner overlay.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -441,6 +470,9 @@
 import {MatProgressSpinner} from &quot;@angular/material/progress-spinner&quot;;
 import {NgOptimizedImage} from &quot;@angular/common&quot;;
 
+/**
+ * Loader component for displaying the loader/spinner overlay and its contents.
+ */
 @Component({
   selector: &#x27;app-loader&#x27;,
   standalone: true,
@@ -452,10 +484,25 @@ import {NgOptimizedImage} from &quot;@angular/common&quot;;
   styleUrl: &#x27;./loader.component.scss&#x27;
 })
 export class LoaderComponent implements OnInit {
+  /**
+   * Input property that sets strings as rotating texts in an array for the loader/spinner overlay.
+   */
   @Input() texts: string[] &#x3D; [];
+
+  /**
+   * The string that is currently being displayed in the loader/spinner overlay.
+   */
   rotatingText &#x3D; &#x27;&#x27;;
+
+  /**
+   * The index of the string that is currently being displayed in the loader/spinner overlay.
+   */
   private textIndex &#x3D; 0;
 
+
+  /**
+   * Sets the interval in milliseconds between the strings that are rotated in the loader/spinner overlay.
+   */
   ngOnInit() {
     if (this.texts.length &gt; 0) {
       this.updateText();
@@ -463,6 +510,9 @@ export class LoaderComponent implements OnInit {
     }
   }
 
+  /**
+   * Updates the text that is currently being displayed in the loader/spinner overlay.
+   */
   updateText() {
     this.rotatingText &#x3D; this.texts[this.textIndex];
     this.textIndex &#x3D; (this.textIndex + 1) % this.texts.length;

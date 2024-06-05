@@ -7,6 +7,9 @@ import {MatIcon} from "@angular/material/icon";
 import {MatButton} from "@angular/material/button";
 import {MatStepper} from "@angular/material/stepper";
 
+/**
+ * Component for modifying the example values that were generated with AI for the generated OpenAPI specification.
+ */
 @Component({
   selector: 'app-personalise',
   standalone: true,
@@ -20,23 +23,65 @@ import {MatStepper} from "@angular/material/stepper";
   styleUrl: './personalise.component.scss'
 })
 export class PersonaliseComponent implements OnChanges {
+  /**
+   * Input property for the transmission of the generated OpenAPI specification data.
+   */
   @Input() openApiData: any;
-  classNames: string[] = [];
-  selectedClassAttributes: string[] = [];
-  selectedAttributeExamples: any[] = [];
-  currentView: 'classes' | 'attributes' | 'examples' = 'classes';
-  selectedClass: string = '';
-  selectedAttribute: string = '';
-  tempExampleValues: { [key: string]: any[] } = {};
 
+  /**
+   * List of classnames from the generated OpenAPI specification data, which are displayed in the explorer section.
+   */
+  classNames: string[] = [];
+
+  /**
+   * List of attributes from the generated OpenAPI specification data for the selected classname in the explorer section.
+   */
+  selectedClassAttributes: string[] = [];
+
+  /**
+   * List of example values that were generated with AI from the generated OpenAPI specification data for the selected attribute in the explorer section.
+   */
+  selectedAttributeExamples: any[] = [];
+
+  /**
+   * Current view of the explorer, based on the selected items and the state of the Personalise step in the stepper.
+   */
+  currentView: 'classes' | 'attributes' | 'examples' = 'classes';
+
+  /**
+   * The classname that is currently selected in the explorer by the user.
+   */
+  selectedClass: string = '';
+
+  /**
+   * The attribute that is currently selected in the explorer by the user.
+   */
+  selectedAttribute: string = '';
+
+  /**
+   * Temporary storage for example values of attributes. This ensures that example value updates are successfully processed and displayed in the user interface.
+   */
+  temporarilyStoredExampleValues: { [key: string]: any[] } = {};
+
+  /**
+   * Creates an instance of PersonaliseComponent.
+   * @param dialog The popup dialog service.
+   * @param http The HTTP client service.
+   */
   constructor(public dialog: MatDialog, private http: HttpClient) {}
 
+  /**
+   * Updates a modified example value, its attribute, and its class.
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['openApiData'] && changes['openApiData'].currentValue) {
       this.extractClassNames();
     }
   }
 
+  /**
+   * Extracts classnames from the generated OpenAPI specification data.
+   */
   extractClassNames(): void {
     this.classNames = [];
     if (this.openApiData && this.openApiData.components && this.openApiData.components.schemas) {
@@ -45,6 +90,10 @@ export class PersonaliseComponent implements OnChanges {
     this.currentView = 'classes';
   }
 
+  /**
+   * Selects a class and extracts its attributes from the generated OpenAPI specification data.
+   * @param className The name of the class to select.
+   */
   selectClass(className: string): void {
     this.selectedClass = className;
     this.selectedClassAttributes = [];
@@ -55,30 +104,44 @@ export class PersonaliseComponent implements OnChanges {
     this.currentView = 'attributes';
   }
 
+  /**
+   * Selects an attribute and extracts its example values from the generated OpenAPI specification data.
+   * @param attribute The name of the attribute to select.
+   */
   selectAttribute(attribute: string): void {
     this.selectedAttribute = attribute;
-    if (this.tempExampleValues[`${this.selectedClass}_${attribute}`]) {
-      this.selectedAttributeExamples = this.tempExampleValues[`${this.selectedClass}_${attribute}`];
+    if (this.temporarilyStoredExampleValues[`${this.selectedClass}_${attribute}`]) {
+      this.selectedAttributeExamples = this.temporarilyStoredExampleValues[`${this.selectedClass}_${attribute}`];
     } else {
       this.selectedAttributeExamples = [];
       const schema = this.openApiData.components.schemas[this.selectedClass];
       if (schema && schema.examples && schema.examples.exampleArray) {
         this.selectedAttributeExamples = schema.examples.exampleArray.map((example: { [x: string]: any; }) => example[attribute]);
-        this.tempExampleValues[`${this.selectedClass}_${attribute}`] = this.selectedAttributeExamples;
+        this.temporarilyStoredExampleValues[`${this.selectedClass}_${attribute}`] = this.selectedAttributeExamples;
       }
     }
     this.currentView = 'examples';
   }
 
-  goBack(): void {
+  /**
+   * Navigates back to the main view of the explorer that contains the classnames.
+   */
+  goBackToClasses(): void {
     this.currentView = 'classes';
   }
 
+  /**
+   * Navigates back to the view of the explorer that contains the attributes of a selected class.
+   */
   goBackToAttributes(): void {
     this.currentView = 'attributes';
   }
 
-  editExample(index: number): void {
+  /**
+   * Activates a popup dialog in which a generated example value can be modified.
+   * @param index The index of the example value to modify.
+   */
+  editExampleValue(index: number): void {
     const dialogRef = this.dialog.open(RenameDialogComponent, {
       width: '250px',
       data: { newValue: this.selectedAttributeExamples[index] }
@@ -87,13 +150,18 @@ export class PersonaliseComponent implements OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
         this.selectedAttributeExamples[index] = result;
-        this.tempExampleValues[`${this.selectedClass}_${this.selectedAttribute}`][index] = result;
-        this.updateExampleInBackend(index, result);
+        this.temporarilyStoredExampleValues[`${this.selectedClass}_${this.selectedAttribute}`][index] = result;
+        this.postExampleValue(index, result);
       }
     });
   }
 
-  updateExampleInBackend(index: number, newValue: string): void {
+  /**
+   * Updates an example value in the backend by sending a POST request.
+   * @param index The index of the example value that will be sent to the backend.
+   * @param newValue The newly set example value that will be sent to the backend.
+   */
+  postExampleValue(index: number, newValue: string): void {
     const updateRequest = {
       className: this.selectedClass,
       attributeName: this.selectedAttribute,
@@ -109,7 +177,13 @@ export class PersonaliseComponent implements OnChanges {
       });
   }
 
+  /**
+   * Updates the generated OpenAPI specification data with the new example value.
+   * @param index The index of the example value.
+   * @param newValue The newly set example value.
+   */
   updateOpenApiData(index: number, newValue: string): void {
+    // NOTE: This function is bad for the application's performance and might need to be rewritten.
     const paths = this.openApiData.paths;
     for (const path in paths) {
       if (paths.hasOwnProperty(path)) {
