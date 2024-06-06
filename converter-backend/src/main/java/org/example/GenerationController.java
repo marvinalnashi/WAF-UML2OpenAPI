@@ -65,8 +65,8 @@ public class GenerationController {
         InputStream classStream = new ByteArrayInputStream(fileContent);
         Map<String, List<String>> classes = parser.parse(classStream);
 
-        InputStream attrStream = new ByteArrayInputStream(fileContent);
-        Map<String, List<String>> attributes = parser.parseAttributes(attrStream);
+        InputStream attributeStream = new ByteArrayInputStream(fileContent);
+        Map<String, List<String>> attributes = parser.parseAttributes(attributeStream);
 
         InputStream methodStream = new ByteArrayInputStream(fileContent);
         Map<String, List<String>> methods = parser.parseMethods(methodStream);
@@ -113,8 +113,8 @@ public class GenerationController {
                 classes.set(index, newName);
                 Map<String, List<String>> attributes = (Map<String, List<String>>) umlDataStore.get("attributes");
                 if (attributes.containsKey(oldName)) {
-                    List<String> attrList = attributes.remove(oldName);
-                    attributes.put(newName, attrList);
+                    List<String> attributeList = attributes.remove(oldName);
+                    attributes.put(newName, attributeList);
                 }
                 Map<String, List<String>> methods = (Map<String, List<String>>) umlDataStore.get("methods");
                 if (methods.containsKey(oldName)) {
@@ -136,7 +136,7 @@ public class GenerationController {
         if (attributes != null) {
             attributes.forEach((key, value) -> {
                 List<String> updatedAttributes = value.stream()
-                        .map(attr -> attr.equals(oldName) ? newName : attr)
+                        .map(attribute -> attribute.equals(oldName) ? newName : attribute)
                         .collect(Collectors.toList());
                 attributes.put(key, updatedAttributes);
             });
@@ -151,7 +151,7 @@ public class GenerationController {
         if (methods != null) {
             methods.forEach((key, value) -> {
                 List<String> updatedMethods = value.stream()
-                        .map(meth -> meth.equals(oldName) ? newName : meth)
+                        .map(method -> method.equals(oldName) ? newName : method)
                         .collect(Collectors.toList());
                 methods.put(key, updatedMethods);
             });
@@ -174,7 +174,7 @@ public class GenerationController {
                     break;
                 case "attribute":
                     Map<String, List<String>> attributes = (Map<String, List<String>>) umlDataStore.get("attributes");
-                    attributes.values().forEach(attrs -> attrs.removeIf(attr -> attr.equals(name)));
+                    attributes.values().forEach(attributesList -> attributesList.removeIf(attribute -> attribute.equals(name)));
                     break;
                 case "method":
                     Map<String, List<String>> methods = (Map<String, List<String>>) umlDataStore.get("methods");
@@ -227,21 +227,6 @@ public class GenerationController {
         }
     }
 
-    private Map<String, List<String>> parseStream(DiagramParser parser, byte[] fileContent, String type) throws Exception {
-        try (InputStream inputStream = new ByteArrayInputStream(fileContent)) {
-            switch (type) {
-                case "classes":
-                    return parser.parse(inputStream);
-                case "attributes":
-                    return parser.parseAttributes(inputStream);
-                case "methods":
-                    return parser.parseMethods(inputStream);
-                default:
-                    return new HashMap<>();
-            }
-        }
-    }
-
     @PostMapping("/apply-mappings")
     public ResponseEntity<?> applyMappings(@RequestBody List<Map<String, Object>> mappings) {
         if (mappings == null || mappings.isEmpty()) {
@@ -264,7 +249,7 @@ public class GenerationController {
             case "mdj":
                 return new MDJParser();
             case "puml":
-                return new PlantUMLParser();
+                return new PUMLParser();
             default:
                 return null;
         }

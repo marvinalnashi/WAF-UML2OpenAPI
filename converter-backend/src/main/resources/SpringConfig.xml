@@ -13,8 +13,8 @@
     <!-- Bean definition for MDJParser -->
     <bean id="mdjParser" class="org.example.MDJParser"/>
 
-    <!-- Bean definition for PlantUMLParser -->
-    <bean id="plantUMLParser" class="org.example.PlantUMLParser"/>
+    <!-- Bean definition for PUMLParser -->
+    <bean id="plantUMLParser" class="org.example.PUMLParser"/>
 
     <!-- Bean definition for OpenAPISpecGenerator -->
     <bean id="openAPISpecGenerator" class="org.example.OpenAPISpecGenerator"/>

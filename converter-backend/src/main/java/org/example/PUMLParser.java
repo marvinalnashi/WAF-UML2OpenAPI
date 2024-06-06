@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlantUMLParser implements DiagramParser {
+public class PUMLParser implements DiagramParser {
 
     @Override
     public Map<String, List<String>> parse(InputStream inputStream) throws Exception {

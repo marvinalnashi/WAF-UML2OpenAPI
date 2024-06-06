@@ -1,5 +1,5 @@
 # Use a Node.js image to build and serve the Angular application
-FROM node:21
+FROM node:21-slim
 
 # Set the working directory in the container
 WORKDIR /app

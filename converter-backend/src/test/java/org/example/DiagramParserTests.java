@@ -26,7 +26,7 @@ public class DiagramParserTests {
     private MDJParser mdjParser;
 
     @InjectMocks
-    private PlantUMLParser plantUmlParser;
+    private PUMLParser PUMLParser;
 
     @BeforeEach
     public void setUp() {
@@ -43,7 +43,7 @@ public class DiagramParserTests {
     @Test
     public void testPlantUMLParser() throws Exception {
         InputStream inputStream = new ByteArrayInputStream("class Test {}".getBytes());
-        Map<String, List<String>> result = plantUmlParser.parse(inputStream);
+        Map<String, List<String>> result = PUMLParser.parse(inputStream);
         assertEquals(1, result.size());
         assertEquals("Test", result.keySet().iterator().next());
     }
