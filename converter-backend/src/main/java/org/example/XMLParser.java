@@ -12,27 +12,58 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Implementation of the DiagramParser interface for XML diagrams.
+ */
 public class XMLParser implements DiagramParser {
-
+    /**
+     * Parses the uploaded UML diagram to extract its classes.
+     *
+     * @param inputStream The UML diagram that is being processed as input.
+     * @return Map in which the key is the classname and the value contains the class details.
+     * @throws Exception Is returned if an error occurs during the parsing process.
+     */
     @Override
-    public Map<String, List<String>> parse(InputStream xmlInputStream) throws Exception {
-        return parseElementsByType(xmlInputStream, "class");
+    public Map<String, List<String>> parse(InputStream inputStream) throws Exception {
+        return parseElementsByType(inputStream, "class");
     }
 
+    /**
+     * Parses the uploaded UML diagram to extract its attributes.
+     *
+     * @param inputStream The UML diagram that is being processed as input.
+     * @return Map in which the key is the classname and the value is the attribute.
+     * @throws Exception Is returned if an error occurs during the parsing process.
+     */
     @Override
-    public Map<String, List<String>> parseAttributes(InputStream xmlInputStream) throws Exception {
-        return parseElementsByType(xmlInputStream, "attribute");
+    public Map<String, List<String>> parseAttributes(InputStream inputStream) throws Exception {
+        return parseElementsByType(inputStream, "attribute");
     }
 
+    /**
+     * Parses the uploaded UML diagram to extract its methods.
+     *
+     * @param inputStream The UML diagram that is being processed as input.
+     * @return Map in which the key is the classname and the value is the method.
+     * @throws Exception Is returned if an error occurs during the parsing process.
+     */
     @Override
-    public Map<String, List<String>> parseMethods(InputStream xmlInputStream) throws Exception {
-        return parseElementsByType(xmlInputStream, "method");
+    public Map<String, List<String>> parseMethods(InputStream inputStream) throws Exception {
+        return parseElementsByType(inputStream, "method");
     }
 
-    private Map<String, List<String>> parseElementsByType(InputStream xmlInputStream, String elementType) throws Exception {
+    /**
+     * Parses the uploaded UML diagram to extract its elements and distinguishes them based on their types.
+     *
+     * @param inputStream The UML diagram that is being processed as input.
+     * @param elementType The type of the parsed element.
+     * @return Map in which the key is the classname and the value is the element.
+     * @throws Exception Is returned if an error occurs during the parsing process.
+     */
+    private Map<String, List<String>> parseElementsByType(InputStream inputStream, String elementType) throws Exception {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(xmlInputStream);
+        Document doc = dBuilder.parse(inputStream);
         doc.getDocumentElement().normalize();
 
         Map<String, List<String>> elements = new HashMap<>();
@@ -54,7 +85,7 @@ public class XMLParser implements DiagramParser {
                 } else if (!value.isEmpty() && style.contains("text;")) {
                     String currentClass = classContexts.get(parentId);
                     if (currentClass != null) {
-                        handleValue(elements, value, elementType, currentClass);
+                        extractValue(elements, value, elementType, currentClass);
                     }
                 }
             }
@@ -62,7 +93,15 @@ public class XMLParser implements DiagramParser {
         return elements;
     }
 
-    private void handleValue(Map<String, List<String>> elements, String value, String elementType, String currentClass) {
+    /**
+     * Extracts the value of the specified element type.
+     *
+     * @param elements Map in which the key is the classname and the value is the element.
+     * @param value The value to extract from the element type.
+     * @param elementType The type of the parsed element.
+     * @param currentClass The name of the current class.
+     */
+    private void extractValue(Map<String, List<String>> elements, String value, String elementType, String currentClass) {
         String[] parts = value.split("<div>|<br>");
         for (String part : parts) {
             part = part.trim();
@@ -80,6 +119,12 @@ public class XMLParser implements DiagramParser {
         }
     }
 
+    /**
+     * Extracts the classname from the specified value.
+     *
+     * @param value The value containing the classname.
+     * @return The extracted classname.
+     */
     private String extractClassName(String value) {
         if (value.contains("Class<")) {
             return value.substring(value.indexOf("Class<") + 6, value.indexOf(">"));

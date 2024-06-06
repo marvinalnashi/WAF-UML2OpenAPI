@@ -12,27 +12,58 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Implementation of the DiagramParser interface for UXF diagrams.
+ */
 public class UXFParser implements DiagramParser {
-
+    /**
+     * Parses the uploaded UML diagram to extract its classes.
+     *
+     * @param inputStream The UML diagram that is being processed as input.
+     * @return Map in which the key is the classname and the value contains the class details.
+     * @throws Exception Is returned if an error occurs during the parsing process.
+     */
     @Override
-    public Map<String, List<String>> parse(InputStream diagramStream) throws Exception {
-        return parseElementsByType(diagramStream, "class");
+    public Map<String, List<String>> parse(InputStream inputStream) throws Exception {
+        return parseElementsByType(inputStream, "class");
     }
 
+    /**
+     * Parses the uploaded UML diagram to extract its attributes.
+     *
+     * @param inputStream The UML diagram that is being processed as input.
+     * @return Map in which the key is the classname and the value is the attribute.
+     * @throws Exception Is returned if an error occurs during the parsing process.
+     */
     @Override
-    public Map<String, List<String>> parseAttributes(InputStream diagramStream) throws Exception {
-        return parseElementsByType(diagramStream, "attribute");
+    public Map<String, List<String>> parseAttributes(InputStream inputStream) throws Exception {
+        return parseElementsByType(inputStream, "attribute");
     }
 
+    /**
+     * Parses the uploaded UML diagram to extract its methods.
+     *
+     * @param inputStream The UML diagram that is being processed as input.
+     * @return Map in which the key is the classname and the value is the method.
+     * @throws Exception Is returned if an error occurs during the parsing process.
+     */
     @Override
-    public Map<String, List<String>> parseMethods(InputStream diagramStream) throws Exception {
-        return parseElementsByType(diagramStream, "method");
+    public Map<String, List<String>> parseMethods(InputStream inputStream) throws Exception {
+        return parseElementsByType(inputStream, "method");
     }
 
-    private Map<String, List<String>> parseElementsByType(InputStream diagramStream, String elementType) throws Exception {
+    /**
+     * Parses the uploaded UML diagram to extract its elements and distinguishes them based on their types.
+     *
+     * @param inputStream The UML diagram that is being processed as input.
+     * @param elementType The type of the parsed element.
+     * @return Map in which the key is the classname and the value is the element.
+     * @throws Exception Is returned if an error occurs during the parsing process.
+     */
+    private Map<String, List<String>> parseElementsByType(InputStream inputStream, String elementType) throws Exception {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(diagramStream);
+        Document doc = dBuilder.parse(inputStream);
         doc.getDocumentElement().normalize();
 
         Map<String, List<String>> elements = new HashMap<>();
@@ -43,14 +74,21 @@ public class UXFParser implements DiagramParser {
                 Element element = (Element) node;
                 String id = element.getElementsByTagName("id").item(0).getTextContent();
                 if ("UMLClass".equals(id)) {
-                    processClassElement(element, elements, elementType);
+                    addDetails(element, elements, elementType);
                 }
             }
         }
         return elements;
     }
 
-    private void processClassElement(Element element, Map<String, List<String>> elements, String elementType) {
+    /**
+     * Adds details to parsed elements, such as brackets for methods and data types for attributes, to distinguish them.
+     *
+     * @param element The name of the class element that is processed.
+     * @param elements Map in which the key is the classname and the value is the element.
+     * @param elementType The type of the parsed element.
+     */
+    private void addDetails(Element element, Map<String, List<String>> elements, String elementType) {
         String panelAttributes = element.getElementsByTagName("panel_attributes").item(0).getTextContent();
         String[] lines = panelAttributes.split("\\n");
         String className = lines[0].replace("Class ", "").trim();

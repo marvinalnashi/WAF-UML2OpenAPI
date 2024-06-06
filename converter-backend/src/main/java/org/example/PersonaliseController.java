@@ -8,12 +8,23 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * REST controller for handling the functionalities related to the management of the example values that are generated for the attributes of the classes.
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class PersonaliseController {
 
+    /**
+     * The path of the directory in which the generated OpenAPI specification is saved.
+     */
     private final String outputPath = "/data/export.yml";
 
+    /**
+     * The endpoint to fetch the generated OpenAPI specification before its example values are modified by the user.
+     *
+     * @return a map containing the OpenAPI specification data
+     */
     @GetMapping("/personalise")
     public Map<String, Object> getPersonalisedData() {
         try {
@@ -28,6 +39,11 @@ public class PersonaliseController {
         }
     }
 
+    /**
+     * Updates an example value for an attribute of a class in the generated OpenAPI specification.
+     *
+     * @param updateRequest a map containing the update details
+     */
     @PostMapping("/updateExample")
     public void updateExample(@RequestBody Map<String, Object> updateRequest) {
         try {
@@ -53,6 +69,15 @@ public class PersonaliseController {
         }
     }
 
+    /**
+     * Updates the paths in the generated OpenAPI specification with the modified example value.
+     *
+     * @param openApiSpec The generated OpenAPI specification.
+     * @param className The name of the class.
+     * @param attributeName The name of the attribute.
+     * @param index The index of the example value.
+     * @param newValue The new example value for the specified attribute.
+     */
     private void updatePaths(Map<String, Object> openApiSpec, String className, String attributeName, int index, String newValue) {
         Map<String, Object> paths = (Map<String, Object>) openApiSpec.get("paths");
         for (Map.Entry<String, Object> pathEntry : paths.entrySet()) {

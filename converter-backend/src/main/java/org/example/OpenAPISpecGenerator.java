@@ -9,21 +9,61 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Class that generates an OpenAPI specification and fills it with content based on the configuration that the user has provided in the stepper.
+ */
 public class OpenAPISpecGenerator {
-
+    /**
+     * The API key that is used to access the OpenAI model that is required for generating example values.
+     */
     private final String apiKey;
 
+    /**
+     * The HTTP client that is used for initiating API requests.
+     */
     private static final OkHttpClient httpClient = new OkHttpClient();
+
+    /**
+     * The maximum amount of retries that is tolerated for sending API requests to the OpenAI model.
+     */
     private static final int MAX_RETRIES = 5;
+
+    /**
+     * The initial backoff time for retrying sending API requests to the OpenAI model.
+     */
     private static final int INITIAL_BACKOFF = 1000;
+
+    /**
+     * The OpenAI model that is used for generating example values.
+     */
     private static final String OPENAI_ENGINE = "gpt-3.5-turbo";
 
+    /**
+     * Cache for temporarily storing generated example values (circumvention of bug with example value modifications and updates).
+     */
     private static final Map<String, Object> exampleCache = new HashMap<>();
 
+    /**
+     * The constructor of OpenAPISpecGenerator.
+     *
+     * @param apiKey The API key that is used to access the OpenAI model that is required for generating example values.
+     */
     public OpenAPISpecGenerator(@Value("${openai.api.key}") String apiKey) {
         this.apiKey = apiKey;
     }
 
+    /**
+     * Generates the OpenAPI specification based on the configuration that the user has provided in the stepper.
+     *
+     * @param classes Map in which the key is the classname and the value is its corresponding path.
+     * @param attributes Map in which the key is the classname and the value is the corresponding attribute.
+     * @param methods Map in which the key is the classname and the value is the corresponding method.
+     * @param mappings The list that contains the mappings and modifications done by the user in the Mapping step of the stepper.
+     * @param outputPath The path of the directory in which the generated OpenAPI specification is saved.
+     * @param selectedHttpMethods Map in which the key is the classname and the value contains the corresponding HTTP methods the user has selected in the Manage Elements tab of the Mapping step of the stepper.
+     * @return Message that indicates whether the generation process has completed successfully.
+     * @throws Exception Is returned if an error occurs during the generation process.
+     */
     public String generateSpec(Map<String, List<String>> classes,
                                Map<String, List<String>> attributes,
                                Map<String, List<String>> methods,
@@ -52,6 +92,8 @@ public class OpenAPISpecGenerator {
 
             for (String className : classes.keySet()) {
                 List<String> classAttributes = attributes.getOrDefault(className, new ArrayList<>());
+
+                // Methods aren't being moved over to the OpenAPI specification but this line can be used to do so in the future if needed.
                 List<String> classMethods = methods.getOrDefault(className, new ArrayList<>());
 
                 Map<String, Object> classSchema = generateClassSchema(className, classAttributes);
@@ -91,6 +133,14 @@ public class OpenAPISpecGenerator {
         }
     }
 
+    /**
+     * Generates the class schema that contains classnames, the attributes, and an array that consists of their corresponding example values.
+     *
+     * @param className The name of the class.
+     * @param attributes The list of attributes in a class.
+     * @return Map that contains the generated class schema.
+     * @throws Exception Is returned if an error occurs during the generation process.
+     */
     private Map<String, Object> generateClassSchema(String className, List<String> attributes) throws Exception {
         Map<String, Object> properties = new LinkedHashMap<>();
         List<Map<String, Object>> exampleArray = new ArrayList<>();
@@ -139,6 +189,14 @@ public class OpenAPISpecGenerator {
         );
     }
 
+    /**
+     * Generates example values for the attributes of the classes in a class schema based on the specified prompt.
+     *
+     * @param prompts List that contains the prompts that are used to generate example values for the attributes of the classes.
+     * @param apiKey The API key that is used to access the OpenAI model that is required for generating example values.
+     * @return List of generated example values for the attributes of the classes.
+     * @throws IOException Is returned if an error occurs during the generation process.
+     */
     private List<Object> generateExampleValues(List<String> prompts, String apiKey) throws IOException {
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
@@ -208,6 +266,12 @@ public class OpenAPISpecGenerator {
         return results;
     }
 
+    /**
+     * Maps a UML data type to a data type that can be used in the generated OpenAPI specification.
+     *
+     * @param type The UML data type that is used as input.
+     * @return The corresponding data type that can be used in the generated OpenAPI specification.
+     */
     private static String mapType(String type) {
         switch (type.toLowerCase()) {
             case "int":
@@ -233,6 +297,12 @@ public class OpenAPISpecGenerator {
         }
     }
 
+    /**
+     * Fetches the format of the specified numeric data type.
+     *
+     * @param type The UML data type that is used as input.
+     * @return The corresponding format for the specified UML data type or null if the specified data type is not in the list of data types that need formatting.
+     */
     private static String getTypeFormat(String type) {
         switch (type.toLowerCase()) {
             case "int":
@@ -249,6 +319,14 @@ public class OpenAPISpecGenerator {
         }
     }
 
+    /**
+     * Creates a GET HTTP method for fetching all instances of a class.
+     *
+     * @param className The name of the class.
+     * @param attributes List of attributes for the specified class.
+     * @return Map that contains all the data that is used for creating the GET HTTP method.
+     * @throws Exception Is returned if an error occurs during the generation process.
+     */
     private Map<String, Object> createGetAllOperation(String className, List<String> attributes) throws Exception {
         Map<String, Object> operation = new LinkedHashMap<>();
         operation.put("tags", List.of(className));
@@ -306,6 +384,16 @@ public class OpenAPISpecGenerator {
         return operation;
     }
 
+    /**
+     * Generates endpoints for the HTTP methods the user has selected in the Manage Elements tab of the Manage step of the stepper.
+     *
+     * @param className The name of the class.
+     * @param method The selected HTTP method.
+     * @param classSchema The schema of the class that defines its structure.
+     * @param isGetMethod Boolean that indicates whether the endpoint is a GET HTTP method.
+     * @return Map that contains all the data that is used for creating the HTTP method.
+     * @throws Exception Is returned if an error occurs during the generation process.
+     */
     private Map<String, Object> createOperation(String className, String method, Map<String, Object> classSchema, boolean isGetMethod) throws Exception {
         Map<String, Object> operation = new LinkedHashMap<>();
         operation.put("tags", List.of(className));

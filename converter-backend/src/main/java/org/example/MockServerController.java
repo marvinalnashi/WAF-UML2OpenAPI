@@ -7,11 +7,21 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Map;
 
+/**
+ * Controller for managing the state of the Prism Mock Server.
+ */
 @RestController
 public class MockServerController {
-
+    /**
+     * The process running the Prism Mock Server.
+     */
     private Process prismProcess = null;
 
+    /**
+     * Toggles the state of the Prism Mock Server.
+     *
+     * @return The HTTP response that contains the method that is run based on the current state of the Prism mock server.
+     */
     @GetMapping("/toggle-prism-mock")
     public ResponseEntity<Object> togglePrismMockServer() {
         if (prismProcess == null) {
@@ -21,6 +31,11 @@ public class MockServerController {
         }
     }
 
+    /**
+     * Starts the Prism Mock Server.
+     *
+     * @return The HTTP response that indicates whether the Prism mock server has started.
+     */
     private ResponseEntity<Object> startPrismMockServer() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         try {
@@ -34,11 +49,19 @@ public class MockServerController {
         }
     }
 
+    /**
+     * Restarts the Prism Mock Server.
+     *
+     * @return The HTTP response that indicates whether the Prism mock server has restarted.
+     */
     private ResponseEntity<Object> restartPrismMockServer() {
         stopPrismMockServer();
         return startPrismMockServer();
     }
 
+    /**
+     * Stops the Prism Mock Server.
+     */
     private void stopPrismMockServer() {
         if (prismProcess != null) {
             prismProcess.destroy();
@@ -46,6 +69,11 @@ public class MockServerController {
         }
     }
 
+    /**
+     * Logs the output of the provided process.
+     *
+     * @param process The process of which its output is logged.
+     */
     private void logOutput(Process process) {
         new Thread(() -> {
             try (BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()))) {

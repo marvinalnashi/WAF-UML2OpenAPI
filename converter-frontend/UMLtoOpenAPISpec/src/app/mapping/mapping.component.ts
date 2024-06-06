@@ -165,9 +165,9 @@ export class MappingComponent implements OnInit {
   }
 
   /**
-   * Applies the added class and its path and eventual attributes and methods and updates the elements counts.
+   * Applies the mappings and modifications done by the user in the Mapping step of the stepper.
    */
-  applyAdditions(): void {
+  applyModifications(): void {
     if (this.mappingsForm.valid) {
       this.generationService.applyMappings(this.mappingsForm.value.mappings).subscribe(() => {
         this.mappingCompleted.emit(true);

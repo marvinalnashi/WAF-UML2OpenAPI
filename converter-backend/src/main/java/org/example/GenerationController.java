@@ -15,18 +15,46 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The REST controller that contains the stepper functionalities and the corresponding endpoints.
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class GenerationController {
+    /**
+     * The path where the generated OpenAPI specification will be saved.
+     */
     private final String outputPath = "/data/export.yml";
+
+    /**
+     * The reference variable for the class that is used to generate an OpenAPI specification and fill it with content that is based on the uploaded UML diagram and the modifications done by the user in the stepper.
+     */
     private final OpenAPISpecGenerator openAPISpecGenerator;
+
+    /**
+     * A list to store the mappings and modifications done and applied by the user in the Mapping step of the stepper.
+     */
     private List<Map<String, Object>> savedMappings = new ArrayList<>();
+
+    /**
+     * Map in which all the data related to the uploaded UML diagram and the modifications done by the user is stored.
+     */
     Map<String, Object> umlDataStore = new HashMap<>();
 
+    /**
+     * The constructor of GenerationController.
+     *
+     * @param openAPISpecGenerator The class instance for generating an OpenAPI specification.
+     */
     public GenerationController(OpenAPISpecGenerator openAPISpecGenerator) {
         this.openAPISpecGenerator = openAPISpecGenerator;
     }
 
+    /**
+     * The endpoint to fetch the generated OpenAPI specification.
+     *
+     * @return The HTTP response containing the OpenAPI specification file as body.
+     */
     @GetMapping("/export.yml")
     public ResponseEntity<Resource> getOpenAPISpec() {
         Resource fileResource = new FileSystemResource(outputPath);
@@ -39,6 +67,12 @@ public class GenerationController {
                 .body(fileResource);
     }
 
+    /**
+     * The endpoint to parse individual UML elements from an uploaded UML diagram file.
+     *
+     * @param file The uploaded UML diagram file.
+     * @return The HTTP response containing the parsed individual UML elements as body.
+     */
     @PostMapping("/parse-elements")
     public ResponseEntity<Map<String, Object>> parseDiagramElements(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
@@ -61,6 +95,14 @@ public class GenerationController {
         }
     }
 
+    /**
+     * Uses a suitable parser class to parse the data of the uploaded UML diagram.
+     *
+     * @param fileContent The contents of the uploaded UML diagram file.
+     * @param parser The parser class that is used for extracting elements from the uploaded UML diagram.
+     * @return Map containing the parsed individual elements of the uploaded UML diagram.
+     * @throws Exception Is returned if an error occurs during the parsing process.
+     */
     private Map<String, Object> parseUmlData(byte[] fileContent, DiagramParser parser) throws Exception {
         InputStream classStream = new ByteArrayInputStream(fileContent);
         Map<String, List<String>> classes = parser.parse(classStream);
@@ -78,6 +120,12 @@ public class GenerationController {
         return elements;
     }
 
+    /**
+     * The endpoint to rename an element of an uploaded UML diagram.
+     *
+     * @param renameInfo Map containing the type, old name, and new name of the element to rename.
+     * @return The HTTP response containing the result of the rename operation as body, which consists of the old and new element values.
+     */
     @PostMapping("/rename-element")
     public ResponseEntity<?> renameElement(@RequestBody Map<String, String> renameInfo) {
         String type = renameInfo.get("type");
@@ -104,6 +152,13 @@ public class GenerationController {
         }
     }
 
+    /**
+     * Renames an element of an uploaded UML diagram.
+     *
+     * @param oldName The current name of the class.
+     * @param newName The new name of the class.
+     * @return The HTTP response containing the result of the rename operation as body, which consists of the old and new classnames.
+     */
     private ResponseEntity<?> renameClass(String oldName, String newName) {
         Object classesObject = umlDataStore.get("classes");
         if (classesObject instanceof List) {
@@ -131,6 +186,13 @@ public class GenerationController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected data type for classes.");
     }
 
+    /**
+     * Renames an attribute of the uploaded UML diagram.
+     *
+     * @param oldName The current name of the attribute.
+     * @param newName The new name of the attribute.
+     * @return The HTTP response containing the result of the rename operation as body, which consists of the old and new attribute values.
+     */
     private ResponseEntity<?> renameAttribute(String oldName, String newName) {
         Map<String, List<String>> attributes = (Map<String, List<String>>) umlDataStore.get("attributes");
         if (attributes != null) {
@@ -146,6 +208,13 @@ public class GenerationController {
         return ResponseEntity.badRequest().body("Attributes not found for: " + oldName);
     }
 
+    /**
+     * Renames a method of the uploaded UML diagram.
+     *
+     * @param oldName The current name of the method.
+     * @param newName The new name of the method.
+     * @return The HTTP response containing the result of the rename operation as body, which consists of the old and new method values.
+     */
     private ResponseEntity<?> renameMethod(String oldName, String newName) {
         Map<String, List<String>> methods = (Map<String, List<String>>) umlDataStore.get("methods");
         if (methods != null) {
@@ -161,6 +230,12 @@ public class GenerationController {
         return ResponseEntity.badRequest().body("Methods not found for: " + oldName);
     }
 
+    /**
+     * The endpoint to delete an element from the uploaded UML diagram or from the elements added by the user.
+     *
+     * @param deleteInfo Map for the elemented that is removed, in which the key is the name of the element and the value is the type of the element.
+     * @return The HTTP response containing the result of the delete operation as body, which consists of the old and new element values.
+     */
     @PostMapping("/delete-element")
     public ResponseEntity<?> deleteElement(@RequestBody Map<String, String> deleteInfo) {
         String type = deleteInfo.get("type");
@@ -187,6 +262,13 @@ public class GenerationController {
         }
     }
 
+    /**
+     * The endpoint to generate an OpenAPI specification based on the uploaded UML diagram file and the modifications done by the user.
+     *
+     * @param file The uploaded UML diagram file.
+     * @param selectedHttpMethodsJson a JSON string containing the HTTP methods the user selected in the table of the Manage Elements step of the stepper.
+     * @return The HTTP response containing the generated OpenAPI specification as body.
+     */
     @PostMapping(value = "/generate", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Map<String, String>> generateOpenAPISpec(@RequestParam("file") MultipartFile file,
                                                                    @RequestParam("selectedHttpMethods") String selectedHttpMethodsJson) {
@@ -227,6 +309,12 @@ public class GenerationController {
         }
     }
 
+    /**
+     * The endpoint to apply the elements the user has added and/or modified in the Mapping step of the stepper.
+     *
+     * @param mappings A list that contains all the elements the user has added and all the existing elements of the uploaded UML diagram.
+     * @return The HTTP response containing the result of the operation in which the mappings and modifications were applied as body.
+     */
     @PostMapping("/apply-mappings")
     public ResponseEntity<?> applyMappings(@RequestBody List<Map<String, Object>> mappings) {
         if (mappings == null || mappings.isEmpty()) {
@@ -236,6 +324,12 @@ public class GenerationController {
         return ResponseEntity.ok().body("Mappings saved successfully");
     }
 
+    /**
+     * Fetches the appropriate parser class for the specified file type.
+     *
+     * @param fileName The name of the uploaded UML diagram file.
+     * @return The parser class that can handle the specified UML diagram file or null if the uploaded UML diagram has an unsupported file format.
+     */
     private DiagramParser getParserForFileType(String fileName) {
         if (fileName == null) {
             return null;
@@ -255,6 +349,12 @@ public class GenerationController {
         }
     }
 
+    /**
+     * The endpoint to add a new element to the collection of existing elements of the uploaded UML diagram and the elements added by the user.
+     *
+     * @param newElement Map that contains the values of the newly added element.
+     * @return The HTTP response containing the result of the addition operation as body.
+     */
     @PostMapping("/add-new-element")
     public ResponseEntity<?> addNewElement(@RequestBody Map<String, Object> newElement) {
         String className = (String) newElement.get("className");
@@ -282,6 +382,13 @@ public class GenerationController {
         return ResponseEntity.ok(Map.of("message", "New element added successfully"));
     }
 
+    /**
+     * Safely casts an object to a map that contains the values of a type of individual UML elements.
+     *
+     * @param data The object that is cast to a map.
+     * @return The map that is the result of the cast operation.
+     * @throws ClassCastException Is returned if an error occurs during the casting process.
+     */
     private Map<String, List<String>> safelyCastToMap(Object data) {
         if (data instanceof Map) {
             return (Map<String, List<String>>) data;
