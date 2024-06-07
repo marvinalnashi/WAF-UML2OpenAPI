@@ -16,6 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+/**
+ * Unit tests for the GenerationController class.
+ */
 public class GenerationControllerTests {
 
     @Mock
@@ -29,6 +32,10 @@ public class GenerationControllerTests {
         MockitoAnnotations.openMocks(this);
     }
 
+    /**
+     * Tests parsing individual UML elements from an uploaded UML diagram file.
+     * Expects a 200 OK response with the parsed elements.
+     */
     @Test
     public void testParseDiagramElements() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "test.mdj", "application/json", "{}".getBytes());
@@ -36,6 +43,10 @@ public class GenerationControllerTests {
         assertEquals(200, response.getStatusCodeValue());
     }
 
+    /**
+     * Tests generating an OpenAPI specification.
+     * Expects a 200 OK response with a message that indicates that the generation process was successful.
+     */
     @Test
     public void testGenerateOpenAPISpec() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "test.mdj", "application/json", "{}".getBytes());
@@ -50,6 +61,10 @@ public class GenerationControllerTests {
         assertEquals("Generated OpenAPI specification", response.getBody().get("message"));
     }
 
+    /**
+     * Tests parsing individual UML elements from an uploaded UML diagram file with an invalid file type.
+     * Expects a 415 Unsupported Media Type response.
+     */
     @Test
     public void testParseDiagramElementsWithInvalidFileType() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "Invalid content".getBytes());

@@ -79,22 +79,48 @@ public class PersonaliseController {
      * @param newValue The new example value for the specified attribute.
      */
     private void updatePaths(Map<String, Object> openApiSpec, String className, String attributeName, int index, String newValue) {
+        // As this method is complex, and it contains a bug that's causing example values and their paths to only be updated for the GET /class endpoint but not also the GET /class/{id} endpoint, the code for this method has been broken down and comments have been added to various parts of the method for increased readability and debugging.
+
+        // Retrieves the paths section of the OpenAPI specification.
         Map<String, Object> paths = (Map<String, Object>) openApiSpec.get("paths");
+
+        // Iterates over each path in the paths section.
         for (Map.Entry<String, Object> pathEntry : paths.entrySet()) {
+            // Retrieves the HTTP methods for the current path.
             Map<String, Object> methods = (Map<String, Object>) pathEntry.getValue();
+
+            // Iterates over each HTTP method in the current path.
             for (Map.Entry<String, Object> methodEntry : methods.entrySet()) {
+                // Retrieve the responses section for the current HTTP method
                 Map<String, Object> responses = (Map<String, Object>) ((Map<String, Object>) methodEntry.getValue()).get("responses");
+
+                // Checks if the responses section exists.
                 if (responses != null) {
+                    // Iterates over each response in the responses section.
                     for (Map.Entry<String, Object> responseEntry : responses.entrySet()) {
+                        // Retrieves the content section for the current response.
                         Map<String, Object> content = (Map<String, Object>) ((Map<String, Object>) responseEntry.getValue()).get("content");
+
+                        // Checks if the content section exists.
                         if (content != null) {
+                            // Iterates over each content type in the content section.
                             for (Map.Entry<String, Object> contentEntry : content.entrySet()) {
+                                // Retrieves the examples section for the current content type.
                                 Map<String, Object> examples = (Map<String, Object>) ((Map<String, Object>) contentEntry.getValue()).get("examples");
+
+                                // Checks if the examples section exists and contains exampleArray.
                                 if (examples != null && examples.get("exampleArray") != null) {
+                                    // Retrieves exampleArray from the examples section.
                                     java.util.List<Object> exampleArray = (java.util.List<Object>) ((Map<String, Object>) examples.get("exampleArray")).get("value");
+
+                                    // Checks if exampleArray contains enough elements.
                                     if (exampleArray.size() > index) {
+                                        // Retrieves the example object at the specified index.
                                         Map<String, Object> example = (Map<String, Object>) exampleArray.get(index);
+
+                                        // Checks if the example object contains the specified attribute.
                                         if (example.containsKey(attributeName)) {
+                                            // Updates the contents of the attribute with the newly set example value.
                                             example.put(attributeName, newValue);
                                         }
                                     }

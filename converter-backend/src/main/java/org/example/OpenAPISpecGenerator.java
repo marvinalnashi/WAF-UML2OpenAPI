@@ -39,7 +39,7 @@ public class OpenAPISpecGenerator {
     private static final String OPENAI_ENGINE = "gpt-3.5-turbo";
 
     /**
-     * Cache for temporarily storing generated example values (circumvention of bug with example value modifications and updates).
+     * Cache for temporarily storing generated example values. This makes sure that the same generated example values are used in both the generateClassSchema method and the createGetAllOperation method, so that both the GET endpoints for a class contain the same example values. (This also fixes the bug with example value modifications and updates).
      */
     private static final Map<String, Object> exampleCache = new HashMap<>();
 

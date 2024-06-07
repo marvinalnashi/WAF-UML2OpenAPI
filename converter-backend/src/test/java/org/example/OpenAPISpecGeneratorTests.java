@@ -12,6 +12,9 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit tests for the OpenAPISpecGenerator class.
+ */
 public class OpenAPISpecGeneratorTests {
 
     @Mock
@@ -22,6 +25,10 @@ public class OpenAPISpecGeneratorTests {
         MockitoAnnotations.openMocks(this);
     }
 
+    /**
+     * Tests generating an OpenAPI specification with valid data.
+     * Expects a message that indicates that the generation process was successful and the path of the generated OpenAPI specification.
+     */
     @Test
     public void testGenerateSpec() throws Exception {
         Map<String, List<String>> classes = Map.of("Test", List.of("attribute"));
@@ -36,6 +43,10 @@ public class OpenAPISpecGeneratorTests {
         assertEquals(expectedResponse, response);
     }
 
+    /**
+     * Tests generating an OpenAPI specification with no data.
+     * Expects a message that indicates that the generation process was successful and the path of the generated OpenAPI specification.
+     */
     @Test
     public void testGenerateSpecWithNoData() throws Exception {
         Map<String, List<String>> classes = Collections.emptyMap();

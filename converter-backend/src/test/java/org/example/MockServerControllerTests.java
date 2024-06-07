@@ -10,6 +10,9 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Unit test for the MockServerController class.
+ */
 public class MockServerControllerTests {
 
     @InjectMocks
@@ -20,6 +23,10 @@ public class MockServerControllerTests {
         MockitoAnnotations.openMocks(this);
     }
 
+    /**
+     * Tests starting the Prism Mock Server.
+     * Expects a 200 OK response with a success message.
+     */
     @Test
     public void testTogglePrismMockServer() {
         ResponseEntity<Object> response = mockServerController.togglePrismMockServer();
