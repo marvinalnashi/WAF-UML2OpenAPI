@@ -1,5 +1,8 @@
-package org.example;
+package codearise.openapispecgenerator;
 
+import codearise.openapispecgenerator.parser.MDJParser;
+import codearise.openapispecgenerator.parser.UXFParser;
+import codearise.openapispecgenerator.parser.XMLParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -29,7 +32,7 @@ public class DiagramParserTests {
     private MDJParser mdjParser;
 
     @InjectMocks
-    private PUMLParser PUMLParser;
+    private codearise.openapispecgenerator.parser.PUMLParser PUMLParser;
 
     @BeforeEach
     public void setUp() {

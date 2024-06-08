@@ -1,4 +1,4 @@
-package org.example;
+package codearise.openapispecgenerator.parser;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

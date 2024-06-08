@@ -1,4 +1,4 @@
-package org.example;
+package codearise.openapispecgenerator.parser;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

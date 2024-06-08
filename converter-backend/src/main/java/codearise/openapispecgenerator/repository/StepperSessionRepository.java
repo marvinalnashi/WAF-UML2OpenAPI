@@ -1,5 +1,6 @@
-package org.example;
+package codearise.openapispecgenerator.repository;
 
+import codearise.openapispecgenerator.entity.StepperSession;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

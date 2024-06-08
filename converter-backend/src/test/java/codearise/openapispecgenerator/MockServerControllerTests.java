@@ -1,5 +1,6 @@
-package org.example;
+package codearise.openapispecgenerator;
 
+import codearise.openapispecgenerator.controller.MockServerController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

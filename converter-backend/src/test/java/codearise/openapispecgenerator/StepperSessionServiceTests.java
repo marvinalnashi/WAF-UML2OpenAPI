@@ -1,6 +1,8 @@
-package org.example;
+package codearise.openapispecgenerator;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import codearise.openapispecgenerator.entity.StepperSession;
+import codearise.openapispecgenerator.repository.StepperSessionRepository;
+import codearise.openapispecgenerator.service.StepperSessionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

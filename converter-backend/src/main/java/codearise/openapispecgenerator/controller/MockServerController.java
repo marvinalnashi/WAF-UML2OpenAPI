@@ -1,4 +1,4 @@
-package org.example;
+package codearise.openapispecgenerator.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

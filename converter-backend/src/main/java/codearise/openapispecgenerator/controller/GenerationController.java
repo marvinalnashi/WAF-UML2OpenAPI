@@ -1,5 +1,7 @@
-package org.example;
+package codearise.openapispecgenerator.controller;
 
+import codearise.openapispecgenerator.util.OpenAPISpecGenerator;
+import codearise.openapispecgenerator.parser.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -39,7 +41,7 @@ public class GenerationController {
     /**
      * Map in which all the data related to the uploaded UML diagram and the modifications done by the user is stored.
      */
-    Map<String, Object> umlDataStore = new HashMap<>();
+    public Map<String, Object> umlDataStore = new HashMap<>();
 
     /**
      * The constructor of GenerationController.

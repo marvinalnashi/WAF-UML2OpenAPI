@@ -1,5 +1,7 @@
-package org.example;
+package codearise.openapispecgenerator;
 
+import codearise.openapispecgenerator.controller.GenerationController;
+import codearise.openapispecgenerator.util.OpenAPISpecGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -9,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,5 +1,7 @@
-package org.example;
+package codearise.openapispecgenerator.service;
 
+import codearise.openapispecgenerator.entity.StepperSession;
+import codearise.openapispecgenerator.repository.StepperSessionRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;

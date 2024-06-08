@@ -5,18 +5,18 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- Bean definition for XMLParser -->
-    <bean id="xmlParser" class="org.example.XMLParser"/>
+    <bean id="xmlParser" class="codearise.openapispecgenerator.parser.XMLParser"/>
 
     <!-- Bean definition for UXFParser -->
-    <bean id="uxfParser" class="org.example.UXFParser"/>
+    <bean id="uxfParser" class="codearise.openapispecgenerator.parser.UXFParser"/>
 
     <!-- Bean definition for MDJParser -->
-    <bean id="mdjParser" class="org.example.MDJParser"/>
+    <bean id="mdjParser" class="codearise.openapispecgenerator.parser.MDJParser"/>
 
     <!-- Bean definition for PUMLParser -->
-    <bean id="plantUMLParser" class="org.example.PUMLParser"/>
+    <bean id="plantUMLParser" class="codearise.openapispecgenerator.parser.PUMLParser"/>
 
     <!-- Bean definition for OpenAPISpecGenerator -->
-    <bean id="openAPISpecGenerator" class="org.example.OpenAPISpecGenerator"/>
+    <bean id="openAPISpecGenerator" class="codearise.openapispecgenerator.util.OpenAPISpecGenerator"/>
 
 </beans>

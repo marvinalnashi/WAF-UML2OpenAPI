@@ -1,4 +1,4 @@
-package org.example;
+package codearise.openapispecgenerator.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
