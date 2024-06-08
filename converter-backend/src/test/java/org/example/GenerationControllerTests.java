@@ -17,7 +17,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests for the GenerationController class.
+ * Unit and integration tests for the GenerationController class.
+ * The interactions between the controller and the service are tested.
  */
 public class GenerationControllerTests {
 

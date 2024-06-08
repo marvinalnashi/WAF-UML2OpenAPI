@@ -11,7 +11,8 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Unit test for the MockServerController class.
+ * Integration test for the MockServerController class.
+ * The behaviour of the MockServerController class is tested.
  */
 public class MockServerControllerTests {
 
