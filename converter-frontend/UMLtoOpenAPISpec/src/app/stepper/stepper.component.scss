@@ -1,3 +1,23 @@
+.stepper-wrapper {
+  @apply flex justify-center items-center min-h-screen bg-gray-100;
+}
+
+.stepper-container {
+  @apply p-5 bg-primary rounded-lg;
+  width: 60vw;
+  height: calc(100vh - 30vh);
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-horizontal-stepper {
+  @apply flex-grow;
+}
+
+.loader-overlay {
+  @apply fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50;
+}
+
 .table-auto {
   @apply w-full border-collapse;
 }

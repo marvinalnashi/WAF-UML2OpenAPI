@@ -1,62 +1,70 @@
 <app-top-bar></app-top-bar>
-<div class="mt-16 p-5 max-w-[60vw] min-h-[70vh] mx-auto my-[15vh] bg-primary rounded-lg">
-  <mat-horizontal-stepper #stepper>
-    <mat-step>
-      <ng-template matStepLabel>Start</ng-template>
-      <app-start [stepper]="stepper"></app-start>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Upload</ng-template>
-      <app-upload (fileSelected)="onFileSelected($event)" [stepper]="stepper"></app-upload>
-    </mat-step>
-    <mat-step
-      [stepControl]="mappingFormGroup"
-      [completed]="isMappingStepCompleted">
-      <ng-template matStepLabel>Mapping</ng-template>
-      <app-mapping
-        (mappingCompleted)="onMappingCompleted($event)"
-        (httpMethodsSelected)="onHttpMethodsSelected($event)"
-        [umlData]="umlData"
-        (elementCountUpdated)="updateMappedElementCount($event)"
-      ></app-mapping>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Generate</ng-template>
-      <app-generate
-        [uploadedFile]="uploadedFile"
-        [fileFormat]="fileFormat"
-        [modellingTool]="modellingTool"
-        [elementCount]="elementCount"
-        [mappedElementCount]="mappedElementCount"
-        [isGeneratedSuccessfully]="isGeneratedSuccessfully"
-        [isLoading]="isLoading"
-        (generate)="generate()"
-        [stepper]="stepper"
-      ></app-generate>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Personalise</ng-template>
-      <app-personalise
-        [openApiData]="openApiData"
-      ></app-personalise>
-      <button class="btn" (click)="stepper.next()">Continue</button>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Manage</ng-template>
-      <app-manage
-        [isGeneratedSuccessfully]="isGeneratedSuccessfully"
-        (toggleMockServer)="toggleMockServer()"
-        (openSwaggerUI)="openSwaggerUI()"
-        (restartApplication)="restartApplication()"
-        (downloadOpenApiSpecification)="downloadOpenApiSpecification()"
-      ></app-manage>
-    </mat-step>
-  </mat-horizontal-stepper>
+<div class="stepper-wrapper">
+  <div class="stepper-container flex flex-col">
+    <mat-horizontal-stepper class="flex-grow" #stepper>
+      <mat-step>
+        <ng-template matStepLabel>Start</ng-template>
+        <app-start
+          [stepper]="stepper"
+        ></app-start>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Upload</ng-template>
+        <app-upload
+          (fileSelected)="onFileSelected($event)"
+          [stepper]="stepper"
+        ></app-upload>
+      </mat-step>
+      <mat-step
+        [stepControl]="mappingFormGroup"
+        [completed]="isMappingStepCompleted"
+      >
+        <ng-template matStepLabel>Mapping</ng-template>
+        <app-mapping
+          (mappingCompleted)="onMappingCompleted($event)"
+          (httpMethodsSelected)="onHttpMethodsSelected($event)"
+          [umlData]="umlData"
+          (elementCountUpdated)="updateMappedElementCount($event)">
+        </app-mapping>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Generate</ng-template>
+        <app-generate
+          [uploadedFile]="uploadedFile"
+          [fileFormat]="fileFormat"
+          [modellingTool]="modellingTool"
+          [elementCount]="elementCount"
+          [mappedElementCount]="mappedElementCount"
+          [isGeneratedSuccessfully]="isGeneratedSuccessfully"
+          [isLoading]="isLoading"
+          (generate)="generate()"
+          [stepper]="stepper">
+        </app-generate>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Personalise</ng-template>
+        <app-personalise
+          [openApiData]="openApiData"
+        ></app-personalise>
+        <button class="btn" (click)="stepper.next()">Continue</button>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Manage</ng-template>
+        <app-manage
+          [isGeneratedSuccessfully]="isGeneratedSuccessfully"
+          (toggleMockServer)="toggleMockServer()"
+          (openSwaggerUI)="openSwaggerUI()"
+          (restartApplication)="restartApplication()"
+          (downloadOpenApiSpecification)="downloadOpenApiSpecification()">
+        </app-manage>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
 </div>
 <div *ngIf="isLoading" class="loader-overlay">
   <app-loader [texts]="[
-  'Please wait while your OpenAPI specification is being generated.',
-  'Example values for your attributes are being generated with AI.',
-  'This process will not take too long.'
+    'Please wait while your OpenAPI specification is being generated.',
+    'Example values for your attributes are being generated with AI.',
+    'This process will not take too long.'
   ]"></app-loader>
 </div>
