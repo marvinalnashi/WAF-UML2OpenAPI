@@ -1,5 +1,5 @@
-import {Component, Inject} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import { Component, Inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -7,11 +7,11 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatOption, MatSelect} from "@angular/material/select";
-import {MatInput} from "@angular/material/input";
-import {NgForOf, NgIf} from "@angular/common";
-import {MatButton} from "@angular/material/button";
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatOption, MatSelect } from "@angular/material/select";
+import { MatInput } from "@angular/material/input";
+import { NgForOf, NgIf } from "@angular/common";
+import { MatButton } from "@angular/material/button";
 
 /**
  * Component for adding attributes and methods in the Add Elements tab of the Mapping step of the stepper through the Add Element popup dialog.
@@ -50,7 +50,7 @@ export class AddElementDialogComponent {
   /**
    * Array of data types that can be selected in the Add Element form.
    */
-  dataTypes: string[] = ['int', 'String', 'void', 'long', 'float', 'double', 'boolean', 'char', 'byte', 'short'];
+  dataTypes: string[] = ['int', 'String', 'long', 'float', 'double', 'boolean', 'char', 'byte', 'short'];
 
   /**
    * Creates an instance of AddElementDialogComponent.
@@ -70,6 +70,10 @@ export class AddElementDialogComponent {
       dataType: ['', Validators.required],
       parameters: ['']
     });
+
+    if (this.isMethod) {
+      this.dataTypes.push('void');
+    }
   }
 
   /**
