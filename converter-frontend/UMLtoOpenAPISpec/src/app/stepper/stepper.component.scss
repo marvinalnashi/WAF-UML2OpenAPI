@@ -6,9 +6,10 @@
 .stepper-container {
   @apply mt-16 p-5 bg-primary rounded-lg;
   width: 60vw;
-  height: 75vh;
+  min-height: 75vh;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .mat-horizontal-stepper {
