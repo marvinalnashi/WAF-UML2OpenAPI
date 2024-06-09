@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {GenerationService} from "../generation.service";
 import {MatStepper} from "@angular/material/stepper";
+import {NgIf} from "@angular/common";
 
 /**
  * Component for uploading UML diagrams.
@@ -8,7 +9,9 @@ import {MatStepper} from "@angular/material/stepper";
 @Component({
   selector: 'app-upload',
   standalone: true,
-  imports: [],
+  imports: [
+    NgIf
+  ],
   templateUrl: './upload.component.html',
   styleUrl: './upload.component.scss'
 })
@@ -22,6 +25,11 @@ export class UploadComponent {
    * Input property for the navigation between steps in the stepper.
    */
   @Input() stepper!: MatStepper;
+
+  /**
+   * Indicates whether a file has been selected.
+   */
+  isFileSelected = false;
 
   /**
    * Creates an instance of UploadComponent.
@@ -38,6 +46,7 @@ export class UploadComponent {
     if (!input.files?.length) {
       return;
     }
+    this.isFileSelected = true;
     this.fileSelected.emit(input.files[0]);
   }
 }

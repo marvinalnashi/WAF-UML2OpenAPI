@@ -1,0 +1,20 @@
+.upload-container {
+  @apply flex justify-center items-center h-full;
+}
+
+.upload-content {
+  @apply text-center max-w-lg mx-auto;
+}
+
+.upload-content p {
+  @apply mb-5;
+}
+
+.upload-box {
+  @apply mx-auto block cursor-pointer border border-dashed border-gray-400 rounded p-5 mb-5;
+  width: fit-content;
+}
+
+.btn {
+  @apply mx-auto block;
+}

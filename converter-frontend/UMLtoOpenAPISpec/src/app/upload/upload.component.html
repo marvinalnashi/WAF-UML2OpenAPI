@@ -1,7 +1,12 @@
-<div class="text-center">
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis eros efficitur dui fermentum molestie at sed metus. Maecenas auctor purus ut commodo faucibus.</p>
-  <div class="flex justify-center items-center">
-    <input type="file" (change)="onFileSelected($event)">
-    <button class="btn" (click)="stepper.next()">Next</button>
+<div class="upload-container">
+  <div class="upload-content">
+    <p>
+      Please upload a UML diagram in one of the supported formats (UMLet UXF, Draw.io XML, StarUML MDJ, or PlantUML PUML).
+    </p>
+    <input type="file" (change)="onFileSelected($event)" id="file-upload" class="hidden"/>
+    <label for="file-upload" class="upload-box">
+      Select a file
+    </label>
+    <button class="btn mt-5" *ngIf="isFileSelected" (click)="stepper.next()">Next</button>
   </div>
 </div>

@@ -1,0 +1,15 @@
+.start-container {
+  @apply flex justify-center items-center h-full;
+}
+
+.start-content {
+  @apply text-center max-w-lg mx-auto;
+}
+
+.start-content p {
+  @apply mb-5;
+}
+
+.btn {
+  @apply mx-auto block;
+}
