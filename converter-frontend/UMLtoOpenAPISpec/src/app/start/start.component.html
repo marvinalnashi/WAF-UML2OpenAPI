@@ -1,12 +1,15 @@
 <div class="start-container">
   <div class="start-content">
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis eros efficitur dui fermentum molestie at sed metus. Maecenas auctor purus ut commodo faucibus.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis eros efficitur dui fermentum molestie at sed metus. Maecenas auctor purus ut commodo faucibus.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis eros efficitur dui fermentum molestie at sed metus. Maecenas auctor purus ut commodo faucibus.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis eros efficitur dui fermentum molestie at sed metus. Maecenas auctor purus ut commodo faucibus.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis eros efficitur dui fermentum molestie at sed metus. Maecenas auctor purus ut commodo faucibus.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis eros efficitur dui fermentum molestie at sed metus. Maecenas auctor purus ut commodo faucibus.
+    <h1 class="text-xl text-primary font-medium mb-2">Welcome to the WeAreFrank! UML diagram to OpenAPI specification converter application!</h1>
+    <p>This tool helps you design and develop your own APIs by providing you useful OpenAPI specifications based on your UML diagrams and models.
+      The application currently supports class diagrams in four different formats and enables you to:
     </p>
-    <button class="btn" (click)="stepper.next()">Start the process</button>
+    <p>Upload diagrams created in Draw.io, UMLet, StarUML, and PlantUML. The application currently supports various modelling tools and support for more is underway.</p>
+    <p>Map and manage elements. You can add as many new classes, paths, attributes, and methods as you need and include them in the OpenAPI specification that the application generates, alongside the existing elements that are present in the uploaded UML diagram.</p>
+    <p>Generate OpenAPI specifications in YAML or JSON format. Sit back and wait as the application generates an OpenAPI specification based on the UML diagram you have uploaded and the mapping and modifications you have applied.</p>
+    <p>The application uses AI to generate example values for the attributes of the classes in your OpenAPI specification. All of these elements are fully customisable.</p>
+    <p>Manage and test your generated OpenAPI specification using the API testing tool Swagger UI, combined with the Prism mock server, which are built into the application.</p>
+    <p>Start generating your own OpenAPI specification by clicking the button below.</p>
+    <button class="btn" (click)="stepper.next()">Start</button>
   </div>
 </div>

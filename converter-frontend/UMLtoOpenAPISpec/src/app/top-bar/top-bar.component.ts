@@ -49,7 +49,7 @@ export class TopBarComponent {
    */
   openSessionListDialog(): void {
     const dialogRef = this.dialog.open(SessionListDialogComponent, {
-      width: '600px'
+      width: '80vw'
     });
   }
 }

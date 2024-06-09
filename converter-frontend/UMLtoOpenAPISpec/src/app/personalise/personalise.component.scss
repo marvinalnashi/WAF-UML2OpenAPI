@@ -1,0 +1,11 @@
+.personalise-container {
+  @apply flex justify-center items-center h-full;
+}
+
+.personalise-content {
+  @apply text-center max-w-[40rem] mx-auto;
+}
+
+.personalise-content p {
+  @apply mb-2;
+}

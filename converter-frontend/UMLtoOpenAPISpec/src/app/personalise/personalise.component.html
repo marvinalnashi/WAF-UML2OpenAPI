@@ -1,16 +1,33 @@
-<div *ngIf="currentView === 'classes'">
-  <button *ngFor="let className of classNames" (click)="selectClass(className)" class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded m-2">{{ className }}</button>
-</div>
+<div class="personalise-container">
+  <div class="personalise-content">
+    <p>Navigate through the classes, attributes, and example values that were generated in your
+      OpenAPI specification in this OpenAPI explorer view.</p>
+    <p>Here you can modify the example values that were generated for the attributes of the classes
+      that were generated in your OpenAPI specification based on the UML diagram you have uploaded and the additions and
+      modifications that were applied.</p>
+    <div *ngIf="currentView === 'classes'">
+      <button *ngFor="let className of classNames" (click)="selectClass(className)"
+              class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded mr-2">{{ className }}
+      </button>
+    </div>
 
-<div *ngIf="currentView === 'attributes'">
-  <button (click)="goBackToClasses()" class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded m-2">Back to Classes</button>
-  <button *ngFor="let attribute of selectedClassAttributes" (click)="selectAttribute(attribute)" class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded m-2">{{ attribute }}</button>
-</div>
+    <div *ngIf="currentView === 'attributes'">
+      <button (click)="goBackToClasses()" class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded mr-2">
+        Back to Classes
+      </button>
+      <button *ngFor="let attribute of selectedClassAttributes" (click)="selectAttribute(attribute)"
+              class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded mr-2">{{ attribute }}
+      </button>
+    </div>
 
-<div *ngIf="currentView === 'examples'">
-  <button (click)="goBackToAttributes()" class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded m-2">Back to Attributes</button>
-  <div *ngFor="let example of selectedAttributeExamples; let i = index" class="flex items-center m-2">
-    <p class="flex-grow">{{ example }}</p>
-    <mat-icon (click)="editExampleValue(i)" class="cursor-pointer">edit</mat-icon>
+    <div *ngIf="currentView === 'examples'">
+      <button (click)="goBackToAttributes()"
+              class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded mr-2">Back to Attributes
+      </button>
+      <div *ngFor="let example of selectedAttributeExamples; let i = index" class="flex items-center mr-2">
+        <p class="flex-grow">{{ example }}</p>
+        <mat-icon (click)="editExampleValue(i)" class="cursor-pointer">edit</mat-icon>
+      </div>
+    </div>
   </div>
 </div>

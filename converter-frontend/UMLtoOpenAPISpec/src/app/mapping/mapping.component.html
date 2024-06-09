@@ -95,7 +95,7 @@
   </div>
 
   <div class="button-container flex justify-end p-4">
-    <button class="btn" (click)="applyModifications()">Apply Mappings and Continue</button>
-    <button *ngIf="showApplyAdditionsButton" class="btn" (click)="addNewClassToElements()">Apply Additions</button>
+    <button *ngIf="showApplyAdditionsButton" class="btn mr-2" (click)="addNewClassToElements()">Apply Additions</button>
+    <button class="btn" (click)="applyModifications()">Continue</button>
   </div>
 </div>
