@@ -1,40 +1,30 @@
-<div class="text-center">
-  <p>The OpenAPI specification generation process has completed successfully!</p>
-  <p>Choose what you want to do with the generated OpenAPI specification below.</p>
-  <table class="w-full border-separate">
-    <tbody>
-    <tr>
-      <td class="w-3/4">Start the Prism mock server.</td>
-      <td class="w-1/4">
-        <button mat-icon-button class="btn" (click)="onToggleMockServer()">
-          <mat-icon>play_arrow</mat-icon>
-        </button>
-      </td>
-    </tr>
-    <tr>
-      <td class="w-3/4">Start Swagger UI to load and test the generated OpenAPI specification.</td>
-      <td class="w-1/4">
-        <button mat-icon-button class="btn" (click)="onOpenSwaggerUI()">
-          <mat-icon>play_arrow</mat-icon>
-        </button>
-      </td>
-    </tr>
-    <tr>
-      <td class="w-3/4">Save the current session data and restart the stepper to upload and convert a new UML diagram.</td>
-      <td class="w-1/4">
-        <button mat-icon-button class="btn" (click)="onRestartApplication()">
-          <mat-icon>play_arrow</mat-icon>
-        </button>
-      </td>
-    </tr>
-    <tr>
-      <td class="w-3/4">Download the generated OpenAPI specification file.</td>
-      <td class="w-1/4">
-        <button mat-icon-button class="btn" *ngIf="isGeneratedSuccessfully" (click)="onDownloadOpenApiSpecification()">
-          <mat-icon>play_arrow</mat-icon>
-        </button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+<div class="manage-container">
+  <p class="manage-text">The OpenAPI specification generation process has completed successfully!</p>
+  <p class="manage-text">Choose what you want to do with the generated OpenAPI specification below.</p>
+  <div class="manage-actions">
+    <div class="action-item">
+      <span>Start the Prism mock server.</span>
+      <button mat-icon-button (click)="onToggleMockServer()">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+    </div>
+    <div class="action-item">
+      <span>Start Swagger UI to load and test the generated OpenAPI specification.</span>
+      <button mat-icon-button (click)="onOpenSwaggerUI()">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+    </div>
+    <div class="action-item">
+      <span>Save the current session data and restart the stepper to upload and convert a new UML diagram.</span>
+      <button mat-icon-button (click)="onRestartApplication()">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+    </div>
+    <div class="action-item" *ngIf="isGeneratedSuccessfully">
+      <span>Download the generated OpenAPI specification file.</span>
+      <button mat-icon-button (click)="onDownloadOpenApiSpecification()">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+    </div>
+  </div>
 </div>

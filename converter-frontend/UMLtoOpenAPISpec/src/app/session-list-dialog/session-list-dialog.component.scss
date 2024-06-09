@@ -1,0 +1,37 @@
+.session-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.mat-header-cell, .mat-cell {
+  padding: 16px;
+  text-align: left;
+}
+
+.mat-header-cell {
+  font-weight: bold;
+}
+
+.mat-dialog-actions {
+  justify-content: flex-end;
+}
+
+button {
+  background-color: #FDC300;
+  color: white;
+  margin: 8px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #1F2937;
+  color: #FFFFFF;
+}
+
+button:active {
+  background-color: #FDC300;
+}
