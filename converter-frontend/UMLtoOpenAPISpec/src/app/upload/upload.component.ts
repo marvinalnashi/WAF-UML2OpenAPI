@@ -46,7 +46,14 @@ export class UploadComponent {
     if (!input.files?.length) {
       return;
     }
-    this.isFileSelected = true;
-    this.fileSelected.emit(input.files[0]);
+    const file = input.files[0];
+    const fileExtension = file.name.split('.').pop()?.toLowerCase();
+    const supportedFormats = ['uxf', 'xml', 'mdj', 'puml'];
+    this.isFileSelected = supportedFormats.includes(fileExtension || '');
+    if (this.isFileSelected) {
+      this.fileSelected.emit(file);
+    } else {
+      console.log("Unsupported file format: " + fileExtension);
+    }
   }
 }
