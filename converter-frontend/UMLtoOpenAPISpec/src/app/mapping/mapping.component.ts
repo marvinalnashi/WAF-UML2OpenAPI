@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GenerationService } from '../generation.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddElementDialogComponent } from '../add-element-dialog/add-element-dialog.component';
@@ -70,6 +70,11 @@ export class MappingComponent implements OnInit {
    * Boolean that manages the visibility of the Add Class button.
    */
   showAddClassButton = true;
+
+  /**
+   * Array to store the added elements for displaying in the Add Elements tab.
+   */
+  addedElements: any[] = [];
 
   /**
    * Creates an instance of MappingComponent.
@@ -205,6 +210,7 @@ export class MappingComponent implements OnInit {
           'DELETE/{id}': false
         };
         this.updateElementCount();
+        this.addedElements.push(element);
       });
     });
 

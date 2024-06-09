@@ -15,8 +15,22 @@
             <button class="btn" (click)="addAttribute(i)">Add Attribute</button>
           </div>
         </div>
-        <button *ngIf="showAddClassButton" class="btn add-mapping-btn" (click)="addElement()">Add Mapping</button>
+        <button *ngIf="showAddClassButton" class="btn add-mapping-btn" (click)="addElement()">Add Class</button>
       </form>
+      <div *ngFor="let element of addedElements" class="added-element mt-2 p-2 border rounded">
+        <div><strong>Class:</strong> {{ element.className }}</div>
+        <div><strong>Path:</strong> {{ element.url }}</div>
+        <div><strong>Attributes:</strong>
+          <ul>
+            <li *ngFor="let attr of element.attributes">{{ attr }}</li>
+          </ul>
+        </div>
+        <div><strong>Methods:</strong>
+          <ul>
+            <li *ngFor="let method of element.methods">{{ method }}</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <div *ngIf="selectedTab === 'manage-elements'" class="table-container">
