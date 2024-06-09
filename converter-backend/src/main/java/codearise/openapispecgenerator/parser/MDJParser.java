@@ -89,6 +89,9 @@ public class MDJParser implements DiagramParser {
             for (JsonNode attribute : attributes) {
                 String attributeName = attribute.path("name").asText();
                 String attributeType = attribute.path("type").asText();
+                if (attributeType.isEmpty()) {
+                    attributeType = "String";
+                }
                 elements.computeIfAbsent(className, k -> new ArrayList<>())
                         .add("+" + attributeName + " : " + attributeType);
             }
