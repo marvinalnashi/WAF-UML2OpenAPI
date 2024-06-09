@@ -10,12 +10,12 @@
         <div formArrayName="mappings" *ngFor="let mapping of elements.controls; let i = index">
           <div [formGroupName]="i" class="mapping-entry mb-2">
             <input class="input" formControlName="className" placeholder="Class Name">
-            <input class="input" formControlName="url" placeholder="URL">
+            <input class="input" formControlName="url" placeholder="Path">
             <button class="btn" (click)="addMethod(i)">Add Method</button>
             <button class="btn" (click)="addAttribute(i)">Add Attribute</button>
           </div>
         </div>
-        <button class="btn add-mapping-btn" (click)="addElement()">Add Mapping</button>
+        <button *ngIf="showAddClassButton" class="btn add-mapping-btn" (click)="addElement()">Add Mapping</button>
       </form>
     </div>
 

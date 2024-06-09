@@ -67,6 +67,11 @@ export class MappingComponent implements OnInit {
   showApplyAdditionsButton: boolean = false;
 
   /**
+   * Boolean that manages the visibility of the Add Class button.
+   */
+  showAddClassButton = true;
+
+  /**
    * Creates an instance of MappingComponent.
    * @param fb The Form builder service.
    * @param generationService The Generation service.
@@ -122,6 +127,7 @@ export class MappingComponent implements OnInit {
     });
     this.elements.push(newMapping);
     this.showApplyAdditionsButton = true;
+    this.showAddClassButton = false;
   }
 
   /**
@@ -207,6 +213,7 @@ export class MappingComponent implements OnInit {
       this.elements.removeAt(0);
     }
     this.showApplyAdditionsButton = false;
+    this.showAddClassButton = true;
   }
 
   /**
