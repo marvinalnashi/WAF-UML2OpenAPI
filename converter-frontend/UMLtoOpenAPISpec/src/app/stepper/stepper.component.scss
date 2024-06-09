@@ -1,11 +1,12 @@
 .stepper-wrapper {
-  @apply flex justify-center items-center min-h-screen bg-gray-100;
+  @apply flex justify-center items-center bg-gray-100;
+  min-height: calc(100vh - 85px);
 }
 
 .stepper-container {
-  @apply p-5 bg-primary rounded-lg;
+  @apply mt-16 p-5 bg-primary rounded-lg;
   width: 60vw;
-  height: calc(100vh - 30vh);
+  height: 75vh;
   display: flex;
   flex-direction: column;
 }
