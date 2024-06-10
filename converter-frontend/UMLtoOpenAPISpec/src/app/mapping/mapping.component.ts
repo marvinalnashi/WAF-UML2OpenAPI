@@ -194,6 +194,7 @@ export class MappingComponent implements OnInit {
   addNewClassToElements(): void {
     const newElements = this.mappingsForm.value.mappings.map((mapping: any) => ({
       className: mapping.className,
+      url: mapping.url,
       attributes: mapping.attributes,
       methods: mapping.methods
     }));

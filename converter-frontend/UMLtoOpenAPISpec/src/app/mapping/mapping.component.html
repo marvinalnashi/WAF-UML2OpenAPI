@@ -11,11 +11,11 @@
           <div [formGroupName]="i" class="mapping-entry mb-2">
             <input class="input" formControlName="className" placeholder="Class Name">
             <input class="input" formControlName="url" placeholder="Path">
-            <button class="btn" (click)="addMethod(i)">Add Method</button>
-            <button class="btn" (click)="addAttribute(i)">Add Attribute</button>
+            <button type="button" class="btn" (click)="addMethod(i)">Add Method</button>
+            <button type="button" class="btn" (click)="addAttribute(i)">Add Attribute</button>
           </div>
         </div>
-        <button *ngIf="showAddClassButton" class="btn add-mapping-btn" (click)="addElement()">Add Class</button>
+        <button type="button" *ngIf="showAddClassButton" class="btn add-mapping-btn" (click)="addElement()">Add Class</button>
       </form>
       <div *ngFor="let element of addedElements" class="added-element mt-2 p-2 border rounded">
         <div class="flex justify-between">
