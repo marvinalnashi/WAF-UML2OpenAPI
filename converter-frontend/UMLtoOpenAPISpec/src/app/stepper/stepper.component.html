@@ -1,9 +1,9 @@
 <app-top-bar></app-top-bar>
-<div class="stepper-wrapper">
+<div class="stepper-wrapper dark:bg-dark-200">
   <div class="stepper-container flex flex-col">
-    <mat-horizontal-stepper class="flex-grow" #stepper>
+    <mat-horizontal-stepper class="flex-grow dark:bg-dark-500 dark:text-white" #stepper>
       <mat-step>
-        <ng-template matStepLabel>Start</ng-template>
+        <ng-template class="dark:text-white" matStepLabel>Start</ng-template>
         <app-start
           [stepper]="stepper"
         ></app-start>
