@@ -24,29 +24,21 @@ To access the generated Compodoc documentations in HTML files, serve them by run
 You can generate similar HTML documentation files that are viewable in your browser for the backend code through the "Generate docs" option in your IDE.
 
 Also make sure that you have an application.properties file in the converter-backend/src/main/resources directory that uses the following format: 
-
+```
 springdoc.swagger-ui.url=http://localhost:8080/export.yml
-
 spring.servlet.multipart.enabled=true
-
 spring.servlet.multipart.max-file-size=50MB
-
 spring.servlet.multipart.max-request-size=50MB
 
 management.endpoints.web.exposure.include=health
-
 management.endpoint.health.show-details=always
 
 openai.api.key=YOUROPENAIAPIKEYHERE
 
 spring.datasource.url=jdbc:postgresql://db:5432/wafumlopenapi
-
 spring.datasource.username=YOURUSERNAMEHERE
-
 spring.datasource.password=YOURPASSWORDHERE
-
 spring.jpa.hibernate.ddl-auto=update
-
 spring.jpa.show-sql=true
-
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+```
