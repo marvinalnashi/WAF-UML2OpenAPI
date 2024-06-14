@@ -39,6 +39,7 @@ $UMLtoOpenAPISpec-theme: mat.define-light-theme((
 @include mat.all-component-themes($UMLtoOpenAPISpec-theme);
 
 /* You can add global styles to this file, and also import other style files */
+@import '../node_modules/ngx-toastr/toastr.css';
 @import 'app/stepper/stepper.component';
 @import '../src/app/mapping/mapping.component.scss';
 
@@ -51,4 +52,31 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .btn:hover {
   @apply bg-primaryHover text-white px-4 py-2 border-none rounded-[4px] transition duration-500;
+}
+
+.toast-top-right {
+  top: 12px;
+  right: 12px;
+  position: fixed;
+  z-index: 9999;
+}
+
+.toast-success {
+  background-color: green;
+  color: white;
+}
+
+.toast-error {
+  background-color: red;
+  color: white;
+}
+
+.toast-warning {
+  background-color: yellow;
+  color: black;
+}
+
+.toast-info {
+  background-color: blue;
+  color: white;
 }

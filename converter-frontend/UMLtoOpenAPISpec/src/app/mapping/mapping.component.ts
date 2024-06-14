@@ -4,6 +4,7 @@ import { GenerationService } from '../generation.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddElementDialogComponent } from '../add-element-dialog/add-element-dialog.component';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
+import {NotificationService} from "../notification.service";
 
 /**
  * Component for processing added UML diagrams and managing UML mappings.
@@ -13,7 +14,8 @@ import { NgClass, NgForOf, NgIf } from '@angular/common';
   standalone: true,
   imports: [NgForOf, NgIf, NgClass, ReactiveFormsModule],
   templateUrl: './mapping.component.html',
-  styleUrl: './mapping.component.scss'
+  styleUrl: './mapping.component.scss',
+  providers: [NotificationService]
 })
 export class MappingComponent implements OnInit {
   /**
@@ -81,11 +83,13 @@ export class MappingComponent implements OnInit {
    * @param fb The Form builder service.
    * @param generationService The Generation service.
    * @param dialog The Angular Material dialog service.
+   * @param notificationService
    */
   constructor(
     private fb: FormBuilder,
     private generationService: GenerationService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private notificationService: NotificationService
   ) {
     this.mappingsForm = this.fb.group({
       mappings: this.fb.array([])
@@ -155,6 +159,7 @@ export class MappingComponent implements OnInit {
           (element.get('attributes') as FormArray).push(this.fb.control(result));
         }
         this.updateElementCount();
+        this.notificationService.showSuccess('The element has been added successfully.');
       }
     });
   }
@@ -184,6 +189,7 @@ export class MappingComponent implements OnInit {
         this.mappingCompleted.emit(true);
         this.httpMethodsSelected.emit(this.selectedHttpMethods);
         this.updateElementCount();
+        this.notificationService.showSuccess('The modifications have been applied successfully.');
       });
     }
   }
@@ -242,6 +248,7 @@ export class MappingComponent implements OnInit {
         delete this.umlData.methods[className];
       }
       this.updateElementCount();
+      this.notificationService.showSuccess('The element has been removed successfully.');
     });
   }
 
@@ -290,8 +297,12 @@ export class MappingComponent implements OnInit {
           }
         }
         this.updateElementCount();
+        this.notificationService.showSuccess('The element has been renamed successfully.');
       },
-      error: error => console.error('Failed to rename element:', error)
+      error: error => {
+        this.notificationService.showError('The element could not be renamed.');
+        console.error('Failed to rename element:', error)
+      }
     });
   }
 

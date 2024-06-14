@@ -17,6 +17,7 @@ import {UploadComponent} from "../upload/upload.component";
 import {StartComponent} from "../start/start.component";
 import { GenerateComponent } from '../generate/generate.component';
 import { ManageComponent } from '../manage/manage.component';
+import {NotificationService} from "../notification.service";
 
 /**
  * Component for handling the main functionalities of the stepper and interacting with its child components.
@@ -44,7 +45,7 @@ import { ManageComponent } from '../manage/manage.component';
     ManageComponent
   ],
   templateUrl: './stepper.component.html',
-  providers: [GenerationService, MockServerService, StepperSessionService]
+  providers: [GenerationService, MockServerService, StepperSessionService, NotificationService]
 })
 export class StepperComponent implements AfterViewInit, OnInit {
   /**
@@ -135,13 +136,15 @@ export class StepperComponent implements AfterViewInit, OnInit {
    * @param mockServerService The Mock server service.
    * @param http The HTTP client service.
    * @param sessionService The Stepper session service.
+   * @param notificationService The Notification service.
    */
   constructor(
     private fb: FormBuilder,
     private generationService: GenerationService,
     private mockServerService: MockServerService,
     private http: HttpClient,
-    private sessionService: StepperSessionService
+    private sessionService: StepperSessionService,
+    private notificationService: NotificationService
   ) {
     this.mappingFormGroup = this.fb.group({
       userConfirmation: ['', Validators.required]
@@ -177,8 +180,12 @@ export class StepperComponent implements AfterViewInit, OnInit {
       next: (data) => {
         this.umlData = data;
         this.emitUmlData(data);
+        this.notificationService.showSuccess('File selected successfully');
       },
-      error: (error) => console.error('Failed to parse diagram', error)
+      error: (error) => {
+        console.error('Failed to parse diagram', error);
+        this.notificationService.showError('Failed to parse diagram');
+      }
     });
   }
 
@@ -255,14 +262,17 @@ export class StepperComponent implements AfterViewInit, OnInit {
           this.openApiData = null;
           this.generateOpenApiData();
           this.isLoading = false;
+          this.notificationService.showInfo('The OpenAPI specification has successfully been generated.');
         },
         error: (error) => {
           console.error('Generation failed', error);
+          this.notificationService.showError('The OpenAPI specification could not be generated successfully.');
           this.isLoading = false;
         }
       });
     } else {
       console.error('No file selected');
+      this.notificationService.showError('No file has been selected to upload.');
       this.isLoading = false;
     }
   }
@@ -275,8 +285,12 @@ export class StepperComponent implements AfterViewInit, OnInit {
     this.http.get<any>('http://localhost:8080/personalise').subscribe(
       data => {
         this.openApiData = data;
+        this.notificationService.showSuccess('The OpenAPI specification data has successfully been generated.');
       },
-      error => console.error('Failed to load OpenAPI data', error)
+      error => {
+        console.error('Failed to load OpenAPI data', error);
+        this.notificationService.showError('The OpenAPI specification could not be generated successfully.');
+      }
     );
   }
 
@@ -287,10 +301,12 @@ export class StepperComponent implements AfterViewInit, OnInit {
     this.mockServerService.toggleMockServer().subscribe({
       next: (response) => {
         console.log(response.message);
+        this.notificationService.showSuccess('The Prism mock server has successfully started.');
         this.serverButtonText = response.message.includes('starting') ? 'Restart mock server' : 'Start mock server';
       },
       error: (error) => {
         console.error('Server toggle failed', error);
+        this.notificationService.showError('The Prism mock server could not be started.');
       }
     });
   }
@@ -307,15 +323,18 @@ export class StepperComponent implements AfterViewInit, OnInit {
       this.sessionService.saveSession(session).subscribe({
         next: () => {
           console.log('Session saved successfully');
+          this.notificationService.showSuccess('The session data has been saved successfully.');
           window.location.reload();
         },
         error: (error) => {
           console.error('Failed to save session', error);
+          this.notificationService.showError('The session data could not be saved.');
           window.location.reload();
         }
       });
     } else {
       console.error('No file selected or OpenAPI data missing');
+      this.notificationService.showError('There was an error saving the session data.');
       window.location.reload();
     }
   }
@@ -467,9 +486,11 @@ export class StepperComponent implements AfterViewInit, OnInit {
   onMappingCompleted(success: boolean) {
     if (success) {
       this.isMappingStepCompleted = true;
+      this.notificationService.showSuccess('The additions and modifications that were provided in the Mapping step have been applied successfully.');
       this.stepper.next();
     } else {
       console.error("Failed to apply mappings");
+      this.notificationService.showError('The additions and modifications that were provided in the Mapping step could not be applied.');
     }
   }
 
@@ -478,6 +499,7 @@ export class StepperComponent implements AfterViewInit, OnInit {
    */
   openSwaggerUI(): void {
     window.open('http://localhost:8080/swagger-ui/index.html', '_blank');
+    this.notificationService.showSuccess('Swagger UI has been opened and the generated OpenAPI specification has been loaded in it successfully.');
   }
 
   /**
@@ -485,5 +507,6 @@ export class StepperComponent implements AfterViewInit, OnInit {
    */
   downloadOpenApiSpecification(): void {
     window.open('http://localhost:8080/export.yml', '_blank');
+    this.notificationService.showSuccess('The generated OpenAPI specification has been downloaded successfully.');
   }
 }
