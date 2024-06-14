@@ -46,4 +46,4 @@
   </table>
 </div>
 <button class="btn mr-2" (click)="onGenerateClick()">Generate</button>
-<button class="btn" *ngIf="isGeneratedSuccessfully" (click)="stepper.next()">Continue</button>
+<button class="btn" *ngIf="isGeneratedSuccessfully" id="continueButtonAfterGenerate" (click)="stepper.next()">Continue</button>

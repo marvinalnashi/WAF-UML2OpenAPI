@@ -4,7 +4,7 @@
   <div class="manage-actions">
     <div class="action-item">
       <span>Start the Prism mock server.</span>
-      <button mat-icon-button (click)="onToggleMockServer()">
+      <button id="startMockServerButton" mat-icon-button (click)="onToggleMockServer()">
         <mat-icon>play_arrow</mat-icon>
       </button>
     </div>
@@ -16,13 +16,13 @@
     </div>
     <div class="action-item">
       <span>Save the current session data and restart the stepper to upload and convert a new UML diagram.</span>
-      <button mat-icon-button (click)="onRestartApplication()">
+      <button id="saveSessionRestartStepperButton" mat-icon-button (click)="onRestartApplication()">
         <mat-icon>play_arrow</mat-icon>
       </button>
     </div>
     <div class="action-item" *ngIf="isGeneratedSuccessfully">
       <span>Download the generated OpenAPI specification file.</span>
-      <button mat-icon-button (click)="onDownloadOpenApiSpecification()">
+      <button id="downloadOpenAPISpecificationButton" mat-icon-button (click)="onDownloadOpenApiSpecification()">
         <mat-icon>play_arrow</mat-icon>
       </button>
     </div>

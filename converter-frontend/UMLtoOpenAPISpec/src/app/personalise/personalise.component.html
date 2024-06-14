@@ -24,7 +24,7 @@
       <button (click)="goBackToAttributes()"
               class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded mr-2">Back to Attributes
       </button>
-      <div *ngFor="let example of selectedAttributeExamples; let i = index" class="flex items-center mr-2">
+      <div *ngFor="let example of selectedAttributeExamples; let i = index" id="exampleValue" class="flex items-center mr-2">
         <p class="flex-grow">{{ example }}</p>
         <mat-icon (click)="editExampleValue(i)" class="cursor-pointer">edit</mat-icon>
       </div>

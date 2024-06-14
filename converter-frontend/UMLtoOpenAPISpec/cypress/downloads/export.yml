@@ -1,0 +1,505 @@
+---
+openapi: "3.0.0"
+info:
+  title: "Generated API"
+  version: "1.0.0"
+  description: "API dynamically generated from UML."
+servers:
+- url: "http://localhost:4010"
+paths:
+  /plant:
+    get:
+      tags:
+      - "Plant"
+      summary: "Get all instances of Plant"
+      description: "Fetches all instances of Plant"
+      responses:
+        "200":
+          description: "Successful retrieval"
+          content:
+            application/json:
+              examples:
+                exampleArray:
+                  value:
+                  - id: 1
+                    plantType: "For the Plant with id 1, the unique value for the\
+                      \ plantType attribute could be \"Succulent - Aloe vera\"."
+                  - id: 2
+                    plantType: "For Plant with id 2, the unique example value for\
+                      \ the plantType attribute could be \"Purple Orchid\"."
+                  - id: 3
+                    plantType: "\"Creeping Jenny\""
+                  - id: 4
+                    plantType: "\"Sunflower\""
+                  - id: 5
+                    plantType: "For Plant with id 5, the unique example value for\
+                      \ the attribute plantType could be \"Cactus\"."
+                  - id: 6
+                    plantType: "\"6_Fern\""
+                  - id: 7
+                    plantType: "Tulip"
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Plant"
+            application/xml:
+              examples:
+                exampleArray:
+                  value:
+                  - id: 1
+                    plantType: "For the Plant with id 1, the unique value for the\
+                      \ plantType attribute could be \"Succulent - Aloe vera\"."
+                  - id: 2
+                    plantType: "For Plant with id 2, the unique example value for\
+                      \ the plantType attribute could be \"Purple Orchid\"."
+                  - id: 3
+                    plantType: "\"Creeping Jenny\""
+                  - id: 4
+                    plantType: "\"Sunflower\""
+                  - id: 5
+                    plantType: "For Plant with id 5, the unique example value for\
+                      \ the attribute plantType could be \"Cactus\"."
+                  - id: 6
+                    plantType: "\"6_Fern\""
+                  - id: 7
+                    plantType: "Tulip"
+              schema:
+                xml:
+                  name: "plant"
+                  namespace: "http://example.com/schema"
+                  wrapped: true
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Plant"
+  /book:
+    get:
+      tags:
+      - "Book"
+      summary: "Get all instances of Book"
+      description: "Fetches all instances of Book"
+      responses:
+        "200":
+          description: "Successful retrieval"
+          content:
+            application/json:
+              examples:
+                exampleArray:
+                  value:
+                  - id: 1
+                    title: "The unique example value for the String attribute title\
+                      \ for a Book with id 1 could be \"The Lost City of Z\""
+                    isbn: "B1-56789-01234"
+                    publicationYear: "If the current year is 2022, a unique example\
+                      \ value for publicationYear for a Book with id 1 could be 2018."
+                  - id: 2
+                    title: "\"The Lost City of Z\""
+                    isbn: "For Book with id 2, a unique example value for the isbn\
+                      \ attribute could be \"978-1-891830-86-8\"."
+                    publicationYear: "For a Book with id 2, the unique publicationYear\
+                      \ attribute value could be 2003."
+                  - id: 3
+                    title: "\"The Adventures of Sherlock Holmes\""
+                    isbn: "The unique isbn for Book with id 3 could be \"978-1-250-29436-8\"\
+                      ."
+                    publicationYear: "For a Book with id 3, the unique publicationYear\
+                      \ value could be 2005."
+                  - id: 4
+                    title: "\"Baking Adventures: A Delicious Journey\""
+                    isbn: "book_4_9hz8f3dh"
+                    publicationYear: "For the Book with id 4, a unique example value\
+                      \ for the publicationYear attribute could be 2019."
+                  - id: 5
+                    title: "\"The Mystery of the Sapphire Necklace\""
+                    isbn: "book5_ISBN_27JY9BKL"
+                    publicationYear: "Given that the Book class with id 5 has the\
+                      \ attribute publicationYear, a unique example value for this\
+                      \ attribute could be:\n\npublicationYear: 202"
+                  - id: 6
+                    title: "\"The Great Gatsby\""
+                    isbn: "\"978-1-60309-504-6\""
+                    publicationYear: "If the previous publicationYear values for Book\
+                      \ objects are 2000, 2002, 2005, and 2010, we can generate"
+                  - id: 7
+                    title: "\"The Enigma of 7: A Mathematical Mystery\""
+                    isbn: "The unique example value for the isbn attribute of Book\
+                      \ with id 7 could be \"978-1-56619-909-4\"."
+                    publicationYear: "For Book with id 7, the unique publicationYear\
+                      \ value could be 2001."
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Book"
+            application/xml:
+              examples:
+                exampleArray:
+                  value:
+                  - id: 1
+                    title: "The unique example value for the String attribute title\
+                      \ for a Book with id 1 could be \"The Lost City of Z\""
+                    isbn: "B1-56789-01234"
+                    publicationYear: "If the current year is 2022, a unique example\
+                      \ value for publicationYear for a Book with id 1 could be 2018."
+                  - id: 2
+                    title: "\"The Lost City of Z\""
+                    isbn: "For Book with id 2, a unique example value for the isbn\
+                      \ attribute could be \"978-1-891830-86-8\"."
+                    publicationYear: "For a Book with id 2, the unique publicationYear\
+                      \ attribute value could be 2003."
+                  - id: 3
+                    title: "\"The Adventures of Sherlock Holmes\""
+                    isbn: "The unique isbn for Book with id 3 could be \"978-1-250-29436-8\"\
+                      ."
+                    publicationYear: "For a Book with id 3, the unique publicationYear\
+                      \ value could be 2005."
+                  - id: 4
+                    title: "\"Baking Adventures: A Delicious Journey\""
+                    isbn: "book_4_9hz8f3dh"
+                    publicationYear: "For the Book with id 4, a unique example value\
+                      \ for the publicationYear attribute could be 2019."
+                  - id: 5
+                    title: "\"The Mystery of the Sapphire Necklace\""
+                    isbn: "book5_ISBN_27JY9BKL"
+                    publicationYear: "Given that the Book class with id 5 has the\
+                      \ attribute publicationYear, a unique example value for this\
+                      \ attribute could be:\n\npublicationYear: 202"
+                  - id: 6
+                    title: "\"The Great Gatsby\""
+                    isbn: "\"978-1-60309-504-6\""
+                    publicationYear: "If the previous publicationYear values for Book\
+                      \ objects are 2000, 2002, 2005, and 2010, we can generate"
+                  - id: 7
+                    title: "\"The Enigma of 7: A Mathematical Mystery\""
+                    isbn: "The unique example value for the isbn attribute of Book\
+                      \ with id 7 could be \"978-1-56619-909-4\"."
+                    publicationYear: "For Book with id 7, the unique publicationYear\
+                      \ value could be 2001."
+              schema:
+                xml:
+                  name: "book"
+                  namespace: "http://example.com/schema"
+                  wrapped: true
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Book"
+  /author:
+    get:
+      tags:
+      - "Author"
+      summary: "Get all instances of Author"
+      description: "Fetches all instances of Author"
+      responses:
+        "200":
+          description: "Successful retrieval"
+          content:
+            application/json:
+              examples:
+                exampleArray:
+                  value:
+                  - id: 1
+                    name: "Author with id 1 has the name \"Emily Thompson\"."
+                    birthYear: "For Author with id 1, a unique example value for the\
+                      \ birthYear attribute could be 1979."
+                  - id: 2
+                    name: "Author with id 2 has name \"Jane Doe\"."
+                    birthYear: "For Author with id 2, the unique birthYear value could\
+                      \ be 1985."
+                  - id: 3
+                    name: "Author name for id 3: \"Samantha Reynolds\""
+                    birthYear: "For Author with id 3, the unique birthYear can be\
+                      \ 1978."
+                  - id: 4
+                    name: "Author 4 - \"Alice Smith\""
+                    birthYear: "For the Author with id 4, the unique birthYear value\
+                      \ could be 1985."
+                  - id: 5
+                    name: "Author id: 5\nname: \"Maya Angelou\""
+                    birthYear: "For the Author with id 5, a unique example value for\
+                      \ the birthYear attribute could be 1988."
+                  - id: 6
+                    name: "Jane Doe"
+                    birthYear: "For the Author with id 6, the unique birthYear value\
+                      \ could be 1987."
+                  - id: 7
+                    name: "Author with id 7 has the name \"Jessica Wilder\"."
+                    birthYear: "For the Author with id 7, let's set the birthYear\
+                      \ attribute to 1985."
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Author"
+            application/xml:
+              examples:
+                exampleArray:
+                  value:
+                  - id: 1
+                    name: "Author with id 1 has the name \"Emily Thompson\"."
+                    birthYear: "For Author with id 1, a unique example value for the\
+                      \ birthYear attribute could be 1979."
+                  - id: 2
+                    name: "Author with id 2 has name \"Jane Doe\"."
+                    birthYear: "For Author with id 2, the unique birthYear value could\
+                      \ be 1985."
+                  - id: 3
+                    name: "Author name for id 3: \"Samantha Reynolds\""
+                    birthYear: "For Author with id 3, the unique birthYear can be\
+                      \ 1978."
+                  - id: 4
+                    name: "Author 4 - \"Alice Smith\""
+                    birthYear: "For the Author with id 4, the unique birthYear value\
+                      \ could be 1985."
+                  - id: 5
+                    name: "Author id: 5\nname: \"Maya Angelou\""
+                    birthYear: "For the Author with id 5, a unique example value for\
+                      \ the birthYear attribute could be 1988."
+                  - id: 6
+                    name: "Jane Doe"
+                    birthYear: "For the Author with id 6, the unique birthYear value\
+                      \ could be 1987."
+                  - id: 7
+                    name: "Author with id 7 has the name \"Jessica Wilder\"."
+                    birthYear: "For the Author with id 7, let's set the birthYear\
+                      \ attribute to 1985."
+              schema:
+                xml:
+                  name: "author"
+                  namespace: "http://example.com/schema"
+                  wrapped: true
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Author"
+  /library:
+    get:
+      tags:
+      - "Library"
+      summary: "Get all instances of Library"
+      description: "Fetches all instances of Library"
+      responses:
+        "200":
+          description: "Successful retrieval"
+          content:
+            application/json:
+              examples:
+                exampleArray:
+                  value:
+                  - id: 1
+                    libraryName: "libraryName: \"Sunshine Public Library\""
+                  - id: 2
+                    libraryName: "libraryName: \"Sunset Valley Public Library\""
+                  - id: 3
+                    libraryName: "The unique example value for the libraryName attribute\
+                      \ of Library with id 3 could be \"Sunshine Valley Library\"."
+                  - id: 4
+                    libraryName: "libraryName: \"Sunflower Valley Public Library\""
+                  - id: 5
+                    libraryName: "libraryName: \"Sunset Valley Public Library\""
+                  - id: 6
+                    libraryName: "Library name for Library with id 6: \"Book Haven\
+                      \ Library\""
+                  - id: 7
+                    libraryName: "The unique example value for libraryName for Library\
+                      \ with id 7 could be \"Sunnydale Library\"."
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Library"
+            application/xml:
+              examples:
+                exampleArray:
+                  value:
+                  - id: 1
+                    libraryName: "libraryName: \"Sunshine Public Library\""
+                  - id: 2
+                    libraryName: "libraryName: \"Sunset Valley Public Library\""
+                  - id: 3
+                    libraryName: "The unique example value for the libraryName attribute\
+                      \ of Library with id 3 could be \"Sunshine Valley Library\"."
+                  - id: 4
+                    libraryName: "libraryName: \"Sunflower Valley Public Library\""
+                  - id: 5
+                    libraryName: "libraryName: \"Sunset Valley Public Library\""
+                  - id: 6
+                    libraryName: "Library name for Library with id 6: \"Book Haven\
+                      \ Library\""
+                  - id: 7
+                    libraryName: "The unique example value for libraryName for Library\
+                      \ with id 7 could be \"Sunnydale Library\"."
+              schema:
+                xml:
+                  name: "library"
+                  namespace: "http://example.com/schema"
+                  wrapped: true
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Library"
+components:
+  schemas:
+    Plant:
+      example:
+        id: 1
+        plantType: "For the Plant with id 1, the unique value for the plantType attribute\
+          \ could be \"Succulent - Aloe vera\"."
+      xml:
+        name: "plant"
+        namespace: "http://example.com/schema"
+        wrapped: true
+      type: "object"
+      properties:
+        plantType:
+          type: "string"
+      examples:
+        exampleArray:
+        - id: 1
+          plantType: "For the Plant with id 1, the unique value for the plantType\
+            \ attribute could be \"Succulent - Aloe vera\"."
+        - id: 2
+          plantType: "For Plant with id 2, the unique example value for the plantType\
+            \ attribute could be \"Purple Orchid\"."
+        - id: 3
+          plantType: "\"Creeping Jenny\""
+        - id: 4
+          plantType: "\"Sunflower\""
+        - id: 5
+          plantType: "For Plant with id 5, the unique example value for the attribute\
+            \ plantType could be \"Cactus\"."
+        - id: 6
+          plantType: "\"6_Fern\""
+        - id: 7
+          plantType: "Tulip"
+    Book:
+      example:
+        id: 1
+        title: "The unique example value for the String attribute title for a Book\
+          \ with id 1 could be \"The Lost City of Z\""
+        isbn: "B1-56789-01234"
+        publicationYear: "If the current year is 2022, a unique example value for\
+          \ publicationYear for a Book with id 1 could be 2018."
+      xml:
+        name: "book"
+        namespace: "http://example.com/schema"
+        wrapped: true
+      type: "object"
+      properties:
+        title:
+          type: "string"
+        isbn:
+          type: "string"
+        publicationYear:
+          type: "integer"
+          format: "int32"
+      examples:
+        exampleArray:
+        - id: 1
+          title: "The unique example value for the String attribute title for a Book\
+            \ with id 1 could be \"The Lost City of Z\""
+          isbn: "B1-56789-01234"
+          publicationYear: "If the current year is 2022, a unique example value for\
+            \ publicationYear for a Book with id 1 could be 2018."
+        - id: 2
+          title: "\"The Lost City of Z\""
+          isbn: "For Book with id 2, a unique example value for the isbn attribute\
+            \ could be \"978-1-891830-86-8\"."
+          publicationYear: "For a Book with id 2, the unique publicationYear attribute\
+            \ value could be 2003."
+        - id: 3
+          title: "\"The Adventures of Sherlock Holmes\""
+          isbn: "The unique isbn for Book with id 3 could be \"978-1-250-29436-8\"\
+            ."
+          publicationYear: "For a Book with id 3, the unique publicationYear value\
+            \ could be 2005."
+        - id: 4
+          title: "\"Baking Adventures: A Delicious Journey\""
+          isbn: "book_4_9hz8f3dh"
+          publicationYear: "For the Book with id 4, a unique example value for the\
+            \ publicationYear attribute could be 2019."
+        - id: 5
+          title: "\"The Mystery of the Sapphire Necklace\""
+          isbn: "book5_ISBN_27JY9BKL"
+          publicationYear: "Given that the Book class with id 5 has the attribute\
+            \ publicationYear, a unique example value for this attribute could be:\n\
+            \npublicationYear: 202"
+        - id: 6
+          title: "\"The Great Gatsby\""
+          isbn: "\"978-1-60309-504-6\""
+          publicationYear: "If the previous publicationYear values for Book objects\
+            \ are 2000, 2002, 2005, and 2010, we can generate"
+        - id: 7
+          title: "\"The Enigma of 7: A Mathematical Mystery\""
+          isbn: "The unique example value for the isbn attribute of Book with id 7\
+            \ could be \"978-1-56619-909-4\"."
+          publicationYear: "For Book with id 7, the unique publicationYear value could\
+            \ be 2001."
+    Author:
+      example:
+        id: 1
+        name: "Author with id 1 has the name \"Emily Thompson\"."
+        birthYear: "For Author with id 1, a unique example value for the birthYear\
+          \ attribute could be 1979."
+      xml:
+        name: "author"
+        namespace: "http://example.com/schema"
+        wrapped: true
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        birthYear:
+          type: "integer"
+          format: "int32"
+      examples:
+        exampleArray:
+        - id: 1
+          name: "Author with id 1 has the name \"Emily Thompson\"."
+          birthYear: "For Author with id 1, a unique example value for the birthYear\
+            \ attribute could be 1979."
+        - id: 2
+          name: "Author with id 2 has name \"Jane Doe\"."
+          birthYear: "For Author with id 2, the unique birthYear value could be 1985."
+        - id: 3
+          name: "Author name for id 3: \"Samantha Reynolds\""
+          birthYear: "For Author with id 3, the unique birthYear can be 1978."
+        - id: 4
+          name: "Author 4 - \"Alice Smith\""
+          birthYear: "For the Author with id 4, the unique birthYear value could be\
+            \ 1985."
+        - id: 5
+          name: "Author id: 5\nname: \"Maya Angelou\""
+          birthYear: "For the Author with id 5, a unique example value for the birthYear\
+            \ attribute could be 1988."
+        - id: 6
+          name: "Jane Doe"
+          birthYear: "For the Author with id 6, the unique birthYear value could be\
+            \ 1987."
+        - id: 7
+          name: "Author with id 7 has the name \"Jessica Wilder\"."
+          birthYear: "For the Author with id 7, let's set the birthYear attribute\
+            \ to 1985."
+    Library:
+      example:
+        id: 1
+        libraryName: "libraryName: \"Sunshine Public Library\""
+      xml:
+        name: "library"
+        namespace: "http://example.com/schema"
+        wrapped: true
+      type: "object"
+      properties:
+        libraryName:
+          type: "string"
+      examples:
+        exampleArray:
+        - id: 1
+          libraryName: "libraryName: \"Sunshine Public Library\""
+        - id: 2
+          libraryName: "libraryName: \"Sunset Valley Public Library\""
+        - id: 3
+          libraryName: "The unique example value for the libraryName attribute of\
+            \ Library with id 3 could be \"Sunshine Valley Library\"."
+        - id: 4
+          libraryName: "libraryName: \"Sunflower Valley Public Library\""
+        - id: 5
+          libraryName: "libraryName: \"Sunset Valley Public Library\""
+        - id: 6
+          libraryName: "Library name for Library with id 6: \"Book Haven Library\""
+        - id: 7
+          libraryName: "The unique example value for libraryName for Library with\
+            \ id 7 could be \"Sunnydale Library\"."
