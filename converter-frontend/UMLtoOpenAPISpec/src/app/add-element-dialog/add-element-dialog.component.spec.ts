@@ -3,6 +3,7 @@ import { AddElementDialogComponent } from './add-element-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {ToastrService} from "ngx-toastr";
 
 describe('AddElementDialogComponent', () => {
   let component: AddElementDialogComponent;
@@ -18,7 +19,11 @@ describe('AddElementDialogComponent', () => {
       ],
       providers: [
         { provide: MatDialogRef, useValue: { close: jasmine.createSpy('close') } },
-        { provide: MAT_DIALOG_DATA, useValue: { isMethod: true } }
+        { provide: MAT_DIALOG_DATA, useValue: { isMethod: true } },
+        {
+          provide: ToastrService,
+          useValue: jasmine.createSpyObj('ToastrService', ['success', 'error', 'warning', 'info'])
+        }
       ]
     }).compileComponents();
   });

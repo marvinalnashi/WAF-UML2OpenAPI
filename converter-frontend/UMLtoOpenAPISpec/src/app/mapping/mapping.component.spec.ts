@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormsModule, FormArray, FormBuilder } from '@angul
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {ToastrService} from "ngx-toastr";
 
 describe('MappingComponent', () => {
   let component: MappingComponent;
@@ -30,6 +31,10 @@ describe('MappingComponent', () => {
               })
             })
           }
+        },
+        {
+          provide: ToastrService,
+          useValue: jasmine.createSpyObj('ToastrService', ['success', 'error', 'warning', 'info'])
         }
       ]
     }).compileComponents();

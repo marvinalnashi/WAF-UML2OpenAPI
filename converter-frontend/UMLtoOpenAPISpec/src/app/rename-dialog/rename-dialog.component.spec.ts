@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/materia
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {ToastrService} from "ngx-toastr";
 
 describe('RenameDialogComponent', () => {
   let component: RenameDialogComponent;
@@ -19,7 +20,11 @@ describe('RenameDialogComponent', () => {
       ],
       providers: [
         { provide: MatDialogRef, useValue: { close: jasmine.createSpy('close') } },
-        { provide: MAT_DIALOG_DATA, useValue: { newValue: 'testValue' } }
+        { provide: MAT_DIALOG_DATA, useValue: { newValue: 'testValue' } },
+        {
+          provide: ToastrService,
+          useValue: jasmine.createSpyObj('ToastrService', ['success', 'error', 'warning', 'info'])
+        }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

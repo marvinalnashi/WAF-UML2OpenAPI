@@ -7,6 +7,7 @@ import { GenerationService } from '../generation.service';
 import { MockServerService } from '../mock-server.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {ToastrService} from "ngx-toastr";
 
 describe('StepperComponent', () => {
   let component: StepperComponent;
@@ -28,7 +29,11 @@ describe('StepperComponent', () => {
       ],
       providers: [
         { provide: GenerationService, useValue: generationServiceSpy },
-        { provide: MockServerService, useValue: mockServerServiceSpy }
+        { provide: MockServerService, useValue: mockServerServiceSpy },
+        {
+          provide: ToastrService,
+          useValue: jasmine.createSpyObj('ToastrService', ['success', 'error', 'warning', 'info'])
+        }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

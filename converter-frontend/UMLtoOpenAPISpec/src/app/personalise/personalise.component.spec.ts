@@ -3,6 +3,7 @@ import { PersonaliseComponent } from './personalise.component';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {ToastrModule, ToastrService} from "ngx-toastr";
 
 describe('PersonaliseComponent', () => {
   let component: PersonaliseComponent;
@@ -15,7 +16,8 @@ describe('PersonaliseComponent', () => {
         HttpClientTestingModule,
         MatDialogModule,
         BrowserAnimationsModule,
-        PersonaliseComponent
+        PersonaliseComponent,
+        ToastrModule.forRoot()
       ],
       providers: [
         {
@@ -27,8 +29,12 @@ describe('PersonaliseComponent', () => {
               })
             })
           }
+        },
+        {
+          provide: ToastrService,
+          useValue: jasmine.createSpyObj('ToastrService', ['success', 'error', 'warning', 'info'])
         }
-      ]
+      ],
     }).compileComponents();
   });
 
