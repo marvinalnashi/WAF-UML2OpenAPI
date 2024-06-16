@@ -180,11 +180,11 @@ export class StepperComponent implements AfterViewInit, OnInit {
       next: (data) => {
         this.umlData = data;
         this.emitUmlData(data);
-        this.notificationService.showSuccess('File selected successfully');
+        this.notificationService.showSuccess('The uploaded UML diagram file has been processed successfully.');
       },
       error: (error) => {
         console.error('Failed to parse diagram', error);
-        this.notificationService.showError('Failed to parse diagram');
+        this.notificationService.showError('The uploaded UML diagram file could not be processed.');
       }
     });
   }
@@ -285,11 +285,11 @@ export class StepperComponent implements AfterViewInit, OnInit {
     this.http.get<any>('http://localhost:8080/personalise').subscribe(
       data => {
         this.openApiData = data;
-        this.notificationService.showSuccess('The OpenAPI specification data has successfully been generated.');
+        this.notificationService.showSuccess('The example values for the OpenAPI specification have successfully been generated.');
       },
       error => {
         console.error('Failed to load OpenAPI data', error);
-        this.notificationService.showError('The OpenAPI specification could not be generated successfully.');
+        this.notificationService.showError('The example values for the OpenAPI specification could not be generated.');
       }
     );
   }

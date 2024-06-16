@@ -61,16 +61,19 @@ Cypress.Commands.add('startMockServer', () => {
   cy.generateOpenAPISpecification();
   cy.get('#continueButtonAfterPersonalise').should('be.visible').click();
   cy.get('#startMockServerButton').should('be.visible').click();
+  cy.get('.toast-success').contains('The Prism mock server has successfully started.').should('be.visible');
 });
 
 Cypress.Commands.add('saveSessionAndRestartStepper', () => {
   cy.generateOpenAPISpecification();
   cy.get('#continueButtonAfterPersonalise').should('be.visible').click();
   cy.get('#saveSessionRestartStepperButton').should('be.visible').click();
+  cy.contains('Welcome to the WeAreFrank! UML diagram to OpenAPI specification converter application!').should('be.visible');
 });
 
 Cypress.Commands.add('downloadOpenAPISpecification', () => {
   cy.generateOpenAPISpecification();
   cy.get('#continueButtonAfterPersonalise').should('be.visible').click();
   cy.get('#downloadOpenAPISpecificationButton').should('be.visible').click();
+  cy.get('.toast-success').contains('The generated OpenAPI specification has been downloaded successfully.').should('be.visible');
 });

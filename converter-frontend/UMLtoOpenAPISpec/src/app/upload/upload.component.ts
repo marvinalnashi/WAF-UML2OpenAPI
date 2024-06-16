@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {GenerationService} from "../generation.service";
 import {MatStepper} from "@angular/material/stepper";
 import {NgIf} from "@angular/common";
+import {NotificationService} from "../notification.service";
 
 /**
  * Component for uploading UML diagrams.
@@ -13,7 +14,8 @@ import {NgIf} from "@angular/common";
     NgIf
   ],
   templateUrl: './upload.component.html',
-  styleUrl: './upload.component.scss'
+  styleUrl: './upload.component.scss',
+  providers: [NotificationService]
 })
 export class UploadComponent {
   /**
@@ -34,8 +36,12 @@ export class UploadComponent {
   /**
    * Creates an instance of UploadComponent.
    * @param generationService The Generation service.
+   * @param notificationService The Notification service.
    */
-  constructor(private generationService: GenerationService) { }
+  constructor(
+    private generationService: GenerationService,
+    private notificationService: NotificationService
+  ) { }
 
   /**
    * Processes the UML diagram file that the user selects to upload.
@@ -52,8 +58,10 @@ export class UploadComponent {
     this.isFileSelected = supportedFormats.includes(fileExtension || '');
     if (this.isFileSelected) {
       this.fileSelected.emit(file);
+      this.notificationService.showSuccess('The UML diagram file is in a supported format and has been uploaded successfully.');
     } else {
       console.log("Unsupported file format: " + fileExtension);
+      this.notificationService.showError('The UML diagram file could not be uploaded because it is in an unsupported format.');
     }
   }
 }

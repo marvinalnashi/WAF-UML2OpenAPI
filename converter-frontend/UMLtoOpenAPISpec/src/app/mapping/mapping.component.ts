@@ -227,6 +227,7 @@ export class MappingComponent implements OnInit {
     }
     this.showApplyAdditionsButton = false;
     this.showAddClassButton = true;
+    this.notificationService.showSuccess('The added element has been pushed to the UML element table successfully.');
   }
 
   /**
