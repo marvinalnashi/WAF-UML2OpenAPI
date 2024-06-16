@@ -75,5 +75,6 @@ Cypress.Commands.add('downloadOpenAPISpecification', () => {
   cy.generateOpenAPISpecification();
   cy.get('#continueButtonAfterPersonalise').should('be.visible').click();
   cy.get('#downloadOpenAPISpecificationButton').should('be.visible').click();
+  cy.get('#download-dialog-proceed-btn').should('be.visible').click();
   cy.get('.toast-success').contains('The generated OpenAPI specification has been downloaded successfully.').should('be.visible');
 });

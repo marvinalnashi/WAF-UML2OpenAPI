@@ -501,12 +501,4 @@ export class StepperComponent implements AfterViewInit, OnInit {
     window.open('http://localhost:8080/swagger-ui/index.html', '_blank');
     this.notificationService.showSuccess('Swagger UI has been opened and the generated OpenAPI specification has been loaded in it successfully.');
   }
-
-  /**
-   * Downloads the generated OpenAPI specification of the current session.
-   */
-  downloadOpenApiSpecification(): void {
-    window.open('http://localhost:8080/export.yml', '_blank');
-    this.notificationService.showSuccess('The generated OpenAPI specification has been downloaded successfully.');
-  }
 }
