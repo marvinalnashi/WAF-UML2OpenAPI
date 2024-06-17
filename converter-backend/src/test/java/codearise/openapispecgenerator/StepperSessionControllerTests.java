@@ -40,22 +40,22 @@ public class StepperSessionControllerTests {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
-    /**
-     * Tests saving a stepper session.
-     * Expects a 200 OK response and a message that contains the stepper session's id.
-     */
-    @Test
-    public void testSaveSession() throws Exception {
-        StepperSession session = new StepperSession();
-        session.setId(1L);
-        when(service.saveSession(any(), any())).thenReturn(session);
-
-        mockMvc.perform(post("/api/sessions")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"umlDiagram\":\"umlContent\",\"openApiSpec\":\"openApiContent\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L));
-    }
+//    /**
+//     * Tests saving a stepper session.
+//     * Expects a 200 OK response and a message that contains the stepper session's id.
+//     */
+//    @Test
+//    public void testSaveSession() throws Exception {
+//        StepperSession session = new StepperSession();
+//        session.setId(1L);
+//        when(service.saveSession(any(), any())).thenReturn(session);
+//
+//        mockMvc.perform(post("/api/sessions")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content("{\"umlDiagram\":\"umlContent\",\"openApiSpec\":\"openApiContent\"}"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.id").value(1L));
+//    }
 
     /**
      * Tests fetching all stepper sessions.

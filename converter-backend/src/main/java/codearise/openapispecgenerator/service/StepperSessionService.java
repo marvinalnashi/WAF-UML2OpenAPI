@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Service for managing stepper sessions.
@@ -26,6 +25,9 @@ public class StepperSessionService {
     @Autowired
     private StepperSessionRepository repository;
 
+    @Autowired
+    private S3Service s3Service;
+
     /**
      * Saves the current stepper session.
      *
@@ -33,9 +35,11 @@ public class StepperSessionService {
      * @param openApiSpec The OpenAPI specification that is generated during the current stepper session.
      * @return The saved stepper session.
      */
-    public StepperSession saveSession(String umlDiagram, String openApiSpec) {
+    public StepperSession saveSession(byte[] umlDiagram, String umlFilename, String openApiSpec) {
+        String umlDiagramUrl = s3Service.uploadFile(umlDiagram, umlFilename);
+
         StepperSession session = new StepperSession();
-        session.setUmlDiagram(umlDiagram);
+        session.setUmlDiagramUrl(umlDiagramUrl);
         session.setOpenApiSpec(openApiSpec);
         session.setCreatedAt(LocalDateTime.now());
         return repository.save(session);
@@ -118,15 +122,6 @@ public class StepperSessionService {
      * @return List that contains all saved stepper sessions.
      */
     public List<StepperSession> getAllSessions() {
-        return repository.findAll().stream().map(session -> {
-            try {
-                String classesAndAttributes = extractClassesAndAttributes(session.getOpenApiSpec());
-                session.setOpenApiSpec(classesAndAttributes);
-            } catch (IOException e) {
-                e.printStackTrace();
-                session.setOpenApiSpec("Error processing OpenAPI specification");
-            }
-            return session;
-        }).collect(Collectors.toList());
+        return repository.findAll();
     }
 }
