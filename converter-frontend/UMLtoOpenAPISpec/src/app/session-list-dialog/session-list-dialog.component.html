@@ -8,7 +8,9 @@
 
     <ng-container matColumnDef="umlDiagram">
       <th mat-header-cell *matHeaderCellDef> UML Diagram </th>
-      <td mat-cell *matCellDef="let element"> {{ element.umlDiagramUrl | slice:element.umlDiagramUrl.lastIndexOf('/')+1 }} </td>
+      <td mat-cell *matCellDef="let element">
+        {{ element.umlDiagramUrl ? element.umlDiagramUrl.substring(element.umlDiagramUrl.lastIndexOf('/') + 1) : '' }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="openApiSpec">

@@ -42,16 +42,7 @@ public class StepperSessionController {
      */
     @GetMapping
     public List<StepperSession> getAllSessions() {
-        List<StepperSession> sessions = service.getAllSessions();
-        for (StepperSession session : sessions) {
-            try {
-                String summary = service.extractClassesAndAttributes(session.getOpenApiSpec());
-                session.setOpenApiSpec(summary);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return sessions;
+        return service.getAllSessions();
     }
 
     /**

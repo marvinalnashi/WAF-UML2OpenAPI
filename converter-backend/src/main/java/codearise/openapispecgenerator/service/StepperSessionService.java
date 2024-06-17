@@ -122,6 +122,16 @@ public class StepperSessionService {
      * @return List that contains all saved stepper sessions.
      */
     public List<StepperSession> getAllSessions() {
-        return repository.findAll();
+        List<StepperSession> sessions = repository.findAll();
+        for (StepperSession session : sessions) {
+            try {
+                String summary = extractClassesAndAttributes(session.getOpenApiSpec());
+                session.setOpenApiSpec(summary);
+            } catch (IOException e) {
+                e.printStackTrace();
+                session.setOpenApiSpec("Error extracting OpenAPI summary");
+            }
+        }
+        return sessions;
     }
 }

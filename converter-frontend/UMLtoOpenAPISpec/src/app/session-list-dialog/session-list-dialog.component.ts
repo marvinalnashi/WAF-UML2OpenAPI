@@ -94,16 +94,18 @@ export class SessionListDialogComponent implements OnInit {
       openApiLink.click();
       document.body.removeChild(openApiLink);
 
-      const umlLink = document.createElement('a');
-      umlLink.href = data.umlDiagramUrl;
-      umlLink.download = `uml-diagram-${session.id}${this.getFileExtension(data.umlDiagramUrl)}`;
-      document.body.appendChild(umlLink);
-      umlLink.click();
-      document.body.removeChild(umlLink);
+      if (data.umlDiagramUrl) {
+        const umlLink = document.createElement('a');
+        umlLink.href = data.umlDiagramUrl;
+        umlLink.download = `uml-diagram-${session.id}${this.getFileExtension(data.umlDiagramUrl)}`;
+        document.body.appendChild(umlLink);
+        umlLink.click();
+        document.body.removeChild(umlLink);
+      }
     });
   }
 
   getFileExtension(url: string): string {
-    return url.substring(url.lastIndexOf('.'));
+    return url ? url.substring(url.lastIndexOf('.')) : '';
   }
 }
