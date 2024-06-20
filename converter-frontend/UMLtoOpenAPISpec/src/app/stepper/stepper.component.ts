@@ -92,7 +92,7 @@ export class StepperComponent implements AfterViewInit, OnInit {
   /**
    * The data of the uploaded UML diagram and generated OpenAPI specification of the current session that will be saved to the database.
    */
-  openApiData: any = null;
+  openApiData: any;
 
   /**
    * The HTTP methods that the user selects for one or more classes in the table of the Manage Elements tab of the Mapping step of the stepper.
@@ -316,11 +316,9 @@ export class StepperComponent implements AfterViewInit, OnInit {
    */
   restartApplication(): void {
     if (this.uploadedFile && this.openApiData) {
-      const umlDiagram = this.uploadedFile.name;
       const openApiSpec = JSON.stringify(this.openApiData);
-      const session = { umlDiagram, openApiSpec };
 
-      this.sessionService.saveSession(session).subscribe({
+      this.sessionService.saveSession(this.uploadedFile, openApiSpec).subscribe({
         next: () => {
           console.log('Session saved successfully');
           this.notificationService.showSuccess('The session data has been saved successfully.');
@@ -338,7 +336,6 @@ export class StepperComponent implements AfterViewInit, OnInit {
       window.location.reload();
     }
   }
-
 
   /**
    * Reads and parses the uploaded UML diagram file to identify individual elements.

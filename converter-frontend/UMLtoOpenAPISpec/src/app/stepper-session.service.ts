@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,8 +10,16 @@ export class StepperSessionService {
 
   constructor(private http: HttpClient) {}
 
-  saveSession(session: any): Observable<any> {
-    return this.http.post(this.baseUrl, session);
+  saveSession(umlDiagram: File, openApiSpec: string): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('umlDiagram', umlDiagram);
+    formData.append('openApiSpec', openApiSpec);
+
+    return this.http.post(this.baseUrl, formData, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json'
+      })
+    });
   }
 
   getAllSessions(): Observable<any[]> {

@@ -12,7 +12,7 @@ import {
 import {MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
-import {DatePipe} from "@angular/common";
+import {DatePipe, SlicePipe} from "@angular/common";
 
 /**
  * Component for displaying the data of previous sessions in the Session List popup dialog.
@@ -38,7 +38,8 @@ import {DatePipe} from "@angular/common";
     MatDialogTitle,
     MatIcon,
     MatIconButton,
-    DatePipe
+    DatePipe,
+    SlicePipe
   ],
   templateUrl: './session-list-dialog.component.html',
   styleUrl: './session-list-dialog.component.scss'
@@ -70,6 +71,13 @@ export class SessionListDialogComponent implements OnInit {
     });
   }
 
+  saveSession(umlDiagram: File, openApiSpec: string) {
+    this.sessionService.saveSession(umlDiagram, openApiSpec).subscribe((data) => {
+      console.log('Session saved successfully');
+      this.ngOnInit();
+    });
+  }
+
   /**
    * Downloads the uploaded UML diagram and the generated OpenAPI specification in JSON format of a selected previous session.
    * @param session The previous session to download.
@@ -85,6 +93,19 @@ export class SessionListDialogComponent implements OnInit {
       document.body.appendChild(openApiLink);
       openApiLink.click();
       document.body.removeChild(openApiLink);
+
+      if (data.umlDiagramUrl) {
+        const umlLink = document.createElement('a');
+        umlLink.href = data.umlDiagramUrl;
+        umlLink.download = `uml-diagram-${session.id}${this.getFileExtension(data.umlDiagramUrl)}`;
+        document.body.appendChild(umlLink);
+        umlLink.click();
+        document.body.removeChild(umlLink);
+      }
     });
+  }
+
+  getFileExtension(url: string): string {
+    return url ? url.substring(url.lastIndexOf('.')) : '';
   }
 }

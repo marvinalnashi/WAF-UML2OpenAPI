@@ -18,9 +18,8 @@ public class StepperSession {
     /**
      * The UML diagram that was uploaded during a stepper session.
      */
-    @Lob
-    @Column(name = "uml_diagram", columnDefinition = "TEXT")
-    private String umlDiagram;
+    @Column(name = "uml_diagram_url")
+    private String umlDiagramUrl;
 
     /**
      * The OpenAPI specification that was generated during a stepper session.
@@ -44,12 +43,12 @@ public class StepperSession {
         this.id = id;
     }
 
-    public String getUmlDiagram() {
-        return umlDiagram;
+    public String getUmlDiagramUrl() {
+        return umlDiagramUrl;
     }
 
-    public void setUmlDiagram(String umlDiagram) {
-        this.umlDiagram = umlDiagram;
+    public void setUmlDiagramUrl(String umlDiagramUrl) {
+        this.umlDiagramUrl = umlDiagramUrl;
     }
 
     public String getOpenApiSpec() {

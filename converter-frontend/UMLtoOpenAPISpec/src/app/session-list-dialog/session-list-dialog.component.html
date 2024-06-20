@@ -3,17 +3,19 @@
   <table mat-table [dataSource]="sessions" class="session-table">
     <ng-container matColumnDef="createdAt">
       <th mat-header-cell *matHeaderCellDef> Timestamp </th>
-      <td mat-cell *matCellDef="let element"> {{element.createdAt | date:'short'}} </td>
+      <td mat-cell *matCellDef="let element"> {{ element.createdAt | date:'short' }} </td>
     </ng-container>
 
     <ng-container matColumnDef="umlDiagram">
       <th mat-header-cell *matHeaderCellDef> UML Diagram </th>
-      <td mat-cell *matCellDef="let element"> {{element.umlDiagram}} </td>
+      <td mat-cell *matCellDef="let element">
+        {{ element.umlDiagramUrl ? element.umlDiagramUrl.substring(element.umlDiagramUrl.lastIndexOf('/') + 1) : '' }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="openApiSpec">
       <th mat-header-cell *matHeaderCellDef> OpenAPI Specification </th>
-      <td mat-cell *matCellDef="let element"> {{element.openApiSpec}} </td>
+      <td mat-cell *matCellDef="let element"> {{ element.openApiSpec }} </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">

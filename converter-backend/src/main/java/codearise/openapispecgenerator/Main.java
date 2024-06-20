@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ImportResource;
 /**
  * The main class of the application.
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "codearise.openapispecgenerator")
 @ImportResource("classpath:SpringConfig.xml")
 public class Main {
 

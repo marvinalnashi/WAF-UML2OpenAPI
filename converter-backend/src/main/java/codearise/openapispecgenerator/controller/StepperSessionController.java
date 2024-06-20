@@ -4,7 +4,9 @@ import codearise.openapispecgenerator.entity.StepperSession;
 import codearise.openapispecgenerator.service.StepperSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -23,12 +25,14 @@ public class StepperSessionController {
     /**
      * The endpoint to save a new stepper session.
      *
-     * @param session The stepper session that is saved.
+     * @param umlDiagram The uploaded UML diagram of a stepper session.
+     * @param openApiSpec The generated OpenAPI specification of a stepper session.
      * @return The saved stepper session with its corresponding data.
      */
-    @PostMapping
-    public StepperSession saveSession(@RequestBody StepperSession session) {
-        return service.saveSession(session.getUmlDiagram(), session.getOpenApiSpec());
+    @PostMapping(consumes = "multipart/form-data")
+    public StepperSession saveSession(@RequestParam("umlDiagram") MultipartFile umlDiagram,
+                                      @RequestParam("openApiSpec") String openApiSpec) throws IOException {
+        return service.saveSession(umlDiagram.getBytes(), umlDiagram.getOriginalFilename(), openApiSpec);
     }
 
     /**
