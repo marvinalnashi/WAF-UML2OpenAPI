@@ -35,6 +35,10 @@ management.endpoint.health.show-details=always
 
 openai.api.key=YOUROPENAIAPIKEYHERE
 
+aws.accessKeyId=YOURACCESSKEYIDHERE
+aws.secretKey=YOURSECRETKEYHERE
+aws.bucketName=YOURAWSS3BUCKETNAMEHERE
+
 spring.datasource.url=jdbc:postgresql://db:5432/wafumlopenapi
 spring.datasource.username=YOURUSERNAMEHERE
 spring.datasource.password=YOURPASSWORDHERE
