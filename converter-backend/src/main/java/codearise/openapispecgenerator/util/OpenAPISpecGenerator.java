@@ -144,6 +144,7 @@ public class OpenAPISpecGenerator {
     private Map<String, Object> generateClassSchema(String className, List<String> attributes) throws Exception {
         Map<String, Object> properties = new LinkedHashMap<>();
         List<Map<String, Object>> exampleArray = new ArrayList<>();
+        Set<String> usedExamples = new HashSet<>();
 
         for (int i = 1; i <= 7; i++) {
             Map<String, Object> exampleItem = new LinkedHashMap<>();
@@ -154,11 +155,10 @@ public class OpenAPISpecGenerator {
                 String[] parts = attribute.split(" ");
                 String name = parts[0].substring(1);
                 String type = parts[2];
-                prompts.add("Generate a unique example value for a " + type + " attribute named " + name + " for a class " + className + " with id " + i + ". Ensure this value is unique compared to other ids.");
+                prompts.add("Generate a unique, short (one or two words) example value for a " + type + " attribute named " + name + " for a class " + className + " with id " + i + ". Ensure this value is unique compared to other ids.");
             }
 
-            List<Object> generatedValues = generateExampleValues(prompts, apiKey);
-
+            List<Object> generatedValues = generateUniqueExampleValues(prompts, apiKey, usedExamples);
             for (int j = 0; j < attributes.size(); j++) {
                 String[] parts = attributes.get(j).split(" ");
                 String name = parts[0].substring(1);
@@ -190,14 +190,15 @@ public class OpenAPISpecGenerator {
     }
 
     /**
-     * Generates example values for the attributes of the classes in a class schema based on the specified prompt.
+     * Generates unique example values for the attributes of the classes in a class schema based on the specified prompt.
      *
      * @param prompts List that contains the prompts that are used to generate example values for the attributes of the classes.
      * @param apiKey The API key that is used to access the OpenAI model that is required for generating example values.
+     * @param usedExamples Set that contains already used example values to enforce uniqueness.
      * @return List of generated example values for the attributes of the classes.
      * @throws IOException Is returned if an error occurs during the generation process.
      */
-    private List<Object> generateExampleValues(List<String> prompts, String apiKey) throws IOException {
+    private List<Object> generateUniqueExampleValues(List<String> prompts, String apiKey, Set<String> usedExamples) throws IOException {
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
         for (String prompt : prompts) {
@@ -205,7 +206,7 @@ public class OpenAPISpecGenerator {
                 continue;
             }
 
-            String json = "{ \"model\": \"" + OPENAI_ENGINE + "\", \"messages\": [{\"role\": \"system\", \"content\": \"" + prompt + "\"}], \"max_tokens\": 30, \"temperature\": 0.9 }";
+            String json = "{ \"model\": \"" + OPENAI_ENGINE + "\", \"messages\": [{\"role\": \"user\", \"content\": \"" + prompt + "\"}], \"max_tokens\": 10, \"temperature\": 0.9 }";
             RequestBody body = RequestBody.create(json, JSON);
 
             int retryCount = 0;
@@ -260,10 +261,76 @@ public class OpenAPISpecGenerator {
 
         List<Object> results = new ArrayList<>();
         for (String prompt : prompts) {
-            results.add(exampleCache.get(prompt));
+            String result = exampleCache.get(prompt).toString();
+            while (usedExamples.contains(result)) {
+                result = regenerateExampleValue(prompt, apiKey);
+            }
+            usedExamples.add(result);
+            results.add(result);
         }
 
         return results;
+    }
+
+    /**
+     * Regenerates a single example value based on previously generated example values to make sure that each example value generated for an attribute is unique.
+     * This method may increase the amount of requests needed and therefore the OpenAI API costs, but it is mandatory to prevent duplicate example values.
+     *
+     * @param prompt The prompt that is used to generate an example value.
+     * @param apiKey The API key that is used to access the OpenAI model.
+     * @return The regenerated example value.
+     * @throws IOException Is returned if an error occurs during the generation process.
+     */
+    private String regenerateExampleValue(String prompt, String apiKey) throws IOException {
+        MediaType JSON = MediaType.get("application/json; charset=utf-8");
+
+        String json = "{ \"model\": \"" + OPENAI_ENGINE + "\", \"messages\": [{\"role\": \"user\", \"content\": \"" + prompt + "\"}], \"max_tokens\": 10, \"temperature\": 0.9 }";
+        RequestBody body = RequestBody.create(json, JSON);
+
+        int retryCount = 0;
+        int backoffTime = INITIAL_BACKOFF;
+
+        while (retryCount < MAX_RETRIES) {
+            Request request = new Request.Builder()
+                    .url("https://api.openai.com/v1/chat/completions")
+                    .post(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "Bearer " + apiKey)
+                    .build();
+
+            try (Response response = httpClient.newCall(request).execute()) {
+                if (response.isSuccessful()) {
+                    String responseBody = response.body().string();
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
+
+                    List<Map<String, Object>> choices = (List<Map<String, Object>>) responseMap.get("choices");
+                    if (choices != null && !choices.isEmpty()) {
+                        Map<String, Object> messageContent = (Map<String, Object>) choices.get(0).get("message");
+                        return messageContent.get("content").toString().trim();
+                    }
+                } else if (response.code() == 429) {
+                    retryCount++;
+                    System.err.println("Rate limited. Retrying in " + backoffTime + "ms");
+                    Thread.sleep(backoffTime);
+                    backoffTime *= 2;
+                } else if (response.code() == 401) {
+                    throw new IOException("Unauthorised: Invalid API key.");
+                } else if (response.code() == 404) {
+                    throw new IOException("Invalid endpoint. Please check the URL and endpoint.");
+                } else if (response.code() == 400) {
+                    String responseBody = response.body().string();
+                    throw new IOException("Bad request: " + responseBody);
+                } else {
+                    throw new IOException("Unexpected code " + response);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new IOException("Thread interrupted during backoff", e);
+            }
+        }
+
+        throw new IOException("Max retries reached. Could not get a response from OpenAI API.");
     }
 
     /**
@@ -343,10 +410,10 @@ public class OpenAPISpecGenerator {
                 String[] parts = attribute.split(" ");
                 String name = parts[0].substring(1);
                 String type = parts[2];
-                prompts.add("Generate a unique example value for a " + type + " attribute named " + name + " for a class " + className + " with id " + i + ". Ensure this value is unique compared to other ids.");
+                prompts.add("Generate a unique, short (one or two words) example value for a " + type + " attribute named " + name + " for a class " + className + " with id " + i + ". Ensure this value is unique compared to other ids.");
             }
 
-            List<Object> generatedValues = generateExampleValues(prompts, apiKey);
+            List<Object> generatedValues = generateUniqueExampleValues(prompts, apiKey, new HashSet<>());
             for (int j = 0; j < attributes.size(); j++) {
                 String[] parts = attributes.get(j).split(" ");
                 String name = parts[0].substring(1);
