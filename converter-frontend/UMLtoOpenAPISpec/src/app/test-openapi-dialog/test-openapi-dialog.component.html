@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Test OpenAPI Specification</h1>
+<div mat-dialog-content>
+  <p>Click the button below to test the generated OpenAPI specification using the Prism mock server.</p>
+  <button mat-button (click)="onTestClick()">Test OpenAPI</button>
+  <div *ngIf="testResults.length > 0">
+    <h3>Test Results</h3>
+    <div *ngFor="let result of testResults">
+      <h4>{{ result.path }}</h4>
+      <pre *ngIf="result.output">{{ result.output }}</pre>
+      <pre *ngIf="result.error">{{ result.error }}</pre>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCloseClick()">Close</button>
+</div>

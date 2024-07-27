@@ -13,4 +13,8 @@ export class MockServerService {
   toggleMockServer(): Observable<any> {
     return this.http.get(`${this.baseUrl}/toggle-prism-mock`);
   }
+
+  testOpenApiSpecification(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/test-openapi`);
+  }
 }

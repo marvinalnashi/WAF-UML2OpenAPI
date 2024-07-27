@@ -1,10 +1,15 @@
 package codearise.openapispecgenerator.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -96,5 +101,51 @@ public class MockServerController {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    @GetMapping("/test-openapi")
+    public ResponseEntity<Object> testOpenApiSpecification() {
+        List<String> paths = extractPathsFromOpenAPISpec("/data/export.yml");
+        List<Map<String, Object>> testResults = new ArrayList<>();
+
+        for (String path : paths) {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            try {
+                processBuilder.command("bash", "-c", "curl -X GET http://localhost:4010" + path);
+                Process testProcess = processBuilder.start();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(testProcess.getInputStream()));
+                StringBuilder output = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    output.append(line).append("\n");
+                }
+                int exitCode = testProcess.waitFor();
+                if (exitCode == 0) {
+                    testResults.add(Map.of("path", path, "output", output.toString()));
+                } else {
+                    testResults.add(Map.of("path", path, "error", "Failed to test path."));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                testResults.add(Map.of("path", path, "error", "Exception: " + e.getMessage()));
+            }
+        }
+
+        return ResponseEntity.ok().body(testResults);
+    }
+
+    private List<String> extractPathsFromOpenAPISpec(String filePath) {
+        List<String> paths = new ArrayList<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper(new com.fasterxml.jackson.dataformat.yaml.YAMLFactory());
+            JsonNode root = mapper.readTree(new File(filePath));
+            JsonNode pathsNode = root.get("paths");
+            if (pathsNode != null) {
+                pathsNode.fieldNames().forEachRemaining(paths::add);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return paths;
     }
 }

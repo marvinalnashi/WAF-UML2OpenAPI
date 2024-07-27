@@ -26,5 +26,11 @@
         <mat-icon>play_arrow</mat-icon>
       </button>
     </div>
+    <div class="action-item" *ngIf="isGeneratedSuccessfully">
+      <span>Test the generated OpenAPI specification.</span>
+      <button id="testOpenApiSpecificationButton" mat-icon-button (click)="onTestOpenApiSpecification()">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+    </div>
   </div>
 </div>

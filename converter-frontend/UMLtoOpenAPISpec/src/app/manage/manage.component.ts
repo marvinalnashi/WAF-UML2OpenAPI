@@ -7,6 +7,7 @@ import {DownloadDialogComponent} from "../download-dialog/download-dialog.compon
 import {HttpClient} from "@angular/common/http";
 import * as yaml from 'js-yaml';
 import {NotificationService} from "../notification.service";
+import {TestOpenApiDialogComponent} from "../test-openapi-dialog/test-openapi-dialog.component";
 
 /**
  * Component for performing managing tasks with the generated OpenAPI specification.
@@ -116,5 +117,13 @@ export class ManageComponent {
     a.click();
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
+  }
+
+
+  onTestOpenApiSpecification(): void {
+    this.dialog.open(TestOpenApiDialogComponent, {
+      width: '500px',
+      data: {}
+    });
   }
 }
