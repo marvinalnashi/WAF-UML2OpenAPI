@@ -5,7 +5,7 @@
   <div *ngIf="testResults.length > 0">
     <h3>Test Results</h3>
     <div *ngFor="let result of testResults">
-      <h4>{{ result.path }}</h4>
+      <h4>{{ result.path }} ({{ result.method }})</h4>
       <pre *ngIf="result.output">{{ result.output }}</pre>
       <pre *ngIf="result.error">{{ result.error }}</pre>
     </div>
