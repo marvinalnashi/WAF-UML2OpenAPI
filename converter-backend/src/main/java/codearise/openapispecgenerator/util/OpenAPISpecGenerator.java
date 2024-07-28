@@ -158,7 +158,7 @@ public class OpenAPISpecGenerator {
                 prompts.add("Generate a unique, short (one or two words) example value for a " + type + " attribute named " + name + " for a class " + className + " with id " + i + ". Ensure this value is unique compared to other ids.");
             }
 
-            List<Object> generatedValues = generateUniqueExampleValues(prompts, apiKey, usedExamples);
+            List<Object> generatedValues = generateUniqueExampleValues(prompts, apiKey, usedExamples, attributes);
             for (int j = 0; j < attributes.size(); j++) {
                 String[] parts = attributes.get(j).split(" ");
                 String name = parts[0].substring(1);
@@ -198,7 +198,7 @@ public class OpenAPISpecGenerator {
      * @return List of generated example values for the attributes of the classes.
      * @throws IOException Is returned if an error occurs during the generation process.
      */
-    private List<Object> generateUniqueExampleValues(List<String> prompts, String apiKey, Set<String> usedExamples) throws IOException {
+    private List<Object> generateUniqueExampleValues(List<String> prompts, String apiKey, Set<String> usedExamples, List<String> attributes) throws IOException {
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
         for (String prompt : prompts) {
@@ -230,6 +230,9 @@ public class OpenAPISpecGenerator {
                         if (choices != null && !choices.isEmpty()) {
                             Map<String, Object> messageContent = (Map<String, Object>) choices.get(0).get("message");
                             String content = messageContent.get("content").toString().trim();
+                            if (content.isEmpty()) {
+                                content = getDefaultValueForType(prompts.get(prompts.indexOf(prompt)));
+                            }
                             exampleCache.put(prompt, content);
                             break;
                         }
@@ -260,10 +263,13 @@ public class OpenAPISpecGenerator {
         }
 
         List<Object> results = new ArrayList<>();
-        for (String prompt : prompts) {
-            String result = exampleCache.get(prompt).toString();
-            while (usedExamples.contains(result)) {
-                result = regenerateExampleValue(prompt, apiKey);
+        for (int i = 0; i < prompts.size(); i++) {
+            String result = exampleCache.get(prompts.get(i)).toString();
+            String[] parts = attributes.get(i).split(" ");
+            String type = parts[2];
+            result = convertExampleValue(result, type);
+            while (usedExamples.contains(result) || result.isEmpty()) {
+                result = regenerateExampleValue(prompts.get(i), apiKey, type);
             }
             usedExamples.add(result);
             results.add(result);
@@ -281,7 +287,7 @@ public class OpenAPISpecGenerator {
      * @return The regenerated example value.
      * @throws IOException Is returned if an error occurs during the generation process.
      */
-    private String regenerateExampleValue(String prompt, String apiKey) throws IOException {
+    private String regenerateExampleValue(String prompt, String apiKey, String type) throws IOException {
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
         String json = "{ \"model\": \"" + OPENAI_ENGINE + "\", \"messages\": [{\"role\": \"user\", \"content\": \"" + prompt + "\"}], \"max_tokens\": 10, \"temperature\": 0.9 }";
@@ -307,7 +313,11 @@ public class OpenAPISpecGenerator {
                     List<Map<String, Object>> choices = (List<Map<String, Object>>) responseMap.get("choices");
                     if (choices != null && !choices.isEmpty()) {
                         Map<String, Object> messageContent = (Map<String, Object>) choices.get(0).get("message");
-                        return messageContent.get("content").toString().trim();
+                        String content = messageContent.get("content").toString().trim();
+                        if (content.isEmpty()) {
+                            content = getDefaultValueForType(type);
+                        }
+                        return convertExampleValue(content, type);
                     }
                 } else if (response.code() == 429) {
                     retryCount++;
@@ -315,7 +325,7 @@ public class OpenAPISpecGenerator {
                     Thread.sleep(backoffTime);
                     backoffTime *= 2;
                 } else if (response.code() == 401) {
-                    throw new IOException("Unauthorised: Invalid API key.");
+                    throw new IOException("Unauthorized: Invalid API key.");
                 } else if (response.code() == 404) {
                     throw new IOException("Invalid endpoint. Please check the URL and endpoint.");
                 } else if (response.code() == 400) {
@@ -331,6 +341,44 @@ public class OpenAPISpecGenerator {
         }
 
         throw new IOException("Max retries reached. Could not get a response from OpenAI API.");
+    }
+
+    private String convertExampleValue(String value, String type) {
+        value = value.trim();
+        if (value.isEmpty()) {
+            value = getDefaultValueForType(type);
+        }
+        try {
+            switch (type.toLowerCase()) {
+                case "int":
+                case "integer":
+                    return String.valueOf(Integer.parseInt(value.replaceAll("[^0-9]", "")));
+                case "float":
+                case "double":
+                    return String.valueOf(Double.parseDouble(value.replaceAll("[^0-9.]", "")));
+                case "boolean":
+                    return String.valueOf(Boolean.parseBoolean(value));
+                default:
+                    return value.replaceAll("^\"|\"$", "");
+            }
+        } catch (NumberFormatException e) {
+            return getDefaultValueForType(type);
+        }
+    }
+
+    private String getDefaultValueForType(String type) {
+        switch (type.toLowerCase()) {
+            case "int":
+            case "integer":
+                return "0";
+            case "float":
+            case "double":
+                return "0.0";
+            case "boolean":
+                return "false";
+            default:
+                return "example";
+        }
     }
 
     /**
@@ -413,7 +461,7 @@ public class OpenAPISpecGenerator {
                 prompts.add("Generate a unique, short (one or two words) example value for a " + type + " attribute named " + name + " for a class " + className + " with id " + i + ". Ensure this value is unique compared to other ids.");
             }
 
-            List<Object> generatedValues = generateUniqueExampleValues(prompts, apiKey, new HashSet<>());
+            List<Object> generatedValues = generateUniqueExampleValues(prompts, apiKey, new HashSet<>(), attributes);
             for (int j = 0; j < attributes.size(); j++) {
                 String[] parts = attributes.get(j).split(" ");
                 String name = parts[0].substring(1);
