@@ -26,7 +26,7 @@ public class GenerationController {
     /**
      * The path where the generated OpenAPI specification will be saved.
      */
-    private final String outputPath = "/data/export.yml";
+    private final String outputPath = "./data/export.yml";
 
     /**
      * The reference variable for the class that is used to generate an OpenAPI specification and fill it with content that is based on the uploaded UML diagram and the modifications done by the user in the stepper.

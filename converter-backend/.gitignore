@@ -39,3 +39,6 @@ build/
 
 ### OpenAPI specification generator ###
 export.yml
+
+### Node Modules ###
+node_modules

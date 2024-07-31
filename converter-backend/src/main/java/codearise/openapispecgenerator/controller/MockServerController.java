@@ -5,9 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +46,9 @@ public class MockServerController {
     private ResponseEntity<Object> startPrismMockServer() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         try {
-            processBuilder.command("bash", "-c", "prism mock -p 4010 --cors --host 0.0.0.0 /data/export.yml --errors");
+            String npmPath = Paths.get("node", "npm.cmd").toString();
+            processBuilder.command(npmPath, "run", "start");
+            processBuilder.directory(new File("."));
             prismProcess = processBuilder.start();
             logOutput(prismProcess);
             return ResponseEntity.ok().body(Map.of("message", "Prism Mock Server is starting..."));
@@ -106,7 +110,7 @@ public class MockServerController {
     @GetMapping("/test-openapi")
     public ResponseEntity<Object> testOpenApiSpecification() {
         List<Map<String, Object>> testResults = new ArrayList<>();
-        List<String> paths = extractPathsFromOpenAPISpec("/data/export.yml");
+        List<String> paths = extractPathsFromOpenAPISpec("./data/export.yml");
 
         for (String path : paths) {
             if (path.endsWith("/{id}")) {

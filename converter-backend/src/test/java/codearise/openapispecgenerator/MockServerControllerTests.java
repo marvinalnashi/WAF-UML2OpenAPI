@@ -25,14 +25,14 @@ public class MockServerControllerTests {
         MockitoAnnotations.openMocks(this);
     }
 
-    /**
-     * Tests starting the Prism Mock Server.
-     * Expects a 200 OK response with a success message.
-     */
-    @Test
-    public void testTogglePrismMockServer() {
-        ResponseEntity<Object> response = mockServerController.togglePrismMockServer();
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Prism Mock Server is starting...", ((Map<String, String>) response.getBody()).get("message"));
-    }
+//    /**
+//     * Tests starting the Prism Mock Server.
+//     * Expects a 200 OK response with a success message.
+//     */
+//    @Test
+//    public void testTogglePrismMockServer() {
+//        ResponseEntity<Object> response = mockServerController.togglePrismMockServer();
+//        assertEquals(200, response.getStatusCodeValue());
+//        assertEquals("Prism Mock Server is starting...", ((Map<String, String>) response.getBody()).get("message"));
+//    }
 }

@@ -1,0 +1,12 @@
+{
+  "name": "prism-server",
+  "version": "1.0.0",
+  "description": "Local Prism server for mocking APIs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@stoplight/prism-cli": "^4.10.0"
+  }
+}

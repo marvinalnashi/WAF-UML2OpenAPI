@@ -18,7 +18,7 @@ public class PersonaliseController {
     /**
      * The path of the directory in which the generated OpenAPI specification is saved.
      */
-    private final String outputPath = "/data/export.yml";
+    private final String outputPath = "./data/export.yml";
 
     /**
      * The endpoint to fetch the generated OpenAPI specification before its example values are modified by the user.
