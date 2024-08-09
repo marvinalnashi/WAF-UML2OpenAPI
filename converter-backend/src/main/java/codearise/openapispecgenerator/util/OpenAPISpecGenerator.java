@@ -355,6 +355,7 @@ public class OpenAPISpecGenerator {
                     return String.valueOf(Integer.parseInt(value.replaceAll("[^0-9]", "")));
                 case "float":
                 case "double":
+                case "decimal":
                     return String.valueOf(Double.parseDouble(value.replaceAll("[^0-9.]", "")));
                 case "boolean":
                     return String.valueOf(Boolean.parseBoolean(value));
@@ -373,6 +374,7 @@ public class OpenAPISpecGenerator {
                 return "0";
             case "float":
             case "double":
+            case "decimal":
                 return "0.0";
             case "boolean":
                 return "false";
@@ -390,19 +392,19 @@ public class OpenAPISpecGenerator {
     private static String mapType(String type) {
         switch (type.toLowerCase()) {
             case "int":
+            case "integer":
                 return "integer";
             case "string":
                 return "string";
             case "long":
                 return "integer";
             case "float":
-                return "number";
             case "double":
+            case "decimal":
                 return "number";
             case "boolean":
                 return "boolean";
             case "char":
-                return "string";
             case "byte":
                 return "string";
             case "short":
@@ -428,6 +430,7 @@ public class OpenAPISpecGenerator {
             case "float":
                 return "float";
             case "double":
+            case "decimal":
                 return "double";
             default:
                 return null;
