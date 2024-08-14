@@ -9,6 +9,8 @@ import {
 } from "@angular/material/dialog";
 import {JsonPipe, NgForOf, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
+import {MatCheckbox} from "@angular/material/checkbox";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-test-openapi-dialog',
@@ -20,13 +22,17 @@ import {MatButton} from "@angular/material/button";
     MatButton,
     MatDialogActions,
     JsonPipe,
-    NgForOf
+    NgForOf,
+    MatCheckbox,
+    FormsModule
   ],
   templateUrl: './test-openapi-dialog.component.html',
   styleUrl: './test-openapi-dialog.component.scss'
 })
 export class TestOpenApiDialogComponent {
+  step: number = 1;
   testResults: any[] = [];
+  availableTests: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<TestOpenApiDialogComponent>,
@@ -34,15 +40,38 @@ export class TestOpenApiDialogComponent {
     private mockServerService: MockServerService
   ) {}
 
+  ngOnInit(): void {
+    this.mockServerService.testOpenApiSpecification().subscribe(tests => {
+      this.availableTests = tests;
+    }, error => {
+      console.error('Error loading tests', error);
+    });
+  }
+
   onCloseClick(): void {
     this.dialogRef.close();
   }
 
+  onContinue(): void {
+    this.step = 2;
+  }
+
   onTestClick(): void {
-    this.mockServerService.testOpenApiSpecification().subscribe(results => {
-      this.testResults = results;
-    }, error => {
-      console.error('Error testing OpenAPI specification', error);
-    });
+    const selectedTests = this.availableTests.filter(test => test.selected);
+    if (selectedTests.length > 0) {
+      this.testResults = [];
+      selectedTests.forEach(test => {
+        this.mockServerService.testApi(test.method, test.path, test.body).subscribe(result => {
+          this.testResults.push({ ...result, success: true });
+        }, error => {
+          this.testResults.push({
+            method: test.method,
+            path: test.path,
+            error: `Error Code: ${error.status}\nMessage: ${error.message}`,
+            success: false
+          });
+        });
+      });
+    }
   }
 }

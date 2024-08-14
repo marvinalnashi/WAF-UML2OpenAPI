@@ -4,15 +4,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Controller for managing the state of the Prism Mock Server.
@@ -108,50 +108,51 @@ public class MockServerController {
     }
 
     @GetMapping("/test-openapi")
-    public ResponseEntity<Object> testOpenApiSpecification() {
-        List<Map<String, Object>> testResults = new ArrayList<>();
+    public ResponseEntity<List<Map<String, Object>>> testOpenApiSpecification() {
+        List<Map<String, Object>> tests = new ArrayList<>();
         List<String> paths = extractPathsFromOpenAPISpec("./data/export.yml");
 
         for (String path : paths) {
-            if (path.endsWith("/{id}")) {
-                testResults.add(testPath(path, "GET"));
-                testResults.add(testPath(path, "PUT", "{\"example\": \"updated data\"}"));
-                testResults.add(testPath(path, "DELETE"));
+            if (path.contains("/{id}")) {
+                String resourcePath = path.replace("/{id}", "");
+                Optional<String> sampleId = getSampleId(resourcePath);
+                if (sampleId.isPresent()) {
+                    String resolvedPath = path.replace("{id}", sampleId.get());
+                    addTestCases(tests, resolvedPath);
+                } else {
+                    addTestCases(tests, resourcePath);
+                }
             } else {
-                testResults.add(testPath(path, "GET"));
-                testResults.add(testPath(path, "POST", "{\"example\": \"data\"}"));
+                addTestCases(tests, path);
             }
         }
 
-        return ResponseEntity.ok().body(testResults);
+        return ResponseEntity.ok(tests);
     }
 
-    private Map<String, Object> testPath(String path, String method) {
-        return testPath(path, method, null);
+    private void addTestCases(List<Map<String, Object>> tests, String path) {
+        tests.add(Map.of("name", "Test GET " + path, "method", "GET", "path", path));
+        tests.add(Map.of("name", "Test POST " + path, "method", "POST", "path", path, "body", "{\"example\": \"data\"}"));
+        tests.add(Map.of("name", "Test PUT " + path, "method", "PUT", "path", path, "body", "{\"example\": \"updated data\"}"));
+        tests.add(Map.of("name", "Test DELETE " + path, "method", "DELETE", "path", path));
     }
 
-    private Map<String, Object> testPath(String path, String method, String body) {
-        ProcessBuilder processBuilder = new ProcessBuilder();
+    private Optional<String> getSampleId(String resourcePath) {
         try {
-            String command = String.format("curl -X %s -H 'Content-Type: application/json' %s http://localhost:4010%s", method, body != null ? "-d '" + body + "'" : "", path);
-            processBuilder.command("bash", "-c", command);
-            Process testProcess = processBuilder.start();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(testProcess.getInputStream()));
-            StringBuilder output = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                output.append(line).append("\n");
-            }
-            int exitCode = testProcess.waitFor();
-            if (exitCode == 0) {
-                return Map.of("path", path, "method", method, "output", output.toString());
-            } else {
-                return Map.of("path", path, "method", method, "error", "Failed to test path.");
+            String url = "http://localhost:8080" + resourcePath;
+            ProcessBuilder processBuilder = new ProcessBuilder("curl", "-s", url);
+            Process process = processBuilder.start();
+            process.waitFor();
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(process.getInputStream());
+            if (rootNode.isArray() && rootNode.size() > 0) {
+                return Optional.of(rootNode.get(0).get("id").asText());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return Map.of("path", path, "method", method, "error", "Exception: " + e.getMessage());
         }
+        return Optional.empty();
     }
 
     private List<String> extractPathsFromOpenAPISpec(String filePath) {

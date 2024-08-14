@@ -1,13 +1,35 @@
 <h1 mat-dialog-title>Test OpenAPI Specification</h1>
 <div mat-dialog-content>
-  <p>Click the button below to test the generated OpenAPI specification using the Prism mock server.</p>
-  <button mat-button (click)="onTestClick()">Test OpenAPI</button>
-  <div *ngIf="testResults.length > 0">
-    <h3>Test Results</h3>
-    <div *ngFor="let result of testResults">
-      <h4>{{ result.path }} ({{ result.method }})</h4>
-      <pre *ngIf="result.output">{{ result.output }}</pre>
-      <pre *ngIf="result.error">{{ result.error }}</pre>
+  <div *ngIf="step === 1">
+    <h3>Select Tests to Run</h3>
+    <mat-checkbox *ngFor="let test of availableTests" [(ngModel)]="test.selected">
+      {{ test.name }}
+    </mat-checkbox>
+    <button mat-button (click)="onContinue()">Continue</button>
+  </div>
+
+  <div *ngIf="step === 2">
+    <p>Click the button below to test the generated OpenAPI specification using the Prism mock server.</p>
+    <div>
+      <h1>Test OpenAPI</h1>
+      <form>
+        <div *ngFor="let test of availableTests">
+          <label>
+            <input type="checkbox" [(ngModel)]="test.selected">
+            {{ test.name }}
+          </label>
+        </div>
+        <button type="button" (click)="onTestClick()">Run Selected Tests</button>
+      </form>
+    </div>
+
+    <div *ngIf="testResults.length > 0">
+      <h3>Test Results</h3>
+      <div *ngFor="let result of testResults">
+        <h4>{{ result.method }} {{ result.path }}</h4>
+        <pre *ngIf="result.success">{{ result | json }}</pre>
+        <pre *ngIf="!result.success">{{ result.error }}</pre>
+      </div>
     </div>
   </div>
 </div>
