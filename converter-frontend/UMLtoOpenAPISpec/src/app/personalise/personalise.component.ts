@@ -129,20 +129,7 @@ export class PersonaliseComponent implements OnChanges {
    * Selects an attribute and extracts its example values from the generated OpenAPI specification data.
    * @param attribute The name of the attribute to select.
    */
-  // selectAttribute(attribute: string): void {
-  //   this.selectedAttribute = attribute;
-  //   if (this.temporarilyStoredExampleValues[`${this.selectedClass}_${attribute}`]) {
-  //     this.selectedAttributeExamples = this.temporarilyStoredExampleValues[`${this.selectedClass}_${attribute}`];
-  //   } else {
-  //     this.selectedAttributeExamples = [];
-  //     const schema = this.openApiData.components.schemas[this.selectedClass];
-  //     if (schema && schema.examples && schema.examples.exampleArray) {
-  //       this.selectedAttributeExamples = schema.examples.exampleArray.map((example: { [x: string]: any }) => example[attribute]);
-  //       this.temporarilyStoredExampleValues[`${this.selectedClass}_${attribute}`] = this.selectedAttributeExamples;
-  //     }
-  //   }
-  //   this.currentView = 'examples';
-  // }
+
   selectAttribute(attribute: string): void {
     this.selectedAttribute = attribute;
     this.selectedAttributeExamples = this.temporarilyStoredExampleValues[`${this.selectedClass}_${attribute}`] || [];
@@ -203,11 +190,6 @@ export class PersonaliseComponent implements OnChanges {
       });
   }
 
-  linkExampleValues(): void {
-    this.linkedExamples = [];
-    this.currentView = 'linking';
-  }
-
   createNewLink(): void {
     this.editingLink = { id: this.linkedExamples.length + 1 };
     this.currentView = 'attributes';
@@ -216,12 +198,16 @@ export class PersonaliseComponent implements OnChanges {
   addLink(attribute: string, example: any): void {
     if (this.editingLink) {
       this.editingLink[attribute] = example;
-      this.checkIfLinkComplete();
+      this.updateLinkText();
     }
   }
 
-  checkIfLinkComplete(): void {
-    if (this.editingLink && this.selectedClassAttributes.every(attr => this.editingLink![attr] !== undefined)) {
+  updateLinkText(): void {
+    this.linkedExamples = [...this.linkedExamples];
+  }
+
+  completeLink(): void {
+    if (this.editingLink) {
       this.linkedExamples.push(this.editingLink);
       this.editingLink = null;
       this.saveLinkedExamples();

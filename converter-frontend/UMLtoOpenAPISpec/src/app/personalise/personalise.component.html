@@ -10,6 +10,10 @@
       <button (click)="createNewLink()" class="btn bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded">
         Create New Link
       </button>
+      <button *ngIf="editingLink" (click)="completeLink()" class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded ml-2">
+        Complete Link
+      </button>
+      <p *ngIf="editingLink">You are currently creating a new Link</p>
     </div>
 
     <div *ngIf="currentView === 'classes'">
@@ -41,6 +45,12 @@
 
   <div class="linked-examples-container">
     <h3>Linked Example Values</h3>
+    <div *ngIf="editingLink">
+      <div class="linked-example">
+        <p><strong>Currently Editing Link {{ editingLink['id'] }}:</strong></p>
+        <pre>{{ editingLink | json }}</pre>
+      </div>
+    </div>
     <div *ngFor="let link of linkedExamples">
       <div class="linked-example">
         <p><strong>Link {{ link['id'] }}:</strong></p>
