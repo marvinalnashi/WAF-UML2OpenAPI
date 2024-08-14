@@ -1,5 +1,5 @@
 <div class="personalise-container">
-  <div class="personalise-content">
+  <div class="personalise-content first-section">
     <p>Navigate through the classes, attributes, and example values that were generated in your
       OpenAPI specification in this OpenAPI explorer view.</p>
     <p>Here you can modify the example values that were generated for the attributes of the classes
@@ -43,18 +43,18 @@
     </div>
   </div>
 
-  <div class="linked-examples-container">
+  <div class="linked-examples-container second-section">
     <h3>Linked Example Values</h3>
-    <div *ngIf="editingLink">
-      <div class="linked-example">
-        <p><strong>Currently Editing Link {{ editingLink['id'] }}:</strong></p>
-        <pre>{{ editingLink | json }}</pre>
-      </div>
-    </div>
-    <div *ngFor="let link of linkedExamples">
-      <div class="linked-example">
-        <p><strong>Link {{ link['id'] }}:</strong></p>
-        <pre>{{ link | json }}</pre>
+    <div class="grid-container">
+      <div *ngFor="let link of linkedExamples; let linkIndex = index" class="card">
+        <div class="card-content">
+          <h4>Link {{ link["id"] }}</h4>
+          <div cdkDropList id="link-{{linkIndex}}" [cdkDropListData]="getKeys(link)" (cdkDropListDropped)="drop($event)">
+            <div *ngFor="let key of getKeys(link); let i = index" class="attribute-value-pair" cdkDrag>
+              <strong>{{ key }}:</strong> {{ link[key] }}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

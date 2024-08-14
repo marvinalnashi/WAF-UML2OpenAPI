@@ -80,9 +80,7 @@ public class PersonaliseController {
             String className = (String) linkRequest.get("className");
             List<Map<String, Object>> links = (List<Map<String, Object>>) linkRequest.get("links");
 
-            for (Map<String, Object> link : links) {
-                addLinkedExampleEndpoint(openApiSpec, className, link);
-            }
+            addLinkedExamplesEndpoint(openApiSpec, links);
 
             mapper.writeValue(file, openApiSpec);
         } catch (IOException e) {
@@ -90,19 +88,19 @@ public class PersonaliseController {
         }
     }
 
-    private void addLinkedExampleEndpoint(Map<String, Object> openApiSpec, String className, Map<String, Object> link) {
+    private void addLinkedExamplesEndpoint(Map<String, Object> openApiSpec, List<Map<String, Object>> links) {
         Map<String, Object> paths = (Map<String, Object>) openApiSpec.get("paths");
 
-        String path = "/linked/" + className.toLowerCase() + "/" + link.get("id");
+        String path = "/linked/examples";
         Map<String, Object> getEndpoint = Map.of(
                 "get", Map.of(
-                        "summary", "Get linked example for " + className,
+                        "summary", "Get all linked examples",
                         "responses", Map.of(
                                 "200", Map.of(
-                                        "description", "A linked example",
+                                        "description", "A list of linked examples",
                                         "content", Map.of(
                                                 "application/json", Map.of(
-                                                        "example", link
+                                                        "example", links
                                                 )
                                         )
                                 )

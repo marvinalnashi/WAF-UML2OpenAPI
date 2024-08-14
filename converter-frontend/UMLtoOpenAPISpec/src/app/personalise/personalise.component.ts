@@ -6,6 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton} from "@angular/material/button";
 import {MatStepper} from "@angular/material/stepper";
+import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
 
 /**
  * Component for modifying the example values that were generated with AI for the generated OpenAPI specification.
@@ -18,7 +19,9 @@ import {MatStepper} from "@angular/material/stepper";
     NgIf,
     MatIcon,
     MatButton,
-    JsonPipe
+    JsonPipe,
+    CdkDropList,
+    CdkDrag
   ],
   templateUrl: './personalise.component.html',
   styleUrl: './personalise.component.scss'
@@ -129,7 +132,6 @@ export class PersonaliseComponent implements OnChanges {
    * Selects an attribute and extracts its example values from the generated OpenAPI specification data.
    * @param attribute The name of the attribute to select.
    */
-
   selectAttribute(attribute: string): void {
     this.selectedAttribute = attribute;
     this.selectedAttributeExamples = this.temporarilyStoredExampleValues[`${this.selectedClass}_${attribute}`] || [];
@@ -192,6 +194,7 @@ export class PersonaliseComponent implements OnChanges {
 
   createNewLink(): void {
     this.editingLink = { id: this.linkedExamples.length + 1 };
+    this.updateLinkText();
     this.currentView = 'attributes';
   }
 
@@ -257,5 +260,23 @@ export class PersonaliseComponent implements OnChanges {
         }
       }
     }
+  }
+
+  getKeys(link: any): string[] {
+    return Object.keys(link).filter(key => key !== 'id');
+  }
+
+  drop(event: CdkDragDrop<string[]>): void {
+    const linkIndex = parseInt(event.container.id.split('-')[1], 10);
+    const keys = this.getKeys(this.linkedExamples[linkIndex]);
+    moveItemInArray(keys, event.previousIndex, event.currentIndex);
+
+    const reorderedLink: { [key: string]: any } = { id: this.linkedExamples[linkIndex]["id"] };
+    keys.forEach(key => {
+      reorderedLink[key] = this.linkedExamples[linkIndex][key];
+    });
+    this.linkedExamples[linkIndex] = reorderedLink;
+    this.updateLinkText();
+    this.saveLinkedExamples();
   }
 }
