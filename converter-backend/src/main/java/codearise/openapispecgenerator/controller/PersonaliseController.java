@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,7 +60,7 @@ public class PersonaliseController {
             Map<String, Object> schemas = (Map<String, Object>) ((Map<String, Object>) openApiSpec.get("components")).get("schemas");
             Map<String, Object> classSchema = (Map<String, Object>) schemas.get(className);
             Map<String, Object> examples = (Map<String, Object>) classSchema.get("examples");
-            ((Map<String, Object>) ((java.util.List<Object>) examples.get("exampleArray")).get(index)).put(attributeName, newValue);
+            ((Map<String, Object>) ((List<Object>) examples.get("exampleArray")).get(index)).put(attributeName, newValue);
 
             updatePaths(openApiSpec, className, attributeName, index, newValue);
 
@@ -67,6 +68,49 @@ public class PersonaliseController {
         } catch (IOException e) {
             throw new RuntimeException("Failed to update OpenAPI specification: " + e.getMessage(), e);
         }
+    }
+
+    @PostMapping("/linkExamples")
+    public void linkExamples(@RequestBody Map<String, Object> linkRequest) {
+        try {
+            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+            File file = new File(outputPath);
+            Map<String, Object> openApiSpec = mapper.readValue(file, Map.class);
+
+            String className = (String) linkRequest.get("className");
+            List<Map<String, Object>> links = (List<Map<String, Object>>) linkRequest.get("links");
+
+            for (Map<String, Object> link : links) {
+                addLinkedExampleEndpoint(openApiSpec, className, link);
+            }
+
+            mapper.writeValue(file, openApiSpec);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to link examples in OpenAPI specification: " + e.getMessage(), e);
+        }
+    }
+
+    private void addLinkedExampleEndpoint(Map<String, Object> openApiSpec, String className, Map<String, Object> link) {
+        Map<String, Object> paths = (Map<String, Object>) openApiSpec.get("paths");
+
+        String path = "/linked/" + className.toLowerCase() + "/" + link.get("id");
+        Map<String, Object> getEndpoint = Map.of(
+                "get", Map.of(
+                        "summary", "Get linked example for " + className,
+                        "responses", Map.of(
+                                "200", Map.of(
+                                        "description", "A linked example",
+                                        "content", Map.of(
+                                                "application/json", Map.of(
+                                                        "example", link
+                                                )
+                                        )
+                                )
+                        )
+                )
+        );
+
+        paths.put(path, getEndpoint);
     }
 
     /**
@@ -111,7 +155,7 @@ public class PersonaliseController {
                                 // Checks if the examples section exists and contains exampleArray.
                                 if (examples != null && examples.get("exampleArray") != null) {
                                     // Retrieves exampleArray from the examples section.
-                                    java.util.List<Object> exampleArray = (java.util.List<Object>) ((Map<String, Object>) examples.get("exampleArray")).get("value");
+                                    List<Object> exampleArray = (List<Object>) ((Map<String, Object>) examples.get("exampleArray")).get("value");
 
                                     // Checks if exampleArray contains enough elements.
                                     if (exampleArray.size() > index) {

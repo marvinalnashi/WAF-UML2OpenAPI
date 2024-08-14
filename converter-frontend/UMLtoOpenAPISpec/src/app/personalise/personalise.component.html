@@ -5,6 +5,13 @@
     <p>Here you can modify the example values that were generated for the attributes of the classes
       that were generated in your OpenAPI specification based on the UML diagram you have uploaded and the additions and
       modifications that were applied.</p>
+
+    <div class="create-new-link-container">
+      <button (click)="createNewLink()" class="btn bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded">
+        Create New Link
+      </button>
+    </div>
+
     <div *ngIf="currentView === 'classes'">
       <button *ngFor="let className of classNames" (click)="selectClass(className)"
               class="btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded mr-2">{{ className }}
@@ -27,6 +34,17 @@
       <div *ngFor="let example of selectedAttributeExamples; let i = index" id="exampleValue" class="flex items-center mr-2">
         <p class="flex-grow">{{ example }}</p>
         <mat-icon (click)="editExampleValue(i)" class="cursor-pointer">edit</mat-icon>
+        <button *ngIf="editingLink" (click)="addLink(selectedAttribute, example)" class="btn bg-yellow-500 hover:bg-yellow-700 text-white py-1 px-2 ml-2 rounded">Link</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="linked-examples-container">
+    <h3>Linked Example Values</h3>
+    <div *ngFor="let link of linkedExamples">
+      <div class="linked-example">
+        <p><strong>Link {{ link['id'] }}:</strong></p>
+        <pre>{{ link | json }}</pre>
       </div>
     </div>
   </div>
