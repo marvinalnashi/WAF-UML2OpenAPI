@@ -71,6 +71,8 @@ export class PersonaliseComponent implements OnChanges {
 
   editingLink: { [key: string]: any } | null = null;
 
+  currentLinkText: string = '';
+
   /**
    * Creates an instance of PersonaliseComponent.
    * @param dialog The popup dialog service.
@@ -194,6 +196,7 @@ export class PersonaliseComponent implements OnChanges {
 
   createNewLink(): void {
     this.editingLink = { id: this.linkedExamples.length + 1 };
+    this.currentLinkText = JSON.stringify(this.editingLink, null, 2);
     this.updateLinkText();
     this.currentView = 'attributes';
   }
@@ -207,12 +210,16 @@ export class PersonaliseComponent implements OnChanges {
 
   updateLinkText(): void {
     this.linkedExamples = [...this.linkedExamples];
+    if (this.editingLink) {
+      this.currentLinkText = JSON.stringify(this.editingLink, null, 2);
+    }
   }
 
   completeLink(): void {
     if (this.editingLink) {
       this.linkedExamples.push(this.editingLink);
       this.editingLink = null;
+      this.currentLinkText = '';
       this.saveLinkedExamples();
     }
   }
