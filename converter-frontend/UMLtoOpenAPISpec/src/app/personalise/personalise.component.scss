@@ -56,3 +56,32 @@
   margin-bottom: 5px;
   cursor: move;
 }
+
+.link-preview-card {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 300px;
+  background-color: #1565c0;
+  color: #ffffff;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.link-preview-card h4 {
+  margin-top: 0;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.link-preview-card pre {
+  background-color: transparent;
+  color: #ffffff;
+  font-size: 0.9em;
+  margin: 0;
+  padding: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
