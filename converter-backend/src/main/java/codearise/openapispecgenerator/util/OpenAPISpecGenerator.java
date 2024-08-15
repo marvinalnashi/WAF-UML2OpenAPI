@@ -158,12 +158,13 @@ public class OpenAPISpecGenerator {
                 prompts.add("Generate a unique, short (one or two words) example value for a " + type + " attribute named " + name + " for a class " + className + " with id " + i + ". Ensure this value is unique compared to other ids.");
             }
 
-            List<Object> generatedValues = generateUniqueExampleValues(prompts, apiKey, usedExamples, attributes);
+            List<Object> generatedValues = generateUniqueExampleValues(prompts, apiKey, new HashSet<>(), attributes);
             for (int j = 0; j < attributes.size(); j++) {
                 String[] parts = attributes.get(j).split(" ");
                 String name = parts[0].substring(1);
                 String type = parts[2];
                 String format = getTypeFormat(type);
+                Object value = castToCorrectType(generatedValues.get(j).toString(), type);
 
                 Map<String, Object> attributeSchema = new LinkedHashMap<>();
                 attributeSchema.put("type", mapType(type));
@@ -171,7 +172,7 @@ public class OpenAPISpecGenerator {
                     attributeSchema.put("format", format);
                 }
                 properties.put(name, attributeSchema);
-                exampleItem.put(name, generatedValues.get(j));
+                exampleItem.put(name, value);
             }
             exampleArray.add(exampleItem);
         }
@@ -352,11 +353,11 @@ public class OpenAPISpecGenerator {
             switch (type.toLowerCase()) {
                 case "int":
                 case "integer":
-                    return String.valueOf(Integer.parseInt(value.replaceAll("[^0-9]", "")));
+                    return String.valueOf(Integer.parseInt(value.replaceAll("[^0-9-]", "")));
                 case "float":
                 case "double":
                 case "decimal":
-                    return String.valueOf(Double.parseDouble(value.replaceAll("[^0-9.]", "")));
+                    return String.valueOf(Double.parseDouble(value.replaceAll("[^0-9.-]", "")));
                 case "boolean":
                     return String.valueOf(Boolean.parseBoolean(value));
                 default:
@@ -382,6 +383,26 @@ public class OpenAPISpecGenerator {
                 return "example";
         }
     }
+
+    private Object castToCorrectType(String value, String type) {
+        try {
+            switch (type.toLowerCase()) {
+                case "integer":
+                case "int":
+                    return Integer.parseInt(value);
+                case "number":
+                case "float":
+                case "double":
+                case "decimal":
+                    return Double.parseDouble(value);
+                default:
+                    return value;
+            }
+        } catch (NumberFormatException e) {
+            return getDefaultValueForType(type);
+        }
+    }
+
 
     /**
      * Maps a UML data type to a data type that can be used in the generated OpenAPI specification.
