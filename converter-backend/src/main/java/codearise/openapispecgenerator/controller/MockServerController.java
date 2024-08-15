@@ -107,6 +107,11 @@ public class MockServerController {
         }).start();
     }
 
+    /**
+     * Extracts and generates test cases based on the paths defined in the OpenAPI specification.
+     *
+     * @return List of test cases.
+     */
     @GetMapping("/test-openapi")
     public ResponseEntity<List<Map<String, Object>>> testOpenApiSpecification() {
         List<Map<String, Object>> tests = new ArrayList<>();

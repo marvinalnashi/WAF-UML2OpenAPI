@@ -1,38 +1,32 @@
 <h1 mat-dialog-title>Test OpenAPI Specification</h1>
-<div mat-dialog-content>
+<mat-dialog-content>
   <div *ngIf="step === 1">
-    <h3>Select Tests to Run</h3>
-    <mat-checkbox *ngFor="let test of availableTests" [(ngModel)]="test.selected">
-      {{ test.name }}
-    </mat-checkbox>
-    <button mat-button (click)="onContinue()">Continue</button>
+    <h3>Select Tests</h3>
+    <ul>
+      <li *ngFor="let test of availableTests">
+        <mat-checkbox [(ngModel)]="test.selected" name="selected{{test.name}}">
+          {{ test.name }}
+        </mat-checkbox>
+      </li>
+    </ul>
   </div>
 
   <div *ngIf="step === 2">
-    <p>Click the button below to test the generated OpenAPI specification using the Prism mock server.</p>
-    <div>
-      <h1>Test OpenAPI</h1>
-      <form>
-        <div *ngFor="let test of availableTests">
-          <label>
-            <input type="checkbox" [(ngModel)]="test.selected">
-            {{ test.name }}
-          </label>
+    <h3>Test Results</h3>
+    <ul>
+      <li *ngFor="let result of testResults">
+        <div>
+          <strong>{{ result.method }} {{ result.path }}</strong>
+          <p *ngIf="result.success">Success</p>
+          <p *ngIf="!result.success">Error: {{ result.error }}</p>
         </div>
-        <button type="button" (click)="onTestClick()">Run Selected Tests</button>
-      </form>
-    </div>
-
-    <div *ngIf="testResults.length > 0">
-      <h3>Test Results</h3>
-      <div *ngFor="let result of testResults">
-        <h4>{{ result.method }} {{ result.path }}</h4>
-        <pre *ngIf="result.success">{{ result | json }}</pre>
-        <pre *ngIf="!result.success">{{ result.error }}</pre>
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
-</div>
-<div mat-dialog-actions>
+</mat-dialog-content>
+
+<mat-dialog-actions>
   <button mat-button (click)="onCloseClick()">Close</button>
-</div>
+  <button mat-button *ngIf="step === 1" (click)="onContinue()">Continue</button>
+  <button mat-button *ngIf="step === 2" (click)="onTestClick()">Run Selected Tests</button>
+</mat-dialog-actions>

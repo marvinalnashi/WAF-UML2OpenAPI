@@ -1,5 +1,5 @@
-import {Component, Inject} from '@angular/core';
-import {MockServerService} from "../mock-server.service";
+import { Component, Inject } from '@angular/core';
+import { MockServerService } from "../mock-server.service";
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -7,10 +7,10 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";
-import {JsonPipe, NgForOf, NgIf} from "@angular/common";
-import {MatButton} from "@angular/material/button";
-import {MatCheckbox} from "@angular/material/checkbox";
-import {FormsModule} from "@angular/forms";
+import { JsonPipe, NgForOf, NgIf } from "@angular/common";
+import { MatButton } from "@angular/material/button";
+import { MatCheckbox } from "@angular/material/checkbox";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: 'app-test-openapi-dialog',
@@ -27,7 +27,7 @@ import {FormsModule} from "@angular/forms";
     FormsModule
   ],
   templateUrl: './test-openapi-dialog.component.html',
-  styleUrl: './test-openapi-dialog.component.scss'
+  styleUrls: ['./test-openapi-dialog.component.scss']
 })
 export class TestOpenApiDialogComponent {
   step: number = 1;
