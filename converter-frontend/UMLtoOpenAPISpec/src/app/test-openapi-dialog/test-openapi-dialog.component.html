@@ -17,7 +17,7 @@
       <li *ngFor="let result of testResults">
         <div>
           <strong>{{ result.method }} {{ result.path }}</strong>
-          <p *ngIf="result.success">Success</p>
+          <p *ngIf="result.success">Success: {{ result.result | json }}</p>
           <p *ngIf="!result.success">Error: {{ result.error }}</p>
         </div>
       </li>

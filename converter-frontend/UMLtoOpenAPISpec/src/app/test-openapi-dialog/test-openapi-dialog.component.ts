@@ -62,12 +62,12 @@ export class TestOpenApiDialogComponent {
       this.testResults = [];
       selectedTests.forEach(test => {
         this.mockServerService.testApi(test.method, test.path, test.body).subscribe(result => {
-          this.testResults.push({ ...result, success: true });
+          this.testResults.push({ method: test.method, path: test.path, success: true, result });
         }, error => {
           this.testResults.push({
             method: test.method,
             path: test.path,
-            error: `Error Code: ${error.status}\nMessage: ${error.message}`,
+            error: `Error Code: ${error.status}\nMessage: ${error.message}\nResponse Body: ${error.error}`,
             success: false
           });
         });

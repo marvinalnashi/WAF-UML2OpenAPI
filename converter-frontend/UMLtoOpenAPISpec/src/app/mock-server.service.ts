@@ -13,18 +13,20 @@ export class MockServerService {
   toggleMockServer(): Observable<any> {
     return this.http.get(`${this.baseUrl}/toggle-prism-mock`);
   }
+  private backendUrl = 'http://localhost:8080';
+  private mockServerUrl = 'http://localhost:4010';
 
   constructor(private http: HttpClient) { }
 
   testOpenApiSpecification(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/test-openapi`)
+    return this.http.get(`${this.backendUrl}/test-openapi`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   testApi(method: string, path: string, body?: any): Observable<any> {
-    const url = `${this.baseUrl}${path}`;
+    const url = `${this.mockServerUrl}${path}`;
     switch (method.toLowerCase()) {
       case 'get':
         return this.http.get(url)
