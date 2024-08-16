@@ -141,10 +141,9 @@ public class OpenAPISpecGenerator {
      * @return Map that contains the generated class schema.
      * @throws Exception Is returned if an error occurs during the generation process.
      */
-    private Map<String, Object> generateClassSchema(String className, List<String> attributes) throws Exception {
+    private Map<String, Object> generateClassSchema(String className, List<String> attributes) throws IOException {
         Map<String, Object> properties = new LinkedHashMap<>();
         List<Map<String, Object>> exampleArray = new ArrayList<>();
-        Set<String> usedExamples = new HashSet<>();
 
         for (int i = 1; i <= 7; i++) {
             Map<String, Object> exampleItem = new LinkedHashMap<>();
@@ -164,6 +163,7 @@ public class OpenAPISpecGenerator {
                 String name = parts[0].substring(1);
                 String type = parts[2];
                 String format = getTypeFormat(type);
+
                 Object value = castToCorrectType(generatedValues.get(j).toString(), type);
 
                 Map<String, Object> attributeSchema = new LinkedHashMap<>();
@@ -357,6 +357,7 @@ public class OpenAPISpecGenerator {
                 case "float":
                 case "double":
                 case "decimal":
+                case "number":
                     return String.valueOf(Double.parseDouble(value.replaceAll("[^0-9.-]", "")));
                 case "boolean":
                     return String.valueOf(Boolean.parseBoolean(value));
