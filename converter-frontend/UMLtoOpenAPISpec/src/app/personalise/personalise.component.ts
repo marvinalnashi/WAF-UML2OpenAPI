@@ -203,29 +203,34 @@ export class PersonaliseComponent implements OnChanges {
   }
 
   addLink(attribute: string, example: any): void {
-    if (this.editingLink) {
-      if (this.editingLink.hasOwnProperty(attribute)) {
-        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-          width: '300px',
-          data: { message: `Attribute ${attribute} already exists. Do you want to add another example value?` }
-        });
+    const link = this.editingLink!;
 
-        dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-            if (!Array.isArray(this.editingLink![attribute])) {
-              this.editingLink![attribute] = [this.editingLink![attribute]];
-            }
-            this.editingLink![attribute].push(example);
-            this.updateLinkText();
+    if (link.hasOwnProperty(attribute)) {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '300px',
+        data: { message: `Attribute ${attribute} already exists. Do you want to add another example value?` }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          if (!Array.isArray(link[attribute])) {
+            link[attribute] = [link[attribute]];
           }
-        });
-      } else {
-        this.editingLink[attribute] = example;
+          link[attribute].push(example);
+        } else {
+          if (Array.isArray(link[attribute])) {
+            link[attribute][link[attribute].length - 1] = example;
+          } else {
+            link[attribute] = example;
+          }
+        }
         this.updateLinkText();
-      }
+      });
+    } else {
+      link[attribute] = example;
+      this.updateLinkText();
     }
   }
-
 
   updateLinkText(): void {
     this.linkedExamples = [...this.linkedExamples];
