@@ -7,6 +7,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatButton} from "@angular/material/button";
 import {MatStepper} from "@angular/material/stepper";
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
+import {ConfirmationDialogComponent} from "../confirmation-dialog/confirmation-dialog.component";
 
 /**
  * Component for modifying the example values that were generated with AI for the generated OpenAPI specification.
@@ -203,10 +204,28 @@ export class PersonaliseComponent implements OnChanges {
 
   addLink(attribute: string, example: any): void {
     if (this.editingLink) {
-      this.editingLink[attribute] = example;
-      this.updateLinkText();
+      if (this.editingLink.hasOwnProperty(attribute)) {
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+          width: '300px',
+          data: { message: `Attribute ${attribute} already exists. Do you want to add another example value?` }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            if (!Array.isArray(this.editingLink![attribute])) {
+              this.editingLink![attribute] = [this.editingLink![attribute]];
+            }
+            this.editingLink![attribute].push(example);
+            this.updateLinkText();
+          }
+        });
+      } else {
+        this.editingLink[attribute] = example;
+        this.updateLinkText();
+      }
     }
   }
+
 
   updateLinkText(): void {
     this.linkedExamples = [...this.linkedExamples];
