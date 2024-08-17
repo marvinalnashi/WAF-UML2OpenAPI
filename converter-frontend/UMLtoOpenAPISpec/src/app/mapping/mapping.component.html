@@ -1,7 +1,26 @@
 <div class="mapping-container">
   <div class="tabs flex justify-center bg-gray-100 py-2">
-    <button class="tab-button" [ngClass]="{'active': selectedTab === 'add-elements'}" (click)="selectedTab = 'add-elements'">Add Elements</button>
-    <button class="tab-button" [ngClass]="{'active': selectedTab === 'manage-elements'}" (click)="selectedTab = 'manage-elements'">Manage Elements</button>
+    <button
+      class="tab-button"
+      [ngClass]="{ active: selectedTab === 'add-elements' }"
+      (click)="selectedTab = 'add-elements'"
+    >
+      Add Elements
+    </button>
+    <button
+      class="tab-button"
+      [ngClass]="{ active: selectedTab === 'manage-elements' }"
+      (click)="selectedTab = 'manage-elements'"
+    >
+      Manage Elements
+    </button>
+    <button
+      class="tab-button"
+      [ngClass]="{ active: selectedTab === 'manage-relationships' }"
+      (click)="selectedTab = 'manage-relationships'"
+    >
+      Manage Relationships
+    </button>
   </div>
 
   <div class="content p-4">
@@ -9,13 +28,15 @@
       <form [formGroup]="mappingsForm">
         <div formArrayName="mappings" *ngFor="let mapping of elements.controls; let i = index">
           <div [formGroupName]="i" class="mapping-entry mb-2">
-            <input class="input" formControlName="className" placeholder="Class Name">
-            <input class="input" formControlName="url" placeholder="Path">
+            <input class="input" formControlName="className" placeholder="Class Name" />
+            <input class="input" formControlName="url" placeholder="Path" />
             <button type="button" class="btn" (click)="addMethod(i)">Add Method</button>
             <button type="button" class="btn" (click)="addAttribute(i)">Add Attribute</button>
           </div>
         </div>
-        <button type="button" *ngIf="showAddClassButton" class="btn add-mapping-btn" (click)="addElement()">Add Class</button>
+        <button type="button" *ngIf="showAddClassButton" class="btn add-mapping-btn" (click)="addElement()">
+          Add Class
+        </button>
       </form>
       <div *ngFor="let element of addedElements" class="added-element mt-2 p-2 border rounded">
         <div class="flex justify-between">
@@ -60,8 +81,18 @@
             <td *ngFor="let className of umlData.classes">
               <div *ngIf="umlData.attributes[className]?.[i]" class="table-cell-content">
                 {{ umlData.attributes[className]?.[i] }}
-                <button (click)="deleteElement('attribute', umlData.attributes[className][i], i, className)" class="icon-btn">🗑️</button>
-                <button (click)="openRenameDialog('attribute', umlData.attributes[className][i])" class="icon-btn">✏️</button>
+                <button
+                  (click)="deleteElement('attribute', umlData.attributes[className][i], i, className)"
+                  class="icon-btn"
+                >
+                  🗑️
+                </button>
+                <button
+                  (click)="openRenameDialog('attribute', umlData.attributes[className][i])"
+                  class="icon-btn"
+                >
+                  ✏️
+                </button>
               </div>
             </td>
           </tr>
@@ -72,8 +103,15 @@
             <td *ngFor="let className of umlData.classes">
               <div *ngIf="umlData.methods?.[className]?.[i]" class="table-cell-content">
                 {{ umlData.methods?.[className]?.[i] }}
-                <button (click)="deleteElement('method', umlData.methods?.[className][i], i, className)" class="icon-btn">🗑️</button>
-                <button (click)="openRenameDialog('method', umlData.methods![className][i])" class="icon-btn">✏️</button>
+                <button
+                  (click)="deleteElement('method', umlData.methods?.[className][i], i, className)"
+                  class="icon-btn"
+                >
+                  🗑️
+                </button>
+                <button (click)="openRenameDialog('method', umlData.methods![className][i])" class="icon-btn">
+                  ✏️
+                </button>
               </div>
             </td>
           </tr>
@@ -83,7 +121,10 @@
           <tr *ngFor="let i of maxHttpMethodRows(umlData)">
             <td *ngFor="let className of umlData.classes">
               <div *ngIf="getHttpMethodsForClass(className)[i]" class="table-cell-content">
-                <input type="checkbox" (change)="toggleHttpMethodSelection(className, getHttpMethodsForClass(className)[i].method)">
+                <input
+                  type="checkbox"
+                  (change)="toggleHttpMethodSelection(className, getHttpMethodsForClass(className)[i].method)"
+                />
                 {{ getHttpMethodsForClass(className)[i].url }} ({{ getHttpMethodsForClass(className)[i].method }})
               </div>
             </td>
@@ -91,6 +132,34 @@
           </tbody>
         </table>
       </div>
+    </div>
+
+    <div *ngIf="selectedTab === 'manage-relationships'">
+      <form [formGroup]="relationshipsForm">
+        <div formArrayName="relationships" *ngFor="let relationship of relationships.controls; let i = index">
+          <div [formGroupName]="i" class="relationship-entry mb-2">
+            <input class="input" formControlName="relationshipName" placeholder="Relationship Name" />
+
+            <select class="input" formControlName="relationshipType">
+              <option *ngFor="let type of relationshipTypes" [value]="type">{{ type }}</option>
+            </select>
+
+            <select class="input" formControlName="classFrom">
+              <option *ngFor="let className of classNames" [value]="className">{{ className }}</option>
+            </select>
+
+            <select class="input" formControlName="classTo">
+              <option *ngFor="let className of classNames" [value]="className">{{ className }}</option>
+            </select>
+
+            <button type="button" class="btn" (click)="deleteRelationship(i)">Remove</button>
+          </div>
+        </div>
+        <button type="button" class="btn add-relationship-btn" (click)="addRelationship()">Add Relationship</button>
+        <button type="button" class="btn apply-changes-btn" (click)="applyRelationshipChanges()">
+          Apply Changes
+        </button>
+      </form>
     </div>
   </div>
 

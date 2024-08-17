@@ -38,6 +38,8 @@ public class GenerationController {
      */
     private List<Map<String, Object>> savedMappings = new ArrayList<>();
 
+    private Map<String, List<Map<String, String>>> savedRelationships = new HashMap<>();
+
     /**
      * Map in which all the data related to the uploaded UML diagram and the modifications done by the user is stored.
      */
@@ -273,7 +275,8 @@ public class GenerationController {
      */
     @PostMapping(value = "/generate", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Map<String, String>> generateOpenAPISpec(@RequestParam("file") MultipartFile file,
-                                                                   @RequestParam("selectedHttpMethods") String selectedHttpMethodsJson) {
+                                                                   @RequestParam("selectedHttpMethods") String selectedHttpMethodsJson,
+                                                                   @RequestParam("relationships") String relationshipsJson) {
         if (file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "File is empty"));
         }
@@ -282,6 +285,15 @@ public class GenerationController {
             System.out.println("Selected HTTP Methods in JSON format: " + selectedHttpMethodsJson);
             Map<String, List<String>> selectedHttpMethods = new ObjectMapper().readValue(selectedHttpMethodsJson, HashMap.class);
             System.out.println("Selected HTTP Methods: " + selectedHttpMethods);
+            List<Map<String, String>> relationshipsList = new ObjectMapper().readValue(relationshipsJson, List.class);
+            Map<String, List<Map<String, String>>> savedRelationships = new HashMap<>();
+
+            for (Map<String, String> relationship : relationshipsList) {
+                String classFrom = relationship.get("classFrom");
+                List<Map<String, String>> classRelationships = savedRelationships.getOrDefault(classFrom, new ArrayList<>());
+                classRelationships.add(relationship);
+                savedRelationships.put(classFrom, classRelationships);
+            }
 
             Map<String, List<String>> classes = safelyCastToMap(umlDataStore.get("classes"));
             Map<String, List<String>> attributes = safelyCastToMap(umlDataStore.get("attributes"));
@@ -300,7 +312,7 @@ public class GenerationController {
                 convertedHttpMethods.put(className, methodsMap);
             });
 
-            String openAPISpec = openAPISpecGenerator.generateSpec(classes, attributes, methods, savedMappings, outputPath, convertedHttpMethods);
+            String openAPISpec = openAPISpecGenerator.generateSpec(classes, attributes, methods, savedMappings, savedRelationships, outputPath, convertedHttpMethods);
             return ResponseEntity.ok(Map.of("message", openAPISpec));
         } catch (ClassCastException e) {
             e.printStackTrace();
@@ -310,6 +322,7 @@ public class GenerationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error during generation: " + e.getMessage()));
         }
     }
+
 
     /**
      * The endpoint to apply the elements the user has added and/or modified in the Mapping step of the stepper.
@@ -324,6 +337,37 @@ public class GenerationController {
         }
         savedMappings = mappings;
         return ResponseEntity.ok().body("Mappings saved successfully");
+    }
+
+    @PostMapping("/apply-relationships")
+    public ResponseEntity<?> applyRelationships(@RequestBody Map<String, Object> relationshipsData) {
+        try {
+            List<Map<String, String>> relationships = (List<Map<String, String>>) relationshipsData.get("relationships");
+            if (relationships == null || relationships.isEmpty()) {
+                return ResponseEntity.ok(Map.of("message", "No relationships provided."));
+            }
+
+            savedRelationships.clear();
+
+            for (Map<String, String> relationship : relationships) {
+                String classFrom = relationship.get("classFrom");
+                savedRelationships
+                        .computeIfAbsent(classFrom, k -> new ArrayList<>())
+                        .add(relationship);
+            }
+
+            umlDataStore.put("relationships", savedRelationships);
+
+            return ResponseEntity.ok(Map.of("message", "Relationships saved successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/class-names")
+    public ResponseEntity<List<String>> getClassNames() {
+        List<String> classes = (List<String>) umlDataStore.get("classes");
+        return ResponseEntity.ok(classes);
     }
 
     /**

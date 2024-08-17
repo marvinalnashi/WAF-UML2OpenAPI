@@ -78,6 +78,12 @@ export class MappingComponent implements OnInit {
    */
   addedElements: any[] = [];
 
+  relationshipsForm: FormGroup;
+
+  relationshipTypes: string[] = ['association', 'aggregation', 'composition', 'inheritance', 'implementation', 'dependency'];
+
+  classNames: string[] = [];
+
   /**
    * Creates an instance of MappingComponent.
    * @param fb The Form builder service.
@@ -93,6 +99,9 @@ export class MappingComponent implements OnInit {
   ) {
     this.mappingsForm = this.fb.group({
       mappings: this.fb.array([])
+    });
+    this.relationshipsForm = this.fb.group({
+      relationships: this.fb.array([])
     });
   }
 
@@ -110,6 +119,7 @@ export class MappingComponent implements OnInit {
     if (this.file) {
       this.generationService.parseDiagramElements(this.file).subscribe(data => {
         this.umlData = data;
+        this.classNames = this.umlData.classes || [];
         this.initialiseHttpMethodSelection();
         this.updateElementCount();
       });
@@ -124,6 +134,10 @@ export class MappingComponent implements OnInit {
     return this.mappingsForm.get('mappings') as FormArray;
   }
 
+  get relationships(): FormArray {
+    return this.relationshipsForm.get('relationships') as FormArray;
+  }
+
   /**
    * Adds a new element to the form array that contains the elements added in the Add Elements tab of the Mapping step of the stepper.
    */
@@ -132,11 +146,39 @@ export class MappingComponent implements OnInit {
       className: ['', Validators.required],
       url: ['', Validators.required],
       methods: this.fb.array([]),
-      attributes: this.fb.array([])
+      attributes: this.fb.array([]),
     });
     this.elements.push(newMapping);
     this.showApplyAdditionsButton = true;
     this.showAddClassButton = false;
+  }
+
+  addRelationship(): void {
+    const newRelationship = this.fb.group({
+      relationshipName: ['', Validators.required],
+      relationshipType: ['', Validators.required],
+      classFrom: ['', Validators.required],
+      classTo: ['', Validators.required],
+    });
+    this.relationships.push(newRelationship);
+  }
+
+  deleteRelationship(index: number): void {
+    this.relationships.removeAt(index);
+  }
+
+  applyRelationshipChanges(): void {
+    if (this.relationshipsForm.valid) {
+      this.generationService.applyRelationships(this.relationshipsForm.value.relationships).subscribe(
+        () => {
+          this.notificationService.showSuccess('Relationships applied successfully.');
+        },
+        (error) => {
+          this.notificationService.showError('Failed to apply relationships.');
+          console.error('Failed to apply relationships:', error);
+        }
+      );
+    }
   }
 
   /**
@@ -147,10 +189,10 @@ export class MappingComponent implements OnInit {
   openAddElementDialog(isMethod: boolean, elementIndex: number): void {
     const dialogRef = this.dialog.open(AddElementDialogComponent, {
       width: '400px',
-      data: { isMethod }
+      data: { isMethod },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const element = this.elements.at(elementIndex) as FormGroup;
         if (isMethod) {
@@ -197,12 +239,13 @@ export class MappingComponent implements OnInit {
   /**
    * Adds created elements to the table of the Manage Elements tab of the Mapping step of the stepper.
    */
+
   addNewClassToElements(): void {
     const newElements = this.mappingsForm.value.mappings.map((mapping: any) => ({
       className: mapping.className,
       url: mapping.url,
       attributes: mapping.attributes,
-      methods: mapping.methods
+      methods: mapping.methods,
     }));
 
     newElements.forEach((element: any) => {
@@ -214,10 +257,11 @@ export class MappingComponent implements OnInit {
           'GET/{id}': false,
           'POST': false,
           'PUT/{id}': false,
-          'DELETE/{id}': false
+          'DELETE/{id}': false,
         };
         this.updateElementCount();
         this.addedElements.push(element);
+        this.classNames = this.umlData.classes || [];
       });
     });
 
@@ -250,6 +294,7 @@ export class MappingComponent implements OnInit {
       }
       this.updateElementCount();
       this.notificationService.showSuccess('The element has been removed successfully.');
+      this.classNames = this.umlData.classes || [];
     });
   }
 
@@ -259,7 +304,7 @@ export class MappingComponent implements OnInit {
    * @param oldName The current name of the added element.
    */
   openRenameDialog(type: string, oldName: string): void {
-    let newName = prompt("Enter new name for " + oldName);
+    let newName = prompt('Enter new name for ' + oldName);
     if (newName) {
       this.renameElement(type, oldName, newName);
     }
@@ -274,7 +319,6 @@ export class MappingComponent implements OnInit {
   renameElement(type: string, oldName: string, newName: string): void {
     this.generationService.renameElement(type, oldName, newName).subscribe({
       next: () => {
-        alert('Element renamed');
         if (type === 'class') {
           const index = this.umlData.classes.indexOf(oldName);
           if (index !== -1) {
@@ -299,11 +343,12 @@ export class MappingComponent implements OnInit {
         }
         this.updateElementCount();
         this.notificationService.showSuccess('The element has been renamed successfully.');
+        this.classNames = this.umlData.classes || [];
       },
-      error: error => {
+      error: (error) => {
         this.notificationService.showError('The element could not be renamed.');
-        console.error('Failed to rename element:', error)
-      }
+        console.error('Failed to rename element:', error);
+      },
     });
   }
 
@@ -313,7 +358,7 @@ export class MappingComponent implements OnInit {
    * @returns The name of the class the renamed attribute is part of.
    */
   getClassForAttribute(attributeName: string): string {
-    return <string>Object.keys(this.umlData.attributes).find(className =>
+    return <string>Object.keys(this.umlData.attributes).find((className) =>
       this.umlData.attributes[className].includes(attributeName)
     );
   }
@@ -324,7 +369,7 @@ export class MappingComponent implements OnInit {
    * @returns The name of the class the renamed method is part of.
    */
   getClassForMethod(methodName: string): string {
-    return <string>Object.keys(this.umlData.methods).find(className =>
+    return <string>Object.keys(this.umlData.methods).find((className) =>
       this.umlData.methods[className].includes(methodName)
     );
   }
@@ -380,7 +425,7 @@ export class MappingComponent implements OnInit {
       { url: `/${className.toLowerCase()}/{id}`, method: 'GET' },
       { url: `/${className.toLowerCase()}`, method: 'POST' },
       { url: `/${className.toLowerCase()}/{id}`, method: 'PUT' },
-      { url: `/${className.toLowerCase()}/{id}`, method: 'DELETE' }
+      { url: `/${className.toLowerCase()}/{id}`, method: 'DELETE' },
     ];
   }
 
@@ -393,7 +438,7 @@ export class MappingComponent implements OnInit {
         'GET/{id}': false,
         'POST': false,
         'PUT/{id}': false,
-        'DELETE/{id}': false
+        'DELETE/{id}': false,
       };
     });
   }
@@ -416,9 +461,15 @@ export class MappingComponent implements OnInit {
   updateElementCount(): void {
     const count = {
       classes: this.umlData.classes.length,
-      attributes: Object.values(this.umlData.attributes).reduce((acc: number, attrs: unknown) => acc + (attrs as string[]).length, 0),
-      methods: Object.values(this.umlData.methods).reduce((acc: number, meths: unknown) => acc + (meths as string[]).length, 0),
-      relationships: this.umlData.relationships ? this.umlData.relationships.length : 0
+      attributes: Object.values(this.umlData.attributes).reduce(
+        (acc: number, attrs: unknown) => acc + (attrs as string[]).length,
+        0
+      ),
+      methods: Object.values(this.umlData.methods).reduce(
+        (acc: number, meths: unknown) => acc + (meths as string[]).length,
+        0
+      ),
+      relationships: this.umlData.relationships ? this.umlData.relationships.length : 0,
     };
     this.elementCountUpdated.emit(count);
   }

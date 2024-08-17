@@ -46,4 +46,8 @@ export class GenerationService {
   addNewElement(newElement: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/add-new-element`, newElement);
   }
+
+  applyRelationships(relationships: any[]): Observable<any> {
+    return this.http.post(`${this.baseUrl}/apply-relationships`, { relationships });
+  }
 }

@@ -68,6 +68,7 @@ public class OpenAPISpecGenerator {
                                Map<String, List<String>> attributes,
                                Map<String, List<String>> methods,
                                List<Map<String, Object>> mappings,
+                               Map<String, List<Map<String, String>>> relationships,
                                String outputPath,
                                Map<String, Map<String, Boolean>> selectedHttpMethods) throws Exception {
         try {
@@ -92,10 +93,6 @@ public class OpenAPISpecGenerator {
 
             for (String className : classes.keySet()) {
                 List<String> classAttributes = attributes.getOrDefault(className, new ArrayList<>());
-
-                // Methods aren't being moved over to the OpenAPI specification but this line can be used to do so in the future if needed.
-                List<String> classMethods = methods.getOrDefault(className, new ArrayList<>());
-
                 Map<String, Object> classSchema = generateClassSchema(className, classAttributes);
                 schemas.put(className, classSchema);
 
@@ -118,6 +115,23 @@ public class OpenAPISpecGenerator {
                 }
             }
 
+            if (relationships != null) {
+                for (Map.Entry<String, List<Map<String, String>>> entry : relationships.entrySet()) {
+                    String className = entry.getKey();
+                    List<Map<String, String>> relationshipList = entry.getValue();
+                    for (Map<String, String> relationship : relationshipList) {
+                        String fromClass = relationship.get("classFrom");
+                        String toClass = relationship.get("classTo");
+                        String relationshipType = relationship.get("relationshipType");
+
+                        String relationshipPath = "/relationships/" + fromClass.toLowerCase() + "-" + toClass.toLowerCase();
+                        Map<String, Object> pathItem = new LinkedHashMap<>();
+                        pathItem.put("get", createRelationshipOperation(fromClass, toClass, relationshipType));
+                        paths.put(relationshipPath, pathItem);
+                    }
+                }
+            }
+
             components.put("schemas", schemas);
             openAPISpec.put("paths", paths);
             openAPISpec.put("components", components);
@@ -131,6 +145,40 @@ public class OpenAPISpecGenerator {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    private Map<String, Object> createRelationshipOperation(String fromClass, String toClass, String relationshipType) {
+        Map<String, Object> operation = new LinkedHashMap<>();
+        operation.put("tags", List.of("Relationships"));
+        operation.put("summary", "Relationship between " + fromClass + " and " + toClass);
+        operation.put("description", "Displays the relationship: " + relationshipType + " between " + fromClass + " and " + toClass);
+        operation.put("responses", Map.of(
+                "200", Map.of(
+                        "description", "Successful retrieval",
+                        "content", Map.of(
+                                "application/json", Map.of(
+                                        "schema", Map.of(
+                                                "type", "object",
+                                                "properties", Map.of(
+                                                        "relationshipType", Map.of(
+                                                                "type", "string",
+                                                                "example", relationshipType
+                                                        ),
+                                                        "from", Map.of(
+                                                                "type", "string",
+                                                                "example", fromClass
+                                                        ),
+                                                        "to", Map.of(
+                                                                "type", "string",
+                                                                "example", toClass
+                                                        )
+                                                )
+                                        )
+                                )
+                        )
+                )
+        ));
+        return operation;
     }
 
     /**
