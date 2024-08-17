@@ -39,7 +39,7 @@ public class OpenAPISpecGenerator {
     private static final String OPENAI_ENGINE = "gpt-3.5-turbo";
 
     /**
-     * Cache for temporarily storing generated example values. This makes sure that the same generated example values are used in both the generateClassSchema method and the createGetAllOperation method, so that both the GET endpoints for a class contain the same example values. (This also fixes the bug with example value modifications and updates).
+     * Cache for temporarily storing generated example values. This makes sure that the same generated example values are used in both the generateClassSchema method and the createGetAllOperation method, so that both the GET endpoints for a class contain the same example values.
      */
     private static final Map<String, Object> exampleCache = new HashMap<>();
 
@@ -59,6 +59,7 @@ public class OpenAPISpecGenerator {
      * @param attributes Map in which the key is the classname and the value is the corresponding attribute.
      * @param methods Map in which the key is the classname and the value is the corresponding method.
      * @param mappings The list that contains the mappings and modifications done by the user in the Mapping step of the stepper.
+     * @param relationships The list of relationships between classes.
      * @param outputPath The path of the directory in which the generated OpenAPI specification is saved.
      * @param selectedHttpMethods Map in which the key is the classname and the value contains the corresponding HTTP methods the user has selected in the Manage Elements tab of the Mapping step of the stepper.
      * @return Message that indicates whether the generation process has completed successfully.
@@ -187,7 +188,7 @@ public class OpenAPISpecGenerator {
      * @param className The name of the class.
      * @param attributes The list of attributes in a class.
      * @return Map that contains the generated class schema.
-     * @throws Exception Is returned if an error occurs during the generation process.
+     * @throws IOException Is returned if an error occurs during the generation process.
      */
     private Map<String, Object> generateClassSchema(String className, List<String> attributes) throws IOException {
         Map<String, Object> properties = new LinkedHashMap<>();
@@ -244,6 +245,7 @@ public class OpenAPISpecGenerator {
      * @param prompts List that contains the prompts that are used to generate example values for the attributes of the classes.
      * @param apiKey The API key that is used to access the OpenAI model that is required for generating example values.
      * @param usedExamples Set that contains already used example values to enforce uniqueness.
+     * @param attributes List of attributes that are being processed.
      * @return List of generated example values for the attributes of the classes.
      * @throws IOException Is returned if an error occurs during the generation process.
      */
@@ -451,7 +453,6 @@ public class OpenAPISpecGenerator {
             return getDefaultValueForType(type);
         }
     }
-
 
     /**
      * Maps a UML data type to a data type that can be used in the generated OpenAPI specification.

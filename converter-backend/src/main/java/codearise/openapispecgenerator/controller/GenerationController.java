@@ -276,7 +276,7 @@ public class GenerationController {
     @PostMapping(value = "/generate", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Map<String, String>> generateOpenAPISpec(@RequestParam("file") MultipartFile file,
                                                                    @RequestParam("selectedHttpMethods") String selectedHttpMethodsJson,
-                                                                   @RequestParam("relationships") String relationshipsJson) {
+                                                                   @RequestParam(value = "relationships", required = false) String relationshipsJson) {
         if (file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "File is empty"));
         }
@@ -285,14 +285,17 @@ public class GenerationController {
             System.out.println("Selected HTTP Methods in JSON format: " + selectedHttpMethodsJson);
             Map<String, List<String>> selectedHttpMethods = new ObjectMapper().readValue(selectedHttpMethodsJson, HashMap.class);
             System.out.println("Selected HTTP Methods: " + selectedHttpMethods);
-            List<Map<String, String>> relationshipsList = new ObjectMapper().readValue(relationshipsJson, List.class);
-            Map<String, List<Map<String, String>>> savedRelationships = new HashMap<>();
 
-            for (Map<String, String> relationship : relationshipsList) {
-                String classFrom = relationship.get("classFrom");
-                List<Map<String, String>> classRelationships = savedRelationships.getOrDefault(classFrom, new ArrayList<>());
-                classRelationships.add(relationship);
-                savedRelationships.put(classFrom, classRelationships);
+            Map<String, List<Map<String, String>>> savedRelationships = new HashMap<>();
+            if (relationshipsJson != null && !relationshipsJson.isEmpty()) {
+                List<Map<String, String>> relationshipsList = new ObjectMapper().readValue(relationshipsJson, List.class);
+
+                for (Map<String, String> relationship : relationshipsList) {
+                    String classFrom = relationship.get("classFrom");
+                    List<Map<String, String>> classRelationships = savedRelationships.getOrDefault(classFrom, new ArrayList<>());
+                    classRelationships.add(relationship);
+                    savedRelationships.put(classFrom, classRelationships);
+                }
             }
 
             Map<String, List<String>> classes = safelyCastToMap(umlDataStore.get("classes"));
@@ -451,3 +454,4 @@ public class GenerationController {
         }
     }
 }
+
