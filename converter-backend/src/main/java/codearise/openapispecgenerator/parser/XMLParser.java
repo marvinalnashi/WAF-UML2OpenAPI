@@ -5,9 +5,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -137,6 +137,7 @@ public class XMLParser implements DiagramParser {
     @Override
     public List<Relationship> parseRelationships(InputStream inputStream) throws Exception {
         List<Relationship> relationships = new ArrayList<>();
+        Map<String, String> idToClassName = new HashMap<>();
 
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -144,16 +145,56 @@ public class XMLParser implements DiagramParser {
         doc.getDocumentElement().normalize();
 
         NodeList mxCellNodes = doc.getElementsByTagName("mxCell");
+        
+        for (int i = 0; i < mxCellNodes.getLength(); i++) {
+            Element element = (Element) mxCellNodes.item(i);
+            String id = element.getAttribute("id");
+            String value = element.getAttribute("value").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&amp;", "&");
+
+            if (element.getAttribute("style").contains("swimlane")) {
+                idToClassName.put(id, extractClassName(value));
+            }
+        }
 
         for (int i = 0; i < mxCellNodes.getLength(); i++) {
             Element element = (Element) mxCellNodes.item(i);
 
             if ("1".equals(element.getAttribute("edge"))) {
-                String fromClass = element.getAttribute("source");
-                String toClass = element.getAttribute("target");
-                String relationshipType = element.getAttribute("value");
+                String fromId = element.getAttribute("source");
+                String toId = element.getAttribute("target");
+                String relationshipName = element.getAttribute("value");
 
-                relationships.add(new Relationship(fromClass, toClass, relationshipType));
+                if (relationshipName == null || relationshipName.isEmpty()) {
+                    NodeList childNodes = element.getChildNodes();
+                    for (int j = 0; j < childNodes.getLength(); j++) {
+                        Node childNode = childNodes.item(j);
+                        if (childNode.getNodeType() == Node.ELEMENT_NODE) {
+                            Element childElement = (Element) childNode;
+                            if (childElement.getNodeName().equals("mxGeometry")) {
+                                relationshipName = childElement.getAttribute("value");
+                                if (relationshipName != null && !relationshipName.isEmpty()) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                String fromClass = idToClassName.get(fromId);
+                String toClass = idToClassName.get(toId);
+
+                if (fromClass == null || fromClass.isEmpty()) {
+                    fromClass = "Unknown Class (ID: " + fromId + ")";
+                }
+                if (toClass == null || toClass.isEmpty()) {
+                    toClass = "Unknown Class (ID: " + toId + ")";
+                }
+
+                if (relationshipName == null || relationshipName.isEmpty()) {
+                    relationshipName = "Unnamed Relationship";
+                }
+
+                relationships.add(new Relationship(fromClass, toClass, relationshipName));
             }
         }
 

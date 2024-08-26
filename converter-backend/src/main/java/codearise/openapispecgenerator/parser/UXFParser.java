@@ -55,28 +55,7 @@ public class UXFParser implements DiagramParser {
 
     @Override
     public List<Relationship> parseRelationships(InputStream inputStream) throws Exception {
-        List<Relationship> relationships = new ArrayList<>();
-
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(inputStream);
-        doc.getDocumentElement().normalize();
-
-        NodeList relationNodes = doc.getElementsByTagName("element");
-
-        for (int i = 0; i < relationNodes.getLength(); i++) {
-            Element element = (Element) relationNodes.item(i);
-
-            if (element.getAttribute("type").equals("Relation")) {
-                String fromClass = element.getAttribute("source");
-                String toClass = element.getAttribute("target");
-                String relationshipType = element.getAttribute("name");
-
-                relationships.add(new Relationship(fromClass, toClass, relationshipType));
-            }
-        }
-
-        return relationships;
+        return List.of();
     }
 
     /**
@@ -95,12 +74,11 @@ public class UXFParser implements DiagramParser {
 
         Map<String, List<String>> elements = new HashMap<>();
         NodeList nodeList = doc.getElementsByTagName("element");
-
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
-                String id = element.getAttribute("id");
+                String id = element.getElementsByTagName("id").item(0).getTextContent();
                 if ("UMLClass".equals(id)) {
                     addDetails(element, elements, elementType);
                 }
@@ -117,21 +95,20 @@ public class UXFParser implements DiagramParser {
      * @param elementType The type of the parsed element.
      */
     private void addDetails(Element element, Map<String, List<String>> elements, String elementType) {
-        String className = element.getAttribute("name");
+        String panelAttributes = element.getElementsByTagName("panel_attributes").item(0).getTextContent();
+        String[] lines = panelAttributes.split("\\n");
+        String className = lines[0].replace("Class ", "").trim();
 
         if ("class".equals(elementType)) {
-            elements.computeIfAbsent(className, k -> new ArrayList<>()).add("Class: " + className);
+            elements.computeIfAbsent(className, k -> new ArrayList<>()).add("Details for class: " + className);
         } else {
-            NodeList children = element.getChildNodes();
-            for (int i = 0; i < children.getLength(); i++) {
-                Node childNode = children.item(i);
-                if (childNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element childElement = (Element) childNode;
-                    String name = childElement.getAttribute("name");
-                    if ("attribute".equals(elementType) && childElement.getTagName().equals("attribute")) {
-                        elements.computeIfAbsent(className, k -> new ArrayList<>()).add(name);
-                    } else if ("method".equals(elementType) && childElement.getTagName().equals("method")) {
-                        elements.computeIfAbsent(className, k -> new ArrayList<>()).add(name + "()");
+            for (int i = 1; i < lines.length; i++) {
+                String line = lines[i].trim();
+                if (line.startsWith("+")) {
+                    if ("attribute".equals(elementType) && !line.contains("(")) {
+                        elements.computeIfAbsent(className, k -> new ArrayList<>()).add(line);
+                    } else if ("method".equals(elementType) && line.contains("(")) {
+                        elements.computeIfAbsent(className, k -> new ArrayList<>()).add(line);
                     }
                 }
             }
