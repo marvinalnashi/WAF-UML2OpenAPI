@@ -93,18 +93,25 @@ public class PUMLParser implements DiagramParser {
         while ((line = reader.readLine()) != null) {
             line = line.trim();
 
-            if (line.matches(".+\\s+\".*\"\\s+[.-]{2}\\s+\".*\"\\s+.+\\s*:\\s*.+")) {
-                String[] parts = line.split("\\s+[.-]{2}\\s+");
+            if (line.matches(".+\\s+\".*\"\\s+[.-]{2,3}\\s+\".*\"\\s+.+\\s*:\\s*.+")) {
+                String[] parts = line.split("\\s+[.-]{2,3}\\s+");
                 if (parts.length == 2) {
-                    String fromClass = extractClassName(parts[0].trim());
-                    String[] toParts = parts[1].split("\\s*:\\s*");
-                    String toClass = extractClassName(toParts[0].trim());
-                    String relationshipName = toParts.length > 1 ? toParts[1].trim() : "";
+                    String fromPart = parts[0].trim();
+                    String toPart = parts[1].trim();
+
+                    String fromClass = extractClassName(fromPart);
+                    String toClass = extractClassName(toPart);
+
+                    String relationshipName = "";
+                    if (toPart.contains(":")) {
+                        relationshipName = toPart.substring(toPart.indexOf(":") + 1).trim();
+                        toClass = toClass.substring(0, toClass.indexOf(":")).trim();
+                    }
 
                     relationships.add(new Relationship(fromClass, toClass, relationshipName));
                 }
-            } else if (line.matches(".+\\s+[.-]{2}\\s+.+")) {
-                String[] parts = line.split("\\s+[.-]{2}\\s+");
+            } else if (line.matches(".+\\s+[.-]{2,3}\\s+.+")) {
+                String[] parts = line.split("\\s+[.-]{2,3}\\s+");
                 if (parts.length == 2) {
                     String fromClass = extractClassName(parts[0].trim());
                     String toClass = extractClassName(parts[1].trim());
