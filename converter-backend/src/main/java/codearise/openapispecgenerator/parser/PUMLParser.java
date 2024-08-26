@@ -1,6 +1,9 @@
 package codearise.openapispecgenerator.parser;
 
+import codearise.openapispecgenerator.entity.Relationship;
+
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -90,5 +93,25 @@ public class PUMLParser implements DiagramParser {
     private String extractClassName(String line) {
         String[] parts = line.split("[\\s{]");
         return parts[1];
+    }
+
+    @Override
+    public List<Relationship> parseRelationships(InputStream inputStream) throws Exception {
+        List<Relationship> relationships = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (line.contains("--") || line.contains("..")) {
+                String[] parts = line.split("(--)|(\\..)");
+                String fromClass = parts[0].trim();
+                String toClass = parts[1].trim();
+                String relationshipType = line.contains("--") ? "Association" : "Dependency";
+
+                relationships.add(new Relationship(fromClass, toClass, relationshipType));
+            }
+        }
+
+        return relationships;
     }
 }

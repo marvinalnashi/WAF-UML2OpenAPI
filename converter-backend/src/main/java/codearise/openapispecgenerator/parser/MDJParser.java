@@ -1,12 +1,18 @@
 package codearise.openapispecgenerator.parser;
 
+import codearise.openapispecgenerator.entity.Relationship;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Implementation of the DiagramParser interface for MDJ diagrams.
@@ -103,5 +109,28 @@ public class MDJParser implements DiagramParser {
                         .add("+" + methodName + "()");
             }
         }
+    }
+
+    @Override
+    public List<Relationship> parseRelationships(InputStream inputStream) throws Exception {
+        List<Relationship> relationships = new ArrayList<>();
+
+        String jsonText = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        JSONObject jsonObject = new JSONObject(jsonText);
+        JSONArray elements = jsonObject.getJSONArray("ownedElements");
+
+        for (int i = 0; i < elements.length(); i++) {
+            JSONObject element = elements.getJSONObject(i);
+
+            if ("UMLAssociation".equals(element.getString("_type"))) {
+                String fromClass = element.getJSONObject("end1").getString("reference");
+                String toClass = element.getJSONObject("end2").getString("reference");
+                String relationshipType = element.getString("name");
+
+                relationships.add(new Relationship(fromClass, toClass, relationshipType));
+            }
+        }
+
+        return relationships;
     }
 }

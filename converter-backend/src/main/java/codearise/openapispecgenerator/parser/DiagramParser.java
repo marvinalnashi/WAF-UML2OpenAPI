@@ -1,5 +1,7 @@
 package codearise.openapispecgenerator.parser;
 
+import codearise.openapispecgenerator.entity.Relationship;
+
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -34,4 +36,6 @@ public interface DiagramParser {
      * @throws Exception Is returned if an error occurs during the parsing process.
      */
     Map<String, List<String>> parseMethods(InputStream inputStream) throws Exception;
+
+    List<Relationship> parseRelationships(InputStream inputStream) throws Exception;
 }

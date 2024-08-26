@@ -1,5 +1,6 @@
 package codearise.openapispecgenerator.parser;
 
+import codearise.openapispecgenerator.entity.Relationship;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -50,6 +51,32 @@ public class UXFParser implements DiagramParser {
     @Override
     public Map<String, List<String>> parseMethods(InputStream inputStream) throws Exception {
         return parseElementsByType(inputStream, "method");
+    }
+
+    @Override
+    public List<Relationship> parseRelationships(InputStream inputStream) throws Exception {
+        List<Relationship> relationships = new ArrayList<>();
+
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(inputStream);
+        doc.getDocumentElement().normalize();
+
+        NodeList relationNodes = doc.getElementsByTagName("element");
+
+        for (int i = 0; i < relationNodes.getLength(); i++) {
+            Element element = (Element) relationNodes.item(i);
+
+            if (element.getAttribute("id").equals("Relation")) {
+                String fromClass = element.getAttribute("source");
+                String toClass = element.getAttribute("target");
+                String relationshipType = element.getAttribute("type");
+
+                relationships.add(new Relationship(fromClass, toClass, relationshipType));
+            }
+        }
+
+        return relationships;
     }
 
     /**

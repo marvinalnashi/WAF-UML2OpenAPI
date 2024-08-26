@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddElementDialogComponent } from '../add-element-dialog/add-element-dialog.component';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import {NotificationService} from "../notification.service";
+import {HttpClient} from "@angular/common/http";
 
 /**
  * Component for processing added UML diagrams and managing UML mappings.
@@ -32,6 +33,8 @@ export class MappingComponent implements OnInit {
     methods: {},
     relationships: []
   };
+
+  @Input() relationships: Array<{ from: string, to: string, type: string }> = [];
 
   /**
    * Output property for emitting the event to indicate whether the Mapping step of the stepper was completed successfully.
@@ -78,9 +81,9 @@ export class MappingComponent implements OnInit {
    */
   addedElements: any[] = [];
 
-  relationshipsForm: FormGroup;
+  // relationshipsForm: FormGroup;
 
-  relationshipTypes: string[] = ['association', 'aggregation', 'composition', 'inheritance', 'implementation', 'dependency'];
+  // relationshipTypes: string[] = ['association', 'aggregation', 'composition', 'inheritance', 'implementation', 'dependency'];
 
   classNames: string[] = [];
 
@@ -95,13 +98,10 @@ export class MappingComponent implements OnInit {
     private fb: FormBuilder,
     private generationService: GenerationService,
     public dialog: MatDialog,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
   ) {
     this.mappingsForm = this.fb.group({
       mappings: this.fb.array([])
-    });
-    this.relationshipsForm = this.fb.group({
-      relationships: this.fb.array([])
     });
   }
 
@@ -134,9 +134,9 @@ export class MappingComponent implements OnInit {
     return this.mappingsForm.get('mappings') as FormArray;
   }
 
-  get relationships(): FormArray {
-    return this.relationshipsForm.get('relationships') as FormArray;
-  }
+  // get relationships(): FormArray {
+  //   return this.relationshipsForm.get('relationships') as FormArray;
+  // }
 
   /**
    * Adds a new element to the form array that contains the elements added in the Add Elements tab of the Mapping step of the stepper.
@@ -153,33 +153,33 @@ export class MappingComponent implements OnInit {
     this.showAddClassButton = false;
   }
 
-  addRelationship(): void {
-    const newRelationship = this.fb.group({
-      relationshipName: ['', Validators.required],
-      relationshipType: ['', Validators.required],
-      classFrom: ['', Validators.required],
-      classTo: ['', Validators.required],
-    });
-    this.relationships.push(newRelationship);
-  }
-
-  deleteRelationship(index: number): void {
-    this.relationships.removeAt(index);
-  }
-
-  applyRelationshipChanges(): void {
-    if (this.relationshipsForm.valid) {
-      this.generationService.applyRelationships(this.relationshipsForm.value.relationships).subscribe(
-        () => {
-          this.notificationService.showSuccess('Relationships applied successfully.');
-        },
-        (error) => {
-          this.notificationService.showError('Failed to apply relationships.');
-          console.error('Failed to apply relationships:', error);
-        }
-      );
-    }
-  }
+  // addRelationship(): void {
+  //   const newRelationship = this.fb.group({
+  //     relationshipName: ['', Validators.required],
+  //     relationshipType: ['', Validators.required],
+  //     classFrom: ['', Validators.required],
+  //     classTo: ['', Validators.required],
+  //   });
+  //   this.relationships.push(newRelationship);
+  // }
+  //
+  // deleteRelationship(index: number): void {
+  //   this.relationships.removeAt(index);
+  // }
+  //
+  // applyRelationshipChanges(): void {
+  //   if (this.relationshipsForm.valid) {
+  //     this.generationService.applyRelationships(this.relationshipsForm.value.relationships).subscribe(
+  //       () => {
+  //         this.notificationService.showSuccess('Relationships applied successfully.');
+  //       },
+  //       (error) => {
+  //         this.notificationService.showError('Failed to apply relationships.');
+  //         console.error('Failed to apply relationships:', error);
+  //       }
+  //     );
+  //   }
+  // }
 
   /**
    * Activates the Add Element dialog for adding a new attribute or method in the Add Elements tab of the Mapping step of the stepper.

@@ -1,11 +1,13 @@
 package codearise.openapispecgenerator.parser;
 
+import codearise.openapispecgenerator.entity.Relationship;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -130,5 +132,31 @@ public class XMLParser implements DiagramParser {
             return value.substring(value.indexOf("Class<") + 6, value.indexOf(">"));
         }
         return value.replaceAll("<.*?>", "").trim();
+    }
+
+    @Override
+    public List<Relationship> parseRelationships(InputStream inputStream) throws Exception {
+        List<Relationship> relationships = new ArrayList<>();
+
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(inputStream);
+        doc.getDocumentElement().normalize();
+
+        NodeList mxCellNodes = doc.getElementsByTagName("mxCell");
+
+        for (int i = 0; i < mxCellNodes.getLength(); i++) {
+            Element element = (Element) mxCellNodes.item(i);
+
+            if ("1".equals(element.getAttribute("edge"))) {
+                String fromClass = element.getAttribute("source");
+                String toClass = element.getAttribute("target");
+                String relationshipType = element.getAttribute("value");
+
+                relationships.add(new Relationship(fromClass, toClass, relationshipType));
+            }
+        }
+
+        return relationships;
     }
 }

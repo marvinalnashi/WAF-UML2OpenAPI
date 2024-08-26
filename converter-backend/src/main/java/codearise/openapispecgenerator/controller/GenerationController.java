@@ -1,5 +1,6 @@
 package codearise.openapispecgenerator.controller;
 
+import codearise.openapispecgenerator.entity.Relationship;
 import codearise.openapispecgenerator.util.OpenAPISpecGenerator;
 import codearise.openapispecgenerator.parser.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -117,10 +118,14 @@ public class GenerationController {
         InputStream methodStream = new ByteArrayInputStream(fileContent);
         Map<String, List<String>> methods = parser.parseMethods(methodStream);
 
+        InputStream relationshipStream = new ByteArrayInputStream(fileContent);
+        List<Relationship> relationships = parser.parseRelationships(relationshipStream);
+
         Map<String, Object> elements = new HashMap<>();
         elements.put("classes", new ArrayList<>(classes.keySet()));
         elements.put("attributes", attributes);
         elements.put("methods", methods);
+        elements.put("relationships", relationships);
         return elements;
     }
 
