@@ -109,23 +109,25 @@ public class GenerationController {
      * @throws Exception Is returned if an error occurs during the parsing process.
      */
     private Map<String, Object> parseUmlData(byte[] fileContent, DiagramParser parser) throws Exception {
-        InputStream classStream = new ByteArrayInputStream(fileContent);
-        Map<String, List<String>> classes = parser.parse(classStream);
+        InputStream inputStream = new ByteArrayInputStream(fileContent);
 
-        InputStream attributeStream = new ByteArrayInputStream(fileContent);
-        Map<String, List<String>> attributes = parser.parseAttributes(attributeStream);
+        Map<String, List<String>> classes = parser.parse(inputStream);
+        inputStream.reset();
 
-        InputStream methodStream = new ByteArrayInputStream(fileContent);
-        Map<String, List<String>> methods = parser.parseMethods(methodStream);
+        Map<String, List<String>> attributes = parser.parseAttributes(inputStream);
+        inputStream.reset();
 
-        InputStream relationshipStream = new ByteArrayInputStream(fileContent);
-        List<Relationship> relationships = parser.parseRelationships(relationshipStream);
+        Map<String, List<String>> methods = parser.parseMethods(inputStream);
+        inputStream.reset();
+
+        List<Relationship> relationships = parser.parseRelationships(inputStream);
 
         Map<String, Object> elements = new HashMap<>();
         elements.put("classes", new ArrayList<>(classes.keySet()));
         elements.put("attributes", attributes);
         elements.put("methods", methods);
         elements.put("relationships", relationships);
+
         return elements;
     }
 

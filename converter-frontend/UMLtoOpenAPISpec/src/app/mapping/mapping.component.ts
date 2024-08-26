@@ -34,8 +34,6 @@ export class MappingComponent implements OnInit {
     relationships: []
   };
 
-  @Input() relationships: Array<{ from: string, to: string, type: string }> = [];
-
   /**
    * Output property for emitting the event to indicate whether the Mapping step of the stepper was completed successfully.
    */
@@ -80,10 +78,6 @@ export class MappingComponent implements OnInit {
    * Array to store the added elements for displaying in the Add Elements tab.
    */
   addedElements: any[] = [];
-
-  // relationshipsForm: FormGroup;
-
-  // relationshipTypes: string[] = ['association', 'aggregation', 'composition', 'inheritance', 'implementation', 'dependency'];
 
   classNames: string[] = [];
 

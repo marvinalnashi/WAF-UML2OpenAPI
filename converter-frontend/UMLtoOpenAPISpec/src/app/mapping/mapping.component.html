@@ -130,19 +130,23 @@
             </td>
           </tr>
           </tbody>
-
-          <tr>
-            <th>Class</th>
-            <th>Relationship</th>
-            <th>Related Class</th>
+          <thead>
+          <tr class="header-row">
+            <td [attr.colspan]="umlData.classes.length">Relationships</td>
           </tr>
-          <ng-container *ngFor="let relationship of relationships">
-            <tr>
-              <td>{{ relationship.from }}</td>
-              <td>{{ relationship.type }}</td>
-              <td>{{ relationship.to }}</td>
-            </tr>
-          </ng-container>
+          <tr>
+            <th>From</th>
+            <th>To</th>
+            <th>Type</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let relationship of umlData.relationships">
+            <td>{{ relationship.fromClass }}</td>
+            <td>{{ relationship.toClass }}</td>
+            <td>{{ relationship.relationshipType }}</td>
+          </tr>
+          </tbody>
         </table>
       </div>
     </div>

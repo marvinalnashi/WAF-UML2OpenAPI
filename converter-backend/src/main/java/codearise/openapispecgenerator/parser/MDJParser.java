@@ -115,17 +115,15 @@ public class MDJParser implements DiagramParser {
     public List<Relationship> parseRelationships(InputStream inputStream) throws Exception {
         List<Relationship> relationships = new ArrayList<>();
 
-        String jsonText = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-        JSONObject jsonObject = new JSONObject(jsonText);
-        JSONArray elements = jsonObject.getJSONArray("ownedElements");
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(inputStream);
+        JsonNode ownedElements = rootNode.path("ownedElements");
 
-        for (int i = 0; i < elements.length(); i++) {
-            JSONObject element = elements.getJSONObject(i);
-
-            if ("UMLAssociation".equals(element.getString("_type"))) {
-                String fromClass = element.getJSONObject("end1").getString("reference");
-                String toClass = element.getJSONObject("end2").getString("reference");
-                String relationshipType = element.getString("name");
+        for (JsonNode ownedElement : ownedElements) {
+            if ("UMLAssociation".equals(ownedElement.path("_type").asText())) {
+                String fromClass = ownedElement.path("end1").path("reference").asText();
+                String toClass = ownedElement.path("end2").path("reference").asText();
+                String relationshipType = ownedElement.path("name").asText();
 
                 relationships.add(new Relationship(fromClass, toClass, relationshipType));
             }
