@@ -22,8 +22,6 @@ export class AppComponent implements OnInit {
    * The index of the string that is currently being displayed in the loader/spinner overlay.
    */
   ngOnInit() {
-    setTimeout(() => {
       this.isLoading = false;
-    }, 2000);
   }
 }

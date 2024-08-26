@@ -84,17 +84,6 @@ public class PUMLParser implements DiagramParser {
         return elements;
     }
 
-    /**
-     * Extracts the classname from the specified line.
-     *
-     * @param line The line that contains the class definition.
-     * @return The extracted classname.
-     */
-    private String extractClassName(String line) {
-        String[] parts = line.split("[\\s{]");
-        return parts[1];
-    }
-
     @Override
     public List<Relationship> parseRelationships(InputStream inputStream) throws Exception {
         List<Relationship> relationships = new ArrayList<>();
@@ -102,16 +91,41 @@ public class PUMLParser implements DiagramParser {
 
         String line;
         while ((line = reader.readLine()) != null) {
-            if (line.contains("--") || line.contains("..")) {
-                String[] parts = line.split("(--)|(\\..)");
-                String fromClass = parts[0].trim();
-                String toClass = parts[1].trim();
-                String relationshipType = line.contains("--") ? "Association" : "Dependency";
+            line = line.trim();
 
-                relationships.add(new Relationship(fromClass, toClass, relationshipType));
+            if (line.matches(".+\\s+\".*\"\\s+[.-]{2}\\s+\".*\"\\s+.+\\s*:\\s*.+")) {
+                String[] parts = line.split("\\s+[.-]{2}\\s+");
+                if (parts.length == 2) {
+                    String fromClass = extractClassName(parts[0].trim());
+                    String[] toParts = parts[1].split("\\s*:\\s*");
+                    String toClass = extractClassName(toParts[0].trim());
+                    String relationshipName = toParts.length > 1 ? toParts[1].trim() : "";
+
+                    relationships.add(new Relationship(fromClass, toClass, relationshipName));
+                }
+            } else if (line.matches(".+\\s+[.-]{2}\\s+.+")) {
+                String[] parts = line.split("\\s+[.-]{2}\\s+");
+                if (parts.length == 2) {
+                    String fromClass = extractClassName(parts[0].trim());
+                    String toClass = extractClassName(parts[1].trim());
+
+                    relationships.add(new Relationship(fromClass, toClass, "Association"));
+                }
             }
         }
-
         return relationships;
+    }
+
+    /**
+     * Extracts the class name from a potentially complex string, such as one containing cardinalities or other annotations.
+     *
+     * @param rawInput The raw input string to process.
+     * @return The extracted class name.
+     */
+    private String extractClassName(String rawInput) {
+        if (rawInput.contains("\"")) {
+            return rawInput.replaceAll("\"[^\"]*\"", "").trim();
+        }
+        return rawInput;
     }
 }
