@@ -130,37 +130,54 @@
             </td>
           </tr>
           </tbody>
+          <thead>
+          <tr class="header-row">
+            <td [attr.colspan]="umlData.classes.length">Relationships</td>
+          </tr>
+          <tr>
+            <th>From</th>
+            <th>To</th>
+            <th>Name</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let relationship of umlData.relationships">
+            <td>{{ relationship.fromClass }}</td>
+            <td>{{ relationship.toClass }}</td>
+            <td>{{ relationship.relationshipType }}</td>
+          </tr>
+          </tbody>
         </table>
       </div>
     </div>
 
-    <div *ngIf="selectedTab === 'manage-relationships'">
-      <form [formGroup]="relationshipsForm">
-        <div formArrayName="relationships" *ngFor="let relationship of relationships.controls; let i = index">
-          <div [formGroupName]="i" class="relationship-entry mb-2">
-            <input class="input" formControlName="relationshipName" placeholder="Relationship Name" />
+<!--    <div *ngIf="selectedTab === 'manage-relationships'">-->
+<!--      <form [formGroup]="relationshipsForm">-->
+<!--        <div formArrayName="relationships" *ngFor="let relationship of relationships.controls; let i = index">-->
+<!--          <div [formGroupName]="i" class="relationship-entry mb-2">-->
+<!--            <input class="input" formControlName="relationshipName" placeholder="Relationship Name" />-->
 
-            <select class="input" formControlName="relationshipType">
-              <option *ngFor="let type of relationshipTypes" [value]="type">{{ type }}</option>
-            </select>
+<!--            <select class="input" formControlName="relationshipType">-->
+<!--              <option *ngFor="let type of relationshipTypes" [value]="type">{{ type }}</option>-->
+<!--            </select>-->
 
-            <select class="input" formControlName="classFrom">
-              <option *ngFor="let className of classNames" [value]="className">{{ className }}</option>
-            </select>
+<!--            <select class="input" formControlName="classFrom">-->
+<!--              <option *ngFor="let className of classNames" [value]="className">{{ className }}</option>-->
+<!--            </select>-->
 
-            <select class="input" formControlName="classTo">
-              <option *ngFor="let className of classNames" [value]="className">{{ className }}</option>
-            </select>
+<!--            <select class="input" formControlName="classTo">-->
+<!--              <option *ngFor="let className of classNames" [value]="className">{{ className }}</option>-->
+<!--            </select>-->
 
-            <button type="button" class="btn" (click)="deleteRelationship(i)">Remove</button>
-          </div>
-        </div>
-        <button type="button" class="btn add-relationship-btn" (click)="addRelationship()">Add Relationship</button>
-        <button type="button" class="btn apply-changes-btn" (click)="applyRelationshipChanges()">
-          Apply Changes
-        </button>
-      </form>
-    </div>
+<!--            <button type="button" class="btn" (click)="deleteRelationship(i)">Remove</button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <button type="button" class="btn add-relationship-btn" (click)="addRelationship()">Add Relationship</button>-->
+<!--        <button type="button" class="btn apply-changes-btn" (click)="applyRelationshipChanges()">-->
+<!--          Apply Changes-->
+<!--        </button>-->
+<!--      </form>-->
+<!--    </div>-->
   </div>
 
   <div class="button-container flex justify-end p-4">

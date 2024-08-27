@@ -1,5 +1,6 @@
 package codearise.openapispecgenerator.parser;
 
+import codearise.openapispecgenerator.entity.Relationship;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
@@ -101,6 +102,40 @@ public class MDJParser implements DiagramParser {
                 String methodName = operation.path("name").asText();
                 elements.computeIfAbsent(className, k -> new ArrayList<>())
                         .add("+" + methodName + "()");
+            }
+        }
+    }
+
+    @Override
+    public List<Relationship> parseRelationships(InputStream inputStream) throws Exception {
+        List<Relationship> relationships = new ArrayList<>();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(inputStream);
+        JsonNode ownedElements = rootNode.path("ownedElements");
+
+        for (JsonNode ownedElement : ownedElements) {
+            findAssociations(ownedElement, relationships);
+        }
+
+        return relationships;
+    }
+
+    private void findAssociations(JsonNode node, List<Relationship> relationships) {
+        if (node.isArray()) {
+            for (JsonNode element : node) {
+                findAssociations(element, relationships);
+            }
+        } else {
+            if ("UMLAssociation".equals(node.path("_type").asText())) {
+                String fromClass = node.path("end1").path("reference").asText();
+                String toClass = node.path("end2").path("reference").asText();
+                String relationshipType = node.path("name").asText();
+
+                relationships.add(new Relationship(fromClass, toClass, relationshipType));
+            }
+            if (node.has("ownedElements")) {
+                findAssociations(node.get("ownedElements"), relationships);
             }
         }
     }

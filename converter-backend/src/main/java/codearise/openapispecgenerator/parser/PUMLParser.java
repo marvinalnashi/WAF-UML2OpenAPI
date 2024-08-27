@@ -1,6 +1,9 @@
 package codearise.openapispecgenerator.parser;
 
+import codearise.openapispecgenerator.entity.Relationship;
+
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -81,14 +84,55 @@ public class PUMLParser implements DiagramParser {
         return elements;
     }
 
+    @Override
+    public List<Relationship> parseRelationships(InputStream inputStream) throws Exception {
+        List<Relationship> relationships = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            line = line.trim();
+
+            if (line.matches(".+\\s+\".*\"\\s+[.-]{2,3}\\s+\".*\"\\s+.+\\s*:\\s*.+")) {
+                String[] parts = line.split("\\s+[.-]{2,3}\\s+");
+                if (parts.length == 2) {
+                    String fromPart = parts[0].trim();
+                    String toPart = parts[1].trim();
+
+                    String fromClass = extractClassName(fromPart);
+                    String toClass = extractClassName(toPart);
+
+                    String relationshipName = "";
+                    if (toPart.contains(":")) {
+                        relationshipName = toPart.substring(toPart.indexOf(":") + 1).trim();
+                        toClass = toClass.substring(0, toClass.indexOf(":")).trim();
+                    }
+
+                    relationships.add(new Relationship(fromClass, toClass, relationshipName));
+                }
+            } else if (line.matches(".+\\s+[.-]{2,3}\\s+.+")) {
+                String[] parts = line.split("\\s+[.-]{2,3}\\s+");
+                if (parts.length == 2) {
+                    String fromClass = extractClassName(parts[0].trim());
+                    String toClass = extractClassName(parts[1].trim());
+
+                    relationships.add(new Relationship(fromClass, toClass, "Association"));
+                }
+            }
+        }
+        return relationships;
+    }
+
     /**
-     * Extracts the classname from the specified line.
+     * Extracts the class name from a potentially complex string, such as one containing cardinalities or other annotations.
      *
-     * @param line The line that contains the class definition.
-     * @return The extracted classname.
+     * @param rawInput The raw input string to process.
+     * @return The extracted class name.
      */
-    private String extractClassName(String line) {
-        String[] parts = line.split("[\\s{]");
-        return parts[1];
+    private String extractClassName(String rawInput) {
+        if (rawInput.contains("\"")) {
+            return rawInput.replaceAll("\"[^\"]*\"", "").trim();
+        }
+        return rawInput;
     }
 }
