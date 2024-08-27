@@ -4,15 +4,10 @@ import codearise.openapispecgenerator.entity.Relationship;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * Implementation of the DiagramParser interface for MDJ diagrams.
@@ -120,15 +115,28 @@ public class MDJParser implements DiagramParser {
         JsonNode ownedElements = rootNode.path("ownedElements");
 
         for (JsonNode ownedElement : ownedElements) {
-            if ("UMLAssociation".equals(ownedElement.path("_type").asText())) {
-                String fromClass = ownedElement.path("end1").path("reference").asText();
-                String toClass = ownedElement.path("end2").path("reference").asText();
-                String relationshipType = ownedElement.path("name").asText();
-
-                relationships.add(new Relationship(fromClass, toClass, relationshipType));
-            }
+            findAssociations(ownedElement, relationships);
         }
 
         return relationships;
+    }
+
+    private void findAssociations(JsonNode node, List<Relationship> relationships) {
+        if (node.isArray()) {
+            for (JsonNode element : node) {
+                findAssociations(element, relationships);
+            }
+        } else {
+            if ("UMLAssociation".equals(node.path("_type").asText())) {
+                String fromClass = node.path("end1").path("reference").asText();
+                String toClass = node.path("end2").path("reference").asText();
+                String relationshipType = node.path("name").asText();
+
+                relationships.add(new Relationship(fromClass, toClass, relationshipType));
+            }
+            if (node.has("ownedElements")) {
+                findAssociations(node.get("ownedElements"), relationships);
+            }
+        }
     }
 }
