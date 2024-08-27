@@ -1,23 +1,20 @@
 package codearise.openapispecgenerator.parser;
 
 import codearise.openapispecgenerator.entity.Relationship;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Implementation of the DiagramParser interface for XML diagrams.
  */
 public class XMLParser implements DiagramParser {
+    // TODO: Fix bugs with handling various relationship types, cardinalities, etc. Right now, the relationships of most Draw.io XML class diagram files are handled correctly but some edge cases still need attention.
+
     /**
      * Parses the uploaded UML diagram to extract its classes.
      *
@@ -63,32 +60,26 @@ public class XMLParser implements DiagramParser {
      * @throws Exception Is returned if an error occurs during the parsing process.
      */
     private Map<String, List<String>> parseElementsByType(InputStream inputStream, String elementType) throws Exception {
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(inputStream);
-        doc.getDocumentElement().normalize();
+        Document doc = Jsoup.parse(inputStream, "UTF-8", "");
 
         Map<String, List<String>> elements = new HashMap<>();
-        NodeList nodeList = doc.getElementsByTagName("mxCell");
         Map<String, String> classContexts = new HashMap<>();
 
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element cell = (Element) node;
-                String style = cell.getAttribute("style");
-                String value = cell.getAttribute("value").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&amp;", "&");
-                String parentId = cell.getAttribute("parent");
+        Elements cells = doc.select("mxCell");
 
-                if (style.contains("swimlane")) {
-                    String className = extractClassName(value);
-                    elements.put(className, new ArrayList<>());
-                    classContexts.put(cell.getAttribute("id"), className);
-                } else if (!value.isEmpty() && style.contains("text;")) {
-                    String currentClass = classContexts.get(parentId);
-                    if (currentClass != null) {
-                        extractValue(elements, value, elementType, currentClass);
-                    }
+        for (Element cell : cells) {
+            String style = cell.attr("style");
+            String value = cell.attr("value").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&amp;", "&");
+            String parentId = cell.attr("parent");
+
+            if (style.contains("swimlane")) {
+                String className = extractClassName(value);
+                elements.put(className, new ArrayList<>());
+                classContexts.put(cell.attr("id"), className);
+            } else if (!value.isEmpty() && style.contains("text;")) {
+                String currentClass = classContexts.get(parentId);
+                if (currentClass != null) {
+                    extractValue(elements, value, elementType, currentClass);
                 }
             }
         }
@@ -136,52 +127,33 @@ public class XMLParser implements DiagramParser {
 
     @Override
     public List<Relationship> parseRelationships(InputStream inputStream) throws Exception {
+        Document doc = Jsoup.parse(inputStream, "UTF-8", "");
+
         List<Relationship> relationships = new ArrayList<>();
         Map<String, String> idToClassName = new HashMap<>();
 
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(inputStream);
-        doc.getDocumentElement().normalize();
+        Elements cells = doc.select("mxCell");
 
-        NodeList mxCellNodes = doc.getElementsByTagName("mxCell");
-        
-        for (int i = 0; i < mxCellNodes.getLength(); i++) {
-            Element element = (Element) mxCellNodes.item(i);
-            String id = element.getAttribute("id");
-            String value = element.getAttribute("value").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&amp;", "&");
+        for (Element cell : cells) {
+            String id = cell.attr("id");
+            String value = cell.attr("value").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&amp;", "&");
 
-            if (element.getAttribute("style").contains("swimlane")) {
+            if (cell.attr("style").contains("swimlane")) {
                 idToClassName.put(id, extractClassName(value));
             }
         }
 
-        for (int i = 0; i < mxCellNodes.getLength(); i++) {
-            Element element = (Element) mxCellNodes.item(i);
-
-            if ("1".equals(element.getAttribute("edge"))) {
-                String fromId = element.getAttribute("source");
-                String toId = element.getAttribute("target");
-                String relationshipName = element.getAttribute("value");
-
-                if (relationshipName == null || relationshipName.isEmpty()) {
-                    NodeList childNodes = element.getChildNodes();
-                    for (int j = 0; j < childNodes.getLength(); j++) {
-                        Node childNode = childNodes.item(j);
-                        if (childNode.getNodeType() == Node.ELEMENT_NODE) {
-                            Element childElement = (Element) childNode;
-                            if (childElement.getNodeName().equals("mxGeometry")) {
-                                relationshipName = childElement.getAttribute("value");
-                                if (relationshipName != null && !relationshipName.isEmpty()) {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-
+        for (Element cell : cells) {
+            if ("1".equals(cell.attr("edge"))) {
+                String fromId = cell.attr("source");
+                String toId = cell.attr("target");
+                String relationshipName = cell.attr("value");
                 String fromClass = idToClassName.get(fromId);
                 String toClass = idToClassName.get(toId);
+
+                if (relationshipName == null || relationshipName.isEmpty()) {
+                    relationshipName = extractRelationshipName(cell, idToClassName);
+                }
 
                 if (fromClass == null || fromClass.isEmpty()) {
                     fromClass = "Unknown Class (ID: " + fromId + ")";
@@ -194,10 +166,47 @@ public class XMLParser implements DiagramParser {
                     relationshipName = "Unnamed Relationship";
                 }
 
-                relationships.add(new Relationship(fromClass, toClass, relationshipName));
+                String fromCardinality = extractCardinality(cell, "source");
+                String toCardinality = extractCardinality(cell, "target");
+
+                relationships.add(new Relationship(
+                        fromClass + (fromCardinality != null ? " [" + fromCardinality + "]" : ""),
+                        toClass + (toCardinality != null ? " [" + toCardinality + "]" : ""),
+                        relationshipName
+                ));
             }
         }
 
         return relationships;
+    }
+
+    private String extractRelationshipName(Element element, Map<String, String> idToClassName) {
+        Elements childNodes = element.select("mxCell");
+        for (Element childElement : childNodes) {
+            String relationshipName = childElement.attr("value");
+            if (relationshipName != null && !relationshipName.isEmpty()) {
+                return relationshipName;
+            }
+        }
+
+        String source = idToClassName.get(element.attr("source"));
+        String target = idToClassName.get(element.attr("target"));
+        if (source != null && target != null) {
+            return source + " -> " + target;
+        }
+        return "";
+    }
+
+    private String extractCardinality(Element element, String direction) {
+        Elements childNodes = element.select("mxCell");
+        for (Element childElement : childNodes) {
+            if ("1".equals(childElement.attr("edge"))) {
+                String sourceOrTarget = direction.equals("source") ? "source" : "target";
+                if (childElement.attr(sourceOrTarget).equals(element.attr("id"))) {
+                    return childElement.attr("value");
+                }
+            }
+        }
+        return null;
     }
 }
